@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2344253356974097296}
   - component: {fileID: 7199930285417245609}
   - component: {fileID: 9080521756002376702}
+  - component: {fileID: 7437630481485518440}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -143,6 +144,40 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attenuationObject: {fileID: 0}
+--- !u!114 &7437630481485518440
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1593075058416028033}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72ece51f2901e7445ab60da3685d6b5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShowDebugText: 0
+  m_ShowCameraFrustum: 1
+  m_IgnoreTimeScale: 0
+  m_WorldUpOverride: {fileID: 0}
+  m_UpdateMethod: 2
+  m_BlendUpdateMethod: 1
+  m_DefaultBlend:
+    m_Style: 1
+    m_Time: 2
+    m_CustomCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  m_CustomBlends: {fileID: 0}
+  m_CameraCutEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_CameraActivatedEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &3520603750414525640
 GameObject:
   m_ObjectHideFlags: 0
@@ -155,7 +190,6 @@ GameObject:
   - component: {fileID: 2086195427616959234}
   - component: {fileID: 1742509876747691865}
   - component: {fileID: 1562766532014545910}
-  - component: {fileID: 6471296061612363266}
   m_Layer: 0
   m_Name: Global
   m_TagString: Untagged
@@ -235,46 +269,3 @@ MonoBehaviour:
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0
---- !u!114 &6471296061612363266
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3520603750414525640}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0219a18974ca09c43a692ac98fa9dfbc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Skin: {fileID: 0}
-  m_ActiveWindow: 0
-  m_ShowFullWindow: 0
-  m_ConsoleWindow:
-    m_LockScroll: 0
-    m_MaxLine: 100
-    m_InfoFilter: 1
-    m_WarningFilter: 1
-    m_ErrorFilter: 1
-    m_FatalFilter: 1
-    m_saveLog: 0
-    m_InfoColor:
-      serializedVersion: 2
-      rgba: 4294967295
-    m_WarningColor:
-      serializedVersion: 2
-      rgba: 4278512639
-    m_ErrorColor:
-      serializedVersion: 2
-      rgba: 4278190335
-    m_FatalColor:
-      serializedVersion: 2
-      rgba: 4281545650
-    searchImage: {fileID: 0}
-    barImage: {fileID: 0}
-    barActiveImage: {fileID: 0}
-    searchContent:
-      m_Text: 
-      m_Image: {fileID: 0}
-      m_Tooltip: 
-    size: {x: 32, y: 32}
