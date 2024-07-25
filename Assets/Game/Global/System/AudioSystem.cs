@@ -9,7 +9,7 @@ using UnityToolkit;
 
 namespace Game
 {
-    public class AudioSystem : MonoBehaviour, ISystem
+    public class AudioSystem : MonoBehaviour, ISystem,IOnInit
     {
         private Dictionary<string, EventInstance> _cache;
         [SerializeField] private AssetReference bank;

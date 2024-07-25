@@ -7,7 +7,7 @@ using UnityToolkit;
 
 namespace Game
 {
-    public class GameFlow : MonoBehaviour, ISystem
+    public class GameFlow : MonoBehaviour, ISystem,IOnInit
     {
         [SerializeField] private AssetReference homeScene;
         [SerializeField] private AssetReference gameScene;

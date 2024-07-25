@@ -14,51 +14,64 @@ namespace UnityToolkit
 
     public interface ISystem : IDisposable
     {
+    }
+
+    public interface IOnUpdate
+    {
+        void OnUpdate();
+    }
+
+    public interface IOnInit<T>
+    {
+        void OnInit(T t);
+    }
+
+    public interface IOnInit
+    {
         void OnInit();
     }
 
-
     public class SystemLocator : ISystemLocator
     {
-        public Dictionary<Type, ISystem> Systems { get; private set; } = new Dictionary<Type, ISystem>();
+        protected Dictionary<int, ISystem> _systems;
+        public Dictionary<int, ISystem>.ValueCollection systems => _systems.Values;
 
-
-        public void Register<T>(T system) where T : ISystem
+        public SystemLocator()
         {
-            if (Systems.ContainsKey(typeof(T)))
-            {
-                return;
-            }
-
-            Systems.Add(typeof(T), system);
-            system.OnInit();
+            _systems = new Dictionary<int, ISystem>();
         }
 
-        public void Register<T>() where T : ISystem, new()
+        public virtual void Register<T>(T system) where T : ISystem
         {
-            if (Systems.ContainsKey(typeof(T)))
+            _systems.Add(TypeId<T>.stableId, system);
+            if (system is IOnInit initSystem)
+                initSystem.OnInit();
+        }
+
+        public virtual void Register<T>() where T : ISystem, new()
+        {
+            if (_systems.ContainsKey(TypeId<T>.stableId))
             {
                 return;
             }
 
             T system = new T();
-            Systems.Add(typeof(T), system);
-            system.OnInit();
+            Register(system);
         }
 
-        public void UnRegister<T>() where T : ISystem
+        public virtual void UnRegister<T>() where T : ISystem
         {
-            if (Systems.TryGetValue(typeof(T), out ISystem system))
+            if (_systems.TryGetValue(TypeId<T>.stableId, out ISystem system))
             {
                 system.Dispose();
             }
 
-            Systems.Remove(typeof(T));
+            _systems.Remove(TypeId<T>.stableId);
         }
 
-        public T Get<T>() where T : ISystem
+        public virtual T Get<T>() where T : ISystem
         {
-            if (Systems.TryGetValue(typeof(T), out ISystem system) && system is T tSystem)
+            if (_systems.TryGetValue(TypeId<T>.stableId, out ISystem system) && system is T tSystem)
             {
                 return tSystem;
             }
@@ -66,14 +79,14 @@ namespace UnityToolkit
             return default;
         }
 
-        public void Dispose()
+        public virtual void Dispose()
         {
-            foreach (var system in Systems.Values)
+            foreach (var system in _systems.Values)
             {
                 system.Dispose();
             }
 
-            Systems.Clear();
+            _systems.Clear();
         }
     }
 }
