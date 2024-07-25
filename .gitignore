@@ -91,6 +91,7 @@ crashlytics-build.properties
 
 # Ignore bank files in target folder
 /[Aa]ssets/FMODBuild/**/*.bank
+/[Aa]ssets/FMODBuild/**/*.bank.meta
 
 
 # If the source bank files are kept outside of the StreamingAssets folder then these can be ignored.
