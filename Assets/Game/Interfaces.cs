@@ -17,6 +17,8 @@ namespace Game.GamePlay
         public UniTask RoundEnd();
         public UniTask Exit();
         public void Cancel();
-        public bool TryGetWinner(out ITrainer trainer);
+        public bool TryGetRoundWinner(out ITrainer trainer);
+        
+        public bool TryGetFinalWinner(out ITrainer trainer);
     }
 }

@@ -18,9 +18,10 @@ public sealed partial class ActiveSkillConfig : Luban.BeanBase
     public ActiveSkillConfig(JSONNode _buf) 
     {
         { if(!_buf["id"].IsNumber) { throw new SerializationException(); }  Id = (ActiveSkillEnum)_buf["id"].AsInt; }
-        { if(!_buf["desc"].IsString) { throw new SerializationException(); }  Desc = _buf["desc"]; }
         { if(!_buf["element"].IsNumber) { throw new SerializationException(); }  Element = (ElementEnum)_buf["element"].AsInt; }
+        { if(!_buf["desc"].IsString) { throw new SerializationException(); }  Desc = _buf["desc"]; }
         { if(!_buf["type"].IsNumber) { throw new SerializationException(); }  Type = (ActiveSkillTypeEnum)_buf["type"].AsInt; }
+        { if(!_buf["damage_point"].IsNumber) { throw new SerializationException(); }  DamagePoint = _buf["damage_point"]; }
     }
 
     public static ActiveSkillConfig DeserializeActiveSkillConfig(JSONNode _buf)
@@ -33,17 +34,21 @@ public sealed partial class ActiveSkillConfig : Luban.BeanBase
     /// </summary>
     public readonly ActiveSkillEnum Id;
     /// <summary>
-    /// 描述
-    /// </summary>
-    public readonly string Desc;
-    /// <summary>
     /// 属性
     /// </summary>
     public readonly ElementEnum Element;
     /// <summary>
+    /// 描述
+    /// </summary>
+    public readonly string Desc;
+    /// <summary>
     /// 类型（指挥/技能）
     /// </summary>
     public readonly ActiveSkillTypeEnum Type;
+    /// <summary>
+    /// 伤害值
+    /// </summary>
+    public readonly int DamagePoint;
    
     public const int __ID__ = -652779027;
     public override int GetTypeId() => __ID__;
@@ -54,15 +59,17 @@ public sealed partial class ActiveSkillConfig : Luban.BeanBase
         
         
         
+        
     }
 
     public override string ToString()
     {
         return "{ "
         + "id:" + Id + ","
-        + "desc:" + Desc + ","
         + "element:" + Element + ","
+        + "desc:" + Desc + ","
         + "type:" + Type + ","
+        + "damagePoint:" + DamagePoint + ","
         + "}";
     }
 }

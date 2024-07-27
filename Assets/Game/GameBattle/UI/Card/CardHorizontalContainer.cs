@@ -46,7 +46,7 @@ namespace Game
         }
 
 
-        public void Spawn(List<ActiveSkillData> dataList)
+        public async void Spawn(List<ActiveSkillData> dataList, float interval = 0.1f)
         {
             cardList.Clear();
 
@@ -54,15 +54,17 @@ namespace Game
             {
                 ActiveSkillData data = dataList[i];
                 PushCard(data, i.ToString());
+                await UniTask.Delay(TimeSpan.FromSeconds(interval));
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void PushCard(ActiveSkillData data, string name = "")
+        public Card PushCard(ActiveSkillData data, string name = "")
         {
             Card card = SpawnOne(name);
             cardList.Add(card);
             card.Init(this, data);
+            return card;
         }
 
         public void Consume(Card card)

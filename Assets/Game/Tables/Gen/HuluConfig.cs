@@ -31,7 +31,7 @@ public sealed partial class HuluConfig : Luban.BeanBase
         { if(!_buf["max_speed"].IsNumber) { throw new SerializationException(); }  MaxSpeed = _buf["max_speed"]; }
         { if(!_buf["base_adap"].IsNumber) { throw new SerializationException(); }  BaseAdap = _buf["base_adap"]; }
         { if(!_buf["max_adap"].IsNumber) { throw new SerializationException(); }  MaxAdap = _buf["max_adap"]; }
-        { if(!_buf["skill_pool_id"].IsNumber) { throw new SerializationException(); }  SkillPoolId = _buf["skill_pool_id"]; }
+        { var __json0 = _buf["skill_pool"]; if(!__json0.IsArray) { throw new SerializationException(); } int _n0 = __json0.Count; SkillPool = new ActiveSkillEnum[_n0]; int __index0=0; foreach(JSONNode __e0 in __json0.Children) { ActiveSkillEnum __v0;  { if(!__e0.IsNumber) { throw new SerializationException(); }  __v0 = (ActiveSkillEnum)__e0.AsInt; }  SkillPool[__index0++] = __v0; }   }
     }
 
     public static HuluConfig DeserializeHuluConfig(JSONNode _buf)
@@ -98,7 +98,7 @@ public sealed partial class HuluConfig : Luban.BeanBase
     /// <summary>
     /// 技能池
     /// </summary>
-    public readonly int SkillPoolId;
+    public readonly ActiveSkillEnum[] SkillPool;
    
     public const int __ID__ = -255132072;
     public override int GetTypeId() => __ID__;
@@ -139,7 +139,7 @@ public sealed partial class HuluConfig : Luban.BeanBase
         + "maxSpeed:" + MaxSpeed + ","
         + "baseAdap:" + BaseAdap + ","
         + "maxAdap:" + MaxAdap + ","
-        + "skillPoolId:" + SkillPoolId + ","
+        + "skillPool:" + Luban.StringUtil.CollectionToString(SkillPool) + ","
         + "}";
     }
 }

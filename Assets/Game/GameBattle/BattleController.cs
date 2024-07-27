@@ -17,6 +17,8 @@ namespace Game.GamePlay
         {
             playerPos.trainer = self;
             robotPos.trainer = enemy;
+            
+            // 初始化战斗数据
         }
 
         public UniTask Enter()
@@ -75,7 +77,12 @@ namespace Game.GamePlay
             _cts = null;
         }
 
-        public bool TryGetWinner(out ITrainer trainer)
+        public bool TryGetRoundWinner(out ITrainer trainer)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool TryGetFinalWinner(out ITrainer trainer)
         {
             throw new NotImplementedException();
         }
@@ -88,14 +95,14 @@ namespace Game.GamePlay
                 await controller.RoundStart(); // 回合开始
                 await controller.BeforeRound(); // 回合开始前
                 await controller.Rounding(); // 回合进行
-                if (controller.TryGetWinner(out winner))
+                if (controller.TryGetFinalWinner(out winner))
                 {
                     break;
                 }
 
                 await
                     controller.AfterRound();
-                if (controller.TryGetWinner(out winner))
+                if (controller.TryGetFinalWinner(out winner))
                 {
                     break;
                 }
