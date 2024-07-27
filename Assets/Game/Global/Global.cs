@@ -45,6 +45,9 @@ namespace Game
 
         private SystemLocator _systemLocator;
 
+        [field: SerializeField] public Camera mainCamera { get; private set; }
+
+
         protected override void OnInit()
         {
             _table = new Tables(Loader);

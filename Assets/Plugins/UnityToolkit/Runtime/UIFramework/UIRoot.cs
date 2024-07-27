@@ -64,6 +64,14 @@ namespace UnityToolkit
             {
                 cameraData.cameraStack.Add(UICamera);
             }
+            
+            // Delete the default canvas child
+            for (int i = 0; i < rootCanvas.transform.childCount; i++)
+            {
+                Destroy(rootCanvas.transform.GetChild(i));
+                Debug.LogWarning("Delete the default canvas child");
+            }
+            
         }
 
         /// <summary>

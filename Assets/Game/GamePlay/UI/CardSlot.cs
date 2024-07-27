@@ -2,7 +2,7 @@
 
 namespace Game
 {
-    public class CardHorizontalHolder : MonoBehaviour
+    public class CardSlot : MonoBehaviour
     {
         
     }
