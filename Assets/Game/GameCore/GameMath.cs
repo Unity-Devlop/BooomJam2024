@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using cfg;
+using UnityEngine.Assertions;
 
 namespace Game
 {
@@ -36,6 +37,58 @@ namespace Game
             throw new NotImplementedException();
         }
 
+
+        public static (HuluData, HuluData) CompareSpeed(HuluData r, HuluData l)
+        {
+            if (r.speed > l.speed)
+            {
+                return (r, l);
+            }
+
+            if (r.speed < l.speed)
+            {
+                return (l, r);
+            }
+
+            if (UnityEngine.Random.value > 0.5f)
+            {
+                return (l, r);
+            }
+
+            return (r, l);
+        }
+
+        public static (HuluData, HuluData) WhoFirst(HuluData r, HuluData l, ActiveSkillData rs, ActiveSkillData ls)
+        {
+            Assert.IsTrue(rs.config.Type == ActiveSkillTypeEnum.技能);
+            Assert.IsTrue(ls.config.Type == ActiveSkillTypeEnum.技能);
+            if (rs.config.Priority > ls.config.Priority)
+            {
+                return (r, l);
+            }
+
+            if (rs.config.Priority < ls.config.Priority)
+            {
+                return (l, r);
+            }
+
+            if (r.speed > l.speed)
+            {
+                return (r, l);
+            }
+
+            if (r.speed < l.speed)
+            {
+                return (l, r);
+            }
+
+            if (UnityEngine.Random.value > 0.5f)
+            {
+                return (l, r);
+            }
+
+            return (r, l);
+        }
 
         public static float CalDamage(HuluData atk, HuluData def, ActiveSkillEnum skill)
         {

@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using Game.GamePlay;
+using UnityEngine;
 using UnityToolkit;
 
 namespace Game
@@ -7,16 +9,22 @@ namespace Game
     {
         public CardHorizontalContainer selfCardContainer;
 
-        public BattleData data;
+        public ITrainer data;
 
-        public void Bind(BattleData battleData)
+        public void Bind(ITrainer battleData)
         {
             data = battleData;
-            selfCardContainer.Spawn(battleData.allSkills);
+            data.OnDrawCard += DrawCard;
+        }
+
+        private void DrawCard(List<ActiveSkillData> obj)
+        {
+            selfCardContainer.Spawn(obj);
         }
 
         public void UnBind()
         {
+            data.OnDrawCard -= DrawCard;
         }
     }
 }

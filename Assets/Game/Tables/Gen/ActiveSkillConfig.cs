@@ -22,6 +22,7 @@ public sealed partial class ActiveSkillConfig : Luban.BeanBase
         { if(!_buf["desc"].IsString) { throw new SerializationException(); }  Desc = _buf["desc"]; }
         { if(!_buf["type"].IsNumber) { throw new SerializationException(); }  Type = (ActiveSkillTypeEnum)_buf["type"].AsInt; }
         { if(!_buf["damage_point"].IsNumber) { throw new SerializationException(); }  DamagePoint = _buf["damage_point"]; }
+        { if(!_buf["priority"].IsNumber) { throw new SerializationException(); }  Priority = _buf["priority"]; }
     }
 
     public static ActiveSkillConfig DeserializeActiveSkillConfig(JSONNode _buf)
@@ -49,12 +50,14 @@ public sealed partial class ActiveSkillConfig : Luban.BeanBase
     /// 伤害值
     /// </summary>
     public readonly int DamagePoint;
+    public readonly int Priority;
    
     public const int __ID__ = -652779027;
     public override int GetTypeId() => __ID__;
 
     public  void ResolveRef(Tables tables)
     {
+        
         
         
         
@@ -70,6 +73,7 @@ public sealed partial class ActiveSkillConfig : Luban.BeanBase
         + "desc:" + Desc + ","
         + "type:" + Type + ","
         + "damagePoint:" + DamagePoint + ","
+        + "priority:" + Priority + ","
         + "}";
     }
 }

@@ -778,8 +778,6 @@ MonoBehaviour:
   <state>k__BackingField: 0
   sortingOrder: 0
   selfCardContainer: {fileID: 665382401368143376}
-  data:
-    allSkills: []
 --- !u!1001 &2104982675038939175
 PrefabInstance:
   m_ObjectHideFlags: 0

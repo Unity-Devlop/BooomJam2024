@@ -198,12 +198,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d11ef75a98e467e845140ab5e935664, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerController:
-    playerData:
-      name: 
-      trainerData:
-        datas: []
-  robotController:
+  playerBattleController:
+    deckZone: []
+    handZone: []
+    discardZone: []
+  robotBattleController:
     <trainerData>k__BackingField:
       datas: []
 --- !u!4 &169709044
@@ -473,19 +472,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data:
-    allSkills:
+    datas:
     - id: 0
+      learnSkill: 000000000000000000000000
+      hp: 0
+      atk: 0
+      def: 0
+      speed: 0
+      adap: 0
     - id: 0
+      learnSkill: 000000000000000000000000
+      hp: 0
+      atk: 0
+      def: 0
+      speed: 0
+      adap: 0
     - id: 0
-    - id: 0
-    - id: 0
-    - id: 0
-    - id: 0
-    - id: 0
-    - id: 0
-    - id: 0
-    - id: 0
-    - id: 0
+      learnSkill: 000000000000000000000000
+      hp: 0
+      atk: 0
+      def: 0
+      speed: 0
+      adap: 0
 --- !u!1001 &2017411396
 PrefabInstance:
   m_ObjectHideFlags: 0

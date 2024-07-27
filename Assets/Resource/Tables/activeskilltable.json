@@ -4,335 +4,383 @@
     "element": 1,
     "desc": "操控着惊涛骇浪拍击对手。",
     "type": 1,
-    "damage_point": 90
+    "damage_point": 90,
+    "priority": 1
   },
   {
     "id": 1,
     "element": 1,
     "desc": "技能优先度：1。快速地吐出水柱喷向对手。",
     "type": 1,
-    "damage_point": 50
+    "damage_point": 50,
+    "priority": 2
   },
   {
     "id": 2,
     "element": 1,
     "desc": "技能优先度：2。控制周围的水流涌向对手。",
     "type": 1,
-    "damage_point": 60
+    "damage_point": 60,
+    "priority": 0
   },
   {
     "id": 3,
     "element": 1,
     "desc": "吞下对手，然后再将其吐出来。有40%的几率会使对手弃置2张牌。",
     "type": 1,
-    "damage_point": 40
+    "damage_point": 40,
+    "priority": 0
   },
   {
     "id": 4,
     "element": 2,
     "desc": "喷射出高温的火柱袭击敌人。",
     "type": 1,
-    "damage_point": 90
+    "damage_point": 90,
+    "priority": 0
   },
   {
     "id": 5,
     "element": 2,
     "desc": "凝聚全身的火焰快速地冲向对手。将自己的速度提高10点。",
     "type": 1,
-    "damage_point": 60
+    "damage_point": 60,
+    "priority": 0
   },
   {
     "id": 6,
     "element": 2,
     "desc": "从地面中爆发出灼热的岩浆袭击对手。",
     "type": 1,
-    "damage_point": 110
+    "damage_point": 110,
+    "priority": 0
   },
   {
     "id": 7,
     "element": 2,
     "desc": "从体内吐出火焰席卷敌人。满血时会造成1.5倍伤害。",
     "type": 1,
-    "damage_point": 80
+    "damage_point": 80,
+    "priority": 0
   },
   {
     "id": 8,
     "element": 3,
     "desc": "恢复最大生命值的20%。",
     "type": 1,
-    "damage_point": 0
+    "damage_point": 0,
+    "priority": 0
   },
   {
     "id": 9,
     "element": 3,
     "desc": "舞动长长的鞭子击打对手。",
     "type": 1,
-    "damage_point": 70
+    "damage_point": 70,
+    "priority": 0
   },
   {
     "id": 10,
     "element": 3,
     "desc": "将自己的根伸入地下，然后突然袭击敌人。将自己的速度降低10点。",
     "type": 1,
-    "damage_point": 100
+    "damage_point": 100,
+    "priority": 0
   },
   {
     "id": 11,
     "element": 3,
     "desc": "不管不顾地向前冲击，自己也会受到造成的伤害的50%的伤害。处于草地战场时，招式威力增加30点。",
     "type": 1,
-    "damage_point": 90
+    "damage_point": 90,
+    "priority": 0
   },
   {
     "id": 12,
     "element": 4,
     "desc": "将自己身体里的电流释放出去。使用后自己会变成普通属性。",
     "type": 1,
-    "damage_point": 110
+    "damage_point": 110,
+    "priority": 0
   },
   {
     "id": 13,
     "element": 4,
     "desc": "身体上布满电流，猛然向敌人扑过去。用自己的防御力代替攻击力进行伤害计算。",
     "type": 1,
-    "damage_point": 60
+    "damage_point": 60,
+    "priority": 0
   },
   {
     "id": 14,
     "element": 4,
     "desc": "引动雷电共同攻击。有40%的几率不会造成伤害。",
     "type": 1,
-    "damage_point": 120
+    "damage_point": 120,
+    "priority": 0
   },
   {
     "id": 15,
     "element": 4,
     "desc": "技能优先度：3。如同闪电一样迅速攻击。",
     "type": 1,
-    "damage_point": 50
+    "damage_point": 50,
+    "priority": 3
   },
   {
     "id": 16,
     "element": 4,
     "desc": "将电流像音乐一样有节奏地发射出来。可能会造成1~3次伤害。",
     "type": 1,
-    "damage_point": 30
+    "damage_point": 30,
+    "priority": 0
   },
   {
     "id": 17,
     "element": 4,
     "desc": "闪电如同飞盘一样发射出去。将自己的速度提高10点。",
     "type": 1,
-    "damage_point": 80
+    "damage_point": 80,
+    "priority": 0
   },
   {
     "id": 18,
     "element": 5,
     "desc": "用自己尖锐的喙敲击敌人的脑袋。有20%的几率造成1.5倍伤害。",
     "type": 1,
-    "damage_point": 60
+    "damage_point": 60,
+    "priority": 0
   },
   {
     "id": 19,
     "element": 5,
     "desc": "利用气旋形成猛烈地风暴席卷敌人。",
     "type": 1,
-    "damage_point": 90
+    "damage_point": 90,
+    "priority": 0
   },
   {
     "id": 20,
     "element": 5,
     "desc": "挂起猛烈的风。接下来3回合中，将己方选手的速度提高10点，敌方选手的速度降低10点。",
     "type": 1,
-    "damage_point": 0
+    "damage_point": 0,
+    "priority": 0
   },
   {
     "id": 21,
     "element": 5,
     "desc": "空气中的气流与身体产生共鸣，进而引发强劲的风。将自己的速度降低20点。",
     "type": 1,
-    "damage_point": 110
+    "damage_point": 110,
+    "priority": 0
   },
   {
     "id": 22,
     "element": 6,
     "desc": "伸出锋利的毒牙撕咬对手。",
     "type": 1,
-    "damage_point": 70
+    "damage_point": 70,
+    "priority": 0
   },
   {
     "id": 23,
     "element": 6,
     "desc": "将自己的身体滚成一个球，一边喷洒毒液一边保护自己。将自己的防御力增加10点。",
     "type": 1,
-    "damage_point": 60
+    "damage_point": 60,
+    "priority": 0
   },
   {
     "id": 24,
     "element": 7,
     "desc": "利用身体优势撞向对手。",
     "type": 1,
-    "damage_point": 60
+    "damage_point": 60,
+    "priority": 0
   },
   {
     "id": 25,
     "element": 7,
     "desc": "技能优先度：5。在自己面前张开屏障保护自己，本回合不会受到伤害。",
     "type": 1,
-    "damage_point": 0
+    "damage_point": 0,
+    "priority": 5
   },
   {
     "id": 26,
     "element": 7,
     "desc": "技能优先度：1。迅速地攻向敌人。",
     "type": 1,
-    "damage_point": 50
+    "damage_point": 50,
+    "priority": 1
   },
   {
     "id": 27,
     "element": 7,
     "desc": "挥舞爪子快速进攻。可能会造成0~5次伤害。",
     "type": 1,
-    "damage_point": 20
+    "damage_point": 20,
+    "priority": 0
   },
   {
     "id": 28,
     "element": 0,
     "desc": "消耗。将己方选手的攻击力提高20点。此效果无视最大攻击力。",
     "type": 0,
-    "damage_point": 0
+    "damage_point": 0,
+    "priority": 0
   },
   {
     "id": 29,
     "element": 0,
     "desc": "消耗。将己方选手的防御力提高20点。此效果无视最大防御力。",
     "type": 0,
-    "damage_point": 0
+    "damage_point": 0,
+    "priority": 0
   },
   {
     "id": 30,
     "element": 0,
     "desc": "消耗。将己方选手的速度提高10点。此效果无视最大速度。",
     "type": 0,
-    "damage_point": 0
+    "damage_point": 0,
+    "priority": 0
   },
   {
     "id": 31,
     "element": 0,
     "desc": "己方选手下一次使用技能造成伤害变为1.5倍。",
     "type": 0,
-    "damage_point": 0
+    "damage_point": 0,
+    "priority": 0
   },
   {
     "id": 32,
     "element": 0,
     "desc": "己方选手下一次被技能攻击时有60%的几率不会受到伤害。",
     "type": 0,
-    "damage_point": 0
+    "damage_point": 0,
+    "priority": 0
   },
   {
     "id": 33,
     "element": 0,
     "desc": "己方选手本回合中不会被击败，最小生命值改为1。",
     "type": 0,
-    "damage_point": 0
+    "damage_point": 0,
+    "priority": 0
   },
   {
     "id": 34,
     "element": 0,
     "desc": "己方选手本回合中被电属性技能攻击时不会受到伤害。",
     "type": 0,
-    "damage_point": 0
+    "damage_point": 0,
+    "priority": 0
   },
   {
     "id": 35,
     "element": 0,
     "desc": "己方选手恢复50点生命值。",
     "type": 0,
-    "damage_point": 0
+    "damage_point": 0,
+    "priority": 0
   },
   {
     "id": 36,
     "element": 0,
     "desc": "消耗。己方选手恢复100点生命值。",
     "type": 0,
-    "damage_point": 0
+    "damage_point": 0,
+    "priority": 0
   },
   {
     "id": 37,
     "element": 0,
     "desc": "己方选手下一次使用技能必定优先攻击。",
     "type": 0,
-    "damage_point": 0
+    "damage_point": 0,
+    "priority": 0
   },
   {
     "id": 38,
     "element": 0,
     "desc": "弃置所有手牌，然后抽取等量手牌。",
     "type": 0,
-    "damage_point": 0
+    "damage_point": 0,
+    "priority": 0
   },
   {
     "id": 39,
     "element": 0,
     "desc": "消耗。抽三张牌。",
     "type": 0,
-    "damage_point": 0
+    "damage_point": 0,
+    "priority": 0
   },
   {
     "id": 40,
     "element": 0,
     "desc": "己方选手本回合中受到的伤害变为0.5倍。",
     "type": 0,
-    "damage_point": 0
+    "damage_point": 0,
+    "priority": 0
   },
   {
     "id": 41,
     "element": 0,
     "desc": "消耗。本回合中双方玩家都不能使用牌，己方选手恢复50点生命值。",
     "type": 0,
-    "damage_point": 0
+    "damage_point": 0,
+    "priority": 0
   },
   {
     "id": 42,
     "element": 0,
     "desc": "己方选手本回合中被水属性技能攻击时不会受到伤害。",
     "type": 0,
-    "damage_point": 0
+    "damage_point": 0,
+    "priority": 0
   },
   {
     "id": 43,
     "element": 0,
     "desc": "己方选手本回合中被火属性技能攻击时不会受到伤害。",
     "type": 0,
-    "damage_point": 0
+    "damage_point": 0,
+    "priority": 0
   },
   {
     "id": 44,
     "element": 0,
     "desc": "己方选手本回合中被草属性技能攻击时不会受到伤害。",
     "type": 0,
-    "damage_point": 0
+    "damage_point": 0,
+    "priority": 0
   },
   {
     "id": 45,
     "element": 0,
     "desc": "己方选手本回合中被风属性技能攻击时不会受到伤害。",
     "type": 0,
-    "damage_point": 0
+    "damage_point": 0,
+    "priority": 0
   },
   {
     "id": 46,
     "element": 0,
     "desc": "己方选手本回合中被毒属性技能攻击时不会受到伤害。己方选手失去50点生命。",
     "type": 0,
-    "damage_point": 0
+    "damage_point": 0,
+    "priority": 0
   },
   {
     "id": 47,
     "element": 0,
     "desc": "己方选手下一次使用技能造成伤害无视敌方选手的防御力和适应力。",
     "type": 0,
-    "damage_point": 0
+    "damage_point": 0,
+    "priority": 0
   }
 ]

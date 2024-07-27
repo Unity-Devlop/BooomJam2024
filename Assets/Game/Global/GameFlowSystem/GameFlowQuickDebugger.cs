@@ -7,12 +7,12 @@ namespace Game
     [RequireComponent(typeof(GameFlow))]
     public class GameFlowQuickDebugger : MonoBehaviour
     {
-        public BattleData data;
+        public TrainerData data;
 
         private async void Awake()
         {
             await UniTask.DelayFrame(2);
-            GetComponent<GameFlow>().SetParam(nameof(BattleData), data);
+            GetComponent<GameFlow>().SetParam(nameof(TrainerData), data);
         }
     }
 }

@@ -8,5 +8,6 @@ namespace Game
     public class ActiveSkillData
     {
         public ActiveSkillEnum id;
+        public ActiveSkillConfig config => Global.Table.ActiveSkillTable.Get(id);
     }
 }
