@@ -1,11 +1,11 @@
 ﻿using System;
-using UnityEngine;
 
 namespace Game.GamePlay
 {
     [Serializable]
-    public class PlayerController : ITrainer, ITrainerController
+    public class PlayerController : ITrainer
     {
-        [field: SerializeField] public TrainerData data { get; private set; }
+        public PlayerData playerData;
+        public TrainerData trainerData => playerData.trainerData;
     }
 }

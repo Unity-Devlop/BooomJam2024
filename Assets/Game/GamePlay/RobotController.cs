@@ -4,8 +4,8 @@ using UnityEngine;
 namespace Game.GamePlay
 {
     [Serializable]
-    public class RobotController : ITrainer, ITrainerController
+    public class RobotController : ITrainer
     {
-        [field: SerializeField] public TrainerData data { get; private set; }
+        [field: SerializeField] public TrainerData trainerData { get; set; }
     }
 }

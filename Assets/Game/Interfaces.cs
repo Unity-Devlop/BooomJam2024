@@ -4,7 +4,7 @@ namespace Game.GamePlay
 {
     public interface ITrainer
     {
-        public TrainerData data { get; }
+        public TrainerData trainerData { get; }
     }
 
     public interface IBattleController
@@ -18,9 +18,5 @@ namespace Game.GamePlay
         public UniTask Exit();
         public void Cancel();
         public bool TryGetWinner(out ITrainer trainer);
-    }
-
-    public interface ITrainerController
-    {
     }
 }

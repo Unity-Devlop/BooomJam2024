@@ -1,6 +1,7 @@
 ﻿#if UNITY_EDITOR
 using System.IO;
 using Game.Game;
+using Game.GamePlay;
 using Newtonsoft.Json;
 using Sirenix.OdinInspector.Editor;
 using Sirenix.Utilities;
@@ -21,8 +22,14 @@ namespace Game.Editor
             {
                 File.WriteAllText(Consts.LocalPlayerDataPath, JsonConvert.SerializeObject(new PlayerData()));
             }
+
+            // 本地玩家数据
             PlayerData data = JsonConvert.DeserializeObject<PlayerData>(File.ReadAllText(Consts.LocalPlayerDataPath));
             _tree.Add("Player Data", data);
+
+            // 编辑一个预设的TrainerData
+            TrainerData trainerData = new TrainerData();
+            _tree.Add("Trainer Data", trainerData);
 
             return _tree;
         }

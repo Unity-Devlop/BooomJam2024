@@ -227,12 +227,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerPos: {fileID: 435740186}
   robotPos: {fileID: 93002922}
-  playerController:
-    <data>k__BackingField:
-      datas: []
-  robotController:
-    <data>k__BackingField:
-      datas: []
 --- !u!1 &435740184
 GameObject:
   m_ObjectHideFlags: 0
