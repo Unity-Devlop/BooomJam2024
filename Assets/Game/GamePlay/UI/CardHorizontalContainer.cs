@@ -60,7 +60,7 @@ namespace Game
 
                 cardList.Add(card);
                 cardDataList.Add(new ActiveSkillData()); // TODO DBEUG 用 数据应该传进来用
-                card.Init(this);
+                card.Init(this, card.data);
 
                 card.PointerEnterEvent += CardPointerEnter;
                 card.PointerExitEvent += CardPointerExit;
@@ -92,11 +92,34 @@ namespace Game
                 _endDragTween = null;
             }
 
-            Vector3 selectPos = new Vector3(0, card.selectionOffset, 0);
-            Vector3 zeroPos = Vector3.zero;
-            _endDragTween = card.transform.DOLocalMove(card.selected ? selectPos : zeroPos, tweenCardReturn ? .15f : 0)
-                .SetEase(Ease.OutBack)
-                .OnComplete(() => { card.transform.localPosition = card.selected ? selectPos : zeroPos; });
+            // 判断结束拖拽的位置是不是出牌区
+
+            Vector3 screenPoint = UIRoot.Singleton.UICamera.WorldToScreenPoint(selectedCard.transform.position);
+            if (RectTransformUtility.RectangleContainsScreenPoint(outsideArea,new Vector2(screenPoint.x,screenPoint.y),UIRoot.Singleton.UICamera))
+            {
+                // 释放对象
+                cardSlotPool.Release(selectedCard.transform.parent.gameObject);
+                cardPool.Release(selectedCard.gameObject);
+
+
+                ActiveSkillData data = selectedCard.data;
+                // 移除数据
+                cardList.Remove(selectedCard);
+                cardDataList.Remove(data);
+
+                // TODO 出牌逻辑
+                Debug.Log("出牌");
+            }
+            else
+            {
+                Vector3 selectPos = new Vector3(0, card.selectionOffset, 0);
+                Vector3 zeroPos = Vector3.zero;
+                _endDragTween = card.transform
+                    .DOLocalMove(card.selected ? selectPos : zeroPos, tweenCardReturn ? .15f : 0)
+                    .SetEase(Ease.OutBack)
+                    .OnComplete(() => { card.transform.localPosition = card.selected ? selectPos : zeroPos; });
+            }
+
 
             selectedCard = null;
         }

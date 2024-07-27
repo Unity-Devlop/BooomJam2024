@@ -41,9 +41,13 @@ namespace Game
         private CardHorizontalContainer _container;
         public Image img { get; private set; }
         private Canvas _canvas;
+        
+        
+        public ActiveSkillData data;
 
-        public void Init(CardHorizontalContainer container)
+        public void Init(CardHorizontalContainer container, ActiveSkillData data)
         {
+            this.data = data;
             img = GetComponent<Image>();
             _canvas = GetComponentInParent<Canvas>();
             _container = container;
@@ -76,6 +80,12 @@ namespace Game
             BeginDragEvent = delegate { };
             EndDragEvent = delegate { };
             SelectEvent = delegate { };
+            
+            if (_visual != null)
+            {
+                _container.cardVisualPool.Release(_visual.gameObject);
+            }
+            data = null;
         }
 
         private void Update()
@@ -112,7 +122,7 @@ namespace Game
             Vector2 mousePosition = UIRoot.Singleton.UICamera.ScreenToWorldPoint(eventData.position);
             offset = mousePosition - (Vector2)transform.position;
             isDragging = true;
-            Debug.Log("OnBeginDrag, isDragging: " + isDragging);
+            // Debug.Log("OnBeginDrag, isDragging: " + isDragging);
             _canvas.GetComponent<GraphicRaycaster>().enabled = false;
             img.raycastTarget = false;
 
@@ -123,7 +133,7 @@ namespace Game
         {
             EndDragEvent.Invoke(this);
             isDragging = false;
-            Debug.Log("OnEndDrag, isDragging: " + isDragging);
+            // Debug.Log("OnEndDrag, isDragging: " + isDragging);
             _canvas.GetComponent<GraphicRaycaster>().enabled = true;
             img.raycastTarget = true;
             await UniTask.Yield();
@@ -181,15 +191,6 @@ namespace Game
 
         public void OnDrag(PointerEventData eventData)
         {
-        }
-
-        protected override void OnDestroy()
-        {
-            base.OnDestroy();
-            if (_visual != null)
-            {
-                _container.cardVisualPool.Release(_visual.gameObject);
-            }
         }
     }
 }
