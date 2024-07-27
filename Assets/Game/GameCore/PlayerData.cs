@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using Game.Game;
 using Newtonsoft.Json;
@@ -11,6 +12,8 @@ namespace Game
     {
         public string name;
         [JsonIgnore] public BindData<PlayerData> bind { get; private set; }
+        
+        public List<HuluData> hulus; 
 
         public PlayerData()
         {

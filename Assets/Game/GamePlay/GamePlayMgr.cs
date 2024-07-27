@@ -7,7 +7,11 @@ namespace Game.GamePlay
 {
     public class GamePlayMgr : MonoSingleton<GamePlayMgr>
     {
-        public PlayerData Local { get; private set; }
+        public PlayerData local { get; private set; }
+
+        public BattleController battleCtrl { get; private set; }
+
+        private SystemLocator _systems;
 
         protected override void OnInit()
         {
@@ -15,12 +19,22 @@ namespace Game.GamePlay
             // 访问一下 让Global初始化 正常从GameEntry进是不需要这一步的 因为初始化完毕才会加载到GamePlayMgr
             var _ = Global.Singleton;
 #endif
-            Local = JsonConvert.DeserializeObject<PlayerData>(Consts.LocalPlayerDataPath);
+            local = JsonConvert.DeserializeObject<PlayerData>(Consts.LocalPlayerDataPath);
             // TODO 创建角色逻辑
-            if (Local == null)
+            if (local == null)
             {
-                Local = new PlayerData();
+                local = new PlayerData();
             }
+
+            _systems = new SystemLocator();
+
+
+            UIRoot.Singleton.OpenPanel<GameHUDPanel>();
+        }
+
+        protected override void OnDispose()
+        {
+            UIRoot.Singleton.ClosePanel<GameHUDPanel>();
         }
     }
 }
