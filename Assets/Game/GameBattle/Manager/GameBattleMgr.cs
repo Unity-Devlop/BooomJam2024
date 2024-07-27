@@ -8,7 +8,7 @@ using UnityToolkit;
 
 namespace Game.GamePlay
 {
-    public class GamePlayMgr : MonoSingleton<GamePlayMgr>
+    public class GameBattleMgr : MonoSingleton<GameBattleMgr>
     {
         public BattleController battleCtrl { get; private set; }
 
@@ -17,7 +17,7 @@ namespace Game.GamePlay
 
         private SystemLocator _systems;
 
-        private StateMachine<GamePlayMgr> _stateMachine;
+        private StateMachine<GameBattleMgr> _stateMachine;
 
 
         protected override async void OnInit()
