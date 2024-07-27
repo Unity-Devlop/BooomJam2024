@@ -15,7 +15,7 @@ namespace Game.GamePlay
         public RobotController robotController;
 
         private SystemLocator _systems;
-
+        
         protected override void OnInit()
         {
 #if QUICK_DEV

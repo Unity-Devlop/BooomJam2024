@@ -11,9 +11,17 @@ namespace UnityToolkit
         [SerializeField] private int maxSize = 100;
 
         private ObjectPool<GameObject> _pool;
+        private bool _initialized;
 
         private void Awake()
         {
+            Initialize();
+        }
+
+        public void Initialize()
+        {
+            if (_initialized) return;
+            _initialized = true;
             _pool = new ObjectPool<GameObject>(
                 () => Instantiate(prefab),
                 (obj) => obj.SetActive(true),
