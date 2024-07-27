@@ -265,8 +265,13 @@ MonoBehaviour:
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0
-  gameScene:
+  gameBattleScene:
     m_AssetGUID: 01061f83bf694b841b1713e15ae229e3
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  gameOutsideScene:
+    m_AssetGUID: 19575959ae28134449d9f8cf8122417f
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0
