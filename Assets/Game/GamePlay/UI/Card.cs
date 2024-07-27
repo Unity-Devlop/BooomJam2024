@@ -182,5 +182,14 @@ namespace Game
         public void OnDrag(PointerEventData eventData)
         {
         }
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+            if (_visual != null)
+            {
+                _container.cardVisualPool.Release(_visual.gameObject);
+            }
+        }
     }
 }
