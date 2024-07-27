@@ -21,25 +21,35 @@ namespace Game
         [field: SerializeField] public EasyGameObjectPool cardVisualPool { get; private set; }
         [field: SerializeField] public EasyGameObjectPool cardPool { get; private set; }
 
-        private async void Awake()
+        private void Awake()
         {
             cardPool.Initialize();
             cardSlotPool.Initialize();
             cardVisualPool.Initialize();
 
-            cardList = transform.GetComponentsInChildren<Card>().ToList();
+            //TODO DEBUG 用
+            Spawn(childCnt);
+        }
 
-            foreach (var card in cardList)
+        private async void Spawn(int cnt)
+        {
+            cardList = new List<Card>();
+            cardDataList = new List<ActiveSkillData>();
+            cardList = transform.GetComponentsInChildren<Card>().ToList();
+            for (int i = 0; i < cnt; i++)
             {
+                CardSlot slot = cardSlotPool.Get().GetComponent<CardSlot>();
+                slot.transform.SetParent(transform);
+                // slot.transform.localPosition = Vector3.zero;
+                
+                Card card = cardPool.Get().GetComponent<Card>();
+                card.transform.SetParent(slot.transform);
                 card.transform.localPosition = Vector3.zero;
+                
+                cardList.Add(card);
+                cardDataList.Add(new ActiveSkillData()); // TODO DBEUG 用 数据应该传进来用
                 card.Init(this);
                 await UniTask.Yield();
-            }
-
-
-            for (int i = 0; i < childCnt; i++)
-            {
-                // TODO 生成
             }
         }
 

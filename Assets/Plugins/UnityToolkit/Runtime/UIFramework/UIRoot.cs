@@ -46,6 +46,7 @@ namespace UnityToolkit
 
         protected override void OnInit()
         {
+            rootCanvas.transform.localScale = Vector3.one;
             Camera main = Camera.main;
             if (main == null)
             {
@@ -420,6 +421,14 @@ namespace UnityToolkit
 #if UNITY_EDITOR
     public partial class UIRoot
     {
+        private void OnValidate()
+        {
+            if (rootCanvas != null)
+            {
+                rootCanvas.transform.localScale = Vector3.one;
+            }
+        }
+
         //在Hierarchy面板中可以快速创建一个UIRoot
         [UnityEditor.MenuItem("GameObject/UI/UIRoot", false, 0)]
         private static void CreateUIRoot()

@@ -15,15 +15,16 @@ namespace UnityToolkit
 
         private void Awake()
         {
-            Initialize();
+            Initialize(hidden);
         }
 
-        public void Initialize()
+        public void Initialize(Transform parent = null)
         {
+            if (parent == null) parent = hidden;
             if (_initialized) return;
             _initialized = true;
             _pool = new ObjectPool<GameObject>(
-                () => Instantiate(prefab),
+                () => Instantiate(prefab, parent),
                 (obj) =>
                 {
                     if (obj.TryGetComponent(out IPoolObject poolObject))
