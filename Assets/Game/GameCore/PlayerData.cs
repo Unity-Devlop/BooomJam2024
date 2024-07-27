@@ -12,8 +12,8 @@ namespace Game
     {
         public string name;
         [JsonIgnore] public BindData<PlayerData> bind { get; private set; }
-        
-        public List<HuluData> hulus; 
+
+        public TrainerData trainerData;
 
         public PlayerData()
         {
