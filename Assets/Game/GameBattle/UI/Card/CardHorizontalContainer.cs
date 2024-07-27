@@ -46,7 +46,7 @@ namespace Game
         }
 
 
-        public async void Spawn(List<ActiveSkillData> dataList, float interval = 0.1f)
+        public async UniTask Spawn(List<ActiveSkillData> dataList, float interval = 0.1f)
         {
             cardList.Clear();
 

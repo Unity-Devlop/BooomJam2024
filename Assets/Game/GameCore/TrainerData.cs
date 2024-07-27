@@ -11,7 +11,28 @@ namespace Game
     {
         public List<ActiveSkillData> trainerSkills;
         public List<HuluData> datas;
-        
+
+        public bool canFight
+        {
+            get
+            {
+                int cnt = 0;
+                foreach (var data in datas)
+                {
+                    if (data.hp > 0)
+                    {
+                        cnt++;
+                    }
+                }
+
+                if (cnt > 0)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+        }
 
 #if UNITY_EDITOR && ODIN_INSPECTOR
 

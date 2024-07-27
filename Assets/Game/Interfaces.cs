@@ -6,9 +6,12 @@ namespace Game.GamePlay
 {
     public interface ITrainer
     {
+        public bool canFight { get; }
         public TrainerData trainerData { get; }
+        public HuluData currentData { get; }
+        public event Func<List<ActiveSkillData>, UniTask> OnDrawCard;
 
-        public event Action<List<ActiveSkillData>> OnDrawCard;
+        public event Func<List<ActiveSkillData>, UniTask> OnDiscardCard;
         // public event Action OnDiscardCard;
         // public event Action OnUseCard;
 

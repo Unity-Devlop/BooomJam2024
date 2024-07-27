@@ -10,11 +10,11 @@ using UnityToolkit;
 namespace Game.GamePlay
 {
     public class GameBattleMgr : MonoSingleton<GameBattleMgr>
-    {          
+    {
         public DummyBattleFlow battleFlow { get; private set; }
 
-        [FormerlySerializedAs("playerBattleController")] public PlayerTrainer playerTrainer;
-        [FormerlySerializedAs("robotBattleController")] public RebotTrainer rebotTrainer;
+        public PlayerTrainer playerTrainer;
+        public RebotTrainer rebotTrainer;
 
 
         protected override async void OnInit()
@@ -29,7 +29,7 @@ namespace Game.GamePlay
             await UniTask.DelayFrame(5); // TODO 后续删除这个等待逻辑 因为在进入游戏时 一定初始完毕了
             TrainerData trainerData = Global.Get<GameFlow>().GetParam<TrainerData>(nameof(TrainerData)); // 从游戏流程中获取数据
             playerTrainer.Init(trainerData);
-            
+
             Debug.LogWarning($"随机生成机器人未实现"); // TODO 后续配置一下 随机几个拿出来
             // TrainerData data = new TrainerData();
             // robotController.trainerData = data;

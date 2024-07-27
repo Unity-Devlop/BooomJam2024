@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using cfg;
+using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
 using UnityEngine.Pool;
 
@@ -9,11 +10,13 @@ namespace Game.GamePlay
     [Serializable]
     public class PlayerTrainer : ITrainer
     {
+        public bool canFight => trainerData.canFight;
         [ReadOnly] public TrainerData trainerData { get; private set; }
         public HuluData currentData { get; private set; }
 
-        public event Action<List<ActiveSkillData>> OnDrawCard;
-        public event Action<List<ActiveSkillData>> OnDiscardCard;
+
+        public event Func<List<ActiveSkillData>, UniTask> OnDrawCard;
+        public event Func<List<ActiveSkillData>, UniTask> OnDiscardCard;
 
 
         // Draw zone, hand zone, discard zone

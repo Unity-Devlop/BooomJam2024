@@ -168,6 +168,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32e53a17680245ee82fb316329ad825c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentData:
+    id: 0
+    ownedSkills: 
+    hp: 0
+    atk: 0
+    def: 0
+    speed: 0
+    adap: 0
+  prepareData:
+    id: 0
+    ownedSkills: 
+    hp: 0
+    atk: 0
+    def: 0
+    speed: 0
+    adap: 0
 --- !u!1 &169709042
 GameObject:
   m_ObjectHideFlags: 0
@@ -198,12 +214,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d11ef75a98e467e845140ab5e935664, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerBattleController:
-    deckZone: []
+  playerTrainer:
+    drawZone: []
     handZone: []
     discardZone: []
-  robotBattleController:
+  rebotTrainer:
     <trainerData>k__BackingField:
+      trainerSkills: []
       datas: []
 --- !u!4 &169709044
 Transform:
@@ -232,7 +249,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92131bbc7911452d9c0c0a22faa41765, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPos: {fileID: 435740186}
+  self:
+    drawZone: []
+    handZone: []
+    discardZone: []
+  enemy:
+    <trainerData>k__BackingField:
+      trainerSkills: []
+      datas: []
+  selfPos: {fileID: 435740186}
   robotPos: {fileID: 93002922}
 --- !u!1 &435740184
 GameObject:
@@ -279,6 +304,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32e53a17680245ee82fb316329ad825c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentData:
+    id: 0
+    ownedSkills: 
+    hp: 0
+    atk: 0
+    def: 0
+    speed: 0
+    adap: 0
+  prepareData:
+    id: 0
+    ownedSkills: 
+    hp: 0
+    atk: 0
+    def: 0
+    speed: 0
+    adap: 0
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
@@ -472,23 +513,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data:
+    trainerSkills: []
     datas:
     - id: 0
-      learnSkill: 000000000000000000000000
+      ownedSkills: 
       hp: 0
       atk: 0
       def: 0
       speed: 0
       adap: 0
     - id: 0
-      learnSkill: 000000000000000000000000
+      ownedSkills: 
       hp: 0
       atk: 0
       def: 0
       speed: 0
       adap: 0
     - id: 0
-      learnSkill: 000000000000000000000000
+      ownedSkills: 
       hp: 0
       atk: 0
       def: 0
@@ -705,6 +747,6 @@ SceneRoots:
   - {fileID: 619394802}
   - {fileID: 1172980663}
   - {fileID: 169709044}
-  - {fileID: 93002921}
   - {fileID: 435740185}
+  - {fileID: 93002921}
   - {fileID: 2017411396}

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using Game.GamePlay;
 using UnityEngine;
 using UnityToolkit;
@@ -15,16 +16,23 @@ namespace Game
         {
             data = battleData;
             data.OnDrawCard += DrawCard;
+            data.OnDiscardCard += DiscardCard;
         }
 
-        private void DrawCard(List<ActiveSkillData> obj)
+        private UniTask DiscardCard(List<ActiveSkillData> arg)
         {
-            selfCardContainer.Spawn(obj);
+            return UniTask.CompletedTask;
+        }
+
+        private async UniTask DrawCard(List<ActiveSkillData> obj)
+        {
+            await selfCardContainer.Spawn(obj);
         }
 
         public void UnBind()
         {
             data.OnDrawCard -= DrawCard;
+            data.OnDiscardCard -= DiscardCard;
         }
     }
 }

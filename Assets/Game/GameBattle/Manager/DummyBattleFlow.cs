@@ -11,7 +11,7 @@ namespace Game.GamePlay
     {
         public PlayerTrainer self;
         public RebotTrainer enemy;
-        
+
         public BattlePosition selfPos;
         public BattlePosition robotPos;
 
@@ -49,7 +49,7 @@ namespace Game.GamePlay
                 selfPos.currentData = selfPos.prepareData;
                 selfPos.prepareData = null;
                 await selfPos.ExecuteEnter();
-                
+
                 self.ChangeHulu(selfPos.currentData);
                 self.DrawSkills();
             }
@@ -103,6 +103,11 @@ namespace Game.GamePlay
 
         public UniTask Exit()
         {
+            if (UIRoot.Singleton.GetOpenedPanel(out GameBattlePanel battlePanel))
+            {
+                battlePanel.UnBind();
+            }
+
             return UniTask.CompletedTask;
         }
 
@@ -115,13 +120,46 @@ namespace Game.GamePlay
 
         public bool TryGetRoundWinner(out ITrainer trainer)
         {
-            throw new NotImplementedException();
+            if(self.currentData.hp<=0)
+            {
+                trainer = enemy;
+                return true;
+            }
+            if(enemy.currentData.hp<=0)
+            {
+                trainer = self;
+                return true;
+            }
+            trainer = null;
+            return false;
         }
 
         public bool TryGetFinalWinner(out ITrainer trainer)
         {
-            throw new NotImplementedException();
+            if (self.canFight && !enemy.canFight)
+            {
+                trainer = self;
+                return true;
+            }
+
+            if (!self.canFight && enemy.canFight)
+            {
+                trainer = enemy;
+                return true;
+            }
+
+            trainer = null;
+            return false;
         }
+
+
+        public void Dispose()
+        {
+            _cts.Cancel();
+            _cts = null;
+            UIRoot.Singleton.ClosePanel<GameBattlePanel>();
+        }
+
 
         public static async UniTask RoundFlow(IBattleFlow flow, CancellationToken token)
         {
@@ -144,15 +182,12 @@ namespace Game.GamePlay
                 }
 
                 await flow.RoundEnd();
+
+                await UniTask.DelayFrame(1, cancellationToken: token);
             }
 
             // 执行退出战斗流程
             await flow.Exit();
-        }
-
-        public void Dispose()
-        {
-            UIRoot.Singleton.ClosePanel<GameBattlePanel>();
         }
     }
 }
