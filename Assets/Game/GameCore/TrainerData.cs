@@ -10,7 +10,7 @@ namespace Game
     public class TrainerData
     {
         public List<HuluData> datas;
-
+        
 
 #if UNITY_EDITOR && ODIN_INSPECTOR
 

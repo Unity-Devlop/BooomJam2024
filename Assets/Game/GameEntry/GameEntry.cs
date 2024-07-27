@@ -11,7 +11,7 @@ namespace Game.GameEntry
 
         private async void Start()
         {
-            await Global.Get<GameFlow>().ToHomeScene();
+            Global.Get<GameFlow>().Run<GameHomeState>();
         }
     }
 }

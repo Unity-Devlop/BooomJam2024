@@ -14,9 +14,10 @@ namespace Game.GameHome
             enterGame.onClick.AddListener(OnEnterGameClick);
         }
 
-        private void OnEnterGameClick()
+        private async void OnEnterGameClick()
         {
-            Global.Get<GameFlow>().ToGameScene();
+            // await Global.Get<GameFlow>().ToGameBattle();
+            await Global.Get<GameFlow>().ToGameOutside();
         }
     }
 }

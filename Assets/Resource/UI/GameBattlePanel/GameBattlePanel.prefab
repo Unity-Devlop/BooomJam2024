@@ -119,7 +119,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   childCnt: 8
-  cardDataList: []
   cardList: []
   outsideArea: {fileID: 7632034146367919622}
   tweenCardReturn: 1
@@ -693,7 +692,7 @@ GameObject:
   - component: {fileID: 4926892446963596542}
   - component: {fileID: 8093974742420303544}
   m_Layer: 5
-  m_Name: GameHUDPanel
+  m_Name: GameBattlePanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -778,6 +777,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <state>k__BackingField: 0
   sortingOrder: 0
+  selfCardContainer: {fileID: 665382401368143376}
+  data:
+    allSkills: []
 --- !u!1001 &2104982675038939175
 PrefabInstance:
   m_ObjectHideFlags: 0

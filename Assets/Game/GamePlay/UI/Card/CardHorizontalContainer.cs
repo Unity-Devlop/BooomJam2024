@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using Game.GamePlay;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityToolkit;
@@ -12,7 +14,6 @@ namespace Game
     public class CardHorizontalContainer : MonoBehaviour
     {
         public int childCnt = 8;
-        [SerializeField] private List<ActiveSkillData> cardDataList;
 
         [SerializeField] private List<Card> cardList;
 
@@ -31,6 +32,8 @@ namespace Game
         [field: SerializeField] public EasyGameObjectPool cardVisualPool { get; private set; }
         [field: SerializeField] public EasyGameObjectPool cardPool { get; private set; }
 
+        private Tweener _endDragTween;
+
         private void Awake()
         {
             rectTransform = GetComponent<RectTransform>();
@@ -39,38 +42,59 @@ namespace Game
             cardSlotPool.Initialize();
             cardVisualPool.Initialize();
 
-            //TODO DEBUG 用
-            Spawn(childCnt);
+            cardList = new List<Card>();
         }
 
-        private async void Spawn(int cnt)
+
+        public void Spawn(List<ActiveSkillData> dataList)
         {
-            cardList = new List<Card>();
-            cardDataList = new List<ActiveSkillData>();
-            cardList = transform.GetComponentsInChildren<Card>().ToList();
-            for (int i = 0; i < cnt; i++)
+            cardList.Clear();
+
+            for (int i = 0; i < dataList.Count; i++)
             {
-                CardSlot slot = cardSlotPool.Get().GetComponent<CardSlot>();
-                slot.transform.SetParent(transform);
-                // slot.transform.localPosition = Vector3.zero;
-
-                Card card = cardPool.Get().GetComponent<Card>();
-                card.transform.SetParent(slot.transform);
-                card.transform.localPosition = Vector3.zero;
-
-                cardList.Add(card);
-                cardDataList.Add(new ActiveSkillData()); // TODO DBEUG 用 数据应该传进来用
-                card.Init(this, card.data);
-
-                card.PointerEnterEvent += CardPointerEnter;
-                card.PointerExitEvent += CardPointerExit;
-                card.BeginDragEvent += BeginDrag;
-                card.EndDragEvent += EndDrag;
-
-                card.name = i.ToString();
-
-                await UniTask.Yield();
+                ActiveSkillData data = dataList[i];
+                PushCard(data, i.ToString());
             }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void PushCard(ActiveSkillData data, string name = "")
+        {
+            Card card = SpawnOne(name);
+            cardList.Add(card);
+            card.Init(this, data);
+        }
+
+        public void Consume(Card card)
+        {
+            cardSlotPool.Release(selectedCard.transform.parent.gameObject);
+            cardPool.Release(selectedCard.gameObject);
+            ActiveSkillData data = selectedCard.data;
+            Global.Event.Send<OnActiveCardConsume>(new OnActiveCardConsume()
+            {
+                data = data
+            });
+            // 移除数据
+            cardList.Remove(selectedCard);
+        }
+
+        private Card SpawnOne(string objName = "")
+        {
+            CardSlot slot = cardSlotPool.Get().GetComponent<CardSlot>();
+            slot.transform.SetParent(transform);
+
+            Card card = cardPool.Get().GetComponent<Card>();
+            card.transform.SetParent(slot.transform);
+            card.transform.localPosition = Vector3.zero;
+
+            card.name = objName;
+            card.PointerEnterEvent += CardPointerEnter;
+            card.PointerExitEvent += CardPointerExit;
+            card.BeginDragEvent += BeginDrag;
+            card.EndDragEvent += EndDrag;
+
+
+            return card;
         }
 
 
@@ -79,7 +103,6 @@ namespace Game
             selectedCard = card;
         }
 
-        private Tweener _endDragTween;
 
         void EndDrag(Card card)
         {
@@ -95,20 +118,11 @@ namespace Game
             // 判断结束拖拽的位置是不是出牌区
 
             Vector3 screenPoint = UIRoot.Singleton.UICamera.WorldToScreenPoint(selectedCard.transform.position);
-            if (RectTransformUtility.RectangleContainsScreenPoint(outsideArea,new Vector2(screenPoint.x,screenPoint.y),UIRoot.Singleton.UICamera))
+            if (RectTransformUtility.RectangleContainsScreenPoint(outsideArea,
+                    new Vector2(screenPoint.x, screenPoint.y), UIRoot.Singleton.UICamera))
             {
                 // 释放对象
-                cardSlotPool.Release(selectedCard.transform.parent.gameObject);
-                cardPool.Release(selectedCard.gameObject);
-
-
-                ActiveSkillData data = selectedCard.data;
-                // 移除数据
-                cardList.Remove(selectedCard);
-                cardDataList.Remove(data);
-
-                // TODO 出牌逻辑
-                Debug.Log("出牌");
+                Consume(selectedCard);
             }
             else
             {
