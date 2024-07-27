@@ -24,10 +24,28 @@ namespace UnityToolkit
             _initialized = true;
             _pool = new ObjectPool<GameObject>(
                 () => Instantiate(prefab),
-                (obj) => obj.SetActive(true),
                 (obj) =>
                 {
-                    obj.SetActive(false);
+                    if (obj.TryGetComponent(out IPoolObject poolObject))
+                    {
+                        poolObject.OnGet();
+                    }
+                    else
+                    {
+                        obj.SetActive(true);
+                    }
+                },
+                (obj) =>
+                {
+                    if (obj.TryGetComponent(out IPoolObject poolObject))
+                    {
+                        poolObject.OnRelease();
+                    }
+                    else
+                    {
+                        obj.SetActive(false);
+                    }
+
                     obj.transform.SetParent(hidden);
                 }, DestroyImmediate, true, initSize, maxSize
             );
