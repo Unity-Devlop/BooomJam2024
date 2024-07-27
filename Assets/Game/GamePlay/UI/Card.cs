@@ -10,7 +10,7 @@ using UnityToolkit;
 namespace Game
 {
     [RequireComponent(typeof(Image))]
-    public class Card : Selectable, IBeginDragHandler, IEndDragHandler, IPoolObject
+    public class Card : Selectable, IDragHandler, IBeginDragHandler, IEndDragHandler, IPoolObject
     {
         // Events
         public event Action<Card> PointerEnterEvent = delegate { };
@@ -80,6 +80,7 @@ namespace Game
 
         private void Update()
         {
+            if (!Application.isPlaying) return;
             ClampPosition(); // 限制位置 不能超出屏幕
             if (isDragging)
             {
@@ -111,6 +112,7 @@ namespace Game
             Vector2 mousePosition = UIRoot.Singleton.UICamera.ScreenToWorldPoint(eventData.position);
             offset = mousePosition - (Vector2)transform.position;
             isDragging = true;
+            Debug.Log("OnBeginDrag, isDragging: " + isDragging);
             _canvas.GetComponent<GraphicRaycaster>().enabled = false;
             img.raycastTarget = false;
 
@@ -121,6 +123,7 @@ namespace Game
         {
             EndDragEvent.Invoke(this);
             isDragging = false;
+            Debug.Log("OnEndDrag, isDragging: " + isDragging);
             _canvas.GetComponent<GraphicRaycaster>().enabled = true;
             img.raycastTarget = true;
             await UniTask.Yield();
@@ -174,6 +177,10 @@ namespace Game
             if (eventData.button != PointerEventData.InputButton.Left)
                 return;
             PointerUpEvent.Invoke(this, selected);
+        }
+
+        public void OnDrag(PointerEventData eventData)
+        {
         }
     }
 }
