@@ -13,7 +13,7 @@ namespace Game
         public void OnEnter(GameFlow owner, IStateMachine<GameFlow> stateMachine)
         {
             // throw new System.NotImplementedException();
-            owner.ToHomeScene();
+            owner.ToGameHomeScene();
         }
 
         public void OnUpdate(GameFlow owner, IStateMachine<GameFlow> stateMachine)

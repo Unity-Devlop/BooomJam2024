@@ -7,6 +7,7 @@ namespace Game
         public void OnInit(GameFlow owner, IStateMachine<GameFlow> stateMachine)
         {
             // throw new System.NotImplementedException();
+            owner.ToGameOutsideScene();
             // owner.ToOutsideScene(); // TODO: Implement this
         }
 

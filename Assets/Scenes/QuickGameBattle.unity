@@ -180,7 +180,7 @@ GameObject:
   - component: {fileID: 169709043}
   - component: {fileID: 169709045}
   m_Layer: 0
-  m_Name: GamePlayMgr
+  m_Name: GameBattleMgr
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

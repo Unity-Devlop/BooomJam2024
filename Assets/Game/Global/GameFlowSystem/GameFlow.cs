@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceProviders;
+using UnityEngine.Serialization;
 using UnityToolkit;
 
 namespace Game
@@ -12,20 +13,26 @@ namespace Game
     public class GameFlow : MonoBehaviour, ISystem, IOnInit
     {
         [SerializeField] private AssetReference homeScene;
-        [SerializeField] private AssetReference gameScene;
+        [SerializeField] private AssetReference gameBattleScene;
+        [SerializeField] private AssetReference gameOutsideScene;
 
         private StateMachine<GameFlow> _stateMachine;
 
-        public AsyncOperationHandle<SceneInstance> ToHomeScene()
+        public AsyncOperationHandle<SceneInstance> ToGameHomeScene()
         {
             return homeScene.LoadSceneAsync();
         }
 
-        public AsyncOperationHandle<SceneInstance> ToGameScene()
+        public AsyncOperationHandle<SceneInstance> ToGameBattleScene()
         {
-            return gameScene.LoadSceneAsync();
+            return gameBattleScene.LoadSceneAsync();
         }
-
+        
+        public AsyncOperationHandle<SceneInstance> ToGameOutsideScene()
+        {
+            return gameOutsideScene.LoadSceneAsync();
+        }
+        
 
         public void OnInit()
         {
