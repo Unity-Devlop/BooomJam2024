@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityToolkit;
 
@@ -20,7 +21,7 @@ namespace Game
         [field: SerializeField] public EasyGameObjectPool cardVisualPool { get; private set; }
         [field: SerializeField] public EasyGameObjectPool cardPool { get; private set; }
 
-        private void Awake()
+        private async void Awake()
         {
             cardPool.Initialize();
             cardSlotPool.Initialize();
@@ -30,7 +31,9 @@ namespace Game
 
             foreach (var card in cardList)
             {
+                card.transform.localPosition = Vector3.zero;
                 card.Init(this);
+                await UniTask.Yield();
             }
 
 

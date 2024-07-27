@@ -9,15 +9,16 @@ using UnityToolkit;
 
 namespace Game
 {
-    public class AudioSystem : MonoBehaviour, ISystem,IOnInit
+    public class AudioSystem : MonoBehaviour, ISystem, IOnInit
     {
         private Dictionary<string, EventInstance> _cache;
         [SerializeField] private AssetReference bank;
+
         [SerializeField] private AssetReference bankString;
         // public bool initialized { get; private set; }
         // public UniTask initTask { get; private set; }
 
-        public void OnInit()
+        public async void OnInit()
         {
             // initialized = false;
             _cache = new Dictionary<string, EventInstance>(32);
@@ -28,14 +29,13 @@ namespace Game
 
             // initTask = UniTask.WaitUntil(() => cnt == 2).ContinueWith(() => { initialized = true; });
             // initTask.Forget();
-            
+
             // 等待加载完成 避免异常 虽然会导致启动的一点点卡顿
-            TextAsset bankAsset = Addressables.LoadAssetAsync<TextAsset>(bank).WaitForCompletion();
-            TextAsset bankStringAsset = Addressables.LoadAssetAsync<TextAsset>(bankString).WaitForCompletion();
-            
+            TextAsset bankAsset = await Addressables.LoadAssetAsync<TextAsset>(bank);
+            TextAsset bankStringAsset = await Addressables.LoadAssetAsync<TextAsset>(bankString);
+
             RuntimeManager.LoadBank(bankAsset, false);
             RuntimeManager.LoadBank(bankStringAsset, false);
-            
         }
 
 

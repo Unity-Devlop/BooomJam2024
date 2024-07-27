@@ -424,11 +424,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4991546566594950609, guid: 40d9c7ef4dbec26419a96188ac0cce0f, type: 3}
   m_PrefabInstance: {fileID: 920250700}
   m_PrefabAsset: {fileID: 0}
---- !u!20 &1033275509 stripped
-Camera:
-  m_CorrespondingSourceObject: {fileID: 2609572366177798846, guid: 3cf20c1bd6093864c8772dcb517814e8, type: 3}
-  m_PrefabInstance: {fileID: 1910635495}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1172980662
 GameObject:
   m_ObjectHideFlags: 0
@@ -460,7 +455,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &1910635495
+--- !u!1001 &2017411396
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -471,10 +466,6 @@ PrefabInstance:
     - target: {fileID: 312056314403603457, guid: 3cf20c1bd6093864c8772dcb517814e8, type: 3}
       propertyPath: m_Name
       value: UIRoot
-      objectReference: {fileID: 0}
-    - target: {fileID: 312056314403603457, guid: 3cf20c1bd6093864c8772dcb517814e8, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4019040913884909650, guid: 3cf20c1bd6093864c8772dcb517814e8, type: 3}
       propertyPath: m_LocalPosition.x
@@ -636,9 +627,13 @@ PrefabInstance:
       value: Global
       objectReference: {fileID: 0}
     - target: {fileID: 7199930285417245609, guid: a6128334ecd2c064783315dfc7a14d30, type: 3}
+      propertyPath: m_Cameras.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7199930285417245609, guid: a6128334ecd2c064783315dfc7a14d30, type: 3}
       propertyPath: m_Cameras.Array.data[0]
       value: 
-      objectReference: {fileID: 1033275509}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -649,9 +644,9 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 5693553877426807870}
-  - {fileID: 1910635495}
   - {fileID: 619394802}
   - {fileID: 1172980663}
   - {fileID: 169709044}
   - {fileID: 93002921}
   - {fileID: 435740185}
+  - {fileID: 2017411396}
