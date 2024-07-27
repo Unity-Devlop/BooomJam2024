@@ -9,14 +9,21 @@ namespace Game.GamePlay
         public bool canFight { get; }
         public TrainerData trainerData { get; }
         public HuluData currentData { get; }
+
+        public HuluData Get(int idx)
+        {
+            return trainerData.datas[idx];
+        }
+
         public event Func<List<ActiveSkillData>, UniTask> OnDrawCard;
 
         public event Func<List<ActiveSkillData>, UniTask> OnDiscardCard;
         // public event Action OnDiscardCard;
         // public event Action OnUseCard;
 
-        public void ChangeHulu(HuluData data);
-        public void DrawSkills();
+        public void OnConsume(OnActiveCardConsume obj);
+        public UniTask ChangeHulu(HuluData data);
+        public UniTask DrawSkills(int cnt);
     }
 
     public interface IBattleFlow

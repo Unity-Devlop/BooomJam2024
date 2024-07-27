@@ -15,7 +15,7 @@ namespace Game
         public HuluConfig config => Global.Table.HuluTable.Get(id);
         public PassiveSkillConfig passiveSkillConfig => Global.Table.PassiveSkillTable.Get(config.PassiveSkill);
 
-        public List<ActiveSkillEnum> ownedSkills;
+        public List<ActiveSkillData> ownedSkills;
 
         /// <summary>
         /// 生命

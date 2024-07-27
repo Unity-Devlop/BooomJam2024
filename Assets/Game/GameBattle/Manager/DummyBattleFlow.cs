@@ -23,8 +23,22 @@ namespace Game.GamePlay
             this.enemy = enemy;
             selfPos.trainer = self;
             robotPos.trainer = enemy;
+            Global.Event.Listen<OnActiveCardConsume>(OnConsumeCard);
         }
 
+        private void OnConsumeCard(OnActiveCardConsume obj)
+        {
+            self.OnConsume(obj);
+            enemy.OnConsume(obj);
+        }
+
+        public void Dispose()
+        {
+            _cts.Cancel();
+            _cts = null;
+            Global.Event.UnListen<OnActiveCardConsume>(OnConsumeCard);
+            UIRoot.Singleton.ClosePanel<GameBattlePanel>();
+        }
         public UniTask Enter()
         {
             // Roll Initial Cards
@@ -35,6 +49,10 @@ namespace Game.GamePlay
 
             Assert.IsNull(_cts);
             _cts = new CancellationTokenSource();
+
+            selfPos.prepareData = selfPos.trainer.Get(0);
+            robotPos.prepareData = selfPos.trainer.Get(0);
+
             RoundFlow(this, _cts.Token).Forget();
             return UniTask.CompletedTask;
         }
@@ -46,12 +64,11 @@ namespace Game.GamePlay
         {
             if (selfPos.prepareData != null)
             {
+                Debug.Log("EnterBattleCheck Self");
                 selfPos.currentData = selfPos.prepareData;
                 selfPos.prepareData = null;
                 await selfPos.ExecuteEnter();
-
-                self.ChangeHulu(selfPos.currentData);
-                self.DrawSkills();
+                await self.ChangeHulu(selfPos.currentData);
             }
 
             if (robotPos.prepareData != null)
@@ -59,10 +76,7 @@ namespace Game.GamePlay
                 robotPos.currentData = robotPos.prepareData;
                 robotPos.prepareData = null;
                 await robotPos.ExecuteEnter();
-
-                //删卡 抽卡
-                enemy.ChangeHulu(robotPos.currentData);
-                enemy.DrawSkills();
+                await enemy.ChangeHulu(robotPos.currentData);
             }
         }
 
@@ -71,6 +85,10 @@ namespace Game.GamePlay
             // throw new System.NotImplementedException();
             // 执行入场逻辑
             await EnterBattleCheck();
+
+            // 各自抽卡
+            await self.DrawSkills(1);
+            await enemy.DrawSkills(1);
         }
 
         public UniTask BeforeRound()
@@ -93,11 +111,10 @@ namespace Game.GamePlay
             return UniTask.CompletedTask;
         }
 
-        public UniTask RoundEnd()
+        public async UniTask RoundEnd()
         {
             // throw new System.NotImplementedException();
-
-            return UniTask.CompletedTask;
+            await UniTask.WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
         }
 
 
@@ -120,16 +137,18 @@ namespace Game.GamePlay
 
         public bool TryGetRoundWinner(out ITrainer trainer)
         {
-            if(self.currentData.hp<=0)
+            if (self.currentData.hp <= 0)
             {
                 trainer = enemy;
                 return true;
             }
-            if(enemy.currentData.hp<=0)
+
+            if (enemy.currentData.hp <= 0)
             {
                 trainer = self;
                 return true;
             }
+
             trainer = null;
             return false;
         }
@@ -153,12 +172,6 @@ namespace Game.GamePlay
         }
 
 
-        public void Dispose()
-        {
-            _cts.Cancel();
-            _cts = null;
-            UIRoot.Singleton.ClosePanel<GameBattlePanel>();
-        }
 
 
         public static async UniTask RoundFlow(IBattleFlow flow, CancellationToken token)

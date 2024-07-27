@@ -7,5 +7,6 @@ namespace Game.Game
         public const float PointerUpClickTime = .2f;
 
         public static readonly string LocalPlayerDataPath = $"{Application.persistentDataPath}/LocalPlayerData.json";
+        public const int MaxHandCard = 8;
     }
 }

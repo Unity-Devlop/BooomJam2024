@@ -41,13 +41,14 @@ namespace Game
         private CardHorizontalContainer _container;
         public Image img { get; private set; }
         private Canvas _canvas;
-        
-        
+
+
         public ActiveSkillData data;
 
         public void Init(CardHorizontalContainer container, ActiveSkillData data)
         {
             this.data = data;
+            Debug.Log($"Init Card: HashCode: {this.data.GetHashCode()}, data: {data}");
             img = GetComponent<Image>();
             _canvas = GetComponentInParent<Canvas>();
             _container = container;
@@ -80,11 +81,13 @@ namespace Game
             BeginDragEvent = delegate { };
             EndDragEvent = delegate { };
             SelectEvent = delegate { };
-            
+
             if (_visual != null)
             {
                 _container.cardVisualPool.Release(_visual.gameObject);
             }
+            _visual = null;
+
             data = null;
         }
 

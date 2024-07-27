@@ -7,6 +7,7 @@ using DG.Tweening;
 using Game.GamePlay;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityToolkit;
 
 namespace Game
@@ -69,13 +70,14 @@ namespace Game
 
         public void Consume(Card card)
         {
-            cardSlotPool.Release(selectedCard.transform.parent.gameObject);
-            cardPool.Release(selectedCard.gameObject);
-            ActiveSkillData data = selectedCard.data;
+            Assert.IsNotNull(card.data);
             Global.Event.Send<OnActiveCardConsume>(new OnActiveCardConsume()
             {
-                data = data
+                data = card.data
             });
+            cardSlotPool.Release(selectedCard.transform.parent.gameObject);
+            cardPool.Release(selectedCard.gameObject);
+            // Debug.Log($"消耗牌{card.data}");
             // 移除数据
             cardList.Remove(selectedCard);
         }

@@ -148,13 +148,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 93002920}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 5, y: 0, z: -100}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2845058849497429860}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 169709044}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &93002922
 MonoBehaviour:
@@ -170,7 +170,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentData:
     id: 0
-    ownedSkills: 
+    ownedSkills: []
     hp: 0
     atk: 0
     def: 0
@@ -178,7 +178,7 @@ MonoBehaviour:
     adap: 0
   prepareData:
     id: 0
-    ownedSkills: 
+    ownedSkills: []
     hp: 0
     atk: 0
     def: 0
@@ -215,9 +215,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerTrainer:
-    drawZone: []
-    handZone: []
-    discardZone: []
+    <trainerData>k__BackingField:
+      trainerSkills:
+      - id: 0
+      - id: 0
+      - id: 0
+      - id: 0
+      - id: 0
+      - id: 0
+      datas:
+      - id: 0
+        ownedSkills:
+        - id: 0
+        - id: 0
+        - id: 0
+        - id: 0
+        - id: 0
+        - id: 0
+        - id: 0
+        - id: 0
+        - id: 0
+        - id: 0
+        hp: 0
+        atk: 0
+        def: 0
+        speed: 0
+        adap: 0
+    deck: 
   rebotTrainer:
     <trainerData>k__BackingField:
       trainerSkills: []
@@ -234,7 +258,9 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 100}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 435740185}
+  - {fileID: 93002921}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &169709045
@@ -250,9 +276,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   self:
-    drawZone: []
-    handZone: []
-    discardZone: []
+    <trainerData>k__BackingField:
+      trainerSkills: []
+      datas: []
+    deck: 
   enemy:
     <trainerData>k__BackingField:
       trainerSkills: []
@@ -284,13 +311,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 435740184}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -5, y: 0, z: -100}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 920250701}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 169709044}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &435740186
 MonoBehaviour:
@@ -306,7 +333,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentData:
     id: 0
-    ownedSkills: 
+    ownedSkills: []
     hp: 0
     atk: 0
     def: 0
@@ -314,7 +341,7 @@ MonoBehaviour:
     adap: 0
   prepareData:
     id: 0
-    ownedSkills: 
+    ownedSkills: []
     hp: 0
     atk: 0
     def: 0
@@ -516,21 +543,21 @@ MonoBehaviour:
     trainerSkills: []
     datas:
     - id: 0
-      ownedSkills: 
+      ownedSkills: []
       hp: 0
       atk: 0
       def: 0
       speed: 0
       adap: 0
     - id: 0
-      ownedSkills: 
+      ownedSkills: []
       hp: 0
       atk: 0
       def: 0
       speed: 0
       adap: 0
     - id: 0
-      ownedSkills: 
+      ownedSkills: []
       hp: 0
       atk: 0
       def: 0
@@ -747,6 +774,4 @@ SceneRoots:
   - {fileID: 619394802}
   - {fileID: 1172980663}
   - {fileID: 169709044}
-  - {fileID: 435740185}
-  - {fileID: 93002921}
   - {fileID: 2017411396}
