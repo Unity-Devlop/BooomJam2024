@@ -2,6 +2,7 @@ using cfg;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityToolkit;
@@ -17,6 +18,8 @@ namespace Game
         public GameObject skillList;
         public GameObject ValueList;
         public Button chooseBtn;
+        public Text chooseBtnText;
+        public Button nextBtn;
         public GameObject rolePortraitUIItem;
         public List<HuluEnum> huluIds = new List<HuluEnum>();
 
@@ -24,6 +27,7 @@ namespace Game
         private SkillUIItem[] skillUIItems;
         private ValueUIItem[] valueUIItems;
         private List<List<ActiveSkillEnum>> activeSkills = new List<List<ActiveSkillEnum>>();
+        private List<HuluEnum> chosenHulu = new List<HuluEnum>();
         private int curHulu = 0;
 
         public override void OnLoaded()
@@ -59,11 +63,15 @@ namespace Game
         private void Register()
         {
             Global.Event.Listen<ClickHuluEvent>(ClickHulu);
+            chooseBtn.onClick.AddListener(Choose);
+            nextBtn.onClick.AddListener(Continue);
         }
 
         private void UnRegister()
         {
             Global.Event.UnListen<ClickHuluEvent>(ClickHulu);
+            chooseBtn.onClick.RemoveListener(Choose);
+            nextBtn.onClick.RemoveListener(Continue);
         }
 
         private void ShowUI()
@@ -87,12 +95,46 @@ namespace Game
             valueUIItems[3].slider.value = (float)huluData.BaseSpeed / huluData.MaxSpeed;
             valueUIItems[4].valueNum.text = huluData.BaseAdap.ToString();
             valueUIItems[4].slider.value = (float)huluData.BaseAdap / huluData.MaxAdap;
+            if(chosenHulu.Contains(huluData.Id))
+            {
+                chooseBtnText.text = "取消选择";
+            }
+            else
+            {
+                chooseBtnText.text = "选择";
+            }
         }
 
         public void ClickHulu(ClickHuluEvent e)
         {
             curHulu = e.index;
             ShowUI();
+        }
+
+        public void Choose()
+        {
+            if (chosenHulu.Contains(huluIds[curHulu]))
+            {
+                chosenHulu.Remove(huluIds[curHulu]);
+                chooseBtnText.text = "选择";
+            }
+            else
+            {
+                if (chosenHulu.Count < 4)
+                {
+                    chosenHulu.Add(huluIds[curHulu]);
+                    chooseBtnText.text = "取消选择";
+                }
+            }
+            if (chosenHulu.Count >= 4) nextBtn.gameObject.SetActive(true);
+            else nextBtn.gameObject.SetActive(false);
+        }
+
+        public void Continue()
+        {
+            var e = new ChangeStateEvent();
+            e.poState = POState.DailyTrainState;
+            TypeEventSystem.Global.Send<ChangeStateEvent>(e);
         }
 
         private List<ActiveSkillEnum> GetRandomSkill(ActiveSkillEnum[] array)

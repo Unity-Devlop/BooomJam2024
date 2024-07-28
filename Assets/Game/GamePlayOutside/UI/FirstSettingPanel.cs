@@ -77,7 +77,6 @@ namespace Game
             var e = new ChangeStateEvent();
             e.poState = POState.FirstChooseState;
             TypeEventSystem.Global.Send<ChangeStateEvent>(e);
-            OnClosed();
         }
     }
 }

@@ -21,7 +21,7 @@ namespace Game
         public override void OnExit()
         {
             base.OnExit();
-            UIRoot.Singleton.Dispose<FirstChoosePanel>();
+            UIRoot.Singleton.ClosePanel<FirstChoosePanel>();
         }
     }
 }
