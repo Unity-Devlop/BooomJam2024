@@ -23,8 +23,9 @@ namespace Game.GamePlay
         [HorizontalGroup("1")] public BattlePosition enemyPos;
 
         private CancellationTokenSource _cts;
-
-        public void Init(PlayerBattleTrainer self, RebotBattleTrainer enemy)
+        private BattleEnvironmentData _environmentData;
+        
+        public void Init(PlayerBattleTrainer self, RebotBattleTrainer enemy,BattleEnvironmentData environmentData)
         {
             this._self = self;
             this._enemy = enemy;
