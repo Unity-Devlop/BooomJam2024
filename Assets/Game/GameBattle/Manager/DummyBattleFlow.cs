@@ -55,32 +55,11 @@ namespace Game.GamePlay
             Assert.IsNull(_cts);
             _cts = new CancellationTokenSource();
 
-            selfPos.Prepare(selfPos.battleTrainer.Get(0));
-            enemyPos.Prepare(selfPos.battleTrainer.Get(0));
+            selfPos.SetNext(selfPos.battleTrainer.Get(0));
+            enemyPos.SetNext(enemyPos.battleTrainer.Get(0));
 
             RoundFlow(this, _cts.Token).Forget();
             return UniTask.CompletedTask;
-        }
-
-        /// <summary>
-        /// 检查是否有角色准备入场
-        /// </summary>
-        private async UniTask EnterBattleCheck()
-        {
-            if (selfPos.prepareData != null)
-            {
-                Debug.Log("EnterBattleCheck Self");
-                selfPos.Prepare2Current();
-                await selfPos.ExecuteEnter();
-                await _self.ChangeHulu(selfPos.currentData);
-            }
-
-            if (enemyPos.prepareData != null)
-            {
-                enemyPos.Prepare2Current();
-                await enemyPos.ExecuteEnter();
-                await _enemy.ChangeHulu(enemyPos.currentData);
-            }
         }
 
         public async UniTask RoundStart()
@@ -100,60 +79,6 @@ namespace Game.GamePlay
             return UniTask.CompletedTask;
         }
 
-        private async UniTask BothPokemonSkill(ActiveSkillBattleOperation selfAtk, ActiveSkillBattleOperation enemyAtk)
-        {
-            var (faster, _) = GameMath.WhoFirst(selfPos.currentData, enemyPos.currentData, selfAtk.data,
-                enemyAtk.data, _environmentData);
-
-            // 根据顺序结算
-            if (faster == selfPos.currentData)
-            {
-                await ExecuteSkill(_self, selfPos, selfAtk);
-                if (!enemyPos.CanFight())
-                {
-                    return;
-                }
-
-                // 如果打死了对方 则不用再打了
-                await ExecuteSkill(_enemy, enemyPos, enemyAtk);
-            }
-            else
-            {
-                await ExecuteSkill(_enemy, enemyPos, enemyAtk);
-                if (!selfPos.CanFight())
-                {
-                    return;
-                }
-
-                // 如果打死了对方 则不用再打了
-                await ExecuteSkill(_self, selfPos, selfAtk);
-            }
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private async UniTask ExecuteSkill(IBattleTrainer trainer, BattlePosition position,
-            ActiveSkillBattleOperation operation)
-        {
-            Assert.IsTrue(position.CanFight());
-            await trainer.OnConsumeSkill(operation.data);
-            await position.ExecuteSkill(operation);
-            // 计算伤害
-
-            HuluData atk = position.currentData;
-            HuluData def;
-            if (position == selfPos)
-            {
-                def = enemyPos.currentData;
-            }
-            else
-            {
-                def = selfPos.currentData;
-            }
-
-            Debug.Log($"执行技能 {operation.data} 伤害计算");
-            int damage = GameMath.CalDamage(atk, def, operation.data.id, _environmentData);
-            def.ChangeHealth(damage);
-        }
 
         public async UniTask Rounding()
         {
@@ -167,16 +92,10 @@ namespace Game.GamePlay
                 await UniTask.DelayFrame(1);
 
                 // 有人不能战斗了
-                if (!selfPos.CanFight())
+                if (!selfPos.CanFight() || !enemyPos.CanFight())
                 {
-                    Debug.Log("Self 不能战斗了");
-                    selfOper = new EndRoundOperation();
-                }
-
-                if (!enemyPos.CanFight())
-                {
-                    Debug.Log("Enemy 不能战斗了");
-                    enemyOper = new EndRoundOperation();
+                    Debug.Log($"有人不能战斗了");
+                    break;
                 }
 
                 // 等待双方操作
@@ -195,7 +114,7 @@ namespace Game.GamePlay
                 // 双方都结束回合 则进入下一阶段
                 if (selfOper is EndRoundOperation && enemyOper is EndRoundOperation)
                 {
-                    Debug.Log("双方结束回合");
+                    // Debug.LogWarning("双方结束回合");
                     break;
                 }
 
@@ -266,36 +185,63 @@ namespace Game.GamePlay
 
 
                 // TODO 如果同时切换 或许有先后问题 但是和AI玩不用管 自己先切换
-                if (selfOper is ChangeHuluOperation selfChange)
+                if (selfOper is ChangeHuluOperation selfChange1 && enemyOper is ChangeHuluOperation enemyChange1)
                 {
-                    Debug.LogWarning($"Self,切换逻辑 {selfChange} 未实现 直接结束回合");
+                    await ExecuteSwitch(_self, selfPos, selfChange1.next);
                     selfOper = new EndRoundOperation();
+                    await ExecuteSwitch(_enemy, enemyPos, enemyChange1.next);
+                    enemyOper = new EndRoundOperation();
+                    continue;
                 }
 
-                if (enemyOper is ChangeHuluOperation enemyChange)
+                if (selfOper is ChangeHuluOperation selfChange2 && enemyOper is ActiveSkillBattleOperation enemyAtk2)
                 {
-                    Debug.LogWarning($"Enemy,切换逻辑 {enemyChange} 未实现 直接结束回合");
-                    enemyOper = new EndRoundOperation();
+                    await ExecuteSwitch(_self, selfPos, selfChange2.next);
+                    selfOper = new EndRoundOperation();
+                    await ExecuteSkill(_enemy, enemyPos, enemyAtk2);
+                    continue;
                 }
+
+                if (selfOper is ActiveSkillBattleOperation selfAtk3 && enemyOper is ChangeHuluOperation enemyChange2)
+                {
+                    await ExecuteSwitch(_enemy, enemyPos, enemyChange2.next);
+                    enemyOper = new EndRoundOperation();
+                    await ExecuteSkill(_self, selfPos, selfAtk3);
+                    continue;
+                }
+
+                throw new NotImplementedException(
+                    $"Self Oper: {selfOper.GetType()},Enemy Oper: {enemyOper.GetType()} NotImplemented");
             }
         }
 
+
         public UniTask AfterRound()
         {
-            // throw new System.NotImplementedException();
+            if (!selfPos.CanFight() && _self.trainerData.FindFirstCanFight(out HuluData selfNext))
+            {
+                selfPos.SetNext(selfNext);
+            }
 
+            if (!enemyPos.CanFight() && _enemy.trainerData.FindFirstCanFight(out HuluData enemyNext))
+            {
+                enemyPos.SetNext(enemyNext);
+            }
+
+            // 如果有一方G了 则进行自动替换逻辑
             return UniTask.CompletedTask;
         }
 
         public async UniTask RoundEnd()
         {
-            // throw new System.NotImplementedException();
-            // await UniTask.WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+            await selfPos.ClearRoundData();
+            await enemyPos.ClearRoundData();
         }
 
 
         public UniTask Exit()
         {
+            Debug.Log("Exit");
             if (UIRoot.Singleton.GetOpenedPanel(out GameBattlePanel battlePanel))
             {
                 battlePanel.UnBind();
@@ -375,6 +321,94 @@ namespace Game.GamePlay
 
             // 执行退出战斗流程
             await flow.Exit();
+        }
+
+        /// <summary>
+        /// 检查是否有角色准备入场
+        /// </summary>
+        private async UniTask EnterBattleCheck()
+        {
+            if (selfPos.next != null)
+            {
+                Debug.Log("EnterBattleCheck Self");
+                await selfPos.Prepare2Current();
+                await selfPos.ExecuteEnter();
+                await _self.ChangeCurrentHulu(selfPos.currentData);
+            }
+
+            if (enemyPos.next != null)
+            {
+                await enemyPos.Prepare2Current();
+                await enemyPos.ExecuteEnter();
+                await _enemy.ChangeCurrentHulu(enemyPos.currentData);
+            }
+        }
+
+
+        private async UniTask ExecuteSwitch(IBattleTrainer trainer, BattlePosition position, int idx)
+        {
+            HuluData next = trainer.trainerData.datas[idx];
+            position.SetNext(next);
+            await position.Prepare2Current();
+            await position.ExecuteEnter();
+            await trainer.ChangeCurrentHulu(next);
+        }
+
+        private async UniTask BothPokemonSkill(ActiveSkillBattleOperation selfAtk, ActiveSkillBattleOperation enemyAtk)
+        {
+            var (faster, _) = GameMath.WhoFirst(selfPos.currentData, enemyPos.currentData, selfAtk.data,
+                enemyAtk.data, _environmentData);
+
+            // 根据顺序结算
+            if (faster == selfPos.currentData)
+            {
+                await ExecuteSkill(_self, selfPos, selfAtk);
+                if (!enemyPos.CanFight())
+                {
+                    return;
+                }
+
+                // 如果打死了对方 则不用再打了
+                await ExecuteSkill(_enemy, enemyPos, enemyAtk);
+            }
+            else
+            {
+                await ExecuteSkill(_enemy, enemyPos, enemyAtk);
+                if (!selfPos.CanFight())
+                {
+                    return;
+                }
+
+                // 如果打死了对方 则不用再打了
+                await ExecuteSkill(_self, selfPos, selfAtk);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private async UniTask ExecuteSkill(IBattleTrainer trainer, BattlePosition position,
+            ActiveSkillBattleOperation operation)
+        {
+            Assert.IsTrue(position.CanFight());
+            await trainer.OnConsumeSkill(operation.data);
+            await position.ExecuteSkill(operation);
+            // 计算伤害
+
+            HuluData atk = position.currentData;
+            HuluData def;
+            if (position == selfPos)
+            {
+                def = enemyPos.currentData;
+            }
+            else
+            {
+                def = selfPos.currentData;
+            }
+
+
+            int damage = GameMath.CalDamage(atk, def, operation.data.id, _environmentData);
+            Debug.Log($"计算技能伤害,pos:{position},{atk}对{def}使用{operation.data.id},damage:{damage}");
+            // TODO 特殊技能有待实现
+            await def.ChangeHealth(damage);
         }
     }
 }

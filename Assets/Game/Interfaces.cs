@@ -32,7 +32,7 @@ namespace Game.GamePlay
         public void ClearOperation();
         public UniTask<IBattleOperation> CalOperation();
 
-        public UniTask ChangeHulu(HuluData data);
+        public UniTask ChangeCurrentHulu(HuluData data);
         public UniTask DrawSkills(int cnt);
 
 

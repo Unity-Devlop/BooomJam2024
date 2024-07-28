@@ -21,7 +21,7 @@ namespace Game.GamePlay
         public event Func<UniTask> OnEndCalOperation;
 
 
-        public UniTask ChangeHulu(HuluData robotPosCurrentData)
+        public UniTask ChangeCurrentHulu(HuluData robotPosCurrentData)
         {
             Debug.LogWarning($"机器人切换宝可梦未实现");
             return UniTask.CompletedTask;

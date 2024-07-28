@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using cfg;
 using Cysharp.Threading.Tasks;
 using Game.Game;
@@ -83,7 +84,7 @@ namespace Game.GamePlay
             }
         }
 
-        public async UniTask ChangeHulu(HuluData data)
+        public async UniTask ChangeCurrentHulu(HuluData data)
         {
             if (currentData != null)
             {
@@ -206,6 +207,7 @@ namespace Game.GamePlay
             HashSetPool<ActiveSkillData>.Release(drawList);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Init(TrainerData trainerData1)
         {
             trainerData = trainerData1;

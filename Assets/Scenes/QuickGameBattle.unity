@@ -289,17 +289,17 @@ MonoBehaviour:
       - id: 33
       - id: 31
       datas:
-      - id: 0
-        hp: 351
-        currentHp: 351
-        atk: 77
-        currentAtk: 77
-        def: 63
-        currentDef: 63
-        speed: 147
-        currentSpeed: 147
-        adap: 12
-        currentAdap: 12
+      - id: 4
+        hp: 261
+        currentHp: 261
+        atk: 52
+        currentAtk: 52
+        def: 56
+        currentDef: 56
+        speed: 105
+        currentSpeed: 105
+        adap: 15
+        currentAdap: 15
         ownedSkills:
         - id: 2
         - id: 2
@@ -310,6 +310,30 @@ MonoBehaviour:
         - id: 19
         - id: 24
         - id: 25
+      - id: 0
+        hp: 368
+        currentHp: 368
+        atk: 65
+        currentAtk: 65
+        def: 42
+        currentDef: 42
+        speed: 110
+        currentSpeed: 110
+        adap: 1
+        currentAdap: 1
+        ownedSkills: []
+      - id: 0
+        hp: 328
+        currentHp: 328
+        atk: 73
+        currentAtk: 73
+        def: 70
+        currentDef: 70
+        speed: 143
+        currentSpeed: 143
+        adap: 20
+        currentAdap: 20
+        ownedSkills: []
   environmentData:
     id: 0
 --- !u!4 &169709044
@@ -528,6 +552,9 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 2760903527968480628, guid: 40d9c7ef4dbec26419a96188ac0cce0f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
+    - targetCorrespondingSourceObject: {fileID: 3312096850841980562, guid: 40d9c7ef4dbec26419a96188ac0cce0f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 40d9c7ef4dbec26419a96188ac0cce0f, type: 3}
@@ -766,6 +793,9 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 2760903527968480628, guid: 40d9c7ef4dbec26419a96188ac0cce0f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
+    - targetCorrespondingSourceObject: {fileID: 3312096850841980562, guid: 40d9c7ef4dbec26419a96188ac0cce0f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 40d9c7ef4dbec26419a96188ac0cce0f, type: 3}

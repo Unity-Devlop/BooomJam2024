@@ -64,5 +64,19 @@ namespace Game
         }
 
 #endif
+        public bool FindFirstCanFight(out HuluData data)
+        {
+            foreach (var huluData in datas)
+            {
+                if (!huluData.HealthIsZero())
+                {
+                    data = huluData;
+                    return true;
+                }
+            }
+
+            data = null;
+            return false;
+        }
     }
 }

@@ -10,10 +10,9 @@ namespace Game.GamePlay
     {
         public IBattleTrainer battleTrainer;
         public HuluData currentData { get; private set; } // 当前上场的数据
-        public HuluData prepareData { get; private set; } // 准备上场的数据
+        public HuluData next { get; private set; } // 准备上场的数据
 
         public Hulu visual;
-
 
         public async UniTask ExecuteEnter()
         {
@@ -22,15 +21,15 @@ namespace Game.GamePlay
             await UniTask.DelayFrame(1);
         }
 
-        public void Prepare(HuluData data)
+        public void SetNext(HuluData data)
         {
-            prepareData = data;
+            next = data;
         }
 
-        public void Prepare2Current()
+        public async UniTask Prepare2Current()
         {
-            currentData = prepareData;
-            prepareData = null;
+            currentData = next;
+            next = null;
             visual.UnBind();
             visual.Bind(currentData);
         }
@@ -46,6 +45,10 @@ namespace Game.GamePlay
         public bool CanFight()
         {
             return !currentData.HealthIsZero();
+        }
+        public override string ToString()
+        {
+            return gameObject.name;
         }
     }
 }

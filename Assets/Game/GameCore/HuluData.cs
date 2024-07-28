@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using cfg;
+using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -54,7 +55,7 @@ namespace Game
 
         public HuluConfig config => Global.Table.HuluTable.Get(id);
         public PassiveSkillConfig passiveSkillConfig => Global.Table.PassiveSkillTable.Get(config.PassiveSkill);
-
+        public string name => config.Id.ToString();// TODO 个性化
 
         /// <summary>
         /// 生命
@@ -99,7 +100,7 @@ namespace Game
             bind = new BindData<HuluData>(this);
         }
 
-        public void ChangeHealth(int delta)
+        public UniTask ChangeHealth(int delta)
         {
             currentHp -= delta;
             if (currentHp < 0)
@@ -114,6 +115,7 @@ namespace Game
 
             Debug.Log($"{this}当前生命值{currentHp}");
             bind.Invoke();
+            return UniTask.CompletedTask;
         }
 
         public bool HealthIsZero()

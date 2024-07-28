@@ -10,14 +10,11 @@ namespace Game.GamePlay
     public class Hulu : MonoBehaviour
     {
         [ReadOnly, ShowInInspector] private HuluData _data;
-        public TextMeshPro hpText;
+        [SerializeField] private TextMeshPro hpText;
+        [SerializeField] private TextMeshPro nameText;
+
         private ICommand _unbindCmd;
-
-        private void Awake()
-        {
-            hpText = GetComponentInChildren<TextMeshPro>();
-        }
-
+        
         public void Bind(HuluData data)
         {
             _data = data;
@@ -27,6 +24,7 @@ namespace Game.GamePlay
 
         private void OnData(HuluData obj)
         {
+            nameText.text = obj.name;
             hpText.text = $"{obj.currentHp}/{obj.hp}";
         }
 

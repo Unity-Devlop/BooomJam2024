@@ -7,6 +7,7 @@
 
     public struct ChangeHuluOperation : IBattleOperation
     {
+        public int next;
     }
 
     public struct EndRoundOperation : IBattleOperation
