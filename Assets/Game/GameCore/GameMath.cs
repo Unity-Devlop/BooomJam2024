@@ -146,6 +146,7 @@ namespace Game
             BattleEnvironmentData environmentData)
         {
             ActiveSkillConfig config = Global.Table.ActiveSkillTable.Get(skill);
+            Assert.IsTrue(config.Type == ActiveSkillTypeEnum.伤害技能);
             float baseValue = (atk.currentAtk + config.DamagePoint - def.currentDef) *
                               CalSelfElementFit(atk.config, config) *
                               CalDamageElementFit(atk.config.Elements, def.config.Elements);
@@ -153,6 +154,14 @@ namespace Game
             float finalValue = baseValue * (1 - Mathf.Clamp(def.currentAdap, 0, 100) / 100f);
 
             return (int)finalValue;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool CalHit(HuluData atk, HuluData def, ActiveSkillEnum dataID,
+            BattleEnvironmentData environmentData)
+        {
+            ActiveSkillConfig config = Global.Table.ActiveSkillTable.Get(dataID);
+            return UnityEngine.Random.value <= config.HitRate;
         }
     }
 }

@@ -402,12 +402,22 @@ namespace Game.GamePlay
             {
                 def = selfPos.currentData;
             }
+
             if (operation.data.config.Type == ActiveSkillTypeEnum.伤害技能)
             {
-                int damage = GameMath.CalDamage(atk, def, operation.data.id, _environmentData);
-                // TODO 特殊技能有待实现
-                await def.ChangeHealth(damage);
-                Debug.Log($"计算技能伤害,pos:{position},{atk}对{def}使用{operation.data.id} 造成{damage}伤害");
+                bool hitted = GameMath.CalHit(atk, def, operation.data.id, _environmentData);
+                if (hitted)
+                {
+                    int damage = GameMath.CalDamage(atk, def, operation.data.id, _environmentData);
+                    await def.ChangeHealth(damage);
+                    Debug.Log($"计算技能伤害,pos:{position},{atk}对{def}使用{operation.data.id} 造成{damage}伤害");
+                }
+                else
+                {
+                    // TODO
+                    Debug.Log($"计算技能伤害,pos:{position},{atk}对{def}使用{operation.data.id} 未命中");
+                }
+
                 return;
             }
 
@@ -417,7 +427,11 @@ namespace Game.GamePlay
                 {
                     return;
                 }
-                if(operation.data.id.
+            }
+
+            if (operation.data.config.Type == ActiveSkillTypeEnum.指挥)
+            {
+                return;
             }
         }
     }
