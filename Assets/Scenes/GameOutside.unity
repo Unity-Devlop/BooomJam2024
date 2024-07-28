@@ -271,7 +271,7 @@ GameObject:
   - component: {fileID: 580741885}
   - component: {fileID: 580741886}
   m_Layer: 0
-  m_Name: GamePlayMgr
+  m_Name: GamePlayOutSideMgr
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

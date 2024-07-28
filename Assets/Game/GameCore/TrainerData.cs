@@ -36,6 +36,11 @@ namespace Game
             }
         }
 
+        public TrainerData()
+        {
+            trainerSkills = new List<ActiveSkillData>();
+            datas = new List<HuluData>();
+        }
 #if UNITY_EDITOR && ODIN_INSPECTOR
 
         [Button]

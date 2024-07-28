@@ -9,6 +9,7 @@ namespace Game
 
         public void OnInit()
         {
+            _modelCenter = new ModelCenter();
         }
 
         public void Add<T>(T data) where T : IModel

@@ -11,6 +11,7 @@ namespace Game
     public class PlayerData : IModel
     {
         public string name;
+
         [JsonIgnore] public BindData<PlayerData> bind { get; private set; }
 
         public TrainerData trainerData;
@@ -18,6 +19,7 @@ namespace Game
         public PlayerData()
         {
             bind = new BindData<PlayerData>(this);
+            trainerData = new TrainerData();
         }
 
         [Sirenix.OdinInspector.Button]
