@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -18,7 +19,10 @@ namespace Game.GamePlay
         {
             // 执行入场逻辑
             Debug.LogWarning($"{currentData}入场");
-            await UniTask.DelayFrame(1);
+            bool flag = false;
+            var t = visual.transform.DOShakePosition(0.5f, 1, 50);
+            t.onComplete += () => flag = true;
+            await UniTask.WaitUntil(() => flag);
         }
 
         public void SetNext(HuluData data)
@@ -36,6 +40,10 @@ namespace Game.GamePlay
 
         public async UniTask ExecuteSkill(ActiveSkillBattleOperation operation)
         {
+            bool flag = false;
+            var t = visual.transform.DOShakePosition(0.5f, 1, 50);
+            t.onComplete += () => flag = true;
+            await UniTask.WaitUntil(() => flag);
         }
 
         public async UniTask ClearRoundData()
@@ -46,6 +54,7 @@ namespace Game.GamePlay
         {
             return !currentData.HealthIsZero();
         }
+
         public override string ToString()
         {
             return gameObject.name;

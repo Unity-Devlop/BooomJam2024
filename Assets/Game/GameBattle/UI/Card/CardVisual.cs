@@ -64,16 +64,13 @@ namespace Game
             card.SelectEvent += Select;
 
             nameText.text = card.data.config.Id.ToString();
-            switch (card.data.config.Type)
+            if (card.data.config.Type == ActiveSkillTypeEnum.指挥)
             {
-                case ActiveSkillTypeEnum.指挥:
-                    icon.color = Color.yellow;
-                    break;
-                case ActiveSkillTypeEnum.技能:
-                    icon.color = Color.cyan;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
+                icon.color = Color.yellow;
+            }
+            else
+            {
+                icon.color = Color.cyan;
             }
         }
 

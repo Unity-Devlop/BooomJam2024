@@ -19,7 +19,7 @@ namespace Game.GamePlay
     {
         public bool canFight => trainerData.canFight;
         [field: SerializeField] public TrainerData trainerData { get; private set; }
-        public HuluData currentData { get; private set; }
+        public HuluData currentBattleData { get; private set; }
 
         public event Func<List<ActiveSkillData>, UniTask> OnDrawCard = delegate { return UniTask.CompletedTask; };
         public event Func<ActiveSkillData, UniTask> OnUseCard = delegate { return UniTask.CompletedTask; };
@@ -86,7 +86,7 @@ namespace Game.GamePlay
 
         public async UniTask ChangeCurrentHulu(HuluData data)
         {
-            if (currentData != null)
+            if (currentBattleData != null)
             {
                 List<ActiveSkillData> needDelete = ListPool<ActiveSkillData>.Get();
 
@@ -119,7 +119,7 @@ namespace Game.GamePlay
                 Debug.Log("最初进入战斗 直接抽牌");
             }
 
-            currentData = data;
+            currentBattleData = data;
             RecalculateDeck();
             ReFillDrawZone();
             await DrawSkills(4);
@@ -128,7 +128,7 @@ namespace Game.GamePlay
         private void ReFillDrawZone()
         {
             //此时手里是没抽新宝可梦的技能牌的
-            foreach (var ownedSkill in currentData.ownedSkills)
+            foreach (var ownedSkill in currentBattleData.ownedSkills)
             {
                 drawZone.Add(ownedSkill);
             }
@@ -155,7 +155,7 @@ namespace Game.GamePlay
         private void RecalculateDeck()
         {
             deck.Clear();
-            foreach (var ownedSkill in currentData.ownedSkills)
+            foreach (var ownedSkill in currentBattleData.ownedSkills)
             {
                 deck.Add(ownedSkill.id);
             }
@@ -171,25 +171,25 @@ namespace Game.GamePlay
 
         public async UniTask DrawSkills(int cnt)
         {
-            Debug.Log($"{this} 抽牌 {cnt}");
+            // Debug.Log($"{this} 抽牌 {cnt}");
             int cur = handZone.Count; // 手牌数量
-            Debug.Log($"当前手牌数量:{cur}");
+            // Debug.Log($"当前手牌数量:{cur}");
             int need = Consts.MaxHandCard - cur; // 还可以抽的数量
             need = Mathf.Clamp(need, 0, cnt); // 限制抽牌数量
             if (need == 0)
             {
-                Debug.Log("手牌已满");
+                // Debug.Log("手牌已满");
                 return;
             }
 
-            Debug.Log($"可以抽牌:{need}张");
+            // Debug.Log($"可以抽牌:{need}张");
             HashSet<ActiveSkillData> drawList = HashSetPool<ActiveSkillData>.Get();
             // 从抽牌区抽牌
             for (int i = 0; i < need; i++)
             {
                 if (drawZone.Count == 0)
                 {
-                    Debug.Log("抽牌区没牌了");
+                    // Debug.Log("抽牌区没牌了");
                     // 弃牌区加入抽牌区
                     await CleanDiscardZone();
                 }
@@ -200,8 +200,9 @@ namespace Game.GamePlay
                 // Debug.Log($"Draw Card HashCode: {drawCard.GetHashCode()}, data: {drawCard}");
             }
 
-            Debug.Log($"抽到了{drawList.Count}张牌");
+            // Debug.Log($"抽到了{drawList.Count}张牌");
             handZone.AddRange(drawList);
+            Debug.Log($"当前手牌数量:{handZone.Count}");
 
             await OnDrawCard(drawList.ToList());
             HashSetPool<ActiveSkillData>.Release(drawList);

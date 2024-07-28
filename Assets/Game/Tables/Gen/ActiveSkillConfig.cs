@@ -23,6 +23,7 @@ public sealed partial class ActiveSkillConfig : Luban.BeanBase
         { if(!_buf["type"].IsNumber) { throw new SerializationException(); }  Type = (ActiveSkillTypeEnum)_buf["type"].AsInt; }
         { if(!_buf["damage_point"].IsNumber) { throw new SerializationException(); }  DamagePoint = _buf["damage_point"]; }
         { if(!_buf["priority"].IsNumber) { throw new SerializationException(); }  Priority = _buf["priority"]; }
+        { if(!_buf["hit_rate"].IsNumber) { throw new SerializationException(); }  HitRate = _buf["hit_rate"]; }
     }
 
     public static ActiveSkillConfig DeserializeActiveSkillConfig(JSONNode _buf)
@@ -51,12 +52,14 @@ public sealed partial class ActiveSkillConfig : Luban.BeanBase
     /// </summary>
     public readonly int DamagePoint;
     public readonly int Priority;
+    public readonly float HitRate;
    
     public const int __ID__ = -652779027;
     public override int GetTypeId() => __ID__;
 
     public  void ResolveRef(Tables tables)
     {
+        
         
         
         
@@ -74,6 +77,7 @@ public sealed partial class ActiveSkillConfig : Luban.BeanBase
         + "type:" + Type + ","
         + "damagePoint:" + DamagePoint + ","
         + "priority:" + Priority + ","
+        + "hitRate:" + HitRate + ","
         + "}";
     }
 }

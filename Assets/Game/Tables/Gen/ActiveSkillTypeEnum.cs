@@ -14,7 +14,8 @@ namespace cfg
     public enum ActiveSkillTypeEnum
     {
         指挥 = 0,
-        技能 = 1,
+        伤害技能 = 1,
+        变化技能 = 2,
     }
 
 } 

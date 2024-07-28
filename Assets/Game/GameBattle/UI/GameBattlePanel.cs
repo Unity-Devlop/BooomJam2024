@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using Game.GamePlay;
 using UnityEngine;
@@ -12,6 +13,8 @@ namespace Game
     {
         [SerializeField] private CardHorizontalContainer selfCardContainer;
         [SerializeField] private Button endRoundButton;
+        [SerializeField] private LeftTeamHuluView leftTeamHuluView;
+
         private IBattleTrainer _trainer;
 
         private void Awake()
@@ -34,6 +37,7 @@ namespace Game
             _trainer.OnUseCard += UseCard;
 
             selfCardContainer.Bind(battleTrainer);
+            leftTeamHuluView.Bind(battleTrainer);
         }
 
         public void UnBind()
@@ -44,6 +48,7 @@ namespace Game
             _trainer.OnEndCalOperation -= EndCalOperation;
             _trainer.OnUseCard -= UseCard;
             selfCardContainer.UnBind();
+            leftTeamHuluView.UnBind();
         }
 
 
@@ -55,13 +60,16 @@ namespace Game
         private async UniTask EndCalOperation()
         {
             await selfCardContainer.EndCalOperation();
+            await leftTeamHuluView.EndCalOperation();
         }
 
         private async UniTask StartCalOperation()
         {
-            await selfCardContainer.StartCalOperation();
+            var cardOper = selfCardContainer.StartCalOperation();
+            var switchOper = leftTeamHuluView.StartCalOperation();
+            await UniTask.WhenAny(cardOper, switchOper);
         }
-
+        
 
         private UniTask DiscardCard(List<ActiveSkillData> arg)
         {
