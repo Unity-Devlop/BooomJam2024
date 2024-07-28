@@ -164,22 +164,14 @@ namespace Game.GamePlay
                 if (selfOper is EndRoundOperation && enemyOper is ActiveSkillBattleOperation enemyAtk1)
                 {
                     await ExecuteSkill(_enemy, enemyPos, enemyAtk1);
-                    if (enemyAtk1.data.config.Type != ActiveSkillTypeEnum.指挥)
-                    {
-                        enemyOper = new EndRoundOperation();
-                    }
-
+                    ModifyOper(ref enemyOper);
                     continue;
                 }
 
                 if (selfOper is ActiveSkillBattleOperation selfAtk1 && enemyOper is EndRoundOperation)
                 {
                     await ExecuteSkill(_self, selfPos, selfAtk1);
-                    if (selfAtk1.data.config.Type != ActiveSkillTypeEnum.指挥)
-                    {
-                        selfOper = new EndRoundOperation();
-                    }
-
+                    ModifyOper(ref selfOper);
                     continue;
                 }
 
@@ -199,6 +191,7 @@ namespace Game.GamePlay
                     await ExecuteSwitch(_self, selfPos, selfChange2.next);
                     selfOper = new EndRoundOperation();
                     await ExecuteSkill(_enemy, enemyPos, enemyAtk2);
+                    ModifyOper(ref enemyOper);
                     continue;
                 }
 
@@ -207,6 +200,7 @@ namespace Game.GamePlay
                     await ExecuteSwitch(_enemy, enemyPos, enemyChange2.next);
                     enemyOper = new EndRoundOperation();
                     await ExecuteSkill(_self, selfPos, selfAtk3);
+                    ModifyOper(ref selfOper);
                     continue;
                 }
 
@@ -215,6 +209,16 @@ namespace Game.GamePlay
             }
         }
 
+        private void ModifyOper(ref IBattleOperation oper)
+        {
+            if (oper is ActiveSkillBattleOperation atk)
+            {
+                if (atk.data.config.Type != ActiveSkillTypeEnum.指挥)
+                {
+                    oper = new EndRoundOperation();
+                }
+            }
+        }
 
         public UniTask AfterRound()
         {
@@ -259,13 +263,13 @@ namespace Game.GamePlay
 
         public bool TryGetRoundWinner(out IBattleTrainer battleTrainer)
         {
-            if (_self.currentData.HealthIsZero())
+            if (_self.currentBattleData.HealthIsZero())
             {
                 battleTrainer = _enemy;
                 return true;
             }
 
-            if (_enemy.currentData.HealthIsZero())
+            if (_enemy.currentBattleData.HealthIsZero())
             {
                 battleTrainer = _self;
                 return true;

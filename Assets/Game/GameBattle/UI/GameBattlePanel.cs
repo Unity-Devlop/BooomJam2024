@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using Game.GamePlay;
 using UnityEngine;
@@ -68,7 +69,7 @@ namespace Game
             var switchOper = leftTeamHuluView.StartCalOperation();
             await UniTask.WhenAny(cardOper, switchOper);
         }
-
+        
 
         private UniTask DiscardCard(List<ActiveSkillData> arg)
         {

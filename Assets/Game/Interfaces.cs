@@ -12,7 +12,7 @@ namespace Game.GamePlay
     {
         public bool canFight { get; }
         public TrainerData trainerData { get; }
-        public HuluData currentData { get; }
+        public HuluData currentBattleData { get; }
 
         public HuluData Get(int idx)
         {

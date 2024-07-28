@@ -19,7 +19,7 @@ namespace Game.GamePlay
     {
         public bool canFight => trainerData.canFight;
         [field: SerializeField] public TrainerData trainerData { get; private set; }
-        public HuluData currentData { get; private set; }
+        public HuluData currentBattleData { get; private set; }
 
         public event Func<List<ActiveSkillData>, UniTask> OnDrawCard = delegate { return UniTask.CompletedTask; };
         public event Func<ActiveSkillData, UniTask> OnUseCard = delegate { return UniTask.CompletedTask; };
@@ -86,7 +86,7 @@ namespace Game.GamePlay
 
         public async UniTask ChangeCurrentHulu(HuluData data)
         {
-            if (currentData != null)
+            if (currentBattleData != null)
             {
                 List<ActiveSkillData> needDelete = ListPool<ActiveSkillData>.Get();
 
@@ -119,7 +119,7 @@ namespace Game.GamePlay
                 Debug.Log("最初进入战斗 直接抽牌");
             }
 
-            currentData = data;
+            currentBattleData = data;
             RecalculateDeck();
             ReFillDrawZone();
             await DrawSkills(4);
@@ -128,7 +128,7 @@ namespace Game.GamePlay
         private void ReFillDrawZone()
         {
             //此时手里是没抽新宝可梦的技能牌的
-            foreach (var ownedSkill in currentData.ownedSkills)
+            foreach (var ownedSkill in currentBattleData.ownedSkills)
             {
                 drawZone.Add(ownedSkill);
             }
@@ -155,7 +155,7 @@ namespace Game.GamePlay
         private void RecalculateDeck()
         {
             deck.Clear();
-            foreach (var ownedSkill in currentData.ownedSkills)
+            foreach (var ownedSkill in currentBattleData.ownedSkills)
             {
                 deck.Add(ownedSkill.id);
             }
@@ -200,8 +200,9 @@ namespace Game.GamePlay
                 // Debug.Log($"Draw Card HashCode: {drawCard.GetHashCode()}, data: {drawCard}");
             }
 
-            Debug.Log($"抽到了{drawList.Count}张牌");
+            // Debug.Log($"抽到了{drawList.Count}张牌");
             handZone.AddRange(drawList);
+            Debug.Log($"当前手牌数量:{handZone.Count}");
 
             await OnDrawCard(drawList.ToList());
             HashSetPool<ActiveSkillData>.Release(drawList);

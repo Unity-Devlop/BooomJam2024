@@ -12,7 +12,7 @@ namespace Game.GamePlay
         public bool canFight => trainerData.canFight;
 
         [field: SerializeField] public TrainerData trainerData { get; set; }
-        public HuluData currentData { get; set; }
+        public HuluData currentBattleData { get; set; }
 
         public event Func<List<ActiveSkillData>, UniTask> OnDrawCard;
         public event Func<ActiveSkillData, UniTask> OnUseCard;
