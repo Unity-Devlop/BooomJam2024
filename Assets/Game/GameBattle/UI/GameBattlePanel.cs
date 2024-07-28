@@ -1,16 +1,28 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Game.GamePlay;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityToolkit;
 
 namespace Game
 {
     public class GameBattlePanel : UIPanel
     {
-        public CardHorizontalContainer selfCardContainer;
-
+        [SerializeField] private CardHorizontalContainer selfCardContainer;
+        [SerializeField] private Button endRoundButton;
         private IBattleTrainer _trainer;
+
+        private void Awake()
+        {
+            endRoundButton.onClick.AddListener(OnEndRoundButtonClick);
+        }
+
+        private void OnEndRoundButtonClick()
+        {
+            _trainer.PushOperation(default(EndRoundOperation));
+        }
 
         public void Bind(IBattleTrainer battleTrainer)
         {
@@ -23,6 +35,7 @@ namespace Game
 
             selfCardContainer.Bind(battleTrainer);
         }
+
         public void UnBind()
         {
             _trainer.OnDrawCard -= DrawCard;

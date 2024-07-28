@@ -12,10 +12,12 @@ GameObject:
   - component: {fileID: 4016734787905512531}
   - component: {fileID: 1677362585243648388}
   - component: {fileID: 1969728107868544492}
+  - component: {fileID: 546364491189080702}
   - component: {fileID: 665382401368143376}
   - component: {fileID: 96587100786777874}
   - component: {fileID: 6938266213314039194}
   - component: {fileID: 2251692799095270213}
+  - component: {fileID: 5701094148345651671}
   m_Layer: 5
   m_Name: CarContainer
   m_TagString: Untagged
@@ -106,6 +108,29 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!223 &546364491189080702
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2283432573036145939}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_UpdateRectTransformForStandalone: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
 --- !u!114 &665382401368143376
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -174,6 +199,23 @@ MonoBehaviour:
   hidden: {fileID: 8489667147195821521}
   initSize: 10
   maxSize: 100
+--- !u!114 &5701094148345651671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2283432573036145939}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 55
 --- !u!1 &2886689216978111192
 GameObject:
   m_ObjectHideFlags: 0
@@ -377,6 +419,8 @@ GameObject:
   - component: {fileID: 2055050440995531252}
   - component: {fileID: 1819935458382506001}
   - component: {fileID: 6474622139793173319}
+  - component: {fileID: 1217576013611098894}
+  - component: {fileID: 2147954703120256406}
   m_Layer: 5
   m_Name: HuluPanel
   m_TagString: Untagged
@@ -470,6 +514,46 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!223 &1217576013611098894
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4173325516861242637}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_UpdateRectTransformForStandalone: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
+--- !u!114 &2147954703120256406
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4173325516861242637}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 55
 --- !u!1 &6489944656796694248
 GameObject:
   m_ObjectHideFlags: 0
@@ -778,6 +862,7 @@ MonoBehaviour:
   <state>k__BackingField: 0
   sortingOrder: 0
   selfCardContainer: {fileID: 665382401368143376}
+  endRoundButton: {fileID: 2055847392948659394}
 --- !u!1001 &2104982675038939175
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -19,7 +19,7 @@ namespace Game.GamePlay
         public bool canFight => trainerData.canFight;
         [field: SerializeField] public TrainerData trainerData { get; private set; }
         public HuluData currentData { get; private set; }
-        
+
         public event Func<List<ActiveSkillData>, UniTask> OnDrawCard = delegate { return UniTask.CompletedTask; };
         public event Func<ActiveSkillData, UniTask> OnUseCard = delegate { return UniTask.CompletedTask; };
         public event Func<List<ActiveSkillData>, UniTask> OnDiscardCard = delegate { return UniTask.CompletedTask; };
@@ -40,6 +40,7 @@ namespace Game.GamePlay
         {
             _operation = null;
         }
+
         public async UniTask<IBattleOperation> CalOperation()
         {
             Assert.IsNull(_operation);
