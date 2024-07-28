@@ -36,7 +36,7 @@ namespace Game.GamePlay
         public UniTask DrawSkills(int cnt);
 
 
-        public UniTask OnUseSkill(ActiveSkillData data);
+        public UniTask OnConsumeSkill(ActiveSkillData data);
     }
 
     public interface IBattleFlow

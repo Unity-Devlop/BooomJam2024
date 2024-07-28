@@ -57,7 +57,7 @@ namespace Game
             _systemLocator = new SystemLocator();
             _systemLocator.Register<GameFlow>(GetComponent<GameFlow>());
             _systemLocator.Register<AudioSystem>(GetComponent<AudioSystem>());
-
+            _systemLocator.Register<DataSystem>(GetComponent<DataSystem>());
             // 初始化UI资源加载器
             UIRoot.Singleton.UIDatabase.Loader = new AddressablesUILoader();
         }

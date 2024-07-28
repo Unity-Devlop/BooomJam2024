@@ -8,7 +8,7 @@ using UnityToolkit;
 namespace Game
 {
     [Serializable]
-    public class PlayerData
+    public class PlayerData : IModel
     {
         public string name;
         [JsonIgnore] public BindData<PlayerData> bind { get; private set; }

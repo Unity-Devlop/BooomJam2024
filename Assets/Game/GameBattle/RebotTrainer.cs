@@ -32,7 +32,7 @@ namespace Game.GamePlay
             return UniTask.CompletedTask;
         }
 
-        public UniTask OnUseSkill(ActiveSkillData data)
+        public UniTask OnConsumeSkill(ActiveSkillData data)
         {
             Debug.LogWarning($"机器人使用技能未实现");
             return UniTask.CompletedTask;

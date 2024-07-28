@@ -54,7 +54,11 @@ namespace Game.GamePlay
             _operation = operation;
         }
 
-        public async UniTask OnUseSkill(ActiveSkillData data)
+        /// <summary>
+        /// 消耗一张牌
+        /// </summary>
+        /// <param name="data"></param>
+        public async UniTask OnConsumeSkill(ActiveSkillData data)
         {
             Assert.IsNotNull(data);
             Debug.Log($"消耗牌{data} HashCode: {data.GetHashCode()}");

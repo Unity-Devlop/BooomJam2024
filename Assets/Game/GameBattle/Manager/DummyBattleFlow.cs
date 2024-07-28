@@ -3,6 +3,7 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.Serialization;
 using UnityToolkit;
 
 namespace Game.GamePlay
@@ -13,7 +14,7 @@ namespace Game.GamePlay
         public RebotBattleTrainer enemy;
 
         public BattlePosition selfPos;
-        public BattlePosition robotPos;
+        public BattlePosition enemyPos;
 
         private CancellationTokenSource _cts;
 
@@ -22,7 +23,7 @@ namespace Game.GamePlay
             this.self = self;
             this.enemy = enemy;
             selfPos.battleTrainer = self;
-            robotPos.battleTrainer = enemy;
+            enemyPos.battleTrainer = enemy;
             // Global.Event.Listen<OnActiveCardConsume>(OnConsumeCard);
         }
 
@@ -52,7 +53,7 @@ namespace Game.GamePlay
             _cts = new CancellationTokenSource();
 
             selfPos.prepareData = selfPos.battleTrainer.Get(0);
-            robotPos.prepareData = selfPos.battleTrainer.Get(0);
+            enemyPos.prepareData = selfPos.battleTrainer.Get(0);
 
             RoundFlow(this, _cts.Token).Forget();
             return UniTask.CompletedTask;
@@ -72,12 +73,12 @@ namespace Game.GamePlay
                 await self.ChangeHulu(selfPos.currentData);
             }
 
-            if (robotPos.prepareData != null)
+            if (enemyPos.prepareData != null)
             {
-                robotPos.currentData = robotPos.prepareData;
-                robotPos.prepareData = null;
-                await robotPos.ExecuteEnter();
-                await enemy.ChangeHulu(robotPos.currentData);
+                enemyPos.currentData = enemyPos.prepareData;
+                enemyPos.prepareData = null;
+                await enemyPos.ExecuteEnter();
+                await enemy.ChangeHulu(enemyPos.currentData);
             }
         }
 
@@ -102,19 +103,63 @@ namespace Game.GamePlay
         {
             // throw new System.NotImplementedException();
 
-            // 等待双方操作
-            IBattleOperation selfOper = await self.CalOperation();
-            IBattleOperation enemyOper = await enemy.CalOperation();
-
-            if (selfOper is ActiveSkillBattleOperation atk && enemyOper is ActiveSkillBattleOperation enemyAtk)
+            IBattleOperation selfOper = default;
+            IBattleOperation enemyOper = default;
+            Debug.Log("Rounding");
+            while (_cts is { IsCancellationRequested: false })
             {
-                // 计算流程
-                Debug.LogWarning($"结算流程未实现");
-                await self.OnUseSkill(atk.data);
-                await enemy.OnUseSkill(enemyAtk.data);
-            }
+                // 等待双方操作
+                if (selfOper is not EndRoundOperation)
+                {
+                    selfOper = await self.CalOperation();
+                }
 
-            Debug.Log($"Self Oper: {selfOper},Enemy Oper: {enemyOper}");
+                if (enemyOper is not EndRoundOperation)
+                {
+                    enemyOper = await enemy.CalOperation();
+                }
+
+                // 双方都结束回合 则进入下一阶段
+                if (selfOper is EndRoundOperation && enemyOper is EndRoundOperation)
+                {
+                    break;
+                }
+
+
+                Debug.Log($"Self Oper: {selfOper},Enemy Oper: {enemyOper}");
+
+                if (selfOper is ActiveSkillBattleOperation atk && enemyOper is ActiveSkillBattleOperation enemyAtk)
+                {
+                    // 计算流程
+                    await self.OnConsumeSkill(atk.data); // 消耗牌
+                    await enemy.OnConsumeSkill(enemyAtk.data); // 消耗牌
+
+                    // 牌都消耗了再结算
+                    Debug.LogWarning($"使用技能逻辑 {atk.data} {enemyAtk.data} 未实现");
+
+                    var (faster, slower) = GameMath.WhoFirst(selfPos.currentData, enemyPos.currentData, atk.data,
+                        enemyAtk.data);
+
+                    await selfPos.ExecuteSkill();
+                    await enemyPos.ExecuteSkill();
+
+                    // TODO 如果打了 特殊的牌 则不能够再打牌
+                    continue; // 这里双方技能都结算了 所以直接跳到下一回合
+                }
+
+                // TODO 如果同时切换 或许有先后问题 但是和AI玩不用管 自己先切换
+                if (selfOper is ChangeHuluOperation selfChange)
+                {
+                    Debug.LogWarning($"Self,切换逻辑 {selfChange} 未实现 直接结束回合");
+                    selfOper = new EndRoundOperation();
+                }
+
+                if (enemyOper is ChangeHuluOperation enemyChange)
+                {
+                    Debug.LogWarning($"Enemy,切换逻辑 {enemyChange} 未实现 直接结束回合");
+                    enemyOper = new EndRoundOperation();
+                }
+            }
         }
 
         public UniTask AfterRound()
@@ -127,7 +172,7 @@ namespace Game.GamePlay
         public async UniTask RoundEnd()
         {
             // throw new System.NotImplementedException();
-            await UniTask.WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+            // await UniTask.WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
         }
 
 

@@ -16,5 +16,16 @@ namespace Game.GamePlay
             Debug.LogWarning($"{currentData}入场");
             await UniTask.DelayFrame(1);
         }
+
+
+        public async UniTask ExecuteSkill()
+        {
+            
+        }
+        
+        public async UniTask ClearRoundData()
+        {
+            
+        }
     }
 }
