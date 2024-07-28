@@ -168,22 +168,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32e53a17680245ee82fb316329ad825c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentData:
-    id: 0
-    ownedSkills: []
-    hp: 0
-    atk: 0
-    def: 0
-    speed: 0
-    adap: 0
-  prepareData:
-    id: 0
-    ownedSkills: []
-    hp: 0
-    atk: 0
-    def: 0
-    speed: 0
-    adap: 0
+  visual: {fileID: 2845058849497429861}
 --- !u!1 &169709042
 GameObject:
   m_ObjectHideFlags: 0
@@ -228,6 +213,16 @@ MonoBehaviour:
       - id: 43
       datas:
       - id: 0
+        hp: 373
+        currentHp: 373
+        atk: 83
+        currentAtk: 83
+        def: 40
+        currentDef: 40
+        speed: 123
+        currentSpeed: 123
+        adap: 5
+        currentAdap: 5
         ownedSkills:
         - id: 19
         - id: 25
@@ -238,12 +233,17 @@ MonoBehaviour:
         - id: 1
         - id: 1
         - id: 24
-        hp: 373
-        atk: 83
-        def: 40
-        speed: 123
-        adap: 5
       - id: 1
+        hp: 293
+        currentHp: 293
+        atk: 116
+        currentAtk: 116
+        def: 25
+        currentDef: 25
+        speed: 182
+        currentSpeed: 182
+        adap: 0
+        currentAdap: 0
         ownedSkills:
         - id: 22
         - id: 22
@@ -254,12 +254,17 @@ MonoBehaviour:
         - id: 24
         - id: 22
         - id: 6
-        hp: 293
-        atk: 116
-        def: 25
-        speed: 182
-        adap: 0
       - id: 5
+        hp: 513
+        currentHp: 513
+        atk: 50
+        currentAtk: 50
+        def: 94
+        currentDef: 94
+        speed: 24
+        currentSpeed: 24
+        adap: 10
+        currentAdap: 10
         ownedSkills:
         - id: 0
         - id: 0
@@ -270,11 +275,6 @@ MonoBehaviour:
         - id: 13
         - id: 23
         - id: 0
-        hp: 513
-        atk: 50
-        def: 94
-        speed: 24
-        adap: 10
     deck: 
   rebotBattleTrainer:
     <trainerData>k__BackingField:
@@ -290,6 +290,16 @@ MonoBehaviour:
       - id: 31
       datas:
       - id: 0
+        hp: 351
+        currentHp: 351
+        atk: 77
+        currentAtk: 77
+        def: 63
+        currentDef: 63
+        speed: 147
+        currentSpeed: 147
+        adap: 12
+        currentAdap: 12
         ownedSkills:
         - id: 2
         - id: 2
@@ -300,11 +310,8 @@ MonoBehaviour:
         - id: 19
         - id: 24
         - id: 25
-        hp: 351
-        atk: 77
-        def: 63
-        speed: 147
-        adap: 12
+  environmentData:
+    id: 0
 --- !u!4 &169709044
 Transform:
   m_ObjectHideFlags: 0
@@ -381,22 +388,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32e53a17680245ee82fb316329ad825c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentData:
-    id: 0
-    ownedSkills: []
-    hp: 0
-    atk: 0
-    def: 0
-    speed: 0
-    adap: 0
-  prepareData:
-    id: 0
-    ownedSkills: []
-    hp: 0
-    atk: 0
-    def: 0
-    speed: 0
-    adap: 0
+  visual: {fileID: 1042461721}
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
@@ -534,13 +526,27 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2760903527968480628, guid: 40d9c7ef4dbec26419a96188ac0cce0f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 40d9c7ef4dbec26419a96188ac0cce0f, type: 3}
 --- !u!4 &920250701 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4991546566594950609, guid: 40d9c7ef4dbec26419a96188ac0cce0f, type: 3}
   m_PrefabInstance: {fileID: 920250700}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1042461721 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8750528417049797945, guid: 40d9c7ef4dbec26419a96188ac0cce0f, type: 3}
+  m_PrefabInstance: {fileID: 920250700}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 905c96a8c02a402e88a9784175069631, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1172980662
 GameObject:
   m_ObjectHideFlags: 0
@@ -600,6 +606,16 @@ MonoBehaviour:
     - id: 0
     datas:
     - id: 0
+      hp: 0
+      currentHp: 0
+      atk: 0
+      currentAtk: 0
+      def: 0
+      currentDef: 0
+      speed: 0
+      currentSpeed: 0
+      adap: 0
+      currentAdap: 0
       ownedSkills:
       - id: 0
       - id: 0
@@ -607,23 +623,23 @@ MonoBehaviour:
       - id: 0
       - id: 0
       - id: 0
-      hp: 0
-      atk: 0
-      def: 0
-      speed: 0
-      adap: 0
     - id: 0
+      hp: 0
+      currentHp: 0
+      atk: 0
+      currentAtk: 0
+      def: 0
+      currentDef: 0
+      speed: 0
+      currentSpeed: 0
+      adap: 0
+      currentAdap: 0
       ownedSkills:
       - id: 0
       - id: 0
       - id: 0
       - id: 0
       - id: 0
-      hp: 0
-      atk: 0
-      def: 0
-      speed: 0
-      adap: 0
 --- !u!1001 &2017411396
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -748,13 +764,27 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2760903527968480628, guid: 40d9c7ef4dbec26419a96188ac0cce0f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 40d9c7ef4dbec26419a96188ac0cce0f, type: 3}
 --- !u!4 &2845058849497429860 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4991546566594950609, guid: 40d9c7ef4dbec26419a96188ac0cce0f, type: 3}
   m_PrefabInstance: {fileID: 2845058849497429857}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2845058849497429861 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8750528417049797945, guid: 40d9c7ef4dbec26419a96188ac0cce0f, type: 3}
+  m_PrefabInstance: {fileID: 2845058849497429857}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 905c96a8c02a402e88a9784175069631, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &5693553877426807870
 PrefabInstance:
   m_ObjectHideFlags: 0

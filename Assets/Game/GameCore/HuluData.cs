@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using cfg;
 using Sirenix.OdinInspector;
+using UnityEngine;
 using UnityEngine.Serialization;
 using UnityToolkit;
 
@@ -34,7 +35,18 @@ namespace Game
             def = UnityEngine.Random.Range(config.BaseDef, config.MaxDef);
             speed = UnityEngine.Random.Range(config.BaseSpeed, config.MaxSpeed);
             adap = UnityEngine.Random.Range(config.BaseAdap, config.MaxAdap);
-            
+
+            RecoverAllAbility();
+        }
+
+        [HorizontalGroup("1"), Button]
+        public void RecoverAllAbility()
+        {
+            currentHp = hp;
+            currentAtk = atk;
+            currentDef = def;
+            currentSpeed = speed;
+            currentAdap = adap;
         }
 
 
@@ -43,36 +55,79 @@ namespace Game
         public HuluConfig config => Global.Table.HuluTable.Get(id);
         public PassiveSkillConfig passiveSkillConfig => Global.Table.PassiveSkillTable.Get(config.PassiveSkill);
 
-        public List<ActiveSkillData> ownedSkills;
 
         /// <summary>
         /// 生命
         /// </summary>
-        public int hp;
+        [HorizontalGroup("hp")] public int hp;
+
+
+        [HorizontalGroup("hp")] public int currentHp;
 
         /// <summary>
         /// 攻击
         /// </summary>
-        public int atk;
+        [HorizontalGroup("atk")] public int atk;
+
+
+        [HorizontalGroup("atk")] public int currentAtk;
 
         /// <summary>
         /// 防御
         /// </summary>
-        public int def;
+        [HorizontalGroup("def")] public int def;
+
+        [HorizontalGroup("def")] public int currentDef;
 
         /// <summary>
         /// 速度
         /// </summary>
-        public int speed;
+        [HorizontalGroup("speed")] public int speed;
+
+        [HorizontalGroup("speed")] public int currentSpeed;
 
         /// <summary>
         /// 适应力
         /// </summary>
-        public int adap;
+        [HorizontalGroup("adap")] public int adap;
+
+        [HorizontalGroup("adap")] public int currentAdap;
+        public List<ActiveSkillData> ownedSkills;
 
         public HuluData()
         {
             bind = new BindData<HuluData>(this);
+        }
+
+        public void ChangeHealth(int delta)
+        {
+            currentHp -= delta;
+            if (currentHp < 0)
+            {
+                currentHp = 0;
+            }
+
+            if (currentHp > hp)
+            {
+                currentHp = hp;
+            }
+
+            Debug.Log($"{this}当前生命值{currentHp}");
+            bind.Invoke();
+        }
+
+        public bool HealthIsZero()
+        {
+            return currentHp <= 0;
+        }
+        public override string ToString()
+        {
+            if (string.IsNullOrWhiteSpace(config.Name))
+            {
+                return id.ToString();
+            }
+
+            return config.Name;
         }
     }
 }

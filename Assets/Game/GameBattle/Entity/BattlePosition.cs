@@ -1,5 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Game.GamePlay
@@ -7,8 +9,11 @@ namespace Game.GamePlay
     public class BattlePosition : MonoBehaviour
     {
         public IBattleTrainer battleTrainer;
-        public HuluData currentData; // 当前上场的数据
-        public HuluData prepareData; // 准备上场的数据
+        public HuluData currentData { get; private set; } // 当前上场的数据
+        public HuluData prepareData { get; private set; } // 准备上场的数据
+
+        public Hulu visual;
+
 
         public async UniTask ExecuteEnter()
         {
@@ -17,6 +22,18 @@ namespace Game.GamePlay
             await UniTask.DelayFrame(1);
         }
 
+        public void Prepare(HuluData data)
+        {
+            prepareData = data;
+        }
+
+        public void Prepare2Current()
+        {
+            currentData = prepareData;
+            prepareData = null;
+            visual.UnBind();
+            visual.Bind(currentData);
+        }
 
         public async UniTask ExecuteSkill(ActiveSkillBattleOperation operation)
         {
@@ -28,7 +45,7 @@ namespace Game.GamePlay
 
         public bool CanFight()
         {
-            return currentData.hp > 0;
+            return !currentData.HealthIsZero();
         }
     }
 }

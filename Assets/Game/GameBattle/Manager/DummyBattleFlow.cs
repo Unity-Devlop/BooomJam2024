@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using cfg;
 using Cysharp.Threading.Tasks;
@@ -24,11 +25,13 @@ namespace Game.GamePlay
 
         private CancellationTokenSource _cts;
         private BattleEnvironmentData _environmentData;
-        
-        public void Init(PlayerBattleTrainer self, RebotBattleTrainer enemy,BattleEnvironmentData environmentData)
+
+        public void Init(PlayerBattleTrainer self, RebotBattleTrainer enemy, BattleEnvironmentData environmentData)
         {
-            this._self = self;
-            this._enemy = enemy;
+            _self = self;
+            _enemy = enemy;
+
+            _environmentData = environmentData;
             selfPos.battleTrainer = self;
             enemyPos.battleTrainer = enemy;
         }
@@ -52,8 +55,8 @@ namespace Game.GamePlay
             Assert.IsNull(_cts);
             _cts = new CancellationTokenSource();
 
-            selfPos.prepareData = selfPos.battleTrainer.Get(0);
-            enemyPos.prepareData = selfPos.battleTrainer.Get(0);
+            selfPos.Prepare(selfPos.battleTrainer.Get(0));
+            enemyPos.Prepare(selfPos.battleTrainer.Get(0));
 
             RoundFlow(this, _cts.Token).Forget();
             return UniTask.CompletedTask;
@@ -67,16 +70,14 @@ namespace Game.GamePlay
             if (selfPos.prepareData != null)
             {
                 Debug.Log("EnterBattleCheck Self");
-                selfPos.currentData = selfPos.prepareData;
-                selfPos.prepareData = null;
+                selfPos.Prepare2Current();
                 await selfPos.ExecuteEnter();
                 await _self.ChangeHulu(selfPos.currentData);
             }
 
             if (enemyPos.prepareData != null)
             {
-                enemyPos.currentData = enemyPos.prepareData;
-                enemyPos.prepareData = null;
+                enemyPos.Prepare2Current();
                 await enemyPos.ExecuteEnter();
                 await _enemy.ChangeHulu(enemyPos.currentData);
             }
@@ -102,7 +103,7 @@ namespace Game.GamePlay
         private async UniTask BothPokemonSkill(ActiveSkillBattleOperation selfAtk, ActiveSkillBattleOperation enemyAtk)
         {
             var (faster, _) = GameMath.WhoFirst(selfPos.currentData, enemyPos.currentData, selfAtk.data,
-                enemyAtk.data);
+                enemyAtk.data, _environmentData);
 
             // 根据顺序结算
             if (faster == selfPos.currentData)
@@ -129,11 +130,29 @@ namespace Game.GamePlay
             }
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private async UniTask ExecuteSkill(IBattleTrainer trainer, BattlePosition position,
             ActiveSkillBattleOperation operation)
         {
+            Assert.IsTrue(position.CanFight());
             await trainer.OnConsumeSkill(operation.data);
             await position.ExecuteSkill(operation);
+            // 计算伤害
+
+            HuluData atk = position.currentData;
+            HuluData def;
+            if (position == selfPos)
+            {
+                def = enemyPos.currentData;
+            }
+            else
+            {
+                def = selfPos.currentData;
+            }
+
+            Debug.Log($"执行技能 {operation.data} 伤害计算");
+            int damage = GameMath.CalDamage(atk, def, operation.data.id, _environmentData);
+            def.ChangeHealth(damage);
         }
 
         public async UniTask Rounding()
@@ -294,13 +313,13 @@ namespace Game.GamePlay
 
         public bool TryGetRoundWinner(out IBattleTrainer battleTrainer)
         {
-            if (_self.currentData.hp <= 0)
+            if (_self.currentData.HealthIsZero())
             {
                 battleTrainer = _enemy;
                 return true;
             }
 
-            if (_enemy.currentData.hp <= 0)
+            if (_enemy.currentData.HealthIsZero())
             {
                 battleTrainer = _self;
                 return true;

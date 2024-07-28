@@ -21,7 +21,7 @@ namespace Game
                 int cnt = 0;
                 foreach (var data in datas)
                 {
-                    if (data.hp > 0)
+                    if (data.HealthIsZero())
                     {
                         cnt++;
                     }

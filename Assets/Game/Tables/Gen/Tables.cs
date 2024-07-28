@@ -18,6 +18,7 @@ public partial class Tables
     public ElementFitTable ElementFitTable {get; }
     public ActiveSkillTable ActiveSkillTable {get; }
     public PassiveSkillTable PassiveSkillTable {get; }
+    public BattleEnvironmentTable BattleEnvironmentTable {get; }
 
     public Tables(System.Func<string, JSONNode> loader)
     {
@@ -25,6 +26,7 @@ public partial class Tables
         ElementFitTable = new ElementFitTable(loader("elementfittable"));
         ActiveSkillTable = new ActiveSkillTable(loader("activeskilltable"));
         PassiveSkillTable = new PassiveSkillTable(loader("passiveskilltable"));
+        BattleEnvironmentTable = new BattleEnvironmentTable(loader("battleenvironmenttable"));
         ResolveRef();
     }
     
@@ -34,6 +36,7 @@ public partial class Tables
         ElementFitTable.ResolveRef(this);
         ActiveSkillTable.ResolveRef(this);
         PassiveSkillTable.ResolveRef(this);
+        BattleEnvironmentTable.ResolveRef(this);
     }
 }
 
