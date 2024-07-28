@@ -307,8 +307,7 @@ namespace Game.GamePlay
                     break;
                 }
 
-                await
-                    flow.AfterRound();
+                await flow.AfterRound();
                 if (flow.TryGetFinalWinner(out winner))
                 {
                     break;
