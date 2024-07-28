@@ -421,8 +421,9 @@ GameObject:
   - component: {fileID: 6474622139793173319}
   - component: {fileID: 1217576013611098894}
   - component: {fileID: 2147954703120256406}
+  - component: {fileID: 4504405033315295121}
   m_Layer: 5
-  m_Name: HuluPanel
+  m_Name: LeftTeamHuluView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -532,7 +533,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
@@ -554,6 +555,19 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 55
+--- !u!114 &4504405033315295121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4173325516861242637}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a514718cf70422d80f310f1c8b59b62, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  huluIcons: []
 --- !u!1 &6489944656796694248
 GameObject:
   m_ObjectHideFlags: 0
@@ -863,6 +877,7 @@ MonoBehaviour:
   sortingOrder: 0
   selfCardContainer: {fileID: 665382401368143376}
   endRoundButton: {fileID: 2055847392948659394}
+  leftTeamHuluView: {fileID: 4504405033315295121}
 --- !u!1001 &2104982675038939175
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -955,16 +970,55 @@ PrefabInstance:
       propertyPath: m_Name
       value: HuluIcon (2)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 235301113692069373, guid: 761851cfab1fea643947bf9b956989ff, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8792314266590127908, guid: 761851cfab1fea643947bf9b956989ff, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4057424938059606024}
   m_SourcePrefab: {fileID: 100100000, guid: 761851cfab1fea643947bf9b956989ff, type: 3}
 --- !u!224 &6909252853659585562 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4815753495509984317, guid: 761851cfab1fea643947bf9b956989ff, type: 3}
   m_PrefabInstance: {fileID: 2104982675038939175}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &7436276049424944899 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8792314266590127908, guid: 761851cfab1fea643947bf9b956989ff, type: 3}
+  m_PrefabInstance: {fileID: 2104982675038939175}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4057424938059606024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7436276049424944899}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abe6c74ec46a414482a0a52d981f5f6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 47e97bbbc7f3b694f8b4c3757c2290d4, type: 3}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1001 &3895559862851499616
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1159,13 +1213,52 @@ PrefabInstance:
       propertyPath: m_Name
       value: HuluIcon (1)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 235301113692069373, guid: 761851cfab1fea643947bf9b956989ff, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8792314266590127908, guid: 761851cfab1fea643947bf9b956989ff, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7925518181678342292}
   m_SourcePrefab: {fileID: 100100000, guid: 761851cfab1fea643947bf9b956989ff, type: 3}
 --- !u!224 &704565504290738346 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4815753495509984317, guid: 761851cfab1fea643947bf9b956989ff, type: 3}
   m_PrefabInstance: {fileID: 5409914820777063575}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &3537423439042024371 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8792314266590127908, guid: 761851cfab1fea643947bf9b956989ff, type: 3}
+  m_PrefabInstance: {fileID: 5409914820777063575}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7925518181678342292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3537423439042024371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abe6c74ec46a414482a0a52d981f5f6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 47e97bbbc7f3b694f8b4c3757c2290d4, type: 3}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
