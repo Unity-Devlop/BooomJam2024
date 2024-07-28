@@ -125,8 +125,8 @@ namespace Game.GamePlay
                 {
                     Assert.IsNotNull(selfAtk.data);
                     Assert.IsNotNull(enemyAtk.data);
-                    if (selfAtk.data.config.Type == ActiveSkillTypeEnum.技能 &&
-                        enemyAtk.data.config.Type == ActiveSkillTypeEnum.技能)
+                    if (selfAtk.data.config.Type != ActiveSkillTypeEnum.指挥 &&
+                        enemyAtk.data.config.Type != ActiveSkillTypeEnum.指挥)
                     {
                         await BothPokemonSkill(selfAtk, enemyAtk);
                         // 放了技能后 回合自动结束
@@ -136,7 +136,7 @@ namespace Game.GamePlay
                     }
 
                     if (selfAtk.data.config.Type == ActiveSkillTypeEnum.指挥 &&
-                        enemyAtk.data.config.Type == ActiveSkillTypeEnum.技能)
+                        enemyAtk.data.config.Type != ActiveSkillTypeEnum.指挥)
                     {
                         await ExecuteSkill(_self, selfPos, selfAtk);
                         await ExecuteSkill(_enemy, enemyPos, enemyAtk);
@@ -145,7 +145,7 @@ namespace Game.GamePlay
                     }
 
                     if (enemyAtk.data.config.Type == ActiveSkillTypeEnum.指挥 &&
-                        selfAtk.data.config.Type == ActiveSkillTypeEnum.技能)
+                        selfAtk.data.config.Type != ActiveSkillTypeEnum.指挥)
                     {
                         await ExecuteSkill(_enemy, enemyPos, enemyAtk);
                         await ExecuteSkill(_self, selfPos, selfAtk);
@@ -164,7 +164,7 @@ namespace Game.GamePlay
                 if (selfOper is EndRoundOperation && enemyOper is ActiveSkillBattleOperation enemyAtk1)
                 {
                     await ExecuteSkill(_enemy, enemyPos, enemyAtk1);
-                    if (enemyAtk1.data.config.Type == ActiveSkillTypeEnum.技能)
+                    if (enemyAtk1.data.config.Type != ActiveSkillTypeEnum.指挥)
                     {
                         enemyOper = new EndRoundOperation();
                     }
@@ -175,7 +175,7 @@ namespace Game.GamePlay
                 if (selfOper is ActiveSkillBattleOperation selfAtk1 && enemyOper is EndRoundOperation)
                 {
                     await ExecuteSkill(_self, selfPos, selfAtk1);
-                    if (selfAtk1.data.config.Type == ActiveSkillTypeEnum.技能)
+                    if (selfAtk1.data.config.Type != ActiveSkillTypeEnum.指挥)
                     {
                         selfOper = new EndRoundOperation();
                     }
@@ -402,12 +402,23 @@ namespace Game.GamePlay
             {
                 def = selfPos.currentData;
             }
+            if (operation.data.config.Type == ActiveSkillTypeEnum.伤害技能)
+            {
+                int damage = GameMath.CalDamage(atk, def, operation.data.id, _environmentData);
+                // TODO 特殊技能有待实现
+                await def.ChangeHealth(damage);
+                Debug.Log($"计算技能伤害,pos:{position},{atk}对{def}使用{operation.data.id} 造成{damage}伤害");
+                return;
+            }
 
-
-            int damage = GameMath.CalDamage(atk, def, operation.data.id, _environmentData);
-            Debug.Log($"计算技能伤害,pos:{position},{atk}对{def}使用{operation.data.id},damage:{damage}");
-            // TODO 特殊技能有待实现
-            await def.ChangeHealth(damage);
+            if (operation.data.config.Type == ActiveSkillTypeEnum.变化技能)
+            {
+                if (operation.data.id == ActiveSkillEnum.守护)
+                {
+                    return;
+                }
+                if(operation.data.id.
+            }
         }
     }
 }

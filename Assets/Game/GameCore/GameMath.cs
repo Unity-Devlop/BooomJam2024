@@ -64,8 +64,8 @@ namespace Game
         public static (HuluData, HuluData) WhoFirst(HuluData r, HuluData l, ActiveSkillData rs, ActiveSkillData ls,
             BattleEnvironmentData environmentData)
         {
-            Assert.IsTrue(rs.config.Type == ActiveSkillTypeEnum.技能);
-            Assert.IsTrue(ls.config.Type == ActiveSkillTypeEnum.技能);
+            Assert.IsTrue(rs.config.Type != ActiveSkillTypeEnum.指挥);
+            Assert.IsTrue(ls.config.Type != ActiveSkillTypeEnum.指挥);
             if (rs.config.Priority > ls.config.Priority)
             {
                 return (r, l);

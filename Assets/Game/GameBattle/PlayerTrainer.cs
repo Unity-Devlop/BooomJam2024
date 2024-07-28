@@ -171,25 +171,25 @@ namespace Game.GamePlay
 
         public async UniTask DrawSkills(int cnt)
         {
-            Debug.Log($"{this} 抽牌 {cnt}");
+            // Debug.Log($"{this} 抽牌 {cnt}");
             int cur = handZone.Count; // 手牌数量
-            Debug.Log($"当前手牌数量:{cur}");
+            // Debug.Log($"当前手牌数量:{cur}");
             int need = Consts.MaxHandCard - cur; // 还可以抽的数量
             need = Mathf.Clamp(need, 0, cnt); // 限制抽牌数量
             if (need == 0)
             {
-                Debug.Log("手牌已满");
+                // Debug.Log("手牌已满");
                 return;
             }
 
-            Debug.Log($"可以抽牌:{need}张");
+            // Debug.Log($"可以抽牌:{need}张");
             HashSet<ActiveSkillData> drawList = HashSetPool<ActiveSkillData>.Get();
             // 从抽牌区抽牌
             for (int i = 0; i < need; i++)
             {
                 if (drawZone.Count == 0)
                 {
-                    Debug.Log("抽牌区没牌了");
+                    // Debug.Log("抽牌区没牌了");
                     // 弃牌区加入抽牌区
                     await CleanDiscardZone();
                 }
