@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using cfg;
 using Game.GamePlay;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityToolkit;
 
 namespace Game
 {
@@ -41,6 +43,26 @@ namespace Game
         {
             TrainerPresetTable.Instance.Add(this);
         }
+
+        [Button]
+        private void RollTrainerSkill9()
+        {
+            if (trainerSkills == null)
+                trainerSkills = new List<ActiveSkillData>(9);
+            trainerSkills.Clear();
+            var targets = Global.Table.ActiveSkillTable.DataList.FindAll((c) => c.Type == ActiveSkillTypeEnum.指挥);
+
+            targets.Shuffle();
+
+            for (int i = 0; i < 9; i++)
+            {
+                trainerSkills.Add(new ActiveSkillData()
+                {
+                    id = targets[UnityEngine.Random.Range(0, targets.Count)].Id
+                });
+            }
+        }
+
 #endif
     }
 }

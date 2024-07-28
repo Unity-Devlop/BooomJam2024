@@ -1,6 +1,10 @@
 ﻿using System;
+using cfg;
 using DG.Tweening;
+using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 namespace Game
 {
@@ -29,6 +33,9 @@ namespace Game
         private Canvas _canvas;
         // private Canvas _shadowCanvas;
 
+        [SerializeField] private TextMeshProUGUI nameText;
+        [SerializeField] private Image icon;
+
         private void Awake()
         {
             _canvas = GetComponentInParent<Canvas>();
@@ -55,6 +62,19 @@ namespace Game
             card.PointerDownEvent += PointerDown;
             card.PointerUpEvent += PointerUp;
             card.SelectEvent += Select;
+
+            nameText.text = card.data.config.Id.ToString();
+            switch (card.data.config.Type)
+            {
+                case ActiveSkillTypeEnum.指挥:
+                    icon.color = Color.yellow;
+                    break;
+                case ActiveSkillTypeEnum.技能:
+                    icon.color = Color.cyan;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
 
         private void Select(Card card, bool state)
@@ -71,7 +91,7 @@ namespace Game
         private void BeginDrag(Card card)
         {
             // if (scaleAnimations)
-                // transform.DOScale(scaleOnSelect, scaleTransition).SetEase(scaleEase);
+            // transform.DOScale(scaleOnSelect, scaleTransition).SetEase(scaleEase);
 
             _canvas.overrideSorting = true;
         }
@@ -94,15 +114,15 @@ namespace Game
         private void PointerExit(Card card)
         {
             // if (!card.wasDragged)
-                // transform.DOScale(1, scaleTransition).SetEase(scaleEase);
+            // transform.DOScale(1, scaleTransition).SetEase(scaleEase);
         }
 
         private void PointerUp(Card card, bool longPress)
         {
             // if (scaleAnimations)
-                // transform.DOScale(longPress ? scaleOnHover : scaleOnSelect, scaleTransition).SetEase(scaleEase);
+            // transform.DOScale(longPress ? scaleOnHover : scaleOnSelect, scaleTransition).SetEase(scaleEase);
             _canvas.overrideSorting = false;
-            
+
             // visualShadow.localPosition = shadowDistance;
             // _shadowCanvas.overrideSorting = true;
         }
@@ -110,7 +130,7 @@ namespace Game
         private void PointerDown(Card card)
         {
             // if (scaleAnimations)
-                // transform.DOScale(scaleOnSelect, scaleTransition).SetEase(scaleEase);
+            // transform.DOScale(scaleOnSelect, scaleTransition).SetEase(scaleEase);
 
             // visualShadow.localPosition += (-Vector3.up * shadowOffset);
             // _shadowCanvas.overrideSorting = false;

@@ -65,7 +65,7 @@ namespace Game
             Card card = SpawnOne(name);
             cardList.Add(card);
             card.Init(this, data);
-            Debug.Log($"Push Card: HashCode: {data.GetHashCode()}, data: {data}");
+            // Debug.Log($"Push Card: HashCode: {data.GetHashCode()}, data: {data}");
             return card;
         }
 

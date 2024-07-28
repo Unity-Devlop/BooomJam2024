@@ -48,7 +48,7 @@ namespace Game
         public void Init(CardHorizontalContainer container, ActiveSkillData data)
         {
             this.data = data;
-            Debug.Log($"Init Card: HashCode: {this.data.GetHashCode()}, data: {data}");
+            // Debug.Log($"Init Card: HashCode: {this.data.GetHashCode()}, data: {data}");
             img = GetComponent<Image>();
             _canvas = GetComponentInParent<Canvas>();
             _container = container;

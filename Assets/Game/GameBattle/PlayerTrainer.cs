@@ -36,15 +36,19 @@ namespace Game.GamePlay
 
         private IBattleOperation _operation;
 
-        public async UniTask<IBattleOperation> CalOperation()
+        public void ClearOperation()
         {
             _operation = null;
-            Debug.Log("开始计算操作");
+        }
+        public async UniTask<IBattleOperation> CalOperation()
+        {
+            Assert.IsNull(_operation);
+            // Debug.Log("开始计算操作");
             await OnStartCalOperation(); // 通知UI开始计算操作
             await UniTask.WaitUntil(() => _operation != null); // 等待一个操作
-            Debug.Log($"获得了操作{_operation}");
+            // Debug.Log($"获得了操作{_operation}"); 
             await OnEndCalOperation(); // 通知UI停止计算操作
-            Debug.Log("停止计算操作");
+            // Debug.Log("停止计算操作");
             return _operation;
         }
 
@@ -61,7 +65,7 @@ namespace Game.GamePlay
         public async UniTask OnConsumeSkill(ActiveSkillData data)
         {
             Assert.IsNotNull(data);
-            Debug.Log($"消耗牌{data} HashCode: {data.GetHashCode()}");
+            // Debug.Log($"消耗牌{data} HashCode: {data.GetHashCode()}");
             if (handZone.Contains(data))
             {
                 handZone.Remove(data);
@@ -191,7 +195,7 @@ namespace Game.GamePlay
                 // 随机抽一张 加入手牌
                 var drawCard = drawZone.RandomTake();
                 drawList.Add(drawCard);
-                Debug.Log($"Draw Card HashCode: {drawCard.GetHashCode()}, data: {drawCard}");
+                // Debug.Log($"Draw Card HashCode: {drawCard.GetHashCode()}, data: {drawCard}");
             }
 
             Debug.Log($"抽到了{drawList.Count}张牌");

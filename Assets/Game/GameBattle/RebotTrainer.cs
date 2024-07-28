@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using cfg;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
@@ -40,12 +41,23 @@ namespace Game.GamePlay
 
         public void PushOperation(IBattleOperation operation)
         {
-            throw new NotImplementedException();
+        }
+
+        public void ClearOperation()
+        {
+            
         }
 
         public UniTask<IBattleOperation> CalOperation()
         {
-            IBattleOperation operation = new ActiveSkillBattleOperation();
+            ActiveSkillData data = new ActiveSkillData()
+            {
+                id = ActiveSkillEnum.冲浪
+            };
+            IBattleOperation operation = new ActiveSkillBattleOperation()
+            {
+                data = data
+            };
             return new UniTask<IBattleOperation>(operation);
         }
 

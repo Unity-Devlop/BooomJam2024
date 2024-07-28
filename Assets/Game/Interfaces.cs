@@ -29,7 +29,7 @@ namespace Game.GamePlay
         public event Func<UniTask> OnEndCalOperation;
         public void PushOperation(IBattleOperation operation);
 
-
+        public void ClearOperation();
         public UniTask<IBattleOperation> CalOperation();
 
         public UniTask ChangeHulu(HuluData data);

@@ -1,31 +1,25 @@
 ﻿using System.Collections.Generic;
 using Sirenix.Utilities;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityToolkit;
 
 namespace Game.GamePlay
 {
-    [GlobalConfig("Assets/Resource/Config/TrainerPresetTable.asset")]
-    [CreateAssetMenu(fileName = "TrainerPresetTable", menuName = "Game/TrainerPresetTable")]
+    [GlobalConfig("Assets/Resource/Config/TrainerPresetTable")]
+    // [CreateAssetMenu(fileName = "TrainerPresetTable", menuName = "Game/TrainerPresetTable")]
     public class TrainerPresetTable : GlobalConfig<TrainerPresetTable>
     {
-        private List<TrainerPreset> _presets;
+        public List<TrainerData> datas = new List<TrainerData>();
 
         public void Add(TrainerData data)
         {
-            TrainerPreset preset = ScriptableObject.CreateInstance<TrainerPreset>();
-            preset.data = data;
-            _presets.Add(preset);
+            datas.Add(data);
         }
 
         public TrainerData Get(int idx)
         {
-            return _presets[idx].data;
+            return datas[idx];
         }
-    }
-
-    public class TrainerPreset : ScriptableObject
-    {
-        public TrainerData data;
     }
 }

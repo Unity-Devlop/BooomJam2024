@@ -7,8 +7,8 @@ namespace Game.GamePlay
     public class BattlePosition : MonoBehaviour
     {
         public IBattleTrainer battleTrainer;
-        public HuluData currentData;// 当前上场的数据
-        public HuluData prepareData;// 准备上场的数据
+        public HuluData currentData; // 当前上场的数据
+        public HuluData prepareData; // 准备上场的数据
 
         public async UniTask ExecuteEnter()
         {
@@ -18,14 +18,17 @@ namespace Game.GamePlay
         }
 
 
-        public async UniTask ExecuteSkill()
+        public async UniTask ExecuteSkill(ActiveSkillBattleOperation operation)
         {
-            
         }
-        
+
         public async UniTask ClearRoundData()
         {
-            
+        }
+
+        public bool CanFight()
+        {
+            return currentData.hp > 0;
         }
     }
 }

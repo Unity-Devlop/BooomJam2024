@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 93002921}
   - component: {fileID: 93002922}
   m_Layer: 0
-  m_Name: RobotPos
+  m_Name: EnemyPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -217,35 +217,94 @@ MonoBehaviour:
   playerBattleTrainer:
     <trainerData>k__BackingField:
       trainerSkills:
-      - id: 0
-      - id: 0
-      - id: 0
-      - id: 0
-      - id: 0
-      - id: 0
+      - id: 37
+      - id: 34
+      - id: 43
+      - id: 42
+      - id: 45
+      - id: 41
+      - id: 35
+      - id: 39
+      - id: 43
       datas:
       - id: 0
         ownedSkills:
+        - id: 19
+        - id: 25
         - id: 0
         - id: 0
         - id: 0
-        - id: 0
-        - id: 0
-        - id: 0
-        - id: 0
-        - id: 0
-        - id: 0
-        - id: 0
-        hp: 0
-        atk: 0
-        def: 0
-        speed: 0
+        - id: 25
+        - id: 1
+        - id: 1
+        - id: 24
+        hp: 373
+        atk: 83
+        def: 40
+        speed: 123
+        adap: 5
+      - id: 1
+        ownedSkills:
+        - id: 22
+        - id: 22
+        - id: 4
+        - id: 6
+        - id: 24
+        - id: 6
+        - id: 24
+        - id: 22
+        - id: 6
+        hp: 293
+        atk: 116
+        def: 25
+        speed: 182
         adap: 0
+      - id: 5
+        ownedSkills:
+        - id: 0
+        - id: 0
+        - id: 23
+        - id: 25
+        - id: 25
+        - id: 13
+        - id: 13
+        - id: 23
+        - id: 0
+        hp: 513
+        atk: 50
+        def: 94
+        speed: 24
+        adap: 10
     deck: 
   rebotBattleTrainer:
     <trainerData>k__BackingField:
-      trainerSkills: []
-      datas: []
+      trainerSkills:
+      - id: 38
+      - id: 40
+      - id: 38
+      - id: 31
+      - id: 32
+      - id: 44
+      - id: 37
+      - id: 33
+      - id: 31
+      datas:
+      - id: 0
+        ownedSkills:
+        - id: 2
+        - id: 2
+        - id: 19
+        - id: 24
+        - id: 25
+        - id: 24
+        - id: 19
+        - id: 24
+        - id: 25
+        hp: 351
+        atk: 77
+        def: 63
+        speed: 147
+        adap: 12
 --- !u!4 &169709044
 Transform:
   m_ObjectHideFlags: 0
@@ -277,15 +336,97 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   self:
     <trainerData>k__BackingField:
-      trainerSkills: []
-      datas: []
+      trainerSkills:
+      - id: 37
+      - id: 34
+      - id: 43
+      - id: 42
+      - id: 45
+      - id: 41
+      - id: 35
+      - id: 39
+      - id: 43
+      datas:
+      - id: 0
+        ownedSkills:
+        - id: 19
+        - id: 25
+        - id: 0
+        - id: 0
+        - id: 0
+        - id: 25
+        - id: 1
+        - id: 1
+        - id: 24
+        hp: 373
+        atk: 83
+        def: 40
+        speed: 123
+        adap: 5
+      - id: 1
+        ownedSkills:
+        - id: 22
+        - id: 22
+        - id: 4
+        - id: 6
+        - id: 24
+        - id: 6
+        - id: 24
+        - id: 22
+        - id: 6
+        hp: 293
+        atk: 116
+        def: 25
+        speed: 182
+        adap: 0
+      - id: 5
+        ownedSkills:
+        - id: 0
+        - id: 0
+        - id: 23
+        - id: 25
+        - id: 25
+        - id: 13
+        - id: 13
+        - id: 23
+        - id: 0
+        hp: 513
+        atk: 50
+        def: 94
+        speed: 24
+        adap: 10
     deck: 
   enemy:
     <trainerData>k__BackingField:
-      trainerSkills: []
-      datas: []
+      trainerSkills:
+      - id: 38
+      - id: 40
+      - id: 38
+      - id: 31
+      - id: 32
+      - id: 44
+      - id: 37
+      - id: 33
+      - id: 31
+      datas:
+      - id: 0
+        ownedSkills:
+        - id: 2
+        - id: 2
+        - id: 19
+        - id: 24
+        - id: 25
+        - id: 24
+        - id: 19
+        - id: 24
+        - id: 25
+        hp: 351
+        atk: 77
+        def: 63
+        speed: 147
+        adap: 12
   selfPos: {fileID: 435740186}
-  enemyPos: {fileID: 0}
+  enemyPos: {fileID: 93002922}
 --- !u!1 &435740184
 GameObject:
   m_ObjectHideFlags: 0

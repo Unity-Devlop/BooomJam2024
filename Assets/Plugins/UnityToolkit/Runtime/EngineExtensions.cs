@@ -173,6 +173,17 @@ namespace UnityToolkit
             set.Remove(t);
             return t;
         }
+        
+        public static List<T> Shuffle<T>(this List<T> list)
+        {
+            for (int i = 0; i < list.Count; i++)
+            {
+                int index = Random.Range(0, list.Count);
+                (list[i], list[index]) = (list[index], list[i]);
+            }
+
+            return list;
+        }
 
         public static T RandomTake<T>(this List<T> list)
         {

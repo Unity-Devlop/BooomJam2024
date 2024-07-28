@@ -12,3 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3868d391b05b434d92ca5553f4fe1941, type: 3}
   m_Name: TrainerPresetTable
   m_EditorClassIdentifier: 
+  presets: []
+  datas: []
