@@ -214,7 +214,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d11ef75a98e467e845140ab5e935664, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerTrainer:
+  playerBattleTrainer:
     <trainerData>k__BackingField:
       trainerSkills:
       - id: 0
@@ -242,7 +242,7 @@ MonoBehaviour:
         speed: 0
         adap: 0
     deck: 
-  rebotTrainer:
+  rebotBattleTrainer:
     <trainerData>k__BackingField:
       trainerSkills: []
       datas: []

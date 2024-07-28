@@ -9,7 +9,7 @@ namespace Game.GameEntry
     {
         public AssetReference homeScene;
 
-        private async void Start()
+        private void Start()
         {
             Global.Get<GameFlow>().Run<GameHomeState>();
         }

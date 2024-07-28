@@ -2,8 +2,8 @@
 
 namespace Game.GamePlay
 {
-    public struct OnActiveCardConsume : IEvent
-    {
-        public ActiveSkillData data;
-    }
+    // public struct OnActiveCardConsume : IEvent
+    // {
+    //     public ActiveSkillData data;
+    // }
 }

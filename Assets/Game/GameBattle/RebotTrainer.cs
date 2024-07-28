@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Game.GamePlay
 {
     [Serializable]
-    public class RebotTrainer : ITrainer
+    public class RebotBattleTrainer : IBattleTrainer
     {
         public bool canFight => trainerData.canFight;
 
@@ -14,7 +14,10 @@ namespace Game.GamePlay
         public HuluData currentData { get; set; }
 
         public event Func<List<ActiveSkillData>, UniTask> OnDrawCard;
+        public event Func<ActiveSkillData, UniTask> OnUseCard;
         public event Func<List<ActiveSkillData>, UniTask> OnDiscardCard;
+        public event Func<UniTask> OnStartCalOperation;
+        public event Func<UniTask> OnEndCalOperation;
 
 
         public UniTask ChangeHulu(HuluData robotPosCurrentData)
@@ -29,9 +32,26 @@ namespace Game.GamePlay
             return UniTask.CompletedTask;
         }
 
-        public void OnConsume(OnActiveCardConsume onActiveCardConsume)
+        public UniTask OnUseSkill(ActiveSkillData data)
         {
-            Debug.LogWarning($"机器人消耗牌未实现");
+            Debug.LogWarning($"机器人使用技能未实现");
+            return UniTask.CompletedTask;
         }
+
+        public void PushOperation(IBattleOperation operation)
+        {
+            throw new NotImplementedException();
+        }
+
+        public UniTask<IBattleOperation> CalOperation()
+        {
+            IBattleOperation operation = new ActiveSkillBattleOperation();
+            return new UniTask<IBattleOperation>(operation);
+        }
+
+        // public void OnConsume(OnActiveCardConsume onActiveCardConsume)
+        // {
+        //     Debug.LogWarning($"机器人消耗牌未实现");
+        // }
     }
 }

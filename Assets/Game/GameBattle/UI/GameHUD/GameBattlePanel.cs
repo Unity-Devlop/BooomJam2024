@@ -10,14 +10,45 @@ namespace Game
     {
         public CardHorizontalContainer selfCardContainer;
 
-        public ITrainer data;
+        private IBattleTrainer _trainer;
 
-        public void Bind(ITrainer battleData)
+        public void Bind(IBattleTrainer battleTrainer)
         {
-            data = battleData;
-            data.OnDrawCard += DrawCard;
-            data.OnDiscardCard += DiscardCard;
+            _trainer = battleTrainer;
+            _trainer.OnDrawCard += DrawCard;
+            _trainer.OnDiscardCard += DiscardCard;
+            _trainer.OnStartCalOperation += StartCalOperation;
+            _trainer.OnEndCalOperation += EndCalOperation;
+            _trainer.OnUseCard += UseCard;
+
+            selfCardContainer.Bind(battleTrainer);
         }
+        public void UnBind()
+        {
+            _trainer.OnDrawCard -= DrawCard;
+            _trainer.OnDiscardCard -= DiscardCard;
+            _trainer.OnStartCalOperation -= StartCalOperation;
+            _trainer.OnEndCalOperation -= EndCalOperation;
+            _trainer.OnUseCard -= UseCard;
+            selfCardContainer.UnBind();
+        }
+
+
+        private async UniTask UseCard(ActiveSkillData arg)
+        {
+            await selfCardContainer.Use(arg);
+        }
+
+        private async UniTask EndCalOperation()
+        {
+            await selfCardContainer.EndCalOperation();
+        }
+
+        private async UniTask StartCalOperation()
+        {
+            await selfCardContainer.StartCalOperation();
+        }
+
 
         private UniTask DiscardCard(List<ActiveSkillData> arg)
         {
@@ -27,12 +58,6 @@ namespace Game
         private async UniTask DrawCard(List<ActiveSkillData> obj)
         {
             await selfCardContainer.Spawn(obj);
-        }
-
-        public void UnBind()
-        {
-            data.OnDrawCard -= DrawCard;
-            data.OnDiscardCard -= DiscardCard;
         }
     }
 }

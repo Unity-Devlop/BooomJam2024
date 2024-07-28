@@ -9,36 +9,37 @@ namespace Game.GamePlay
 {
     public class DummyBattleFlow : MonoBehaviour, IBattleFlow
     {
-        public PlayerTrainer self;
-        public RebotTrainer enemy;
+        public PlayerBattleTrainer self;
+        public RebotBattleTrainer enemy;
 
         public BattlePosition selfPos;
         public BattlePosition robotPos;
 
         private CancellationTokenSource _cts;
 
-        public void Init(PlayerTrainer self, RebotTrainer enemy)
+        public void Init(PlayerBattleTrainer self, RebotBattleTrainer enemy)
         {
             this.self = self;
             this.enemy = enemy;
-            selfPos.trainer = self;
-            robotPos.trainer = enemy;
-            Global.Event.Listen<OnActiveCardConsume>(OnConsumeCard);
+            selfPos.battleTrainer = self;
+            robotPos.battleTrainer = enemy;
+            // Global.Event.Listen<OnActiveCardConsume>(OnConsumeCard);
         }
 
-        private void OnConsumeCard(OnActiveCardConsume obj)
-        {
-            self.OnConsume(obj);
-            enemy.OnConsume(obj);
-        }
+        // private void OnConsumeCard(OnActiveCardConsume obj)
+        // {
+        //     self.OnConsume(obj);
+        //     enemy.OnConsume(obj);
+        // }
 
         public void Dispose()
         {
             _cts.Cancel();
             _cts = null;
-            Global.Event.UnListen<OnActiveCardConsume>(OnConsumeCard);
+            // Global.Event.UnListen<OnActiveCardConsume>(OnConsumeCard);
             UIRoot.Singleton.ClosePanel<GameBattlePanel>();
         }
+
         public UniTask Enter()
         {
             // Roll Initial Cards
@@ -50,8 +51,8 @@ namespace Game.GamePlay
             Assert.IsNull(_cts);
             _cts = new CancellationTokenSource();
 
-            selfPos.prepareData = selfPos.trainer.Get(0);
-            robotPos.prepareData = selfPos.trainer.Get(0);
+            selfPos.prepareData = selfPos.battleTrainer.Get(0);
+            robotPos.prepareData = selfPos.battleTrainer.Get(0);
 
             RoundFlow(this, _cts.Token).Forget();
             return UniTask.CompletedTask;
@@ -97,11 +98,23 @@ namespace Game.GamePlay
             return UniTask.CompletedTask;
         }
 
-        public UniTask Rounding()
+        public async UniTask Rounding()
         {
             // throw new System.NotImplementedException();
 
-            return UniTask.CompletedTask;
+            // 等待双方操作
+            IBattleOperation selfOper = await self.CalOperation();
+            IBattleOperation enemyOper = await enemy.CalOperation();
+
+            if (selfOper is ActiveSkillBattleOperation atk && enemyOper is ActiveSkillBattleOperation enemyAtk)
+            {
+                // 计算流程
+                Debug.LogWarning($"结算流程未实现");
+                await self.OnUseSkill(atk.data);
+                await enemy.OnUseSkill(enemyAtk.data);
+            }
+
+            Debug.Log($"Self Oper: {selfOper},Enemy Oper: {enemyOper}");
         }
 
         public UniTask AfterRound()
@@ -135,48 +148,46 @@ namespace Game.GamePlay
             _cts = null;
         }
 
-        public bool TryGetRoundWinner(out ITrainer trainer)
+        public bool TryGetRoundWinner(out IBattleTrainer battleTrainer)
         {
             if (self.currentData.hp <= 0)
             {
-                trainer = enemy;
+                battleTrainer = enemy;
                 return true;
             }
 
             if (enemy.currentData.hp <= 0)
             {
-                trainer = self;
+                battleTrainer = self;
                 return true;
             }
 
-            trainer = null;
+            battleTrainer = null;
             return false;
         }
 
-        public bool TryGetFinalWinner(out ITrainer trainer)
+        public bool TryGetFinalWinner(out IBattleTrainer battleTrainer)
         {
             if (self.canFight && !enemy.canFight)
             {
-                trainer = self;
+                battleTrainer = self;
                 return true;
             }
 
             if (!self.canFight && enemy.canFight)
             {
-                trainer = enemy;
+                battleTrainer = enemy;
                 return true;
             }
 
-            trainer = null;
+            battleTrainer = null;
             return false;
         }
 
 
-
-
         public static async UniTask RoundFlow(IBattleFlow flow, CancellationToken token)
         {
-            ITrainer winner;
+            IBattleTrainer winner;
             while (!token.IsCancellationRequested)
             {
                 await flow.RoundStart(); // 回合开始

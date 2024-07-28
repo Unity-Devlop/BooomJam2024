@@ -13,8 +13,8 @@ namespace Game.GamePlay
     {
         public DummyBattleFlow battleFlow { get; private set; }
 
-        public PlayerTrainer playerTrainer;
-        public RebotTrainer rebotTrainer;
+        [FormerlySerializedAs("playerTrainer")] public PlayerBattleTrainer playerBattleTrainer;
+        [FormerlySerializedAs("rebotTrainer")] public RebotBattleTrainer rebotBattleTrainer;
 
 
         protected override async void OnInit()
@@ -34,8 +34,8 @@ namespace Game.GamePlay
             // TrainerData data = new TrainerData();
             // robotController.trainerData = data;
 
-            battleFlow.Init(playerTrainer, rebotTrainer);
-            battleFlow.Enter();
+            battleFlow.Init(playerBattleTrainer, rebotBattleTrainer);
+            await battleFlow.Enter();
         }
 
         protected override void OnDispose()

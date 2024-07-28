@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading;
+using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Game.GamePlay;
@@ -49,8 +51,6 @@ namespace Game
 
         public async UniTask Spawn(List<ActiveSkillData> dataList, float interval = 0.1f)
         {
-            cardList.Clear();
-
             for (int i = 0; i < dataList.Count; i++)
             {
                 ActiveSkillData data = dataList[i];
@@ -65,21 +65,22 @@ namespace Game
             Card card = SpawnOne(name);
             cardList.Add(card);
             card.Init(this, data);
+            Debug.Log($"Push Card: HashCode: {data.GetHashCode()}, data: {data}");
             return card;
         }
 
-        public void Consume(Card card)
+        public async UniTask Use(ActiveSkillData data)
         {
+            var card = cardList.Find(card => card.data == data);
+
             Assert.IsNotNull(card.data);
-            Global.Event.Send<OnActiveCardConsume>(new OnActiveCardConsume()
-            {
-                data = card.data
-            });
-            cardSlotPool.Release(selectedCard.transform.parent.gameObject);
-            cardPool.Release(selectedCard.gameObject);
+
+            cardSlotPool.Release(card.transform.parent.gameObject);
+            cardPool.Release(card.gameObject);
             // Debug.Log($"消耗牌{card.data}");
             // 移除数据
-            cardList.Remove(selectedCard);
+            cardList.Remove(card);
+            await UniTask.CompletedTask;
         }
 
         private Card SpawnOne(string objName = "")
@@ -123,10 +124,14 @@ namespace Game
 
             Vector3 screenPoint = UIRoot.Singleton.UICamera.WorldToScreenPoint(selectedCard.transform.position);
             if (RectTransformUtility.RectangleContainsScreenPoint(outsideArea,
-                    new Vector2(screenPoint.x, screenPoint.y), UIRoot.Singleton.UICamera))
+                    new Vector2(screenPoint.x, screenPoint.y), UIRoot.Singleton.UICamera)
+                && _calCts is { IsCancellationRequested: false })
             {
                 // 释放对象
-                Consume(selectedCard);
+                _trainer.PushOperation(new ActiveSkillBattleOperation()
+                {
+                    data = selectedCard.data
+                });
             }
             else
             {
@@ -142,6 +147,7 @@ namespace Game
             selectedCard = null;
         }
 
+
         private void CardPointerExit(Card obj)
         {
             hoveringCard = null;
@@ -152,12 +158,32 @@ namespace Game
             hoveringCard = obj;
         }
 
-        private void Bind()
+        private IBattleTrainer _trainer;
+
+        public void Bind(IBattleTrainer trainer)
+        {
+            _trainer = trainer;
+        }
+
+        public void UnBind()
         {
         }
 
-        private void UnBind()
+        private CancellationTokenSource _calCts;
+
+        public UniTask StartCalOperation()
         {
+            Assert.IsNull(_calCts);
+            _calCts = new CancellationTokenSource();
+            return UniTask.CompletedTask;
+        }
+
+        public UniTask EndCalOperation()
+        {
+            Assert.IsNotNull(_calCts);
+            _calCts.Cancel();
+            _calCts = null;
+            return UniTask.CompletedTask;
         }
     }
 }

@@ -14,41 +14,57 @@ using UnityToolkit;
 namespace Game.GamePlay
 {
     [Serializable]
-    public class PlayerTrainer : ITrainer
+    public class PlayerBattleTrainer : IBattleTrainer
     {
         public bool canFight => trainerData.canFight;
         [field: SerializeField] public TrainerData trainerData { get; private set; }
         public HuluData currentData { get; private set; }
-
-
+        
         public event Func<List<ActiveSkillData>, UniTask> OnDrawCard = delegate { return UniTask.CompletedTask; };
+        public event Func<ActiveSkillData, UniTask> OnUseCard = delegate { return UniTask.CompletedTask; };
         public event Func<List<ActiveSkillData>, UniTask> OnDiscardCard = delegate { return UniTask.CompletedTask; };
+        public event Func<UniTask> OnStartCalOperation = delegate { return UniTask.CompletedTask; };
+        public event Func<UniTask> OnEndCalOperation = delegate { return UniTask.CompletedTask; };
         public event Func<List<ActiveSkillData>, UniTask> OnDiscrdToDraw = delegate { return UniTask.CompletedTask; };
 
-        public List<ActiveSkillEnum> deck;
+        public List<ActiveSkillEnum> deck = new();
 
         // Draw zone, hand zone, discard zone
-        [ShowInInspector, ReadOnly] public HashSet<ActiveSkillData> drawZone;
-        [ShowInInspector, ReadOnly] public HashSet<ActiveSkillData> handZone;
-        [ShowInInspector, ReadOnly] public HashSet<ActiveSkillData> discardZone;
+        [ShowInInspector, ReadOnly] public HashSet<ActiveSkillData> drawZone = new();
+        [ShowInInspector, ReadOnly] public HashSet<ActiveSkillData> handZone = new();
+        [ShowInInspector, ReadOnly] public HashSet<ActiveSkillData> discardZone = new();
 
-        public PlayerTrainer()
+        private IBattleOperation _operation;
+
+        public async UniTask<IBattleOperation> CalOperation()
         {
-            drawZone = new HashSet<ActiveSkillData>();
-            handZone = new HashSet<ActiveSkillData>();
-            discardZone = new HashSet<ActiveSkillData>();
-            deck = new List<ActiveSkillEnum>();
+            _operation = null;
+            Debug.Log("开始计算操作");
+            await OnStartCalOperation(); // 通知UI开始计算操作
+            await UniTask.WaitUntil(() => _operation != null); // 等待一个操作
+            Debug.Log($"获得了操作{_operation}");
+            await OnEndCalOperation(); // 通知UI停止计算操作
+            Debug.Log("停止计算操作");
+            return _operation;
         }
-        public async void OnConsume(OnActiveCardConsume obj)
+
+        public void PushOperation(IBattleOperation operation)
         {
-            Assert.IsNotNull(obj.data);
-            // Debug.Log($"消耗牌{obj.data} HashCode: {obj.data.GetHashCode()}");
-            if (handZone.Contains(obj.data))
+            Assert.IsNull(_operation);
+            _operation = operation;
+        }
+
+        public async UniTask OnUseSkill(ActiveSkillData data)
+        {
+            Assert.IsNotNull(data);
+            Debug.Log($"消耗牌{data} HashCode: {data.GetHashCode()}");
+            if (handZone.Contains(data))
             {
-                handZone.Remove(obj.data);
-                discardZone.Add(obj.data);
+                handZone.Remove(data);
+                discardZone.Add(data);
                 List<ActiveSkillData> list = ListPool<ActiveSkillData>.Get();
-                list.Add(obj.data);
+                list.Add(data);
+                await OnUseCard(data);
                 await OnDiscardCard(list);
                 ListPool<ActiveSkillData>.Release(list);
             }

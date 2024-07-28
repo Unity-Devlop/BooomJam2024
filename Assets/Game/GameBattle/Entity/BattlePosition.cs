@@ -6,7 +6,7 @@ namespace Game.GamePlay
 {
     public class BattlePosition : MonoBehaviour
     {
-        public ITrainer trainer;
+        public IBattleTrainer battleTrainer;
         public HuluData currentData;// 当前上场的数据
         public HuluData prepareData;// 准备上场的数据
 
