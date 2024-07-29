@@ -66,12 +66,14 @@ namespace Game
         {
             Assert.IsTrue(rs.config.Type != ActiveSkillTypeEnum.指挥);
             Assert.IsTrue(ls.config.Type != ActiveSkillTypeEnum.指挥);
-            if (rs.config.Priority > ls.config.Priority)
+            int rPriority = UglyMath.PostprocessPriority(r, rs);
+            int lPriority = UglyMath.PostprocessPriority(l, ls);
+            if (rPriority > lPriority)
             {
                 return (r, l);
             }
 
-            if (rs.config.Priority < ls.config.Priority)
+            if (rPriority < lPriority)
             {
                 return (l, r);
             }

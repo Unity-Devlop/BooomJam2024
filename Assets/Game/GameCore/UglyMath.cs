@@ -167,5 +167,16 @@ namespace Game
                 return;
             }
         }
+
+        public static int PostprocessPriority(HuluData p0, ActiveSkillData rs)
+        {
+            if (p0.id == HuluEnum.疾风之翼 && p0.passiveSkillConfig.Id == PassiveSkillEnum.顺风 &&
+                rs.config.Element == ElementEnum.风)
+            {
+                return rs.config.Priority + 1;
+            }
+
+            return rs.config.Priority;
+        }
     }
 }
