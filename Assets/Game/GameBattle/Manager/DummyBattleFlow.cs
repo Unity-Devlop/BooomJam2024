@@ -120,10 +120,10 @@ namespace Game.GamePlay
 
 
                 Debug.Log($"Self Oper: {selfOper},Enemy Oper: {enemyOper}");
-                
-                
+
+
                 // TODO 重写 
-                
+
 
                 if (selfOper is ActiveSkillBattleOperation selfAtk && enemyOper is ActiveSkillBattleOperation enemyAtk)
                 {
@@ -352,15 +352,6 @@ namespace Game.GamePlay
         }
 
 
-        private async UniTask ExecuteSwitch(IBattleTrainer trainer, BattlePosition position, int idx)
-        {
-            HuluData next = trainer.trainerData.datas[idx];
-            position.SetNext(next);
-            await position.Prepare2Current();
-            await position.ExecuteEnter();
-            await trainer.ChangeCurrentHulu(next);
-        }
-
         private async UniTask BothPokemonSkill(ActiveSkillBattleOperation selfAtk, ActiveSkillBattleOperation enemyAtk)
         {
             var (faster, _) = GameMath.WhoFirst(selfPos.currentData, enemyPos.currentData, selfAtk.data,
@@ -392,6 +383,16 @@ namespace Game.GamePlay
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private async UniTask ExecuteSwitch(IBattleTrainer trainer, BattlePosition position, int idx)
+        {
+            HuluData next = trainer.trainerData.datas[idx];
+            position.SetNext(next);
+            await position.Prepare2Current();
+            await position.ExecuteEnter();
+            Global.Event.Send<BattleTipEvent>(new BattleTipEvent($"{position}切换到{next}"));
+            await trainer.ChangeCurrentHulu(next);
+        }
+
         private async UniTask ExecuteSkill(IBattleTrainer trainer, BattlePosition position,
             ActiveSkillBattleOperation operation)
         {
@@ -399,6 +400,8 @@ namespace Game.GamePlay
             await trainer.OnConsumeSkill(operation.data);
             await position.ExecuteSkill(operation);
             // 计算伤害
+            Global.Event.Send<BattleTipEvent>(
+                new BattleTipEvent($"{position}使用[{operation.data.config.Type}]{operation}"));
 
             HuluData atk = position.currentData;
             HuluData def;

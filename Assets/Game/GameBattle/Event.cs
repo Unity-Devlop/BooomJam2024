@@ -2,8 +2,13 @@
 
 namespace Game.GamePlay
 {
-    // public struct OnActiveCardConsume : IEvent
-    // {
-    //     public ActiveSkillData data;
-    // }
+    public struct BattleTipEvent : IEvent
+    {
+        public readonly string tip;
+
+        public BattleTipEvent(string tip)
+        {
+            this.tip = tip;
+        }
+    }
 }

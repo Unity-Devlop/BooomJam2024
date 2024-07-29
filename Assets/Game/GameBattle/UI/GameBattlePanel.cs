@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using Game.GamePlay;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityToolkit;
@@ -16,10 +17,28 @@ namespace Game
         [SerializeField] private LeftTeamHuluView leftTeamHuluView;
 
         private IBattleTrainer _trainer;
+        public TextMeshProUGUI tipText;
 
         private void Awake()
         {
             endRoundButton.onClick.AddListener(OnEndRoundButtonClick);
+        }
+
+        public override void OnOpened()
+        {
+            base.OnOpened();
+            Global.Event.Listen<BattleTipEvent>(OnBattleTip);
+        }
+
+        private void OnBattleTip(BattleTipEvent obj)
+        {
+            tipText.text = obj.tip;
+        }
+
+        public override void OnClosed()
+        {
+            base.OnClosed();
+            Global.Event.UnListen<BattleTipEvent>(OnBattleTip);
         }
 
         private void OnEndRoundButtonClick()
@@ -71,12 +90,13 @@ namespace Game
             var switchOper = leftTeamHuluView.StartCalOperation();
             await UniTask.WhenAny(cardOper, switchOper);
         }
-        
+
 
         private async UniTask RemoveCard(List<ActiveSkillData> arg)
         {
             await selfCardContainer.Remove(arg);
         }
+
         private UniTask DiscardCard(List<ActiveSkillData> arg)
         {
             return UniTask.CompletedTask;

@@ -6,7 +6,7 @@
 
         public override string ToString()
         {
-            return $"{data.config.Type}-{data.config.Id}";
+            return $"{data.config.Id}";
         }
     }
 

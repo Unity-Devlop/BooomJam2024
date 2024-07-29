@@ -144,7 +144,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   childCnt: 8
-  cardList: []
+  handZoneCardList: []
+  cemeteryZoneCardList: []
   outsideArea: {fileID: 7632034146367919622}
   tweenCardReturn: 1
   <visualRoot>k__BackingField: {fileID: 6908772854341910083}
@@ -1013,6 +1014,7 @@ MonoBehaviour:
   selfCardContainer: {fileID: 665382401368143376}
   endRoundButton: {fileID: 2055847392948659394}
   leftTeamHuluView: {fileID: 4504405033315295121}
+  tipText: {fileID: 6985680485682658056}
 --- !u!1 &9017908010016347103
 GameObject:
   m_ObjectHideFlags: 0
