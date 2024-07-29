@@ -102,3 +102,4 @@ Audio/.cache/**
 
 ~*.xlsx
 Assets/FMODBuild/.DS_Store
+Audio/.DS_Store
