@@ -3,6 +3,11 @@
     public struct ActiveSkillBattleOperation : IBattleOperation
     {
         public ActiveSkillData data;
+
+        public override string ToString()
+        {
+            return $"{data.config.Type}-{data.config.Id}";
+        }
     }
 
     public struct ChangeHuluOperation : IBattleOperation

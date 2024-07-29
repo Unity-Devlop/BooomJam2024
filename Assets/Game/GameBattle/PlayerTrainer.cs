@@ -23,6 +23,7 @@ namespace Game.GamePlay
 
         public event Func<List<ActiveSkillData>, UniTask> OnDrawCard = delegate { return UniTask.CompletedTask; };
         public event Func<ActiveSkillData, UniTask> OnUseCard = delegate { return UniTask.CompletedTask; };
+        public event Func<List<ActiveSkillData>, UniTask> OnRemoveCard = delegate { return UniTask.CompletedTask; };
         public event Func<List<ActiveSkillData>, UniTask> OnDiscardCard = delegate { return UniTask.CompletedTask; };
         public event Func<UniTask> OnStartCalOperation = delegate { return UniTask.CompletedTask; };
         public event Func<UniTask> OnEndCalOperation = delegate { return UniTask.CompletedTask; };
@@ -34,6 +35,7 @@ namespace Game.GamePlay
         [ShowInInspector, ReadOnly] public HashSet<ActiveSkillData> drawZone = new();
         [ShowInInspector, ReadOnly] public HashSet<ActiveSkillData> handZone = new();
         [ShowInInspector, ReadOnly] public HashSet<ActiveSkillData> discardZone = new();
+        [ShowInInspector, ReadOnly] public HashSet<ActiveSkillData> cemeteryZone = new(); // 墓地区域
 
         private IBattleOperation _operation;
 
@@ -92,25 +94,39 @@ namespace Game.GamePlay
 
                 //TODO 删牌 删除手牌 弃牌区 抽牌区
 
+                foreach (var activeSkillData in currentBattleData.ownedSkills)
+                {
+                    // if (drawZone.Contains(activeSkillData))
+                    // needDelete.Add(activeSkillData);
+                    if (handZone.Contains(activeSkillData))
+                        needDelete.Add(activeSkillData);
+                    // if (discardZone.Contains(activeSkillData))
+                    // needDelete.Add(activeSkillData);
+                }
+
+
                 foreach (var deleteTar in needDelete)
                 {
                     if (drawZone.Contains(deleteTar))
                     {
                         drawZone.Remove(deleteTar);
+                        Debug.Log($"删除抽牌区中的{deleteTar}");
                     }
 
                     if (handZone.Contains(deleteTar))
                     {
                         handZone.Remove(deleteTar);
+                        Debug.Log($"删除手牌中的{deleteTar}");
                     }
 
                     if (discardZone.Contains(deleteTar))
                     {
                         discardZone.Remove(deleteTar);
+                        Debug.Log($"删除弃牌区中的{deleteTar}");
                     }
                 }
 
-                await OnDiscardCard(needDelete);
+                await OnRemoveCard(needDelete);
 
                 ListPool<ActiveSkillData>.Release(needDelete);
             }
@@ -130,18 +146,30 @@ namespace Game.GamePlay
             //此时手里是没抽新宝可梦的技能牌的
             foreach (var ownedSkill in currentBattleData.ownedSkills)
             {
+                if (cemeteryZone.Contains(ownedSkill))
+                {
+                    Debug.Log($"墓地区域有{ownedSkill} 不再加入抽牌区");
+                    continue;
+                }
+
                 drawZone.Add(ownedSkill);
             }
 
             foreach (var trainerSkill in trainerData.trainerSkills)
             {
+                if (cemeteryZone.Contains(trainerSkill))
+                {
+                    Debug.Log($"墓地区域有{trainerSkill} 不再加入抽牌区");
+                    continue;
+                }
+
                 drawZone.Add(trainerSkill);
             }
 
             Debug.Log($"重置抽牌区,当前抽牌区有:{drawZone.Count}张牌");
         }
 
-        private async UniTask CleanDiscardZone()
+        private async UniTask Discard2DrawZone()
         {
             Debug.Log("清空弃牌区 弃牌区加入抽牌区");
             drawZone.AddRange(discardZone);
@@ -191,7 +219,7 @@ namespace Game.GamePlay
                 {
                     // Debug.Log("抽牌区没牌了");
                     // 弃牌区加入抽牌区
-                    await CleanDiscardZone();
+                    await Discard2DrawZone();
                 }
 
                 // 随机抽一张 加入手牌

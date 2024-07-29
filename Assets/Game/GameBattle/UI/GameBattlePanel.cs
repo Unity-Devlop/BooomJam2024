@@ -32,6 +32,7 @@ namespace Game
             _trainer = battleTrainer;
             _trainer.OnDrawCard += DrawCard;
             _trainer.OnDiscardCard += DiscardCard;
+            _trainer.OnRemoveCard += RemoveCard;
             _trainer.OnStartCalOperation += StartCalOperation;
             _trainer.OnEndCalOperation += EndCalOperation;
             _trainer.OnUseCard += UseCard;
@@ -44,6 +45,7 @@ namespace Game
         {
             _trainer.OnDrawCard -= DrawCard;
             _trainer.OnDiscardCard -= DiscardCard;
+            _trainer.OnRemoveCard -= RemoveCard;
             _trainer.OnStartCalOperation -= StartCalOperation;
             _trainer.OnEndCalOperation -= EndCalOperation;
             _trainer.OnUseCard -= UseCard;
@@ -71,6 +73,10 @@ namespace Game
         }
         
 
+        private async UniTask RemoveCard(List<ActiveSkillData> arg)
+        {
+            await selfCardContainer.Remove(arg);
+        }
         private UniTask DiscardCard(List<ActiveSkillData> arg)
         {
             return UniTask.CompletedTask;

@@ -51,7 +51,7 @@ namespace Game
         }
 
 
-        public BindData<HuluData> bind { get; private set; }
+        public BindData<HuluData,UniTask> bind { get; private set; }
 
         public HuluConfig config => Global.Table.HuluTable.Get(id);
         public PassiveSkillConfig passiveSkillConfig => Global.Table.PassiveSkillTable.Get(config.PassiveSkill);
@@ -97,10 +97,10 @@ namespace Game
 
         public HuluData()
         {
-            bind = new BindData<HuluData>(this);
+            bind = new BindData<HuluData,UniTask>(this);
         }
 
-        public UniTask ChangeHealth(int delta)
+        public async UniTask ChangeHealth(int delta)
         {
             currentHp -= delta;
             if (currentHp < 0)
@@ -114,8 +114,7 @@ namespace Game
             }
 
             Debug.Log($"{this}当前生命值{currentHp}");
-            bind.Invoke();
-            return UniTask.CompletedTask;
+            await bind.Invoke();
         }
 
         public bool HealthIsZero()

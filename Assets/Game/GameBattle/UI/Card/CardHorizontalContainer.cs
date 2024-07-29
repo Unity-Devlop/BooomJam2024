@@ -10,6 +10,7 @@ using Game.GamePlay;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.Serialization;
 using UnityToolkit;
 
 namespace Game
@@ -18,7 +19,8 @@ namespace Game
     {
         public int childCnt = 8;
 
-        [SerializeField] private List<Card> cardList;
+        [SerializeField] private List<Card> handZoneCardList; // 手牌区域
+        [SerializeField] private List<Card> cemeteryZoneCardList; // 墓地区域
 
         //把卡牌拖到这个区域内 -> 出牌
         [SerializeField] private RectTransform outsideArea;
@@ -45,7 +47,7 @@ namespace Game
             cardSlotPool.Initialize();
             cardVisualPool.Initialize();
 
-            cardList = new List<Card>();
+            handZoneCardList = new List<Card>();
         }
 
 
@@ -63,7 +65,7 @@ namespace Game
         public Card PushCard(ActiveSkillData data, string name = "")
         {
             Card card = SpawnOne(name);
-            cardList.Add(card);
+            handZoneCardList.Add(card);
             card.Init(this, data);
             // Debug.Log($"Push Card: HashCode: {data.GetHashCode()}, data: {data}");
             return card;
@@ -71,7 +73,7 @@ namespace Game
 
         public async UniTask Use(ActiveSkillData data)
         {
-            var card = cardList.Find(card => card.data == data);
+            var card = handZoneCardList.Find(card => card.data == data);
 
             Assert.IsNotNull(card.data);
 
@@ -79,9 +81,24 @@ namespace Game
             cardPool.Release(card.gameObject);
             // Debug.Log($"消耗牌{card.data}");
             // 移除数据
-            cardList.Remove(card);
+            handZoneCardList.Remove(card);
             await UniTask.CompletedTask;
         }
+
+        public async UniTask Remove(List<ActiveSkillData> activeSkillDatas)
+        {
+            foreach (var skillData in activeSkillDatas)
+            {
+                // TODO 性能问题
+                var card = handZoneCardList.Find(card => card.data == skillData);
+                Assert.IsNotNull(card.data);
+                cardSlotPool.Release(card.transform.parent.gameObject);
+                cardPool.Release(card.gameObject);
+                handZoneCardList.Remove(card);
+                await UniTask.DelayFrame(1);
+            }
+        }
+
 
         private Card SpawnOne(string objName = "")
         {

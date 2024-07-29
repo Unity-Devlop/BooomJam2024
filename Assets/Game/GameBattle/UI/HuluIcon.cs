@@ -1,4 +1,5 @@
 ﻿using System;
+using Cysharp.Threading.Tasks;
 using TMPro;
 using Unity.Plastic.Antlr3.Runtime.Misc;
 using UnityEngine;
@@ -29,10 +30,12 @@ namespace Game
             OnData(data);
         }
 
-        private void OnData(HuluData obj)
+        private UniTask OnData(HuluData obj)
         {
             _nameText.text = obj.name;
+            return UniTask.CompletedTask;
         }
+        
 
         public void Unbind()
         {

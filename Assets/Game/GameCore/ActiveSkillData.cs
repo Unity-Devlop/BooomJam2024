@@ -9,5 +9,10 @@ namespace Game
     {
         public ActiveSkillEnum id;
         public ActiveSkillConfig config => Global.Table.ActiveSkillTable.Get(id);
+
+        public override string ToString()
+        {
+            return id.ToString();
+        }
     }
 }
