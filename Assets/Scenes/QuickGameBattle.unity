@@ -246,6 +246,7 @@ MonoBehaviour:
       - id: 43
       datas:
       - id: 0
+        buffList: 
         elementEnum: 1
         hp: 373
         currentHp: 373
@@ -258,16 +259,19 @@ MonoBehaviour:
         adap: 5
         currentAdap: 5
         ownedSkills:
-        - id: 19
         - id: 25
-        - id: 0
-        - id: 0
-        - id: 0
         - id: 25
-        - id: 1
-        - id: 1
-        - id: 24
+        - id: 25
+        - id: 25
+        - id: 25
+        - id: 25
+        - id: 25
+        - id: 25
+        - id: 25
+        - id: 25
+        - id: 25
       - id: 1
+        buffList: 
         elementEnum: 2
         hp: 293
         currentHp: 293
@@ -290,6 +294,7 @@ MonoBehaviour:
         - id: 22
         - id: 6
       - id: 5
+        buffList: 
         elementEnum: 6
         hp: 513
         currentHp: 513
@@ -326,6 +331,7 @@ MonoBehaviour:
       - id: 31
       datas:
       - id: 4
+        buffList: 
         elementEnum: 5
         hp: 261
         currentHp: 261
@@ -348,6 +354,7 @@ MonoBehaviour:
         - id: 24
         - id: 25
       - id: 0
+        buffList: 
         elementEnum: 1
         hp: 368
         currentHp: 368
@@ -361,6 +368,7 @@ MonoBehaviour:
         currentAdap: 1
         ownedSkills: []
       - id: 0
+        buffList: 
         elementEnum: 1
         hp: 328
         currentHp: 328
@@ -705,6 +713,7 @@ MonoBehaviour:
     - id: 0
     datas:
     - id: 0
+      buffList: 
       elementEnum: 0
       hp: 0
       currentHp: 0
@@ -724,6 +733,7 @@ MonoBehaviour:
       - id: 0
       - id: 0
     - id: 0
+      buffList: 
       elementEnum: 0
       hp: 0
       currentHp: 0

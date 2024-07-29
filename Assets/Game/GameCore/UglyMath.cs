@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using cfg;
 using Cysharp.Threading.Tasks;
+using Game.GamePlay;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -72,9 +73,17 @@ namespace Game
 
             return baseValue;
         }
-
-        public static bool PostprocessHit(HuluData atk, ActiveSkillEnum dataID, BattleEnvironmentData environmentData)
+        
+        public static bool PostprocessHit(HuluData atk,HuluData def, ActiveSkillEnum atkSkill, BattleEnvironmentData environmentData)
         {
+            if(def.buffList.Contains(BuffEnum.守护))
+            {
+                Global.Event.Send(new BattleTipEvent($"{def}守护中，无法被攻击"));
+                Debug.Log("守护");
+                def.buffList.Remove(BuffEnum.守护);
+                return false;
+            }
+            
             if (atk.id == HuluEnum.一口鲸 && atk.passiveSkillConfig.Id == PassiveSkillEnum.大口吃 && Random.value < 0.2f)
             {
                 Debug.Log("大口吃");

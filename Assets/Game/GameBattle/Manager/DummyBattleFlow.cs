@@ -403,7 +403,7 @@ namespace Game.GamePlay
             Global.Event.Send<BattleTipEvent>(
                 new BattleTipEvent($"{position}使用[{operation.data.config.Type}]{operation}"));
 
-            HuluData atk = position.currentData;
+            HuluData user = position.currentData;
             HuluData def;
             if (position == selfPos)
             {
@@ -414,25 +414,24 @@ namespace Game.GamePlay
                 def = selfPos.currentData;
             }
 
-            UglyMath.PostprocessHuluDataWhenUseSkill(atk, operation.data.config);
-            
+            UglyMath.PostprocessHuluDataWhenUseSkill(user, operation.data.config);
+
             if (operation.data.config.Type == ActiveSkillTypeEnum.伤害技能)
             {
-                await UglyMath.PostprocessHuluDataBeforeUseSkill(atk,operation.data.config);
-                bool hitted = GameMath.CalHit(atk, def, operation.data.id, _environmentData);
-                if (hitted && UglyMath.PostprocessHit(atk, operation.data.id, _environmentData))
+                await UglyMath.PostprocessHuluDataBeforeUseSkill(user, operation.data.config);
+                bool hitted = GameMath.CalHit(user, def, operation.data.id, _environmentData);
+                if (hitted && UglyMath.PostprocessHit(user, def, operation.data.id, _environmentData))
                 {
-                    int damage = GameMath.CalDamage(atk, def, operation.data.id, _environmentData);
+                    int damage = GameMath.CalDamage(user, def, operation.data.id, _environmentData);
                     Global.Event.Send<BattleTipEvent>(new BattleTipEvent($"{position}对{def}造成{damage}伤害"));
-                    Debug.Log($"计算技能伤害,pos:{position},{atk}对{def}使用{operation.data.id} 造成{damage}伤害");
+                    Debug.Log($"计算技能伤害,pos:{position},{user}对{def}使用{operation.data.id} 造成{damage}伤害");
                     await def.ChangeHealth(damage);
-                    await UglyMath.PostprocessHuluDataWhenAfterUseSkill(atk, operation.data.config, damage);
-                    
+                    await UglyMath.PostprocessHuluDataWhenAfterUseSkill(user, operation.data.config, damage);
                 }
                 else
                 {
                     Global.Event.Send<BattleTipEvent>(new BattleTipEvent($"{position}未命中"));
-                    Debug.Log($"计算技能伤害,pos:{position},{atk}对{def}使用{operation.data.id} 未命中");
+                    Debug.Log($"计算技能伤害,pos:{position},{user}对{def}使用{operation.data.id} 未命中");
                 }
 
                 return;
@@ -442,6 +441,8 @@ namespace Game.GamePlay
             {
                 if (operation.data.id == ActiveSkillEnum.守护)
                 {
+                    user.buffList.Add(BuffEnum.守护);
+                    Global.Event.Send<BattleTipEvent>(new BattleTipEvent($"{position}使用{operation.data.id}"));
                     return;
                 }
             }

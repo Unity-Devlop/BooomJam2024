@@ -53,18 +53,24 @@ namespace Game
 
         public BindData<HuluData, UniTask> bind { get; private set; }
 
+        
+
         public HuluConfig config => Global.Table.HuluTable.Get(id);
-        public PassiveSkillConfig passiveSkillConfig => Global.Table.PassiveSkillTable.Get(Global.Table.HuluTable.Get(id).PassiveSkill);
+
+        public PassiveSkillConfig passiveSkillConfig =>
+            Global.Table.PassiveSkillTable.Get(Global.Table.HuluTable.Get(id).PassiveSkill);
+
         public string name => config.Id.ToString(); // TODO 个性化
 
 
-        // Ugly 狂风不灭
-        [NonSerialized] public bool canReborn = true;
-        [NonSerialized] public int skillTimes = 0;
+        
+        [NonSerialized] public bool canReborn = true;// Ugly 狂风不灭
+        [NonSerialized] public int skillTimes = 0;// Ugly 自由者
+        public List<BuffEnum> buffList = new List<BuffEnum>(); // 守护
 
 
         public ElementEnum elementEnum;
-        
+
         /// <summary>
         /// 生命
         /// </summary>
