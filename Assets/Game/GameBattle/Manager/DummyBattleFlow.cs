@@ -142,8 +142,8 @@ namespace Game.GamePlay
                     if (selfAtk.data.config.Type == ActiveSkillTypeEnum.指挥 &&
                         enemyAtk.data.config.Type != ActiveSkillTypeEnum.指挥)
                     {
-                        await ExecuteSkill(_self, selfPos, selfAtk);
-                        await ExecuteSkill(_enemy, enemyPos, enemyAtk);
+                        await ExecuteSkill(_self, _enemy, selfPos, selfAtk);
+                        await ExecuteSkill(_enemy, _self, enemyPos, enemyAtk);
                         enemyOper = default(EndRoundOperation);
                         continue;
                     }
@@ -151,15 +151,15 @@ namespace Game.GamePlay
                     if (enemyAtk.data.config.Type == ActiveSkillTypeEnum.指挥 &&
                         selfAtk.data.config.Type != ActiveSkillTypeEnum.指挥)
                     {
-                        await ExecuteSkill(_enemy, enemyPos, enemyAtk);
-                        await ExecuteSkill(_self, selfPos, selfAtk);
+                        await ExecuteSkill(_enemy, _self, enemyPos, enemyAtk);
+                        await ExecuteSkill(_self, _enemy, selfPos, selfAtk);
                         selfOper = default(EndRoundOperation);
                         continue;
                     }
 
                     // 都是指挥技能
-                    await ExecuteSkill(_self, selfPos, selfAtk);
-                    await ExecuteSkill(_enemy, enemyPos, enemyAtk);
+                    await ExecuteSkill(_self, _enemy, selfPos, selfAtk);
+                    await ExecuteSkill(_enemy, _self, enemyPos, enemyAtk);
 
                     // TODO 如果打了 特殊的牌 则不能够再打牌
                     continue; // 这里双方技能都结算了 所以直接跳到下一回合
@@ -167,14 +167,14 @@ namespace Game.GamePlay
 
                 if (selfOper is EndRoundOperation && enemyOper is ActiveSkillBattleOperation enemyAtk1)
                 {
-                    await ExecuteSkill(_enemy, enemyPos, enemyAtk1);
+                    await ExecuteSkill(_enemy, _self, enemyPos, enemyAtk1);
                     ModifyOper(ref enemyOper);
                     continue;
                 }
 
                 if (selfOper is ActiveSkillBattleOperation selfAtk1 && enemyOper is EndRoundOperation)
                 {
-                    await ExecuteSkill(_self, selfPos, selfAtk1);
+                    await ExecuteSkill(_self, _enemy, selfPos, selfAtk1);
                     ModifyOper(ref selfOper);
                     continue;
                 }
@@ -194,7 +194,7 @@ namespace Game.GamePlay
                 {
                     await ExecuteSwitch(_self, selfPos, selfChange2.next);
                     selfOper = new EndRoundOperation();
-                    await ExecuteSkill(_enemy, enemyPos, enemyAtk2);
+                    await ExecuteSkill(_enemy, _self, enemyPos, enemyAtk2);
                     ModifyOper(ref enemyOper);
                     continue;
                 }
@@ -203,7 +203,7 @@ namespace Game.GamePlay
                 {
                     await ExecuteSwitch(_enemy, enemyPos, enemyChange2.next);
                     enemyOper = new EndRoundOperation();
-                    await ExecuteSkill(_self, selfPos, selfAtk3);
+                    await ExecuteSkill(_self, _self, selfPos, selfAtk3);
                     ModifyOper(ref selfOper);
                     continue;
                 }
@@ -360,25 +360,25 @@ namespace Game.GamePlay
             // 根据顺序结算
             if (faster == selfPos.currentData)
             {
-                await ExecuteSkill(_self, selfPos, selfAtk);
+                await ExecuteSkill(_self, _enemy, selfPos, selfAtk);
                 if (!enemyPos.CanFight())
                 {
                     return;
                 }
 
                 // 如果打死了对方 则不用再打了
-                await ExecuteSkill(_enemy, enemyPos, enemyAtk);
+                await ExecuteSkill(_enemy, _self, enemyPos, enemyAtk);
             }
             else
             {
-                await ExecuteSkill(_enemy, enemyPos, enemyAtk);
+                await ExecuteSkill(_enemy, _self, enemyPos, enemyAtk);
                 if (!selfPos.CanFight())
                 {
                     return;
                 }
 
                 // 如果打死了对方 则不用再打了
-                await ExecuteSkill(_self, selfPos, selfAtk);
+                await ExecuteSkill(_self, _enemy, selfPos, selfAtk);
             }
         }
 
@@ -393,19 +393,20 @@ namespace Game.GamePlay
             await trainer.ChangeCurrentHulu(next);
         }
 
-        private async UniTask ExecuteSkill(IBattleTrainer trainer, BattlePosition position,
+        private async UniTask ExecuteSkill(IBattleTrainer userTrainer, IBattleTrainer defTrainer,
+            BattlePosition userPosition,
             ActiveSkillBattleOperation operation)
         {
-            Assert.IsTrue(position.CanFight());
-            await trainer.OnConsumeSkill(operation.data);
-            await position.ExecuteSkill(operation);
+            Assert.IsTrue(userPosition.CanFight());
+            await userTrainer.OnConsumeSkill(operation.data);
+            await userPosition.ExecuteSkill(operation);
             // 计算伤害
             Global.Event.Send<BattleTipEvent>(
-                new BattleTipEvent($"{position}使用[{operation.data.config.Type}]{operation}"));
+                new BattleTipEvent($"{userPosition}使用[{operation.data.config.Type}]{operation}"));
 
-            HuluData user = position.currentData;
+            HuluData user = userPosition.currentData;
             HuluData def;
-            if (position == selfPos)
+            if (userPosition == selfPos)
             {
                 def = enemyPos.currentData;
             }
@@ -420,18 +421,19 @@ namespace Game.GamePlay
             {
                 await UglyMath.PostprocessHuluDataBeforeUseSkill(user, operation.data.config);
                 bool hitted = GameMath.CalHit(user, def, operation.data.id, _environmentData);
-                if (hitted && UglyMath.PostprocessHit(user, def, operation.data.id, _environmentData))
+                if (hitted && UglyMath.PostprocessHitRate(user, def, operation.data.id, _environmentData))
                 {
                     int damage = GameMath.CalDamage(user, def, operation.data.id, _environmentData);
-                    Global.Event.Send<BattleTipEvent>(new BattleTipEvent($"{position}对{def}造成{damage}伤害"));
-                    Debug.Log($"计算技能伤害,pos:{position},{user}对{def}使用{operation.data.id} 造成{damage}伤害");
+                    Global.Event.Send<BattleTipEvent>(new BattleTipEvent($"{userPosition}对{def}造成{damage}伤害"));
+                    Debug.Log($"计算技能伤害,pos:{userPosition},{user}对{def}使用{operation.data.id} 造成{damage}伤害");
                     await def.ChangeHealth(damage);
-                    await UglyMath.PostprocessHuluDataWhenAfterUseSkill(user, operation.data.config, damage);
+                    await UglyMath.PostprocessHuluDataWhenAfterUseSkill(user, defTrainer, operation.data.config,
+                        damage);
                 }
                 else
                 {
-                    Global.Event.Send<BattleTipEvent>(new BattleTipEvent($"{position}未命中"));
-                    Debug.Log($"计算技能伤害,pos:{position},{user}对{def}使用{operation.data.id} 未命中");
+                    Global.Event.Send<BattleTipEvent>(new BattleTipEvent($"{userPosition}未命中"));
+                    Debug.Log($"计算技能伤害,pos:{userPosition},{user}对{def}使用{operation.data.id} 未命中");
                 }
 
                 return;
@@ -442,7 +444,7 @@ namespace Game.GamePlay
                 if (operation.data.id == ActiveSkillEnum.守护)
                 {
                     user.buffList.Add(BuffEnum.守护);
-                    Global.Event.Send<BattleTipEvent>(new BattleTipEvent($"{position}使用{operation.data.id}"));
+                    Global.Event.Send<BattleTipEvent>(new BattleTipEvent($"{userPosition}使用{operation.data.id}"));
                     return;
                 }
             }

@@ -34,10 +34,12 @@ namespace Game.GamePlay
             nameText.text = obj.name;
             int origin = hpText.text == "" ? 0 : int.Parse(hpText.text.Split('/')[0]);
             int delta = obj.currentHp - origin;
-            for (int i = 0; i < 10; i++)
+            // 10滴血一帧
+            int cnt = Mathf.Abs(delta) / 10;
+            for (int i = 0; i < cnt; i++)
             {
                 hpText.text = $"{origin + delta * i / 10}/{obj.hp}";
-                await UniTask.Delay(100);
+                await UniTask.DelayFrame(1);
             }
 
             hpText.text = $"{obj.currentHp}/{obj.hp}";

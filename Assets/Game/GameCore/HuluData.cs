@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using cfg;
 using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
@@ -53,7 +54,6 @@ namespace Game
 
         public BindData<HuluData, UniTask> bind { get; private set; }
 
-        
 
         public HuluConfig config => Global.Table.HuluTable.Get(id);
 
@@ -63,9 +63,8 @@ namespace Game
         public string name => config.Id.ToString(); // TODO 个性化
 
 
-        
-        [NonSerialized] public bool canReborn = true;// Ugly 狂风不灭
-        [NonSerialized] public int skillTimes = 0;// Ugly 自由者
+        [NonSerialized] public bool canReborn = true; // Ugly 狂风不灭
+        [NonSerialized] public int skillTimes = 0; // Ugly 自由者
         public List<BuffEnum> buffList = new List<BuffEnum>(); // 守护
 
 
@@ -146,6 +145,14 @@ namespace Game
             }
 
             return config.Name;
+        }
+
+        public async UniTask ChangeAtk(int delta)
+        {
+            int nextAtk = Mathf.Clamp(currentAtk + delta, 0, atk);
+            currentAtk = nextAtk;
+            Debug.Log($"{this}当前攻击力{currentAtk}");
+            await bind.Invoke();
         }
     }
 }

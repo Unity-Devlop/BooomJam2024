@@ -26,14 +26,30 @@ namespace Game
             }
         }
 
-        public static async UniTask PostprocessHuluDataWhenAfterUseSkill(HuluData atk, ActiveSkillConfig dataConfig,
+        public static async UniTask PostprocessHuluDataWhenAfterUseSkill(HuluData atk, IBattleTrainer defTrainer,
+            ActiveSkillConfig skill,
             float damagePoint)
         {
             if (atk.id == HuluEnum.毒宝宝 && atk.passiveSkillConfig.Id == PassiveSkillEnum.毒素治疗 &&
-                dataConfig.Element == ElementEnum.毒)
+                skill.Element == ElementEnum.毒)
             {
                 int heal = (int)(damagePoint * 0.3f);
                 await atk.ChangeHealth(heal);
+                return;
+            }
+
+            if (skill.Id == ActiveSkillEnum.吞吐 && Random.value <= 0.4)
+            {
+                Debug.Log("吞吐");
+                await defTrainer.RandomDiscard(4);
+                return;
+            }
+
+            if (skill.Id == ActiveSkillEnum.火焰冲)
+            {
+                Debug.Log("火焰冲 +10");
+                Global.Event.Send(new BattleTipEvent("火焰冲 +10"));
+                await atk.ChangeAtk(10);
                 return;
             }
         }
@@ -73,17 +89,18 @@ namespace Game
 
             return baseValue;
         }
-        
-        public static bool PostprocessHit(HuluData atk,HuluData def, ActiveSkillEnum atkSkill, BattleEnvironmentData environmentData)
+
+        public static bool PostprocessHitRate(HuluData atk, HuluData def, ActiveSkillEnum atkSkill,
+            BattleEnvironmentData environmentData)
         {
-            if(def.buffList.Contains(BuffEnum.守护))
+            if (def.buffList.Contains(BuffEnum.守护))
             {
                 Global.Event.Send(new BattleTipEvent($"{def}守护中，无法被攻击"));
                 Debug.Log("守护");
                 def.buffList.Remove(BuffEnum.守护);
                 return false;
             }
-            
+
             if (atk.id == HuluEnum.一口鲸 && atk.passiveSkillConfig.Id == PassiveSkillEnum.大口吃 && Random.value < 0.2f)
             {
                 Debug.Log("大口吃");

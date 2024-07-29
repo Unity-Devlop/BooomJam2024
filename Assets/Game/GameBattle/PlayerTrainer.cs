@@ -72,17 +72,33 @@ namespace Game.GamePlay
             // Debug.Log($"消耗牌{data} HashCode: {data.GetHashCode()}");
             if (handZone.Contains(data))
             {
-                handZone.Remove(data);
-                discardZone.Add(data);
-                List<ActiveSkillData> list = ListPool<ActiveSkillData>.Get();
-                list.Add(data);
                 await OnUseCard(data);
-                await OnDiscardCard(list);
-                ListPool<ActiveSkillData>.Release(list);
+                await Discard(data);
             }
             else
             {
                 Debug.LogError("消耗的牌不在手牌中");
+            }
+        }
+
+        public async UniTask Discard(ActiveSkillData data)
+        {
+            handZone.Remove(data);
+            // TODO 消耗牌
+            discardZone.Add(data);
+            List<ActiveSkillData> list = ListPool<ActiveSkillData>.Get();
+            list.Add(data);
+            await OnDiscardCard(list);
+            ListPool<ActiveSkillData>.Release(list);
+        }
+
+        public async UniTask RandomDiscard(int i)
+        {
+            int cnt = Mathf.Clamp(handZone.Count, 0, i);
+            for (int j = 0; j < cnt; j++)
+            {
+                var discard = handZone.RandomTake();
+                await Discard(discard);
             }
         }
 

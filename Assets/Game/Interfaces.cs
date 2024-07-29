@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 
 namespace Game.GamePlay
@@ -37,6 +38,7 @@ namespace Game.GamePlay
 
 
         public UniTask OnConsumeSkill(ActiveSkillData data);
+        UniTask RandomDiscard(int i);
     }
 
     public interface IBattleFlow

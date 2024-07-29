@@ -40,6 +40,12 @@ namespace Game.GamePlay
             return UniTask.CompletedTask;
         }
 
+        public UniTask RandomDiscard(int i)
+        {
+            Debug.LogWarning($"机器人随机弃牌未实现");
+            return UniTask.CompletedTask;
+        }
+
         public void PushOperation(IBattleOperation operation)
         {
         }
