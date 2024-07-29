@@ -30,6 +30,10 @@ namespace Game.Editor
             // 编辑一个预设的TrainerData
             TrainerData trainerData = new TrainerData();
             _tree.Add("Trainer Data", trainerData);
+            
+            
+            FMODEditor fmodEditor = new FMODEditor();
+            _tree.Add("FMOD Editor", fmodEditor);
 
             return _tree;
         }
