@@ -5,10 +5,10 @@ namespace Game
     {
         public static class Event
         {
+        	public const string first_step = "event:/first_step";
         	public const string ui_进入卡牌 = "event:/ui_进入卡牌";
         	public const string ui_选择牌 = "event:/ui_选择牌";
         	public const string ui_出牌 = "event:/ui_出牌";
-        	public const string first_step = "event:/first_step";
         }
         public static class Snapshot
         {
