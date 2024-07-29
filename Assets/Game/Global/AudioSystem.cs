@@ -47,16 +47,49 @@ namespace Game
             }
         }
 
+        
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Create(string path, out EventInstance instance)
+        public void Create(string path, out EventInstance instance, bool singleton = false)
         {
-            if (_cache.TryGetValue(path, out instance))
+            if (singleton) // 单例
             {
+                if (_cache.TryGetValue(path, out instance))
+                {
+                    return;
+                }
+
+                instance = RuntimeManager.CreateInstance(path);
+                _cache.Add(path, instance);
                 return;
             }
-
+            // 不缓存
             instance = RuntimeManager.CreateInstance(path);
-            _cache.Add(path, instance);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public EventInstance Get(string path)
+        {
+            return _cache[path];
+        }
+
+        public void Stop(string path)
+        {
+            
+        }
+        
+        public void Stop(ref EventInstance instance)
+        {
+            
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void Destroy(string path)
+        {
+            if (_cache.TryGetValue(path, out var instance))
+            {
+                instance.release();
+                _cache.Remove(path);
+            }
         }
     }
 }
