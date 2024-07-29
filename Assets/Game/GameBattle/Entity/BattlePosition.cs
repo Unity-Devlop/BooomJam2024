@@ -68,7 +68,7 @@ namespace Game.GamePlay
 
         public override string ToString()
         {
-            return gameObject.name;
+            return $"{gameObject.name}-{currentData}";
         }
     }
 }

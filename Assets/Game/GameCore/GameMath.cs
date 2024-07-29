@@ -22,7 +22,7 @@ namespace Game
             return fit.GetValueOrDefault(def, 1);
         }
 
-        public static string CalEleFitText(ElementEnum atk, ElementEnum def)
+        public static string CalElementFitText(ElementEnum atk, ElementEnum def)
         {
             var fit = Global.Table.ElementFitTable.Get(atk).Fit;
             float value = fit.GetValueOrDefault(def, 1);
@@ -76,8 +76,8 @@ namespace Game
                 return (l, r);
             }
 
-            int rRuntimeSpeed = (int)CalRunTimeSpeed(r, environmentData);
-            int lRuntimeSpeed = (int)CalRunTimeSpeed(l, environmentData);
+            int rRuntimeSpeed = (int)UglyMath.PostprocessRunTimeSpeed(r, environmentData);
+            int lRuntimeSpeed = (int)UglyMath.PostprocessRunTimeSpeed(l, environmentData);
 
             if (rRuntimeSpeed > lRuntimeSpeed)
             {
@@ -96,33 +96,6 @@ namespace Game
 
             return (r, l);
         }
-
-        private static float CalRunTimeSpeed(HuluData p0, BattleEnvironmentData environmentData)
-        {
-            switch (environmentData.id)
-            {
-                case BattleEnvironmentEnum.草地:
-                    break;
-                case BattleEnvironmentEnum.沙漠:
-                    break;
-                case BattleEnvironmentEnum.海洋:
-                    if (p0.config.Elements == ElementEnum.水)
-                    {
-                        return p0.currentSpeed * 1.05f;
-                    }
-
-                    break;
-                case BattleEnvironmentEnum.火山:
-                    break;
-                case BattleEnvironmentEnum.雪地:
-                    return p0.currentSpeed * 0.9f;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-
-            return p0.currentSpeed;
-        }
-
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float CalSelfElementFit(HuluConfig huluConfig, ActiveSkillConfig skillConfig)
@@ -147,14 +120,20 @@ namespace Game
         {
             ActiveSkillConfig config = Global.Table.ActiveSkillTable.Get(skill);
             Assert.IsTrue(config.Type == ActiveSkillTypeEnum.伤害技能);
-            float baseValue = (atk.currentAtk + config.DamagePoint - def.currentDef) *
-                              CalSelfElementFit(atk.config, config) *
-                              CalDamageElementFit(atk.config.Elements, def.config.Elements);
+            float baseValue = (atk.currentAtk + config.DamagePoint - def.currentDef)
+                              *
+                              CalSelfElementFit(atk.config, config) // 本系威力加成
+                              *
+                              CalDamageElementFit(atk.config.Elements, def.config.Elements // 属性克制
+                              );
+            baseValue = UglyMath.PostprocessBattleBaseValue(baseValue, atk, def, config);
+
 
             float finalValue = baseValue * (1 - Mathf.Clamp(def.currentAdap, 0, 100) / 100f);
 
             return (int)finalValue;
         }
+
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool CalHit(HuluData atk, HuluData def, ActiveSkillEnum dataID,

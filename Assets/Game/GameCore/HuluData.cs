@@ -36,7 +36,6 @@ namespace Game
             def = UnityEngine.Random.Range(config.BaseDef, config.MaxDef);
             speed = UnityEngine.Random.Range(config.BaseSpeed, config.MaxSpeed);
             adap = UnityEngine.Random.Range(config.BaseAdap, config.MaxAdap);
-
             RecoverAllAbility();
         }
 
@@ -48,15 +47,24 @@ namespace Game
             currentDef = def;
             currentSpeed = speed;
             currentAdap = adap;
+            elementEnum = config.Elements;
         }
 
 
-        public BindData<HuluData,UniTask> bind { get; private set; }
+        public BindData<HuluData, UniTask> bind { get; private set; }
 
         public HuluConfig config => Global.Table.HuluTable.Get(id);
-        public PassiveSkillConfig passiveSkillConfig => Global.Table.PassiveSkillTable.Get(config.PassiveSkill);
-        public string name => config.Id.ToString();// TODO 个性化
+        public PassiveSkillConfig passiveSkillConfig => Global.Table.PassiveSkillTable.Get(Global.Table.HuluTable.Get(id).PassiveSkill);
+        public string name => config.Id.ToString(); // TODO 个性化
 
+
+        // Ugly 狂风不灭
+        [NonSerialized] public bool canReborn = true;
+        [NonSerialized] public int skillTimes = 0;
+
+
+        public ElementEnum elementEnum;
+        
         /// <summary>
         /// 生命
         /// </summary>
@@ -97,7 +105,7 @@ namespace Game
 
         public HuluData()
         {
-            bind = new BindData<HuluData,UniTask>(this);
+            bind = new BindData<HuluData, UniTask>(this);
         }
 
         public async UniTask ChangeHealth(int delta)
@@ -114,13 +122,16 @@ namespace Game
             }
 
             Debug.Log($"{this}当前生命值{currentHp}");
+            UglyMath.PostprocessHuluData(this);
             await bind.Invoke();
+            await UglyMath.PostprocessHuluDataWhenDead(this);
         }
 
         public bool HealthIsZero()
         {
             return currentHp <= 0;
         }
+
         public override string ToString()
         {
             if (string.IsNullOrWhiteSpace(config.Name))

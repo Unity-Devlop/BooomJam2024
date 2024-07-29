@@ -246,6 +246,7 @@ MonoBehaviour:
       - id: 43
       datas:
       - id: 0
+        elementEnum: 1
         hp: 373
         currentHp: 373
         atk: 83
@@ -267,6 +268,7 @@ MonoBehaviour:
         - id: 1
         - id: 24
       - id: 1
+        elementEnum: 2
         hp: 293
         currentHp: 293
         atk: 116
@@ -288,6 +290,7 @@ MonoBehaviour:
         - id: 22
         - id: 6
       - id: 5
+        elementEnum: 6
         hp: 513
         currentHp: 513
         atk: 50
@@ -323,6 +326,7 @@ MonoBehaviour:
       - id: 31
       datas:
       - id: 4
+        elementEnum: 5
         hp: 261
         currentHp: 261
         atk: 52
@@ -344,6 +348,7 @@ MonoBehaviour:
         - id: 24
         - id: 25
       - id: 0
+        elementEnum: 1
         hp: 368
         currentHp: 368
         atk: 65
@@ -356,6 +361,7 @@ MonoBehaviour:
         currentAdap: 1
         ownedSkills: []
       - id: 0
+        elementEnum: 1
         hp: 328
         currentHp: 328
         atk: 73
@@ -699,6 +705,7 @@ MonoBehaviour:
     - id: 0
     datas:
     - id: 0
+      elementEnum: 0
       hp: 0
       currentHp: 0
       atk: 0
@@ -717,6 +724,7 @@ MonoBehaviour:
       - id: 0
       - id: 0
     - id: 0
+      elementEnum: 0
       hp: 0
       currentHp: 0
       atk: 0

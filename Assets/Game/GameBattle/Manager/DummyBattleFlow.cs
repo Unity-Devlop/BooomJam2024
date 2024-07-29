@@ -414,18 +414,24 @@ namespace Game.GamePlay
                 def = selfPos.currentData;
             }
 
+            UglyMath.PostprocessHuluDataWhenUseSkill(atk, operation.data.config);
+            
             if (operation.data.config.Type == ActiveSkillTypeEnum.伤害技能)
             {
+                await UglyMath.PostprocessHuluDataBeforeUseSkill(atk,operation.data.config);
                 bool hitted = GameMath.CalHit(atk, def, operation.data.id, _environmentData);
-                if (hitted)
+                if (hitted && UglyMath.PostprocessHit(atk, operation.data.id, _environmentData))
                 {
                     int damage = GameMath.CalDamage(atk, def, operation.data.id, _environmentData);
-                    await def.ChangeHealth(damage);
+                    Global.Event.Send<BattleTipEvent>(new BattleTipEvent($"{position}对{def}造成{damage}伤害"));
                     Debug.Log($"计算技能伤害,pos:{position},{atk}对{def}使用{operation.data.id} 造成{damage}伤害");
+                    await def.ChangeHealth(damage);
+                    await UglyMath.PostprocessHuluDataWhenAfterUseSkill(atk, operation.data.config, damage);
+                    
                 }
                 else
                 {
-                    // TODO
+                    Global.Event.Send<BattleTipEvent>(new BattleTipEvent($"{position}未命中"));
                     Debug.Log($"计算技能伤害,pos:{position},{atk}对{def}使用{operation.data.id} 未命中");
                 }
 
