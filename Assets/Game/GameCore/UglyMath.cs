@@ -40,8 +40,8 @@ namespace Game
 
             if (skill.Id == ActiveSkillEnum.吞吐 && Random.value <= 0.4)
             {
-                Debug.Log("吞吐");
-                await defTrainer.RandomDiscard(4);
+                Global.Event.Send(new BattleTipEvent("吞吐"));
+                await defTrainer.RandomDiscard(2);
                 return;
             }
 

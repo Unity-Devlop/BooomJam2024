@@ -22,7 +22,7 @@ namespace Game.GamePlay
 
         public event Func<List<ActiveSkillData>, UniTask> OnDrawCard;
 
-        public event Func<ActiveSkillData, UniTask> OnUseCard;
+        public event Func<ActiveSkillData, UniTask> OnUseHandCard;
         public event Func<List<ActiveSkillData>, UniTask> OnRemoveCard;
         public event Func<List<ActiveSkillData>, UniTask> OnDiscardCard;
 

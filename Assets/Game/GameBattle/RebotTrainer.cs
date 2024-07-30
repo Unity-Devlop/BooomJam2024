@@ -15,7 +15,7 @@ namespace Game.GamePlay
         public HuluData currentBattleData { get; set; }
 
         public event Func<List<ActiveSkillData>, UniTask> OnDrawCard;
-        public event Func<ActiveSkillData, UniTask> OnUseCard;
+        public event Func<ActiveSkillData, UniTask> OnUseHandCard;
         public event Func<List<ActiveSkillData>, UniTask> OnRemoveCard;
         public event Func<List<ActiveSkillData>, UniTask> OnDiscardCard;
         public event Func<UniTask> OnStartCalOperation;
@@ -60,7 +60,7 @@ namespace Game.GamePlay
         {
             ActiveSkillData data = new ActiveSkillData()
             {
-                id = ActiveSkillEnum.冲浪
+                id = ActiveSkillEnum.吞吐
             };
             IBattleOperation operation = new ActiveSkillBattleOperation()
             {

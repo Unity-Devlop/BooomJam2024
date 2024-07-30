@@ -245,6 +245,29 @@ MonoBehaviour:
       - id: 39
       - id: 43
       datas:
+      - id: 1
+        buffList: 
+        elementEnum: 2
+        hp: 293
+        currentHp: 293
+        atk: 116
+        currentAtk: 116
+        def: 25
+        currentDef: 25
+        speed: 182
+        currentSpeed: 182
+        adap: 0
+        currentAdap: 0
+        ownedSkills:
+        - id: 22
+        - id: 22
+        - id: 4
+        - id: 6
+        - id: 24
+        - id: 6
+        - id: 24
+        - id: 22
+        - id: 6
       - id: 9
         buffList: 
         elementEnum: 4
@@ -270,29 +293,6 @@ MonoBehaviour:
         - id: 0
         - id: 0
         - id: 0
-      - id: 1
-        buffList: 
-        elementEnum: 2
-        hp: 293
-        currentHp: 293
-        atk: 116
-        currentAtk: 116
-        def: 25
-        currentDef: 25
-        speed: 182
-        currentSpeed: 182
-        adap: 0
-        currentAdap: 0
-        ownedSkills:
-        - id: 22
-        - id: 22
-        - id: 4
-        - id: 6
-        - id: 24
-        - id: 6
-        - id: 24
-        - id: 22
-        - id: 6
       - id: 5
         buffList: 
         elementEnum: 6
@@ -320,39 +320,41 @@ MonoBehaviour:
   rebotBattleTrainer:
     <trainerData>k__BackingField:
       trainerSkills:
-      - id: 38
-      - id: 40
-      - id: 38
-      - id: 31
-      - id: 32
-      - id: 44
-      - id: 37
-      - id: 33
-      - id: 31
+      - id: 3
+      - id: 3
+      - id: 3
+      - id: 3
+      - id: 3
+      - id: 3
+      - id: 3
+      - id: 3
+      - id: 3
+      - id: 3
+      - id: 3
       datas:
       - id: 4
         buffList: 
         elementEnum: 5
-        hp: 261
-        currentHp: 261
-        atk: 52
-        currentAtk: 52
-        def: 56
-        currentDef: 56
-        speed: 105
-        currentSpeed: 105
-        adap: 15
-        currentAdap: 15
+        hp: 454
+        currentHp: 454
+        atk: 53
+        currentAtk: 53
+        def: 34
+        currentDef: 34
+        speed: 133
+        currentSpeed: 133
+        adap: 14
+        currentAdap: 14
         ownedSkills:
-        - id: 2
-        - id: 2
-        - id: 19
-        - id: 24
-        - id: 25
-        - id: 24
-        - id: 19
-        - id: 24
-        - id: 25
+        - id: 3
+        - id: 3
+        - id: 3
+        - id: 3
+        - id: 3
+        - id: 3
+        - id: 3
+        - id: 3
+        - id: 3
       - id: 0
         buffList: 
         elementEnum: 1

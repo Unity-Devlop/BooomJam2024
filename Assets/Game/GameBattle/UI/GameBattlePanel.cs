@@ -54,7 +54,7 @@ namespace Game
             _trainer.OnRemoveCard += RemoveCard;
             _trainer.OnStartCalOperation += StartCalOperation;
             _trainer.OnEndCalOperation += EndCalOperation;
-            _trainer.OnUseCard += UseCard;
+            _trainer.OnUseHandCard += UseHandHandCard;
 
             selfCardContainer.Bind(battleTrainer);
             leftTeamHuluView.Bind(battleTrainer);
@@ -67,15 +67,15 @@ namespace Game
             _trainer.OnRemoveCard -= RemoveCard;
             _trainer.OnStartCalOperation -= StartCalOperation;
             _trainer.OnEndCalOperation -= EndCalOperation;
-            _trainer.OnUseCard -= UseCard;
+            _trainer.OnUseHandCard -= UseHandHandCard;
             selfCardContainer.UnBind();
             leftTeamHuluView.UnBind();
         }
 
 
-        private async UniTask UseCard(ActiveSkillData arg)
+        private async UniTask UseHandHandCard(ActiveSkillData arg)
         {
-            await selfCardContainer.Use(arg);
+            await selfCardContainer.UseFromHand(arg);
         }
 
         private async UniTask EndCalOperation()
@@ -97,9 +97,10 @@ namespace Game
             await selfCardContainer.Remove(arg);
         }
 
-        private UniTask DiscardCard(List<ActiveSkillData> arg)
+        private async UniTask DiscardCard(List<ActiveSkillData> arg)
         {
-            return UniTask.CompletedTask;
+            // TODO 不能remove 而是要discard
+            await selfCardContainer.Discard(arg);
         }
 
         private async UniTask DrawCard(List<ActiveSkillData> obj)

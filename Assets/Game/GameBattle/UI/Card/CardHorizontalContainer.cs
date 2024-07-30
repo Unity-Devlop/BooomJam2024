@@ -71,17 +71,18 @@ namespace Game
             return card;
         }
 
-        public async UniTask Use(ActiveSkillData data)
+        public async UniTask UseFromHand(ActiveSkillData data)
         {
-            var card = handZoneCardList.Find(card => card.data == data);
-
-            Assert.IsNotNull(card.data);
-
-            cardSlotPool.Release(card.transform.parent.gameObject);
-            cardPool.Release(card.gameObject);
-            // Debug.Log($"消耗牌{card.data}");
-            // 移除数据
-            handZoneCardList.Remove(card);
+            // var card = handZoneCardList.Find(card => card.data == data);
+            //
+            // Assert.IsNotNull(card.data);
+            //
+            // cardSlotPool.Release(card.transform.parent.gameObject);
+            // cardPool.Release(card.gameObject);
+            // // Debug.Log($"消耗牌{card.data}");
+            // // 移除数据
+            // handZoneCardList.Remove(card);
+            Debug.Log($"消耗牌{data}");
             await UniTask.CompletedTask;
         }
 
@@ -99,6 +100,11 @@ namespace Game
             }
         }
 
+        public async UniTask Discard(List<ActiveSkillData> activeSkillDatas)
+        {
+            // TODO 暂时remove
+            await Remove(activeSkillDatas);
+        }
 
         private Card SpawnOne(string objName = "")
         {

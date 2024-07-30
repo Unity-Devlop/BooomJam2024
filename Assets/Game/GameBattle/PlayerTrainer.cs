@@ -22,7 +22,7 @@ namespace Game.GamePlay
         [field: NonSerialized] public HuluData currentBattleData { get; private set; }
 
         public event Func<List<ActiveSkillData>, UniTask> OnDrawCard = delegate { return UniTask.CompletedTask; };
-        public event Func<ActiveSkillData, UniTask> OnUseCard = delegate { return UniTask.CompletedTask; };
+        public event Func<ActiveSkillData, UniTask> OnUseHandCard = delegate { return UniTask.CompletedTask; };
         public event Func<List<ActiveSkillData>, UniTask> OnRemoveCard = delegate { return UniTask.CompletedTask; };
         public event Func<List<ActiveSkillData>, UniTask> OnDiscardCard = delegate { return UniTask.CompletedTask; };
         public event Func<UniTask> OnStartCalOperation = delegate { return UniTask.CompletedTask; };
@@ -72,7 +72,7 @@ namespace Game.GamePlay
             // Debug.Log($"消耗牌{data} HashCode: {data.GetHashCode()}");
             if (handZone.Contains(data))
             {
-                await OnUseCard(data);
+                await OnUseHandCard(data);
                 await Discard(data);
             }
             else
@@ -94,12 +94,15 @@ namespace Game.GamePlay
 
         public async UniTask RandomDiscard(int i)
         {
+            Debug.Log($"随机弃牌{i}张");
             int cnt = Mathf.Clamp(handZone.Count, 0, i);
             for (int j = 0; j < cnt; j++)
             {
                 var discard = handZone.RandomTake();
                 await Discard(discard);
             }
+
+            await UniTask.Delay(TimeSpan.FromSeconds(1));
         }
 
         public async UniTask ChangeCurrentHulu(HuluData data)
