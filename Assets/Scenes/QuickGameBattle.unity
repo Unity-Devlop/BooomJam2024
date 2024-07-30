@@ -245,38 +245,29 @@ MonoBehaviour:
       - id: 39
       - id: 43
       datas:
-      - id: 2
+      - id: 8
         buffList: 
         elementEnum: 3
-        hp: 428
-        currentHp: 428
-        atk: 52
-        currentAtk: 52
-        def: 136
-        currentDef: 136
-        speed: 33
-        currentSpeed: 33
-        adap: 8
-        currentAdap: 8
+        hp: 453
+        currentHp: 453
+        atk: 72
+        currentAtk: 72
+        def: 60
+        currentDef: 60
+        speed: 73
+        currentSpeed: 73
+        adap: 7
+        currentAdap: 7
         ownedSkills:
-        - id: 10
-        - id: 10
-        - id: 10
-        - id: 10
-        - id: 10
-        - id: 10
-        - id: 10
-        - id: 10
-        - id: 10
-        - id: 10
-        - id: 10
-        - id: 10
-        - id: 10
-        - id: 10
-        - id: 10
-        - id: 8
-        - id: 9
-        - id: 10
+        - id: 11
+        - id: 11
+        - id: 11
+        - id: 11
+        - id: 11
+        - id: 11
+        - id: 11
+        - id: 11
+        - id: 11
       - id: 9
         buffList: 
         elementEnum: 4
@@ -291,17 +282,15 @@ MonoBehaviour:
         adap: 10
         currentAdap: 10
         ownedSkills:
-        - id: 0
-        - id: 0
-        - id: 0
-        - id: 0
-        - id: 0
-        - id: 0
-        - id: 0
-        - id: 0
-        - id: 0
-        - id: 0
-        - id: 0
+        - id: 22
+        - id: 12
+        - id: 26
+        - id: 22
+        - id: 22
+        - id: 12
+        - id: 26
+        - id: 12
+        - id: 12
       - id: 5
         buffList: 
         elementEnum: 6
@@ -316,15 +305,15 @@ MonoBehaviour:
         adap: 10
         currentAdap: 10
         ownedSkills:
-        - id: 0
-        - id: 0
-        - id: 23
         - id: 25
+        - id: 0
+        - id: 24
+        - id: 23
+        - id: 24
+        - id: 25
+        - id: 0
         - id: 25
         - id: 13
-        - id: 13
-        - id: 23
-        - id: 0
     deck: 
   rebotBattleTrainer:
     <trainerData>k__BackingField:

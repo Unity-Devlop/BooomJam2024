@@ -82,7 +82,7 @@ namespace Game
             // // Debug.Log($"消耗牌{card.data}");
             // // 移除数据
             // handZoneCardList.Remove(card);
-            Debug.Log($"消耗牌{data}");
+            Debug.Log($"从手牌区使用{data}");
             await UniTask.CompletedTask;
         }
 

@@ -29,7 +29,7 @@ namespace Game
 
         public static async UniTask PostprocessHuluDataWhenAfterUseSkill(HuluData atk, IBattleTrainer defTrainer,
             ActiveSkillConfig skill,
-            float damagePoint)
+            int damagePoint)
         {
             if (atk.id == HuluEnum.毒宝宝 && atk.passiveSkillConfig.Id == PassiveSkillEnum.毒素治疗 &&
                 skill.Element == ElementEnum.毒)
@@ -60,12 +60,21 @@ namespace Game
                 Global.Event.Send(new BattleTipEvent("扎根 -10"));
                 await atk.DecreaseSpeed(10);
                 await UniTask.Delay(TimeSpan.FromSeconds(1));
+                return;
             }
             else if (skill.Id == ActiveSkillEnum.滚动)
             {
                 Debug.Log("滚动 +10");
                 Global.Event.Send(new BattleTipEvent("滚动 +10"));
                 await atk.IncreaseDef(10);
+                return;
+            }
+            else if (skill.Id == ActiveSkillEnum.轰隆隆隆隆)
+            {
+                Debug.Log($"轰隆隆隆隆 反伤:{damagePoint / 2}");
+                Global.Event.Send(new BattleTipEvent($"轰隆隆隆隆 反伤:{damagePoint / 2}"));
+                await atk.DecreaseHealth(damagePoint / 2);
+                return;
             }
         }
 
@@ -279,6 +288,18 @@ namespace Game
                 await next.bind.Invoke();
                 return;
             }
+        }
+
+        public static int PostprocessDamagePoint(ActiveSkillConfig config, BattleEnvironmentData environmentData)
+        {
+            if (config.Id == ActiveSkillEnum.轰隆隆隆隆 && environmentData.id == BattleEnvironmentEnum.草地)
+            {
+                Global.Event.Send(new BattleTipEvent("轰隆隆隆隆"));
+                Debug.Log("轰隆隆隆隆");
+                return config.DamagePoint + 30;
+            }
+
+            return config.DamagePoint;
         }
     }
 }

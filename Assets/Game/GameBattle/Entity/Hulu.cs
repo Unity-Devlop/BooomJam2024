@@ -39,7 +39,7 @@ namespace Game.GamePlay
             for (int i = 0; i < cnt; i++)
             {
                 hpText.text = $"{origin + delta * i / 10}/{obj.hp}";
-                await UniTask.DelayFrame(1);
+                await UniTask.Delay(TimeSpan.FromMilliseconds(1 / 60f * 1000));
             }
 
             hpText.text = $"{obj.currentHp}/{obj.hp}";
