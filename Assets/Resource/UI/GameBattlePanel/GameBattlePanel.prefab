@@ -145,7 +145,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   childCnt: 8
   handZoneCardList: []
-  cemeteryZoneCardList: []
   outsideArea: {fileID: 7632034146367919622}
   tweenCardReturn: 1
   <visualRoot>k__BackingField: {fileID: 6908772854341910083}

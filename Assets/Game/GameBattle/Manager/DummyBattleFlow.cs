@@ -74,20 +74,20 @@ namespace Game.GamePlay
             // throw new System.NotImplementedException();
             // 执行入场逻辑
             await EnterBattleCheck();
+            var selfBuffs = _environmentData.GetBuff(_self);
+            await ExecuteBuffBeforeRound(_self, _enemy, selfBuffs);
+            var enemyBuffs = _environmentData.GetBuff(_enemy);
+            await ExecuteBuffBeforeRound(_enemy, _self, enemyBuffs);
 
-            // 各自抽卡
-            await _self.DrawSkills(1);
-            await _enemy.DrawSkills(1);
         }
 
         public async UniTask BeforeRound()
         {
             // throw new System.NotImplementedException();
+            // 各自抽卡
+            await _self.DrawSkills(1);
+            await _enemy.DrawSkills(1);
 
-            var selfBuffs = _environmentData.GetBuff(_self);
-            await ExecuteBuffBeforeRound(_self, _enemy, selfBuffs);
-            var enemyBuffs = _environmentData.GetBuff(_enemy);
-            await ExecuteBuffBeforeRound(_enemy, _self, enemyBuffs);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -229,6 +229,19 @@ namespace Game.GamePlay
                     await ExecuteSwitch(_enemy, enemyPos, enemyChange2.next);
                     ModifyOperAfterChangeHulu(ref enemyOper);
                     await ExecuteSkill(_self, _enemy, selfPos, enemyPos, selfAtk3);
+                    continue;
+                }
+
+                if (selfOper is ChangeHuluOperation selfChange && enemyOper is EndRoundOperation)
+                {
+                    await ExecuteSwitch(_self,selfPos,selfChange.next);
+                    ModifyOperAfterChangeHulu(ref selfOper);
+                    continue;
+                }
+                if(selfOper is EndRoundOperation && enemyOper is ChangeHuluOperation enemyChange)
+                {
+                    await ExecuteSwitch(_enemy,enemyPos,enemyChange.next);
+                    ModifyOperAfterChangeHulu(ref enemyOper);
                     continue;
                 }
 
@@ -437,7 +450,7 @@ namespace Game.GamePlay
             Assert.IsTrue(userTrainer.currentBattleData == userPosition.currentData);
             Assert.IsTrue(defTrainer.currentBattleData == defPosition.currentData);
 
-            await userTrainer.OnConsumeSkill(operation.data);
+            await userTrainer.UseCardFromHandZone(operation.data);
             await userPosition.ExecuteSkill(operation);
             // 计算伤害
             Global.Event.Send<BattleTipEvent>(

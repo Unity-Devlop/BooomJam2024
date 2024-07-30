@@ -23,8 +23,10 @@ namespace Game.GamePlay
         public event Func<List<ActiveSkillData>, UniTask> OnDrawCard;
 
         public event Func<ActiveSkillData, UniTask> OnUseHandCard;
-        public event Func<List<ActiveSkillData>, UniTask> OnRemoveCard;
+        public event Func<List<ActiveSkillData>, UniTask> OnDestroyCard;
         public event Func<List<ActiveSkillData>, UniTask> OnDiscardCard;
+
+        public event Func<List<ActiveSkillData>, List<ActiveSkillData>, UniTask> OnDiscardToDraw;
 
         public event Func<UniTask> OnStartCalOperation;
         public event Func<UniTask> OnEndCalOperation;
@@ -36,8 +38,7 @@ namespace Game.GamePlay
         public UniTask ChangeCurrentHulu(HuluData data);
         public UniTask DrawSkills(int cnt);
 
-
-        public UniTask OnConsumeSkill(ActiveSkillData data);
+        public UniTask UseCardFromHandZone(ActiveSkillData data);
         UniTask RandomDiscard(int i);
     }
 

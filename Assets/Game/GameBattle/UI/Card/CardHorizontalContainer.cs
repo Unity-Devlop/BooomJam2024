@@ -20,7 +20,9 @@ namespace Game
         public int childCnt = 8;
 
         [SerializeField] private List<Card> handZoneCardList; // 手牌区域
-        [SerializeField] private List<Card> cemeteryZoneCardList; // 墓地区域
+        private List<ActiveSkillData> _cemeteryZoneCardList; // 墓地区域
+        private List<ActiveSkillData> _discardZoneCardList; // 弃牌区域
+        private List<ActiveSkillData> _drawZoneCardList; // 抽牌区域
 
         //把卡牌拖到这个区域内 -> 出牌
         [SerializeField] private RectTransform outsideArea;
@@ -48,23 +50,27 @@ namespace Game
             cardVisualPool.Initialize();
 
             handZoneCardList = new List<Card>();
+
+            _discardZoneCardList = new List<ActiveSkillData>();
+            _drawZoneCardList = new List<ActiveSkillData>();
+            _cemeteryZoneCardList = new List<ActiveSkillData>();
         }
 
 
-        public async UniTask Spawn(List<ActiveSkillData> dataList, float interval = 0.1f)
+        public async UniTask DrawCardToHand(List<ActiveSkillData> dataList, float interval = 0.1f)
         {
             for (int i = 0; i < dataList.Count; i++)
             {
                 ActiveSkillData data = dataList[i];
-                PushCard(data, i.ToString());
+                SpawnOneToHand(data, i.ToString());
                 await UniTask.Delay(TimeSpan.FromSeconds(interval));
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Card PushCard(ActiveSkillData data, string name = "")
+        public Card SpawnOneToHand(ActiveSkillData data, string name = "")
         {
-            Card card = SpawnOne(name);
+            Card card = SpawnOneCardObj(name);
             handZoneCardList.Add(card);
             card.Init(this, data);
             // Debug.Log($"Push Card: HashCode: {data.GetHashCode()}, data: {data}");
@@ -86,13 +92,36 @@ namespace Game
             await UniTask.CompletedTask;
         }
 
-        public async UniTask Remove(List<ActiveSkillData> activeSkillDatas)
+        public async UniTask DiscardFromHandZone(List<ActiveSkillData> activeSkillDatas)
         {
             foreach (var skillData in activeSkillDatas)
             {
                 // TODO 性能问题
                 var card = handZoneCardList.Find(card => card.data == skillData);
-                Assert.IsNotNull(card.data);
+                Assert.IsNotNull(card);
+                cardSlotPool.Release(card.transform.parent.gameObject);
+                cardPool.Release(card.gameObject);
+                handZoneCardList.Remove(card);
+                await UniTask.DelayFrame(1);
+            }
+        }
+
+        public async UniTask DestroyCard(List<ActiveSkillData> activeSkillDatas)
+        {
+            foreach (var skillData in activeSkillDatas)
+            {
+                // TODO 性能问题
+                var card = handZoneCardList.Find(card => card.data == skillData);
+                if (card == null)
+                {
+                    _drawZoneCardList.Remove(skillData);
+                    _discardZoneCardList.Remove(skillData);
+                    _cemeteryZoneCardList.Remove(skillData);
+                    Debug.LogWarning($"DestroyCard: {skillData}");
+                    continue;
+                }
+
+
                 cardSlotPool.Release(card.transform.parent.gameObject);
                 cardPool.Release(card.gameObject);
                 handZoneCardList.Remove(card);
@@ -102,11 +131,11 @@ namespace Game
 
         public async UniTask Discard(List<ActiveSkillData> activeSkillDatas)
         {
-            // TODO 暂时remove
-            await Remove(activeSkillDatas);
+            await DiscardFromHandZone(activeSkillDatas);
+            _drawZoneCardList.AddRange(activeSkillDatas);
         }
 
-        private Card SpawnOne(string objName = "")
+        private Card SpawnOneCardObj(string objName = "")
         {
             CardSlot slot = cardSlotPool.Get().GetComponent<CardSlot>();
             slot.transform.SetParent(transform);
@@ -207,6 +236,15 @@ namespace Game
             _calCts.Cancel();
             _calCts = null;
             return UniTask.CompletedTask;
+        }
+
+        public async UniTask DiscardToDraw(List<ActiveSkillData> discard, List<ActiveSkillData> draw)
+        {
+            _discardZoneCardList.Clear();
+            _discardZoneCardList.AddRange(discard);
+            _drawZoneCardList.Clear();
+            _drawZoneCardList.AddRange(draw);
+            await UniTask.CompletedTask;
         }
     }
 }

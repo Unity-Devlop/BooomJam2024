@@ -49,34 +49,34 @@ namespace Game
         public void Bind(IBattleTrainer battleTrainer)
         {
             _trainer = battleTrainer;
-            _trainer.OnDrawCard += DrawCard;
+            _trainer.OnDrawCard += DrawCardToHand;
             _trainer.OnDiscardCard += DiscardCard;
-            _trainer.OnRemoveCard += RemoveCard;
+            _trainer.OnDestroyCard += DestroyCard;
             _trainer.OnStartCalOperation += StartCalOperation;
             _trainer.OnEndCalOperation += EndCalOperation;
             _trainer.OnUseHandCard += UseHandHandCard;
+            _trainer.OnDiscardToDraw += DiscardToDraw;
 
             selfCardContainer.Bind(battleTrainer);
             leftTeamHuluView.Bind(battleTrainer);
         }
 
+
         public void UnBind()
         {
-            _trainer.OnDrawCard -= DrawCard;
+            _trainer.OnDrawCard -= DrawCardToHand;
             _trainer.OnDiscardCard -= DiscardCard;
-            _trainer.OnRemoveCard -= RemoveCard;
+            _trainer.OnDestroyCard -= DestroyCard;
             _trainer.OnStartCalOperation -= StartCalOperation;
             _trainer.OnEndCalOperation -= EndCalOperation;
             _trainer.OnUseHandCard -= UseHandHandCard;
+            _trainer.OnDiscardToDraw -= DiscardToDraw;
+
+
             selfCardContainer.UnBind();
             leftTeamHuluView.UnBind();
         }
 
-
-        private async UniTask UseHandHandCard(ActiveSkillData arg)
-        {
-            await selfCardContainer.UseFromHand(arg);
-        }
 
         private async UniTask EndCalOperation()
         {
@@ -91,10 +91,14 @@ namespace Game
             await UniTask.WhenAny(cardOper, switchOper);
         }
 
-
-        private async UniTask RemoveCard(List<ActiveSkillData> arg)
+        private async UniTask UseHandHandCard(ActiveSkillData arg)
         {
-            await selfCardContainer.Remove(arg);
+            await selfCardContainer.UseFromHand(arg);
+        }
+
+        private async UniTask DestroyCard(List<ActiveSkillData> arg)
+        {
+            await selfCardContainer.DestroyCard(arg);
         }
 
         private async UniTask DiscardCard(List<ActiveSkillData> arg)
@@ -103,9 +107,14 @@ namespace Game
             await selfCardContainer.Discard(arg);
         }
 
-        private async UniTask DrawCard(List<ActiveSkillData> obj)
+        private async UniTask DrawCardToHand(List<ActiveSkillData> obj)
         {
-            await selfCardContainer.Spawn(obj);
+            await selfCardContainer.DrawCardToHand(obj);
+        }
+
+        private async UniTask DiscardToDraw(List<ActiveSkillData> discard, List<ActiveSkillData> darw)
+        {
+            await selfCardContainer.DiscardToDraw(discard, darw);
         }
     }
 }

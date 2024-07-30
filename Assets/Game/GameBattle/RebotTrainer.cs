@@ -17,8 +17,9 @@ namespace Game.GamePlay
 
         public event Func<List<ActiveSkillData>, UniTask> OnDrawCard;
         public event Func<ActiveSkillData, UniTask> OnUseHandCard;
-        public event Func<List<ActiveSkillData>, UniTask> OnRemoveCard;
+        public event Func<List<ActiveSkillData>, UniTask> OnDestroyCard;
         public event Func<List<ActiveSkillData>, UniTask> OnDiscardCard;
+        public event Func<List<ActiveSkillData>, List<ActiveSkillData>, UniTask> OnDiscardToDraw;
         public event Func<UniTask> OnStartCalOperation;
         public event Func<UniTask> OnEndCalOperation;
 
@@ -36,7 +37,7 @@ namespace Game.GamePlay
             return UniTask.CompletedTask;
         }
 
-        public UniTask OnConsumeSkill(ActiveSkillData data)
+        public UniTask UseCardFromHandZone(ActiveSkillData data)
         {
             Debug.LogWarning($"机器人使用技能未实现");
             return UniTask.CompletedTask;
@@ -61,7 +62,7 @@ namespace Game.GamePlay
         {
             ActiveSkillData data = new ActiveSkillData()
             {
-                id = ActiveSkillEnum.吞吐
+                id = ActiveSkillEnum.光合作用
             };
             IBattleOperation operation = new ActiveSkillBattleOperation()
             {

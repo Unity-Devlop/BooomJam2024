@@ -260,14 +260,14 @@ MonoBehaviour:
         currentAdap: 10
         ownedSkills:
         - id: 12
-        - id: 12
-        - id: 12
-        - id: 12
-        - id: 12
-        - id: 12
-        - id: 12
-        - id: 12
-        - id: 12
+        - id: 22
+        - id: 22
+        - id: 22
+        - id: 26
+        - id: 22
+        - id: 16
+        - id: 16
+        - id: 16
       - id: 8
         buffList: 
         elementEnum: 3
@@ -291,29 +291,29 @@ MonoBehaviour:
         - id: 11
         - id: 11
         - id: 11
-      - id: 9
+      - id: 0
         buffList: 
-        elementEnum: 4
-        hp: 197
-        currentHp: 197
-        atk: 75
-        currentAtk: 75
-        def: 26
-        currentDef: 26
-        speed: 112
-        currentSpeed: 112
-        adap: 10
-        currentAdap: 10
+        elementEnum: 1
+        hp: 378
+        currentHp: 378
+        atk: 72
+        currentAtk: 72
+        def: 68
+        currentDef: 68
+        speed: 154
+        currentSpeed: 154
+        adap: 16
+        currentAdap: 16
         ownedSkills:
-        - id: 22
-        - id: 12
-        - id: 26
-        - id: 22
-        - id: 22
-        - id: 12
-        - id: 26
-        - id: 12
-        - id: 12
+        - id: 1
+        - id: 1
+        - id: 25
+        - id: 25
+        - id: 1
+        - id: 1
+        - id: 25
+        - id: 1
+        - id: 19
     deck: 
   rebotBattleTrainer:
     <trainerData>k__BackingField:
