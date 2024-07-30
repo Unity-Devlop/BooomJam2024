@@ -14,7 +14,8 @@ namespace Game
         {
             if (data.id == HuluEnum.枯木妖 && data.passiveSkillConfig.Id == PassiveSkillEnum.枯木逢春)
             {
-                Debug.Log($"{data}-{data.passiveSkillConfig.Id}");
+                Debug.Log($"枯木逢春");
+                Global.Event.Send(new BattleTipEvent("枯木逢春"));
                 int damageHp = data.hp - data.currentHp;
                 int cnt = damageHp / 100;
                 int adapIncreate = cnt * 5;
@@ -34,24 +35,31 @@ namespace Game
                 skill.Element == ElementEnum.毒)
             {
                 int heal = (int)(damagePoint * 0.3f);
-                await atk.ChangeHealth(heal);
+                await atk.DecreaseHealth(heal);
                 return;
             }
 
-            if (skill.Id == ActiveSkillEnum.吞吐 && Random.value <= 0.4)
+            else if (skill.Id == ActiveSkillEnum.吞吐 && Random.value <= 0.4)
             {
                 Global.Event.Send(new BattleTipEvent("吞吐"));
                 await defTrainer.RandomDiscard(2);
                 return;
             }
 
-            if (skill.Id == ActiveSkillEnum.火焰冲)
+            else if (skill.Id == ActiveSkillEnum.火焰冲)
             {
                 Debug.Log("火焰冲 +10");
                 Global.Event.Send(new BattleTipEvent("火焰冲 +10"));
                 await atk.ChangeAtk(10);
                 await UniTask.Delay(TimeSpan.FromSeconds(1));
                 return;
+            }
+            else if (skill.Id == ActiveSkillEnum.扎根)
+            {
+                Debug.Log("扎根 -10");
+                Global.Event.Send(new BattleTipEvent("扎根 -10"));
+                await atk.DecreaseSpeed(10);
+                await UniTask.Delay(TimeSpan.FromSeconds(1));
             }
         }
 
@@ -207,7 +215,7 @@ namespace Game
                 huluData.canReborn)
             {
                 Debug.Log("狂风不灭");
-                await huluData.ChangeHealth(huluData.hp / 2);
+                await huluData.DecreaseHealth(huluData.hp / 2);
                 huluData.canReborn = false;
                 await huluData.bind.Invoke();
                 return;
@@ -218,6 +226,7 @@ namespace Game
         {
             if (atk.id == HuluEnum.小闪光 && atk.passiveSkillConfig.Id == PassiveSkillEnum.集合体 && atk.skillTimes == 0)
             {
+                Global.Event.Send(new BattleTipEvent("集合体"));
                 Debug.Log("集合体");
                 atk.elementEnum = skill.Element;
                 atk.skillTimes++;
@@ -238,7 +247,7 @@ namespace Game
 
         public static async UniTask PostprocessHuluEnterBattle(HuluData next)
         {
-            Debug.Log($"{next}进入战场 times:{next.enterTimes}");
+            // Debug.Log($"{next}进入战场 times:{next.enterTimes}");
             if (next.id == HuluEnum.电电鼠 && next.passiveSkillConfig.Id == PassiveSkillEnum.胆小鬼 && next.enterTimes == 1)
             {
                 next.buffList.Add(BuffEnum.胆小鬼);
@@ -249,7 +258,7 @@ namespace Game
             {
                 next.buffList.Remove(BuffEnum.胆小鬼归来);
                 Debug.Log("胆小鬼归来");
-
+                Global.Event.Send(new BattleTipEvent($"{next}胆小鬼归来"));
                 next.hp = (int)(next.hp * 1.5f);
                 next.atk = (int)(next.atk * 1.5f);
                 next.def = (int)(next.def * 1.5f);

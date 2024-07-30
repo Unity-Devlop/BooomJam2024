@@ -248,32 +248,32 @@ MonoBehaviour:
       - id: 2
         buffList: 
         elementEnum: 3
-        hp: 293
-        currentHp: 293
-        atk: 116
-        currentAtk: 116
-        def: 25
-        currentDef: 25
-        speed: 182
-        currentSpeed: 182
-        adap: 0
-        currentAdap: 0
+        hp: 428
+        currentHp: 428
+        atk: 52
+        currentAtk: 52
+        def: 136
+        currentDef: 136
+        speed: 33
+        currentSpeed: 33
+        adap: 8
+        currentAdap: 8
         ownedSkills:
-        - id: 8
-        - id: 8
-        - id: 8
-        - id: 8
-        - id: 8
-        - id: 6
-        - id: 8
-        - id: 8
-        - id: 6
-        - id: 8
-        - id: 8
-        - id: 8
         - id: 10
-        - id: 25
-        - id: 25
+        - id: 10
+        - id: 10
+        - id: 10
+        - id: 10
+        - id: 10
+        - id: 10
+        - id: 10
+        - id: 10
+        - id: 10
+        - id: 10
+        - id: 10
+        - id: 10
+        - id: 10
+        - id: 10
         - id: 8
         - id: 9
         - id: 10

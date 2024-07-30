@@ -422,7 +422,7 @@ namespace Game.GamePlay
                     int damage = GameMath.CalDamage(user, def, operation.data.id, _environmentData);
                     Global.Event.Send<BattleTipEvent>(new BattleTipEvent($"{userPosition}对{def}造成{damage}伤害"));
                     Debug.Log($"计算技能伤害,pos:{userPosition},{user}对{def}使用{operation.data.id} 造成{damage}伤害");
-                    await def.ChangeHealth(damage);
+                    await def.DecreaseHealth(damage);
 
                     IBattleOperation newOper = await UglyMath.PostprocessHuluDataWhenHealthChange(def, defTrainer);
                     if (newOper != null)
@@ -460,7 +460,7 @@ namespace Game.GamePlay
                 {
                     Global.Event.Send<BattleTipEvent>(new BattleTipEvent($"{userPosition}使用{operation.data.id}"));
                     int delta = user.hp / 5;
-                    await user.ChangeHealth(-delta);
+                    await user.DecreaseHealth(-delta);
                 }
             }
 

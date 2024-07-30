@@ -65,7 +65,7 @@ namespace Game
 
         [NonSerialized] public bool canReborn = true; // Ugly 狂风不灭
         [NonSerialized] public int skillTimes = 0; // Ugly 自由者
-        [NonSerialized] public int enterTimes = 0;// 第几次进入战场
+        [NonSerialized] public int enterTimes = 0; // 第几次进入战场
         public List<BuffEnum> buffList = new List<BuffEnum>(); // 守护
 
 
@@ -116,7 +116,7 @@ namespace Game
             buffList = new List<BuffEnum>();
         }
 
-        public async UniTask ChangeHealth(int delta)
+        public async UniTask DecreaseHealth(int delta)
         {
             currentHp -= delta;
             if (currentHp < 0)
@@ -131,6 +131,19 @@ namespace Game
 
             Debug.Log($"{this}当前生命值{currentHp}");
             UglyMath.PostprocessHuluData(this);
+            await bind.Invoke();
+        }
+
+
+        public async UniTask DecreaseSpeed(int i)
+        {
+            currentSpeed -= i;
+            if (currentSpeed < 0)
+            {
+                currentSpeed = 0;
+            }
+
+            Debug.Log($"{this}当前速度{currentSpeed}");
             await bind.Invoke();
         }
 
