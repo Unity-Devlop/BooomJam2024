@@ -78,7 +78,6 @@ namespace Game.GamePlay
             await ExecuteBuffBeforeRound(_self, _enemy, selfBuffs);
             var enemyBuffs = _environmentData.GetBuff(_enemy);
             await ExecuteBuffBeforeRound(_enemy, _self, enemyBuffs);
-
         }
 
         public async UniTask BeforeRound()
@@ -87,7 +86,6 @@ namespace Game.GamePlay
             // 各自抽卡
             await _self.DrawSkills(1);
             await _enemy.DrawSkills(1);
-
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -234,13 +232,14 @@ namespace Game.GamePlay
 
                 if (selfOper is ChangeHuluOperation selfChange && enemyOper is EndRoundOperation)
                 {
-                    await ExecuteSwitch(_self,selfPos,selfChange.next);
+                    await ExecuteSwitch(_self, selfPos, selfChange.next);
                     ModifyOperAfterChangeHulu(ref selfOper);
                     continue;
                 }
-                if(selfOper is EndRoundOperation && enemyOper is ChangeHuluOperation enemyChange)
+
+                if (selfOper is EndRoundOperation && enemyOper is ChangeHuluOperation enemyChange)
                 {
-                    await ExecuteSwitch(_enemy,enemyPos,enemyChange.next);
+                    await ExecuteSwitch(_enemy, enemyPos, enemyChange.next);
                     ModifyOperAfterChangeHulu(ref enemyOper);
                     continue;
                 }
@@ -392,7 +391,7 @@ namespace Game.GamePlay
 
         private async UniTask BothPokemonSkill(ActiveSkillBattleOperation selfAtk, ActiveSkillBattleOperation enemyAtk)
         {
-            var (faster, _) = GameMath.WhoFirst(selfPos.currentData, enemyPos.currentData, selfAtk.data,
+            var (faster, slower) = GameMath.WhoFirst(selfPos.currentData, enemyPos.currentData, selfAtk.data,
                 enemyAtk.data, _environmentData);
 
             // 根据顺序结算
@@ -404,6 +403,12 @@ namespace Game.GamePlay
                     return;
                 }
 
+                if (slower != _enemy.currentBattleData)
+                {
+                    Debug.Log("走了退场逻辑 不再放技能");
+                    return;
+                }
+
                 // 如果打死了对方 则不用再打了
                 await ExecuteSkill(_enemy, _self, enemyPos, selfPos, enemyAtk);
             }
@@ -412,6 +417,12 @@ namespace Game.GamePlay
                 await ExecuteSkill(_enemy, _self, enemyPos, selfPos, enemyAtk);
                 if (!selfPos.CanFight())
                 {
+                    return;
+                }
+
+                if (slower != _self.currentBattleData)
+                {
+                    Debug.Log("走了退场逻辑 不再放技能");
                     return;
                 }
 

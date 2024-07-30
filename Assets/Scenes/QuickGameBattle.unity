@@ -260,14 +260,14 @@ MonoBehaviour:
         currentAdap: 10
         ownedSkills:
         - id: 12
-        - id: 22
-        - id: 22
-        - id: 22
+        - id: 16
         - id: 26
         - id: 22
-        - id: 16
-        - id: 16
-        - id: 16
+        - id: 12
+        - id: 26
+        - id: 22
+        - id: 26
+        - id: 12
       - id: 8
         buffList: 
         elementEnum: 3
@@ -282,14 +282,14 @@ MonoBehaviour:
         adap: 7
         currentAdap: 7
         ownedSkills:
+        - id: 13
+        - id: 13
+        - id: 26
         - id: 11
         - id: 11
-        - id: 11
-        - id: 11
-        - id: 11
-        - id: 11
-        - id: 11
-        - id: 11
+        - id: 25
+        - id: 13
+        - id: 13
         - id: 11
       - id: 0
         buffList: 

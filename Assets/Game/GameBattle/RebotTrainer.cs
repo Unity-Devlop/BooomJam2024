@@ -62,7 +62,7 @@ namespace Game.GamePlay
         {
             ActiveSkillData data = new ActiveSkillData()
             {
-                id = ActiveSkillEnum.光合作用
+                id = ActiveSkillEnum.冲浪
             };
             IBattleOperation operation = new ActiveSkillBattleOperation()
             {
