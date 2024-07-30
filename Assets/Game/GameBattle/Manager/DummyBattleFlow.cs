@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using cfg;
@@ -35,6 +36,9 @@ namespace Game.GamePlay
             _enemy = enemy;
 
             _environmentData = environmentData;
+            _environmentData.AddTrainer(_self);
+            _environmentData.AddTrainer(_enemy);
+
             selfPos.battleTrainer = self;
             enemyPos.battleTrainer = enemy;
         }
@@ -76,10 +80,55 @@ namespace Game.GamePlay
             await _enemy.DrawSkills(1);
         }
 
-        public UniTask BeforeRound()
+        public async UniTask BeforeRound()
         {
             // throw new System.NotImplementedException();
-            return UniTask.CompletedTask;
+
+            var selfBuffs = _environmentData.GetBuff(_self);
+            await ExecuteBuffBeforeRound(_self, _enemy, selfBuffs);
+            var enemyBuffs = _environmentData.GetBuff(_enemy);
+            await ExecuteBuffBeforeRound(_enemy, _self, enemyBuffs);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private async UniTask ExecuteBuffBeforeRound(IBattleTrainer positiveTrainer, IBattleTrainer negativeTrainer,
+            BuffContainer container)
+        {
+            Assert.IsTrue(positiveTrainer != negativeTrainer);
+            if (container.lastRoundBuffEnums.Contains(BuffEnum.起风))
+            {
+                Debug.Log("起风消失");
+                Global.Event.Send<BattleTipEvent>(new BattleTipEvent("起风消失"));
+                foreach (var data in positiveTrainer.trainerData.datas)
+                {
+                    await data.DecreaseCurrentSpeed(10);
+                }
+
+                foreach (var data in positiveTrainer.trainerData.datas)
+                {
+                    await data.IncreaseCurrentSpeed(10);
+                }
+
+                container.lastRoundBuffEnums.Remove(BuffEnum.起风);
+            }
+
+            if (container.buffEnums.Contains(BuffEnum.起风))
+            {
+                Debug.Log("起风");
+                Global.Event.Send<BattleTipEvent>(new BattleTipEvent("起风"));
+                foreach (var data in positiveTrainer.trainerData.datas)
+                {
+                    await data.DecreaseCurrentSpeed(10);
+                }
+
+                foreach (var data in positiveTrainer.trainerData.datas)
+                {
+                    await data.IncreaseCurrentSpeed(10);
+                }
+
+                container.buffEnums.Remove(BuffEnum.起风);
+                container.lastRoundBuffEnums.Add(BuffEnum.起风);
+            }
         }
 
         public async UniTask Rounding()
@@ -438,8 +487,9 @@ namespace Game.GamePlay
                         await UglyMath.PostprocessHuluDataWhenDead(def);
                     }
 
-                    await UglyMath.PostprocessHuluDataWhenAfterUseSkill(user, defTrainer, operation.data.config,
-                        damage);
+                    await UglyMath.PostprocessHuluDataWhenAfterUseSkill(userTrainer, user, defTrainer,
+                        operation.data.config,
+                        damage, _environmentData);
                 }
                 else
                 {

@@ -125,7 +125,8 @@ namespace Game
             
             Assert.IsTrue(config.Type == ActiveSkillTypeEnum.伤害技能);
             int damagePoint = UglyMath.PostprocessDamagePoint(config, environmentData);
-            float baseValue = (atk.currentAtk + damagePoint - def.currentDef)
+            int atkPoint = UglyMath.PostprocessAtkPoint(atk, config, environmentData);
+            float baseValue = (atk.currentAtk + atkPoint - def.currentDef)
                               *
                               CalSelfElementFit(atk.config, config) // 本系威力加成
                               *

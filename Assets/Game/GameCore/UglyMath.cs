@@ -27,9 +27,9 @@ namespace Game
             }
         }
 
-        public static async UniTask PostprocessHuluDataWhenAfterUseSkill(HuluData atk, IBattleTrainer defTrainer,
+        public static async UniTask PostprocessHuluDataWhenAfterUseSkill(IBattleTrainer atkTrainer,HuluData atk, IBattleTrainer defTrainer,
             ActiveSkillConfig skill,
-            int damagePoint)
+            int damagePoint,BattleEnvironmentData environmentData)
         {
             if (atk.id == HuluEnum.毒宝宝 && atk.passiveSkillConfig.Id == PassiveSkillEnum.毒素治疗 &&
                 skill.Element == ElementEnum.毒)
@@ -58,7 +58,7 @@ namespace Game
             {
                 Debug.Log("扎根 -10");
                 Global.Event.Send(new BattleTipEvent("扎根 -10"));
-                await atk.DecreaseSpeed(10);
+                await atk.DecreaseCurrentSpeed(10);
                 await UniTask.Delay(TimeSpan.FromSeconds(1));
                 return;
             }
@@ -82,6 +82,28 @@ namespace Game
                 Global.Event.Send(new BattleTipEvent("放电 变成普通属性"));
                 await atk.ChangeElement(ElementEnum.普通);
                 return;
+            }
+            else if (skill.Id == ActiveSkillEnum.闪电飞盘)
+            {
+                Debug.Log("闪电飞盘 +10");
+                Global.Event.Send(new BattleTipEvent("闪电飞盘 +10"));
+                await atk.IncreaseCurrentSpeed(10);
+                return;
+            }
+            else if (skill.Id == ActiveSkillEnum.狂风)
+            {
+                Debug.Log("狂风 -20");
+                Global.Event.Send(new BattleTipEvent("狂风 -20"));
+                await atk.DecreaseCurrentSpeed(20);
+                return;
+            }
+            else if (skill.Id == ActiveSkillEnum.起风)
+            {
+                Debug.Log("起风");
+                Global.Event.Send(new BattleTipEvent("起风"));
+                await environmentData.AddBuff(atkTrainer,BuffEnum.起风);
+                await environmentData.AddBuff(atkTrainer,BuffEnum.起风);
+                await environmentData.AddBuff(atkTrainer,BuffEnum.起风);
             }
         }
 
@@ -307,6 +329,19 @@ namespace Game
             }
 
             return config.DamagePoint;
+        }
+
+        public static int PostprocessAtkPoint(HuluData atk, ActiveSkillConfig config,
+            BattleEnvironmentData environmentData)
+        {
+            if (config.Id == ActiveSkillEnum.电流猛扑)
+            {
+                Debug.Log("电流猛扑");
+                Global.Event.Send(new BattleTipEvent("电流猛扑"));
+                return atk.currentDef;
+            }
+
+            return atk.currentAtk;
         }
     }
 }

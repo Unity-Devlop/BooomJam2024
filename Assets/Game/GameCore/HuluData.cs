@@ -137,15 +137,10 @@ namespace Game
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public async UniTask DecreaseSpeed(int i)
+        public async UniTask DecreaseCurrentSpeed(int i)
         {
             currentSpeed -= i;
-            if (currentSpeed < 0)
-            {
-                currentSpeed = 0;
-            }
-
-            Debug.Log($"{this}当前速度{currentSpeed}");
+            currentSpeed = Mathf.Clamp(currentSpeed, 0, speed);
             await bind.Invoke();
         }
 
@@ -154,7 +149,6 @@ namespace Game
         {
             int nextAtk = Mathf.Clamp(currentAtk + delta, 0, atk);
             currentAtk = nextAtk;
-            Debug.Log($"{this}当前攻击力{currentAtk}");
             await bind.Invoke();
         }
 
@@ -163,10 +157,26 @@ namespace Game
         {
             int nextDef = Mathf.Clamp(currentDef + i, 0, def);
             currentDef = nextDef;
-            Debug.Log($"{this}当前防御力{currentDef}");
             await bind.Invoke();
         }
 
+
+
+        public async UniTask ChangeElement(ElementEnum elementEnum1)
+        {
+            elementEnum = elementEnum1;
+            await bind.Invoke();
+        }
+
+        public async UniTask IncreaseCurrentSpeed(int i)
+        {
+            currentSpeed += i;
+            currentSpeed = Mathf.Clamp(currentSpeed, 0, speed);
+            Debug.Log($"{this}当前速度{currentSpeed}");
+            await bind.Invoke();
+        }
+        
+        
         public bool HealthIsZero()
         {
             return currentHp <= 0;
@@ -180,12 +190,6 @@ namespace Game
             }
 
             return config.Name;
-        }
-
-        public async UniTask ChangeElement(ElementEnum elementEnum1)
-        {
-            elementEnum = elementEnum1;
-            await bind.Invoke();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using cfg;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -73,5 +74,10 @@ namespace Game.GamePlay
         // {
         //     Debug.LogWarning($"机器人消耗牌未实现");
         // }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void Init(TrainerData trainerData1)
+        {
+            trainerData = trainerData1;
+        }
     }
 }
