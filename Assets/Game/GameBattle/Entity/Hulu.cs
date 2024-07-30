@@ -13,7 +13,7 @@ namespace Game.GamePlay
         [ReadOnly, ShowInInspector] private HuluData _data;
         [SerializeField] private TextMeshPro hpText;
         [SerializeField] private TextMeshPro nameText;
-
+        [SerializeField] private TextMeshPro elementText;
         private ICommand _unbindCmd;
 
         public void Bind(HuluData data)
@@ -27,11 +27,15 @@ namespace Game.GamePlay
         {
             nameText.text = obj.name;
             hpText.text = $"{obj.currentHp}/{obj.hp}";
+            elementText.text = obj.elementEnum.ToString();
         }
 
         private async UniTask OnData(HuluData obj)
         {
             nameText.text = obj.name;
+            
+            elementText.text = obj.elementEnum.ToString();
+            
             int origin = hpText.text == "" ? 0 : int.Parse(hpText.text.Split('/')[0]);
             int delta = obj.currentHp - origin;
             // 10滴血一帧
@@ -42,7 +46,7 @@ namespace Game.GamePlay
                 await UniTask.Delay(TimeSpan.FromMilliseconds(1 / 60f * 1000));
             }
 
-            hpText.text = $"{obj.currentHp}/{obj.hp}";
+            OnDataDirect(obj);
         }
 
         public void UnBind()

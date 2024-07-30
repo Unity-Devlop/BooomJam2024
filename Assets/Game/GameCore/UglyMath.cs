@@ -76,6 +76,13 @@ namespace Game
                 await atk.DecreaseHealth(damagePoint / 2);
                 return;
             }
+            else if (skill.Id == ActiveSkillEnum.放电)
+            {
+                Debug.Log($"放电 变成{ElementEnum.普通}属性");
+                Global.Event.Send(new BattleTipEvent("放电 变成普通属性"));
+                await atk.ChangeElement(ElementEnum.普通);
+                return;
+            }
         }
 
         public static void PostprocessHuluDataWhenUseSkill(HuluData atk, ActiveSkillConfig skill)

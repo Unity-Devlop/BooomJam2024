@@ -245,6 +245,29 @@ MonoBehaviour:
       - id: 39
       - id: 43
       datas:
+      - id: 9
+        buffList: 
+        elementEnum: 4
+        hp: 185
+        currentHp: 185
+        atk: 68
+        currentAtk: 68
+        def: 34
+        currentDef: 34
+        speed: 179
+        currentSpeed: 179
+        adap: 10
+        currentAdap: 10
+        ownedSkills:
+        - id: 12
+        - id: 12
+        - id: 12
+        - id: 12
+        - id: 12
+        - id: 12
+        - id: 12
+        - id: 12
+        - id: 12
       - id: 8
         buffList: 
         elementEnum: 3
@@ -291,29 +314,6 @@ MonoBehaviour:
         - id: 26
         - id: 12
         - id: 12
-      - id: 5
-        buffList: 
-        elementEnum: 6
-        hp: 513
-        currentHp: 513
-        atk: 50
-        currentAtk: 50
-        def: 94
-        currentDef: 94
-        speed: 24
-        currentSpeed: 24
-        adap: 10
-        currentAdap: 10
-        ownedSkills:
-        - id: 25
-        - id: 0
-        - id: 24
-        - id: 23
-        - id: 24
-        - id: 25
-        - id: 0
-        - id: 25
-        - id: 13
     deck: 
   rebotBattleTrainer:
     <trainerData>k__BackingField:
@@ -637,6 +637,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3312096850841980562, guid: 40d9c7ef4dbec26419a96188ac0cce0f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 0}
+    - targetCorrespondingSourceObject: {fileID: 7262344611488757791, guid: 40d9c7ef4dbec26419a96188ac0cce0f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 40d9c7ef4dbec26419a96188ac0cce0f, type: 3}
 --- !u!4 &920250701 stripped
 Transform:
@@ -880,6 +883,9 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 0}
     - targetCorrespondingSourceObject: {fileID: 3312096850841980562, guid: 40d9c7ef4dbec26419a96188ac0cce0f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
+    - targetCorrespondingSourceObject: {fileID: 7262344611488757791, guid: 40d9c7ef4dbec26419a96188ac0cce0f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 40d9c7ef4dbec26419a96188ac0cce0f, type: 3}

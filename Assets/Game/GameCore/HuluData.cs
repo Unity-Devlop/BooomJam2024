@@ -157,14 +157,14 @@ namespace Game
             Debug.Log($"{this}当前攻击力{currentAtk}");
             await bind.Invoke();
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public async UniTask IncreaseDef(int i)
         {
             int nextDef = Mathf.Clamp(currentDef + i, 0, def);
             currentDef = nextDef;
             Debug.Log($"{this}当前防御力{currentDef}");
-            await bind.Invoke();   
+            await bind.Invoke();
         }
 
         public bool HealthIsZero()
@@ -180,6 +180,12 @@ namespace Game
             }
 
             return config.Name;
+        }
+
+        public async UniTask ChangeElement(ElementEnum elementEnum1)
+        {
+            elementEnum = elementEnum1;
+            await bind.Invoke();
         }
     }
 }
