@@ -245,31 +245,31 @@ MonoBehaviour:
       - id: 39
       - id: 43
       datas:
-      - id: 0
+      - id: 9
         buffList: 
-        elementEnum: 1
-        hp: 373
-        currentHp: 373
-        atk: 83
-        currentAtk: 83
-        def: 40
-        currentDef: 40
-        speed: 123
-        currentSpeed: 123
-        adap: 5
-        currentAdap: 5
+        elementEnum: 4
+        hp: 197
+        currentHp: 197
+        atk: 75
+        currentAtk: 75
+        def: 26
+        currentDef: 26
+        speed: 112
+        currentSpeed: 112
+        adap: 10
+        currentAdap: 10
         ownedSkills:
-        - id: 25
-        - id: 25
-        - id: 25
-        - id: 25
-        - id: 25
-        - id: 25
-        - id: 25
-        - id: 25
-        - id: 25
-        - id: 25
-        - id: 25
+        - id: 0
+        - id: 0
+        - id: 0
+        - id: 0
+        - id: 0
+        - id: 0
+        - id: 0
+        - id: 0
+        - id: 0
+        - id: 0
+        - id: 0
       - id: 1
         buffList: 
         elementEnum: 2

@@ -24,6 +24,7 @@ namespace Game.GamePlay
 
         public UniTask ChangeCurrentHulu(HuluData robotPosCurrentData)
         {
+            currentBattleData = robotPosCurrentData;
             Debug.LogWarning($"机器人切换宝可梦未实现");
             return UniTask.CompletedTask;
         }

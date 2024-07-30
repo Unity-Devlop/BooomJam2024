@@ -144,6 +144,46 @@ namespace Game
             return speed;
         }
 
+        public static async UniTask<IBattleOperation> PostprocessHuluDataWhenHealthChange(HuluData hulu, IBattleTrainer trainer)
+        {
+            IBattleOperation operation;
+            if (hulu.id == HuluEnum.电电鼠 && hulu.passiveSkillConfig.Id == PassiveSkillEnum.胆小鬼 &&
+                hulu.buffList.Contains(BuffEnum.胆小鬼) && hulu.currentHp < hulu.hp / 2)
+            {
+                int tar = -1;
+                for (int i = 0; i < trainer.trainerData.datas.Count; i++)
+                {
+                    if (trainer.trainerData.datas[i] == hulu)
+                    {
+                        continue;
+                    }
+
+                    if (trainer.trainerData.datas[i].hp < 0)
+                    {
+                        continue;
+                    }
+
+                    tar = i;
+                }
+
+                if (tar != -1)
+                {
+                    operation = new ChangeHuluOperation()
+                    {
+                        next = tar
+                    };
+                    Debug.Log("胆小鬼触发！");
+                    Global.Event.Send(new BattleTipEvent($"{hulu}胆小鬼"));
+                    await UniTask.Delay(TimeSpan.FromSeconds(1));
+                    hulu.buffList.Remove(BuffEnum.胆小鬼);
+                    hulu.buffList.Add(BuffEnum.胆小鬼归来);
+                    return operation;
+                }
+            }
+
+            return null;
+        }
+
         public static async UniTask PostprocessHuluDataWhenDead(HuluData huluData)
         {
             if (huluData.id == HuluEnum.斯托姆 && huluData.passiveSkillConfig.Id == PassiveSkillEnum.狂风不灭 &&
@@ -177,6 +217,36 @@ namespace Game
             }
 
             return rs.config.Priority;
+        }
+
+        public static async UniTask PostprocessHuluEnterBattle(HuluData next)
+        {
+            Debug.Log($"{next}进入战场 times:{next.enterTimes}");
+            if (next.id == HuluEnum.电电鼠 && next.passiveSkillConfig.Id == PassiveSkillEnum.胆小鬼 && next.enterTimes == 1)
+            {
+                next.buffList.Add(BuffEnum.胆小鬼);
+                return;
+            }
+
+            if (next.buffList.Contains(BuffEnum.胆小鬼归来))
+            {
+                next.buffList.Remove(BuffEnum.胆小鬼归来);
+                Debug.Log("胆小鬼归来");
+                
+                next.hp = (int)(next.hp * 1.5f);
+                next.atk = (int)(next.atk * 1.5f);
+                next.def = (int)(next.def * 1.5f);
+                next.speed = (int)(next.speed * 1.5f);
+                next.adap = (int)(next.adap * 1.5f);
+                
+                next.currentHp = (int)(next.currentHp * 1.5f);
+                next.currentAtk = (int)(next.currentAtk * 1.5f);
+                next.currentDef = (int)(next.currentDef * 1.5f);
+                next.currentSpeed = (int)(next.currentSpeed * 1.5f);
+                next.currentAdap = (int)(next.currentAdap * 1.5f);
+                await next.bind.Invoke();
+                return;
+            }
         }
     }
 }

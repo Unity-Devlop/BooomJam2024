@@ -19,7 +19,7 @@ namespace Game.GamePlay
     {
         public bool canFight => trainerData.canFight;
         [field: SerializeField] public TrainerData trainerData { get; private set; }
-        public HuluData currentBattleData { get; private set; }
+        [field: NonSerialized] public HuluData currentBattleData { get; private set; }
 
         public event Func<List<ActiveSkillData>, UniTask> OnDrawCard = delegate { return UniTask.CompletedTask; };
         public event Func<ActiveSkillData, UniTask> OnUseCard = delegate { return UniTask.CompletedTask; };
@@ -104,6 +104,8 @@ namespace Game.GamePlay
 
         public async UniTask ChangeCurrentHulu(HuluData data)
         {
+            Assert.IsNotNull(data);
+            Debug.Log($"切换当前宝可梦{currentBattleData}->{data}");
             if (currentBattleData != null)
             {
                 List<ActiveSkillData> needDelete = ListPool<ActiveSkillData>.Get();
@@ -151,6 +153,7 @@ namespace Game.GamePlay
                 Debug.Log("最初进入战斗 直接抽牌");
             }
 
+            Debug.Log($"{this}切换成功");
             currentBattleData = data;
             RecalculateDeck();
             ReFillDrawZone();
