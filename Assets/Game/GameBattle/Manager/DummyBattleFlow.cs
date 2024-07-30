@@ -407,6 +407,11 @@ namespace Game.GamePlay
 
             UglyMath.PostprocessHuluDataWhenUseSkill(user, operation.data.config);
 
+            if (operation.data.config.Type == ActiveSkillTypeEnum.指挥)
+            {
+                return;
+            }
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             if (operation.data.config.Type == ActiveSkillTypeEnum.伤害技能)
             {
@@ -441,40 +446,34 @@ namespace Game.GamePlay
                     Global.Event.Send<BattleTipEvent>(new BattleTipEvent($"{userPosition}未命中"));
                     Debug.Log($"计算技能伤害,pos:{userPosition},{user}对{def}使用{operation.data.id} 未命中");
                 }
-
-                if (userTrainer == _self)
-                {
-                    ModifyOperAfterUseSkill(ref selfOper);
-                }
-                else
-                {
-                    ModifyOperAfterUseSkill(ref enemyOper);
-                }
-
-                return;
             }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            if (operation.data.config.Type == ActiveSkillTypeEnum.变化技能)
+            else if (operation.data.config.Type == ActiveSkillTypeEnum.变化技能)
             {
                 if (operation.data.id == ActiveSkillEnum.守护)
                 {
                     user.buffList.Add(BuffEnum.守护);
                     Global.Event.Send<BattleTipEvent>(new BattleTipEvent($"{userPosition}使用{operation.data.id}"));
-                    return;
                 }
-
-
-                return;
+                else if (operation.data.id == ActiveSkillEnum.光合作用)
+                {
+                    Global.Event.Send<BattleTipEvent>(new BattleTipEvent($"{userPosition}使用{operation.data.id}"));
+                    int delta = user.hp / 5;
+                    await user.ChangeHealth(-delta);
+                }
             }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            if (operation.data.config.Type == ActiveSkillTypeEnum.指挥)
-            {
-                return;
-            }
 
-            return;
+            if (userTrainer == _self)
+            {
+                ModifyOperAfterUseSkill(ref selfOper);
+            }
+            else
+            {
+                ModifyOperAfterUseSkill(ref enemyOper);
+            }
         }
     }
 }

@@ -121,6 +121,8 @@ namespace Game
             BattleEnvironmentData environmentData)
         {
             ActiveSkillConfig config = Global.Table.ActiveSkillTable.Get(skill);
+            Assert.IsTrue(config.DamagePoint != 0);
+            
             Assert.IsTrue(config.Type == ActiveSkillTypeEnum.伤害技能);
             float baseValue = (atk.currentAtk + config.DamagePoint - def.currentDef)
                               *

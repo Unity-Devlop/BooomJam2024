@@ -50,6 +50,7 @@ namespace Game
                 Debug.Log("火焰冲 +10");
                 Global.Event.Send(new BattleTipEvent("火焰冲 +10"));
                 await atk.ChangeAtk(10);
+                await UniTask.Delay(TimeSpan.FromSeconds(1));
                 return;
             }
         }
@@ -67,23 +68,38 @@ namespace Game
         }
 
         public static float PostprocessBattleBaseValue(float baseValue, HuluData atk, HuluData def,
-            ActiveSkillConfig config)
+            ActiveSkillConfig atkSkill)
         {
             if (atk.id == HuluEnum.怒潮龙 && atk.passiveSkillConfig.Id == PassiveSkillEnum.怒火喷发 && atk.currentHp == atk.hp)
             {
                 Debug.Log("怒火喷发");
+                Global.Event.Send(new BattleTipEvent("怒火喷发"));
                 baseValue *= 1.5f;
             }
             else if (atk.id == HuluEnum.烈火领主 && atk.passiveSkillConfig.Id == PassiveSkillEnum.火焰共鸣)
             {
                 Debug.Log("火焰共鸣");
-                baseValue = baseValue / GameMath.CalSelfElementFit(atk.config, config) * 1.5f;
+                Global.Event.Send(new BattleTipEvent("火焰共鸣"));
+                baseValue = baseValue / GameMath.CalSelfElementFit(atk.config, atkSkill) * 1.5f;
             }
             else if (def.id == HuluEnum.吞火熊 && def.passiveSkillConfig.Id == PassiveSkillEnum.内敛 &&
-                     config.Element == ElementEnum.水)
+                     atkSkill.Element == ElementEnum.水)
             {
                 Debug.Log("内敛");
+                Global.Event.Send(new BattleTipEvent("内敛"));
                 baseValue /= GameMath.CalDamageElementFit(atk.elementEnum, def.elementEnum);
+                return baseValue;
+            }
+            else if (atkSkill.Id == ActiveSkillEnum.喙啄 && Random.value < 0.2f)
+            {
+                Debug.Log("喙啄");
+                baseValue *= 1.5f;
+                return baseValue;
+            }
+            else if (atkSkill.Id == ActiveSkillEnum.吐火 && atk.currentHp >= atk.hp)
+            {
+                Debug.Log("吐火");
+                baseValue *= 1.5f;
                 return baseValue;
             }
 
@@ -144,7 +160,8 @@ namespace Game
             return speed;
         }
 
-        public static async UniTask<IBattleOperation> PostprocessHuluDataWhenHealthChange(HuluData hulu, IBattleTrainer trainer)
+        public static async UniTask<IBattleOperation> PostprocessHuluDataWhenHealthChange(HuluData hulu,
+            IBattleTrainer trainer)
         {
             IBattleOperation operation;
             if (hulu.id == HuluEnum.电电鼠 && hulu.passiveSkillConfig.Id == PassiveSkillEnum.胆小鬼 &&
@@ -232,13 +249,13 @@ namespace Game
             {
                 next.buffList.Remove(BuffEnum.胆小鬼归来);
                 Debug.Log("胆小鬼归来");
-                
+
                 next.hp = (int)(next.hp * 1.5f);
                 next.atk = (int)(next.atk * 1.5f);
                 next.def = (int)(next.def * 1.5f);
                 next.speed = (int)(next.speed * 1.5f);
                 next.adap = (int)(next.adap * 1.5f);
-                
+
                 next.currentHp = (int)(next.currentHp * 1.5f);
                 next.currentAtk = (int)(next.currentAtk * 1.5f);
                 next.currentDef = (int)(next.currentDef * 1.5f);
