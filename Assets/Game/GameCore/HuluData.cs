@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using cfg;
 using Cysharp.Threading.Tasks;
@@ -116,6 +117,7 @@ namespace Game
             buffList = new List<BuffEnum>();
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public async UniTask DecreaseHealth(int delta)
         {
             currentHp -= delta;
@@ -134,7 +136,7 @@ namespace Game
             await bind.Invoke();
         }
 
-
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public async UniTask DecreaseSpeed(int i)
         {
             currentSpeed -= i;
@@ -145,6 +147,24 @@ namespace Game
 
             Debug.Log($"{this}当前速度{currentSpeed}");
             await bind.Invoke();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public async UniTask IncreaseAtk(int delta)
+        {
+            int nextAtk = Mathf.Clamp(currentAtk + delta, 0, atk);
+            currentAtk = nextAtk;
+            Debug.Log($"{this}当前攻击力{currentAtk}");
+            await bind.Invoke();
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public async UniTask IncreaseDef(int i)
+        {
+            int nextDef = Mathf.Clamp(currentDef + i, 0, def);
+            currentDef = nextDef;
+            Debug.Log($"{this}当前防御力{currentDef}");
+            await bind.Invoke();   
         }
 
         public bool HealthIsZero()
@@ -160,14 +180,6 @@ namespace Game
             }
 
             return config.Name;
-        }
-
-        public async UniTask ChangeAtk(int delta)
-        {
-            int nextAtk = Mathf.Clamp(currentAtk + delta, 0, atk);
-            currentAtk = nextAtk;
-            Debug.Log($"{this}当前攻击力{currentAtk}");
-            await bind.Invoke();
         }
     }
 }

@@ -50,7 +50,7 @@ namespace Game
             {
                 Debug.Log("火焰冲 +10");
                 Global.Event.Send(new BattleTipEvent("火焰冲 +10"));
-                await atk.ChangeAtk(10);
+                await atk.IncreaseAtk(10);
                 await UniTask.Delay(TimeSpan.FromSeconds(1));
                 return;
             }
@@ -60,6 +60,12 @@ namespace Game
                 Global.Event.Send(new BattleTipEvent("扎根 -10"));
                 await atk.DecreaseSpeed(10);
                 await UniTask.Delay(TimeSpan.FromSeconds(1));
+            }
+            else if (skill.Id == ActiveSkillEnum.滚动)
+            {
+                Debug.Log("滚动 +10");
+                Global.Event.Send(new BattleTipEvent("滚动 +10"));
+                await atk.IncreaseDef(10);
             }
         }
 
