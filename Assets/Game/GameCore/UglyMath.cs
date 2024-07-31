@@ -260,7 +260,7 @@ namespace Game
                 huluData.canReborn)
             {
                 Debug.Log("狂风不灭");
-                await huluData.DecreaseHealth(huluData.hp / 2);
+                await huluData.DecreaseHealth(-huluData.hp / 2);
                 huluData.canReborn = false;
                 await huluData.bind.Invoke();
                 return;

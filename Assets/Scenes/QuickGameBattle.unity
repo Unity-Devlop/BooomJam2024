@@ -235,85 +235,85 @@ MonoBehaviour:
   playerBattleTrainer:
     <trainerData>k__BackingField:
       trainerSkills:
+      - id: 28
+      - id: 61
+      - id: 61
+      - id: 47
+      - id: 55
+      - id: 31
+      - id: 34
       - id: 58
-      - id: 58
-      - id: 58
-      - id: 58
-      - id: 58
-      - id: 58
-      - id: 58
-      - id: 58
-      - id: 58
+      - id: 35
       datas:
-      - id: 8
+      - id: 10
         buffList: 
-        elementEnum: 3
-        hp: 400000
-        currentHp: 400000
-        atk: 72
-        currentAtk: 72
-        def: 60
-        currentDef: 60
-        speed: 73
-        currentSpeed: 73
-        adap: 7
-        currentAdap: 7
+        elementEnum: 5
+        hp: 202
+        currentHp: 202
+        atk: 106
+        currentAtk: 106
+        def: 25
+        currentDef: 25
+        speed: 200
+        currentSpeed: 200
+        adap: 40
+        currentAdap: 40
         ownedSkills:
-        - id: 13
-        - id: 13
+        - id: 19
+        - id: 21
+        - id: 14
+        - id: 19
+        - id: 14
+        - id: 14
         - id: 26
-        - id: 11
-        - id: 11
-        - id: 25
-        - id: 13
-        - id: 13
-        - id: 11
+        - id: 14
+        - id: 21
       - id: 9
         buffList: 
         elementEnum: 4
-        hp: 185
-        currentHp: 100
-        atk: 68
-        currentAtk: 68
-        def: 34
-        currentDef: 34
-        speed: 179
-        currentSpeed: 179
-        adap: 10
-        currentAdap: 10
+        hp: 188
+        currentHp: 188
+        atk: 89
+        currentAtk: 89
+        def: 31
+        currentDef: 31
+        speed: 105
+        currentSpeed: 105
+        adap: 14
+        currentAdap: 14
         ownedSkills:
-        - id: 27
-        - id: 27
-        - id: 27
-        - id: 27
-        - id: 27
-        - id: 27
-        - id: 27
-        - id: 27
-        - id: 27
+        - id: 12
+        - id: 22
+        - id: 16
+        - id: 22
+        - id: 12
+        - id: 16
+        - id: 22
+        - id: 16
+        - id: 26
       - id: 0
         buffList: 
         elementEnum: 1
-        hp: 378
-        currentHp: 378
-        atk: 72
-        currentAtk: 72
-        def: 68
-        currentDef: 68
-        speed: 154
-        currentSpeed: 154
-        adap: 16
-        currentAdap: 16
+        hp: 366
+        currentHp: 366
+        atk: 74
+        currentAtk: 74
+        def: 77
+        currentDef: 77
+        speed: 126
+        currentSpeed: 126
+        adap: 13
+        currentAdap: 13
         ownedSkills:
-        - id: 1
-        - id: 1
-        - id: 25
-        - id: 25
-        - id: 1
-        - id: 1
-        - id: 25
-        - id: 1
+        - id: 0
         - id: 19
+        - id: 0
+        - id: 24
+        - id: 24
+        - id: 2
+        - id: 0
+        - id: 0
+        - id: 2
     deck: 
   rebotBattleTrainer:
     <trainerData>k__BackingField:
