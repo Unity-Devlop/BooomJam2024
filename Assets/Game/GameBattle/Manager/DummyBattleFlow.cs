@@ -467,18 +467,7 @@ namespace Game.GamePlay
             Global.Event.Send<BattleTipEvent>(
                 new BattleTipEvent($"{userPosition}使用[{operation.data.config.Type}]{operation}"));
 
-            HuluData user = userPosition.currentData;
-            HuluData def;
-            if (userPosition == selfPos)
-            {
-                def = enemyPos.currentData;
-            }
-            else
-            {
-                def = selfPos.currentData;
-            }
-
-            UglyMath.PostprocessHuluDataWhenUseSkill(user, operation.data.config);
+            UglyMath.PostprocessHuluDataWhenUseSkill(userPosition.currentData, operation.data.config);
 
             if (operation.data.config.Type == ActiveSkillTypeEnum.指挥)
             {
@@ -489,7 +478,7 @@ namespace Game.GamePlay
             if (operation.data.config.Type == ActiveSkillTypeEnum.伤害技能)
             {
                 int times;
-                if (operation.data.config.MulAttackTimes == null)
+                if (operation.data.config.MulAttackTimes == null || operation.data.config.MulAttackTimes.Length == 0)
                 {
                     times = 1;
                 }
@@ -499,27 +488,36 @@ namespace Game.GamePlay
                     Assert.IsTrue(operation.data.config.MulAttackTimes[0] <= operation.data.config.MulAttackTimes[1]);
                     times = UnityEngine.Random.Range(operation.data.config.MulAttackTimes[0],
                         operation.data.config.MulAttackTimes[1]);
+                    Global.Event.Send<BattleTipEvent>(new BattleTipEvent($"{userPosition}攻击次数:{times}"));
                 }
 
                 Debug.Log($"Attack Times:{times}");
                 for (int i = 0; i < times; i++)
                 {
-                    if (def.HealthIsZero())
+                    Global.Event.Send<BattleTipEvent>(new BattleTipEvent($"{userPosition}攻击次数:{i + 1}"));
+                    await UniTask.Delay(TimeSpan.FromSeconds(0.5f));
+                    if (defPosition.currentData.HealthIsZero())
                     {
-                        Debug.Log($"{def}已经死亡 不再计算伤害");
+                        Debug.Log($"{defPosition.currentData}已经死亡 不再计算伤害");
                         break;
                     }
 
-                    await UglyMath.PostprocessHuluDataBeforeUseSkill(user, operation.data.config);
-                    bool hitted = GameMath.CalHit(user, def, operation.data.id, _environmentData);
-                    if (hitted && UglyMath.PostprocessHitRate(user, def, operation.data.id, _environmentData))
+                    await UglyMath.PostprocessHuluDataBeforeUseSkill(userPosition.currentData, operation.data.config);
+                    bool hitted = GameMath.CalHit(userPosition.currentData, defPosition.currentData, operation.data.id,
+                        _environmentData);
+                    if (hitted && UglyMath.PostprocessHitRate(userPosition.currentData, defPosition.currentData,
+                            operation.data.id, _environmentData))
                     {
-                        int damage = GameMath.CalDamage(user, def, operation.data.id, _environmentData);
-                        Global.Event.Send<BattleTipEvent>(new BattleTipEvent($"{userPosition}对{def}造成{damage}伤害"));
-                        Debug.Log($"计算技能伤害,pos:{userPosition},{user}对{def}使用{operation.data.id} 造成{damage}伤害");
-                        await def.DecreaseHealth(damage);
+                        int damage = GameMath.CalDamage(userPosition.currentData, defPosition.currentData,
+                            operation.data.id, _environmentData);
+                        Global.Event.Send<BattleTipEvent>(
+                            new BattleTipEvent($"{userPosition}对{defPosition.currentData}造成{damage}伤害"));
+                        Debug.Log(
+                            $"计算技能伤害,pos:{userPosition},{userPosition.currentData}对{defPosition.currentData}使用{operation.data.id} 造成{damage}伤害");
+                        await defPosition.currentData.DecreaseHealth(damage);
 
-                        IBattleOperation newOper = await UglyMath.PostprocessHuluDataWhenHealthChange(def, defTrainer);
+                        IBattleOperation newOper =
+                            await UglyMath.PostprocessHuluDataWhenHealthChange(defPosition.currentData, defTrainer);
                         if (newOper != null)
                         {
                             if (newOper is ChangeHuluOperation changeHuluOperation)
@@ -528,19 +526,21 @@ namespace Game.GamePlay
                             }
                         }
 
-                        if (def.HealthIsZero())
+                        if (defPosition.currentData.HealthIsZero())
                         {
-                            await UglyMath.PostprocessHuluDataWhenDead(def);
+                            await UglyMath.PostprocessHuluDataWhenDead(defPosition.currentData);
                         }
 
-                        await UglyMath.PostprocessHuluDataWhenAfterUseSkill(userTrainer, user, defTrainer,
+                        await UglyMath.PostprocessHuluDataWhenAfterUseSkill(userTrainer, userPosition.currentData,
+                            defTrainer,
                             operation.data.config,
                             damage, _environmentData);
                     }
                     else
                     {
                         Global.Event.Send<BattleTipEvent>(new BattleTipEvent($"{userPosition}未命中"));
-                        Debug.Log($"计算技能伤害,pos:{userPosition},{user}对{def}使用{operation.data.id} 未命中");
+                        Debug.Log(
+                            $"计算技能伤害,pos:{userPosition},{userPosition.currentData}对{defPosition.currentData}使用{operation.data.id} 未命中");
                         // break;
                     }
                 }
@@ -551,14 +551,14 @@ namespace Game.GamePlay
             {
                 if (operation.data.id == ActiveSkillEnum.守护)
                 {
-                    user.buffList.Add(BuffEnum.守护);
+                    userPosition.currentData.buffList.Add(BuffEnum.守护);
                     Global.Event.Send<BattleTipEvent>(new BattleTipEvent($"{userPosition}使用{operation.data.id}"));
                 }
                 else if (operation.data.id == ActiveSkillEnum.光合作用)
                 {
                     Global.Event.Send<BattleTipEvent>(new BattleTipEvent($"{userPosition}使用{operation.data.id}"));
-                    int delta = user.hp / 5;
-                    await user.DecreaseHealth(-delta);
+                    int delta = userPosition.currentData.hp / 5;
+                    await userPosition.currentData.DecreaseHealth(-delta);
                 }
             }
 

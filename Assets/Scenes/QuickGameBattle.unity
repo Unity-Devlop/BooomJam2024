@@ -259,15 +259,15 @@ MonoBehaviour:
         adap: 10
         currentAdap: 10
         ownedSkills:
-        - id: 12
-        - id: 16
-        - id: 26
-        - id: 22
-        - id: 12
-        - id: 26
-        - id: 22
-        - id: 26
-        - id: 12
+        - id: 27
+        - id: 27
+        - id: 27
+        - id: 27
+        - id: 27
+        - id: 27
+        - id: 27
+        - id: 27
+        - id: 27
       - id: 8
         buffList: 
         elementEnum: 3
