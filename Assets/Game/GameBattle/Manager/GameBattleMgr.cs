@@ -28,14 +28,22 @@ namespace Game.GamePlay
             // Init Battle Controller
             battleFlow = GetComponent<DummyBattleFlow>();
             await UniTask.DelayFrame(5); // TODO 后续删除这个等待逻辑 因为在进入游戏时 一定初始完毕了
-            TrainerData playerTrainerData = playerBattleTrainer.trainerData;//TODO Global.Get<GameFlow>().GetParam<TrainerData>(nameof(TrainerData)); // 从游戏流程中获取数据
-            environmentData = environmentData;// TODO Global.Get<GameFlow>().GetParam<BattleEnvironmentData>(nameof(BattleEnvironmentData));
+            StartBattle();
+        }
+
+        public async void StartBattle()
+        {
+            //TODO Global.Get<GameFlow>().GetParam<TrainerData>(nameof(TrainerData)); // 从游戏流程中获取数据
+            TrainerData playerTrainerData = playerBattleTrainer.trainerData;
+            // TODO Global.Get<GameFlow>().GetParam<BattleEnvironmentData>(nameof(BattleEnvironmentData));
+            environmentData = environmentData;
             playerBattleTrainer.Init(playerTrainerData); // 暂时用Inspector配置的数据
-            
-            
+
+            // TODO 后续配置一下 随机几个拿出来
             Debug.LogWarning($"随机生成机器人未实现");
             TrainerData aiTrainerData = rebotBattleTrainer.trainerData;
-            rebotBattleTrainer.Init(aiTrainerData); // TODO 后续配置一下 随机几个拿出来
+            rebotBattleTrainer.Init(aiTrainerData);
+
 
             battleFlow.Init(playerBattleTrainer, rebotBattleTrainer, environmentData);
             await battleFlow.Enter();

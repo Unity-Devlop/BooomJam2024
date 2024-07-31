@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 
@@ -55,5 +56,33 @@ namespace Game.GamePlay
         public bool TryGetRoundWinner(out IBattleTrainer battleTrainer);
 
         public bool TryGetFinalWinner(out IBattleTrainer battleTrainer);
+        
+        public static async UniTask RoundFlow(IBattleFlow flow, CancellationToken token)
+        {
+            IBattleTrainer winner;
+            while (!token.IsCancellationRequested)
+            {
+                await flow.RoundStart(); // 回合开始
+                await flow.BeforeRound(); // 回合开始前
+                await flow.Rounding(); // 回合进行
+                if (flow.TryGetFinalWinner(out winner))
+                {
+                    break;
+                }
+
+                await flow.AfterRound();
+                if (flow.TryGetFinalWinner(out winner))
+                {
+                    break;
+                }
+
+                await flow.RoundEnd();
+
+                await UniTask.DelayFrame(1, cancellationToken: token);
+            }
+
+            // 执行退出战斗流程
+            await flow.Exit();
+        }
     }
 }

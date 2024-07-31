@@ -32,6 +32,7 @@ namespace Game.GamePlay
 
         public void Init(PlayerBattleTrainer self, RebotBattleTrainer enemy, BattleEnvironmentData environmentData)
         {
+            Assert.IsNull(_cts);
             _self = self;
             _enemy = enemy;
 
@@ -51,22 +52,20 @@ namespace Game.GamePlay
             UIRoot.Singleton.ClosePanel<GameBattlePanel>();
         }
 
-        public UniTask Enter()
+        public async UniTask Enter()
         {
+            Assert.IsNull(_cts);
             // Roll Initial Cards
 
             // Open Battle Panel
             GameBattlePanel gameBattlePanel = UIRoot.Singleton.OpenPanel<GameBattlePanel>();
             gameBattlePanel.Bind(_self);
-
-            Assert.IsNull(_cts);
             _cts = new CancellationTokenSource();
 
             selfPos.SetNext(selfPos.battleTrainer.Get(0));
             enemyPos.SetNext(enemyPos.battleTrainer.Get(0));
 
-            RoundFlow(this, _cts.Token).Forget();
-            return UniTask.CompletedTask;
+            await IBattleFlow.RoundFlow(this, _cts.Token);
         }
 
         public async UniTask RoundStart()
@@ -88,46 +87,6 @@ namespace Game.GamePlay
             await _enemy.DrawSkills(1);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private async UniTask ExecuteBuffBeforeRound(IBattleTrainer positiveTrainer, IBattleTrainer negativeTrainer,
-            BuffContainer container)
-        {
-            Assert.IsTrue(positiveTrainer != negativeTrainer);
-            if (container.lastRoundBuffEnums.Contains(BuffEnum.起风))
-            {
-                Debug.Log("起风消失");
-                Global.Event.Send<BattleTipEvent>(new BattleTipEvent("起风消失"));
-                foreach (var data in positiveTrainer.trainerData.datas)
-                {
-                    await data.DecreaseCurrentSpeed(10);
-                }
-
-                foreach (var data in positiveTrainer.trainerData.datas)
-                {
-                    await data.IncreaseCurrentSpeed(10);
-                }
-
-                container.lastRoundBuffEnums.Remove(BuffEnum.起风);
-            }
-
-            if (container.buffEnums.Contains(BuffEnum.起风))
-            {
-                Debug.Log("起风");
-                Global.Event.Send<BattleTipEvent>(new BattleTipEvent("起风"));
-                foreach (var data in positiveTrainer.trainerData.datas)
-                {
-                    await data.DecreaseCurrentSpeed(10);
-                }
-
-                foreach (var data in positiveTrainer.trainerData.datas)
-                {
-                    await data.IncreaseCurrentSpeed(10);
-                }
-
-                container.buffEnums.Remove(BuffEnum.起风);
-                container.lastRoundBuffEnums.Add(BuffEnum.起风);
-            }
-        }
 
         public async UniTask Rounding()
         {
@@ -249,22 +208,6 @@ namespace Game.GamePlay
             }
         }
 
-        private void ModifyOperAfterUseSkill(ref IBattleOperation oper)
-        {
-            Assert.IsTrue(oper is ActiveSkillBattleOperation);
-            var atk = (ActiveSkillBattleOperation)oper;
-
-            if (atk.data.config.Type != ActiveSkillTypeEnum.指挥)
-            {
-                oper = new EndRoundOperation();
-            }
-        }
-
-        private void ModifyOperAfterChangeHulu(ref IBattleOperation oper)
-        {
-            Assert.IsTrue(oper is ChangeHuluOperation);
-            oper = new EndRoundOperation();
-        }
 
         public UniTask AfterRound()
         {
@@ -282,12 +225,14 @@ namespace Game.GamePlay
             return UniTask.CompletedTask;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public async UniTask RoundEnd()
         {
             await selfPos.ClearRoundData();
             await enemyPos.ClearRoundData();
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
 
         public UniTask Exit()
         {
@@ -300,6 +245,7 @@ namespace Game.GamePlay
             return UniTask.CompletedTask;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Cancel()
         {
             Assert.IsNotNull(_cts);
@@ -307,6 +253,7 @@ namespace Game.GamePlay
             _cts = null;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool TryGetRoundWinner(out IBattleTrainer battleTrainer)
         {
             if (_self.currentBattleData.HealthIsZero())
@@ -325,6 +272,7 @@ namespace Game.GamePlay
             return false;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool TryGetFinalWinner(out IBattleTrainer battleTrainer)
         {
             if (_self.canFight && !_enemy.canFight)
@@ -343,38 +291,30 @@ namespace Game.GamePlay
             return false;
         }
 
-
-        public static async UniTask RoundFlow(IBattleFlow flow, CancellationToken token)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private void ModifyOperAfterUseSkill(ref IBattleOperation oper)
         {
-            IBattleTrainer winner;
-            while (!token.IsCancellationRequested)
+            Assert.IsTrue(oper is ActiveSkillBattleOperation);
+            var atk = (ActiveSkillBattleOperation)oper;
+
+            if (atk.data.config.Type != ActiveSkillTypeEnum.指挥)
             {
-                await flow.RoundStart(); // 回合开始
-                await flow.BeforeRound(); // 回合开始前
-                await flow.Rounding(); // 回合进行
-                if (flow.TryGetFinalWinner(out winner))
-                {
-                    break;
-                }
-
-                await flow.AfterRound();
-                if (flow.TryGetFinalWinner(out winner))
-                {
-                    break;
-                }
-
-                await flow.RoundEnd();
-
-                await UniTask.DelayFrame(1, cancellationToken: token);
+                oper = new EndRoundOperation();
             }
+        }
 
-            // 执行退出战斗流程
-            await flow.Exit();
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private void ModifyOperAfterChangeHulu(ref IBattleOperation oper)
+        {
+            Assert.IsTrue(oper is ChangeHuluOperation);
+            oper = new EndRoundOperation();
         }
 
         /// <summary>
         /// 检查是否有角色准备入场
         /// </summary>
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private async UniTask EnterBattleCheck()
         {
             if (selfPos.next != null)
@@ -428,6 +368,47 @@ namespace Game.GamePlay
 
                 // 如果打死了对方 则不用再打了
                 await ExecuteSkill(_self, _enemy, selfPos, enemyPos, selfAtk);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private async UniTask ExecuteBuffBeforeRound(IBattleTrainer positiveTrainer, IBattleTrainer negativeTrainer,
+            BuffContainer container)
+        {
+            Assert.IsTrue(positiveTrainer != negativeTrainer);
+            if (container.lastRoundBuffEnums.Contains(BuffEnum.起风))
+            {
+                Debug.Log("起风消失");
+                Global.Event.Send<BattleTipEvent>(new BattleTipEvent("起风消失"));
+                foreach (var data in positiveTrainer.trainerData.datas)
+                {
+                    await data.DecreaseCurrentSpeed(10);
+                }
+
+                foreach (var data in positiveTrainer.trainerData.datas)
+                {
+                    await data.IncreaseCurrentSpeed(10);
+                }
+
+                container.lastRoundBuffEnums.Remove(BuffEnum.起风);
+            }
+
+            if (container.buffEnums.Contains(BuffEnum.起风))
+            {
+                Debug.Log("起风");
+                Global.Event.Send<BattleTipEvent>(new BattleTipEvent("起风"));
+                foreach (var data in positiveTrainer.trainerData.datas)
+                {
+                    await data.DecreaseCurrentSpeed(10);
+                }
+
+                foreach (var data in positiveTrainer.trainerData.datas)
+                {
+                    await data.IncreaseCurrentSpeed(10);
+                }
+
+                container.buffEnums.Remove(BuffEnum.起风);
+                container.lastRoundBuffEnums.Add(BuffEnum.起风);
             }
         }
 
