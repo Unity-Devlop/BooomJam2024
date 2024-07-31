@@ -27,9 +27,10 @@ namespace Game
             }
         }
 
-        public static async UniTask PostprocessHuluDataWhenAfterUseSkill(IBattleTrainer atkTrainer,HuluData atk, IBattleTrainer defTrainer,
+        public static async UniTask PostprocessHuluDataWhenAfterUseSkill(IBattleTrainer atkTrainer, HuluData atk,
+            IBattleTrainer defTrainer,
             ActiveSkillConfig skill,
-            int damagePoint,BattleEnvironmentData environmentData)
+            int damagePoint, BattleEnvironmentData environmentData)
         {
             if (atk.id == HuluEnum.毒宝宝 && atk.passiveSkillConfig.Id == PassiveSkillEnum.毒素治疗 &&
                 skill.Element == ElementEnum.毒)
@@ -101,9 +102,9 @@ namespace Game
             {
                 Debug.Log("起风");
                 Global.Event.Send(new BattleTipEvent("起风"));
-                await environmentData.AddBuff(atkTrainer,BuffEnum.起风);
-                await environmentData.AddBuff(atkTrainer,BuffEnum.起风);
-                await environmentData.AddBuff(atkTrainer,BuffEnum.起风);
+                await environmentData.AddBuff(atkTrainer, BuffEnum.起风);
+                await environmentData.AddBuff(atkTrainer, BuffEnum.起风);
+                await environmentData.AddBuff(atkTrainer, BuffEnum.起风);
             }
         }
 
@@ -139,7 +140,7 @@ namespace Game
             {
                 Debug.Log("内敛");
                 Global.Event.Send(new BattleTipEvent("内敛"));
-                baseValue /= GameMath.CalDamageElementFit(atk.elementEnum, def.elementEnum);
+                baseValue /= GameMath.CalDamageElementFit(atkSkill.Element, def.elementEnum);
                 return baseValue;
             }
             else if (atkSkill.Id == ActiveSkillEnum.喙啄 && Random.value < 0.2f)

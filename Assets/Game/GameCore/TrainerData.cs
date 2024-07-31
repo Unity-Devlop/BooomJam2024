@@ -23,7 +23,7 @@ namespace Game
                 {
                     if (data.HealthIsZero())
                     {
-                        Debug.LogWarning($"{data}已经死亡");
+                        // Debug.LogWarning($"{data}已经死亡");
                         cnt++;
                     }
                 }

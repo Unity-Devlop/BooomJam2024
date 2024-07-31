@@ -122,19 +122,24 @@ namespace Game
         {
             ActiveSkillConfig config = Global.Table.ActiveSkillTable.Get(skill);
             Assert.IsTrue(config.DamagePoint != 0);
-            
+
             Assert.IsTrue(config.Type == ActiveSkillTypeEnum.伤害技能);
             int damagePoint = UglyMath.PostprocessDamagePoint(config, environmentData);
             int atkPoint = UglyMath.PostprocessAtkPoint(atk, config, environmentData);
-            float baseValue = (atk.currentAtk + atkPoint - def.currentDef)
+            Debug.Log(
+                $"攻击力{atkPoint},伤害{damagePoint},防御力{def.currentDef}" +
+                $" 本系威力加成{CalSelfElementFit(atk.config, config)} " +
+                $"属性克制{CalDamageElementFit(config.Element, def.config.Elements)}");
+            float baseValue = (atkPoint + damagePoint - def.currentDef)
                               *
                               CalSelfElementFit(atk.config, config) // 本系威力加成
                               *
-                              CalDamageElementFit(atk.config.Elements, def.config.Elements // 属性克制
+                              CalDamageElementFit(config.Element, def.config.Elements // 属性克制
                               );
+            Debug.Log($"处理前的基础伤害{baseValue} ");
             baseValue = UglyMath.PostprocessBattleBaseValue(baseValue, atk, def, config);
 
-
+            Debug.Log($"基础伤害{baseValue} 适应度{def.currentAdap}");
             float finalValue = baseValue * (1 - Mathf.Clamp(def.currentAdap, 0, 100) / 100f);
 
             return (int)finalValue;

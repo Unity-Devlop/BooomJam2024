@@ -462,7 +462,7 @@ namespace Game.GamePlay
             Assert.IsTrue(defTrainer.currentBattleData == defPosition.currentData);
 
             await userTrainer.UseCardFromHandZone(operation.data);
-            await userPosition.ExecuteSkill(operation);
+
             // 计算伤害
             Global.Event.Send<BattleTipEvent>(
                 new BattleTipEvent($"{userPosition}使用[{operation.data.config.Type}]{operation}"));
@@ -491,11 +491,12 @@ namespace Game.GamePlay
                     Global.Event.Send<BattleTipEvent>(new BattleTipEvent($"{userPosition}攻击次数:{times}"));
                 }
 
-                Debug.Log($"Attack Times:{times}");
+                Debug.Log($"{userPosition}:Attack Times:{times}");
                 for (int i = 0; i < times; i++)
                 {
+                    await userPosition.ExecuteSkill(operation);
                     Global.Event.Send<BattleTipEvent>(new BattleTipEvent($"{userPosition}攻击次数:{i + 1}"));
-                    await UniTask.Delay(TimeSpan.FromSeconds(0.5f));
+                    // await UniTask.Delay(TimeSpan.FromSeconds(0.5f));
                     if (defPosition.currentData.HealthIsZero())
                     {
                         Debug.Log($"{defPosition.currentData}已经死亡 不再计算伤害");
@@ -549,6 +550,7 @@ namespace Game.GamePlay
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             else if (operation.data.config.Type == ActiveSkillTypeEnum.变化技能)
             {
+                await userPosition.ExecuteSkill(operation);
                 if (operation.data.id == ActiveSkillEnum.守护)
                 {
                     userPosition.currentData.buffList.Add(BuffEnum.守护);
