@@ -233,7 +233,6 @@ namespace Game.GamePlay
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-
         public UniTask Exit()
         {
             Debug.Log("Exit");
@@ -313,7 +312,6 @@ namespace Game.GamePlay
         /// <summary>
         /// 检查是否有角色准备入场
         /// </summary>
-        
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private async UniTask EnterBattleCheck()
         {
@@ -455,9 +453,17 @@ namespace Game.GamePlay
                 if (operation.data.id == ActiveSkillEnum.疗伤药膏)
                 {
                     Debug.Log($"疗伤药膏+100");
-                    Global.Event.Send<BattleTipEvent>(new BattleTipEvent($"{userPosition}使用{operation.data.id}"));
+                    Global.Event.Send<BattleTipEvent>(new BattleTipEvent($"疗伤药膏+100"));
                     await userPosition.currentData.DecreaseHealth(-100);
                 }
+
+                if (operation.data.id == ActiveSkillEnum.战斗灵感)
+                {
+                    Debug.Log($"战斗灵感 抽三张牌");
+                    Global.Event.Send<BattleTipEvent>(new BattleTipEvent($"战斗灵感 抽三张牌"));
+                    await userTrainer.DrawSkills(3);
+                }
+
                 return;
             }
 
