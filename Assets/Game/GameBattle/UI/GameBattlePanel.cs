@@ -51,6 +51,7 @@ namespace Game
             _trainer = battleTrainer;
             _trainer.OnDrawCard += DrawCardToHand;
             _trainer.OnDiscardCard += DiscardCard;
+            _trainer.OnConsumedCard += OnConsumedCard;
             _trainer.OnDestroyCard += DestroyCard;
             _trainer.OnStartCalOperation += StartCalOperation;
             _trainer.OnEndCalOperation += EndCalOperation;
@@ -62,10 +63,13 @@ namespace Game
         }
 
 
+
+
         public void UnBind()
         {
             _trainer.OnDrawCard -= DrawCardToHand;
             _trainer.OnDiscardCard -= DiscardCard;
+            _trainer.OnConsumedCard -= OnConsumedCard;
             _trainer.OnDestroyCard -= DestroyCard;
             _trainer.OnStartCalOperation -= StartCalOperation;
             _trainer.OnEndCalOperation -= EndCalOperation;
@@ -103,8 +107,12 @@ namespace Game
 
         private async UniTask DiscardCard(List<ActiveSkillData> arg)
         {
-            // TODO 不能remove 而是要discard
             await selfCardContainer.Discard(arg);
+        }
+        
+        private async UniTask OnConsumedCard(List<ActiveSkillData> arg)
+        {
+            await selfCardContainer.ConsumedCard(arg);
         }
 
         private async UniTask DrawCardToHand(List<ActiveSkillData> obj)

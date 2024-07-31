@@ -452,6 +452,12 @@ namespace Game.GamePlay
 
             if (operation.data.config.Type == ActiveSkillTypeEnum.指挥)
             {
+                if (operation.data.id == ActiveSkillEnum.疗伤药膏)
+                {
+                    Debug.Log($"疗伤药膏+100");
+                    Global.Event.Send<BattleTipEvent>(new BattleTipEvent($"{userPosition}使用{operation.data.id}"));
+                    await userPosition.currentData.DecreaseHealth(-100);
+                }
                 return;
             }
 

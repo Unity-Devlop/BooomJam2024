@@ -235,21 +235,21 @@ MonoBehaviour:
   playerBattleTrainer:
     <trainerData>k__BackingField:
       trainerSkills:
-      - id: 37
-      - id: 34
-      - id: 43
-      - id: 42
-      - id: 45
-      - id: 41
-      - id: 35
-      - id: 39
-      - id: 43
+      - id: 31
+      - id: 31
+      - id: 31
+      - id: 31
+      - id: 31
+      - id: 31
+      - id: 31
+      - id: 31
+      - id: 31
       datas:
       - id: 9
         buffList: 
         elementEnum: 4
         hp: 185
-        currentHp: 185
+        currentHp: 100
         atk: 68
         currentAtk: 68
         def: 34

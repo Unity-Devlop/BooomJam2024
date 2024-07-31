@@ -26,6 +26,7 @@ namespace Game.GamePlay
         public event Func<ActiveSkillData, UniTask> OnUseHandCard;
         public event Func<List<ActiveSkillData>, UniTask> OnDestroyCard;
         public event Func<List<ActiveSkillData>, UniTask> OnDiscardCard;
+        public event Func<List<ActiveSkillData>, UniTask> OnConsumedCard;
 
         public event Func<List<ActiveSkillData>, List<ActiveSkillData>, UniTask> OnDiscardToDraw;
 
@@ -56,7 +57,7 @@ namespace Game.GamePlay
         public bool TryGetRoundWinner(out IBattleTrainer battleTrainer);
 
         public bool TryGetFinalWinner(out IBattleTrainer battleTrainer);
-        
+
         public static async UniTask RoundFlow(IBattleFlow flow, CancellationToken token)
         {
             IBattleTrainer winner;

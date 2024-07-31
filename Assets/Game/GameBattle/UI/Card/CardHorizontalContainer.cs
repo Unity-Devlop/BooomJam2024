@@ -20,9 +20,9 @@ namespace Game
         public int childCnt = 8;
 
         [SerializeField] private List<Card> handZoneCardList; // 手牌区域
-        private List<ActiveSkillData> _cemeteryZoneCardList; // 墓地区域
-        private List<ActiveSkillData> _discardZoneCardList; // 弃牌区域
-        private List<ActiveSkillData> _drawZoneCardList; // 抽牌区域
+        // private List<ActiveSkillData> _cemeteryZoneCardList; // 墓地区域
+        // private List<ActiveSkillData> _discardZoneCardList; // 弃牌区域
+        // private List<ActiveSkillData> _drawZoneCardList; // 抽牌区域
 
         //把卡牌拖到这个区域内 -> 出牌
         [SerializeField] private RectTransform outsideArea;
@@ -51,9 +51,9 @@ namespace Game
 
             handZoneCardList = new List<Card>();
 
-            _discardZoneCardList = new List<ActiveSkillData>();
-            _drawZoneCardList = new List<ActiveSkillData>();
-            _cemeteryZoneCardList = new List<ActiveSkillData>();
+            // _discardZoneCardList = new List<ActiveSkillData>();
+            // _drawZoneCardList = new List<ActiveSkillData>();
+            // _cemeteryZoneCardList = new List<ActiveSkillData>();
         }
 
 
@@ -92,19 +92,6 @@ namespace Game
             await UniTask.CompletedTask;
         }
 
-        public async UniTask DiscardFromHandZone(List<ActiveSkillData> activeSkillDatas)
-        {
-            foreach (var skillData in activeSkillDatas)
-            {
-                // TODO 性能问题
-                var card = handZoneCardList.Find(card => card.data == skillData);
-                Assert.IsNotNull(card);
-                cardSlotPool.Release(card.transform.parent.gameObject);
-                cardPool.Release(card.gameObject);
-                handZoneCardList.Remove(card);
-                await UniTask.DelayFrame(1);
-            }
-        }
 
         public async UniTask DestroyCard(List<ActiveSkillData> activeSkillDatas)
         {
@@ -114,10 +101,10 @@ namespace Game
                 var card = handZoneCardList.Find(card => card.data == skillData);
                 if (card == null)
                 {
-                    _drawZoneCardList.Remove(skillData);
-                    _discardZoneCardList.Remove(skillData);
-                    _cemeteryZoneCardList.Remove(skillData);
-                    Debug.LogWarning($"DestroyCard: {skillData}");
+                    // _drawZoneCardList.Remove(skillData);
+                    // _discardZoneCardList.Remove(skillData);
+                    // _cemeteryZoneCardList.Remove(skillData);
+                    Debug.LogWarning($"移除的牌不在手牌里: {skillData}");
                     continue;
                 }
 
@@ -129,10 +116,47 @@ namespace Game
             }
         }
 
+        public async UniTask DiscardToDraw(List<ActiveSkillData> discard, List<ActiveSkillData> draw)
+        {
+            // _discardZoneCardList.Clear();
+            // _discardZoneCardList.AddRange(discard);
+            // _drawZoneCardList.Clear();
+            // _drawZoneCardList.AddRange(draw);
+            await UniTask.CompletedTask;
+        }
+
+        public async UniTask ConsumedCard(List<ActiveSkillData> activeSkillDatas)
+        {
+            foreach (var skillData in activeSkillDatas)
+            {
+                // TODO 暂时不做消耗牌的表现 直接移除
+                var card = handZoneCardList.Find(card => card.data == skillData);
+                Assert.IsNotNull(card);
+                cardSlotPool.Release(card.transform.parent.gameObject);
+                cardPool.Release(card.gameObject);
+                handZoneCardList.Remove(card);
+                await UniTask.DelayFrame(1);
+            }
+        }
+
         public async UniTask Discard(List<ActiveSkillData> activeSkillDatas)
         {
             await DiscardFromHandZone(activeSkillDatas);
-            _drawZoneCardList.AddRange(activeSkillDatas);
+            // _drawZoneCardList.AddRange(activeSkillDatas);
+        }
+
+        public async UniTask DiscardFromHandZone(List<ActiveSkillData> activeSkillDatas)
+        {
+            foreach (var skillData in activeSkillDatas)
+            {
+                // TODO 暂时不做弃牌的表现 直接移除
+                var card = handZoneCardList.Find(card => card.data == skillData); // TODO 性能问题 
+                Assert.IsNotNull(card);
+                cardSlotPool.Release(card.transform.parent.gameObject);
+                cardPool.Release(card.gameObject);
+                handZoneCardList.Remove(card);
+                await UniTask.DelayFrame(1);
+            }
         }
 
         private Card SpawnOneCardObj(string objName = "")
@@ -236,15 +260,6 @@ namespace Game
             _calCts.Cancel();
             _calCts = null;
             return UniTask.CompletedTask;
-        }
-
-        public async UniTask DiscardToDraw(List<ActiveSkillData> discard, List<ActiveSkillData> draw)
-        {
-            _discardZoneCardList.Clear();
-            _discardZoneCardList.AddRange(discard);
-            _drawZoneCardList.Clear();
-            _drawZoneCardList.AddRange(draw);
-            await UniTask.CompletedTask;
         }
     }
 }

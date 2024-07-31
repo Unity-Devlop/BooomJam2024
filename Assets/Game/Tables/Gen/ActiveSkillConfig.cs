@@ -25,6 +25,7 @@ public sealed partial class ActiveSkillConfig : Luban.BeanBase
         { if(!_buf["priority"].IsNumber) { throw new SerializationException(); }  Priority = _buf["priority"]; }
         { if(!_buf["hit_rate"].IsNumber) { throw new SerializationException(); }  HitRate = _buf["hit_rate"]; }
         { var __json0 = _buf["mul_attack_times"]; if(!__json0.IsArray) { throw new SerializationException(); } int _n0 = __json0.Count; MulAttackTimes = new int[_n0]; int __index0=0; foreach(JSONNode __e0 in __json0.Children) { int __v0;  { if(!__e0.IsNumber) { throw new SerializationException(); }  __v0 = __e0; }  MulAttackTimes[__index0++] = __v0; }   }
+        { if(!_buf["type2"].IsNumber) { throw new SerializationException(); }  Type2 = (CardTypeEnum)_buf["type2"].AsInt; }
     }
 
     public static ActiveSkillConfig DeserializeActiveSkillConfig(JSONNode _buf)
@@ -55,12 +56,14 @@ public sealed partial class ActiveSkillConfig : Luban.BeanBase
     public readonly int Priority;
     public readonly float HitRate;
     public readonly int[] MulAttackTimes;
+    public readonly CardTypeEnum Type2;
    
     public const int __ID__ = -652779027;
     public override int GetTypeId() => __ID__;
 
     public  void ResolveRef(Tables tables)
     {
+        
         
         
         
@@ -82,6 +85,7 @@ public sealed partial class ActiveSkillConfig : Luban.BeanBase
         + "priority:" + Priority + ","
         + "hitRate:" + HitRate + ","
         + "mulAttackTimes:" + Luban.StringUtil.CollectionToString(MulAttackTimes) + ","
+        + "type2:" + Type2 + ","
         + "}";
     }
 }
