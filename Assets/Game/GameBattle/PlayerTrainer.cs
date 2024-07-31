@@ -274,6 +274,7 @@ namespace Game.GamePlay
             // Debug.Log($"当前手牌数量:{cur}");
             int need = Consts.MaxHandCard - cur; // 还可以抽的数量
             need = Mathf.Clamp(need, 0, cnt); // 限制抽牌数量
+            need = Mathf.Clamp(need, 0, deck.Count);
             if (need == 0)
             {
                 // Debug.Log("手牌已满");
@@ -290,6 +291,11 @@ namespace Game.GamePlay
                     // Debug.Log("抽牌区没牌了");
                     // 弃牌区加入抽牌区
                     await Discard2DrawZone();
+                }
+                if(drawZone.Count == 0)
+                {
+                    Debug.LogError("抽牌区没牌了");
+                    break;
                 }
 
                 // 随机抽一张 加入手牌
