@@ -1,7 +1,7 @@
 [
   {
     "id": 0,
-    "name": "",
+    "name": "怒潮龙",
     "passive_skill": 1,
     "elements": 1,
     "base_hp": 320,
@@ -25,7 +25,7 @@
   },
   {
     "id": 1,
-    "name": "",
+    "name": "烈火领主",
     "passive_skill": 2,
     "elements": 2,
     "base_hp": 220,
@@ -48,7 +48,7 @@
   },
   {
     "id": 2,
-    "name": "",
+    "name": "枯木妖",
     "passive_skill": 3,
     "elements": 3,
     "base_hp": 350,
@@ -70,7 +70,7 @@
   },
   {
     "id": 3,
-    "name": "",
+    "name": "噼啪小将",
     "passive_skill": 4,
     "elements": 4,
     "base_hp": 220,
@@ -93,7 +93,7 @@
   },
   {
     "id": 4,
-    "name": "",
+    "name": "疾风之翼",
     "passive_skill": 5,
     "elements": 5,
     "base_hp": 260,
@@ -116,7 +116,7 @@
   },
   {
     "id": 5,
-    "name": "",
+    "name": "毒宝宝",
     "passive_skill": 6,
     "elements": 6,
     "base_hp": 490,
@@ -139,7 +139,7 @@
   },
   {
     "id": 6,
-    "name": "",
+    "name": "一口鲸",
     "passive_skill": 7,
     "elements": 1,
     "base_hp": 550,
@@ -162,7 +162,7 @@
   },
   {
     "id": 7,
-    "name": "",
+    "name": "吞火熊",
     "passive_skill": 8,
     "elements": 2,
     "base_hp": 310,
@@ -186,7 +186,7 @@
   },
   {
     "id": 8,
-    "name": "",
+    "name": "推土牛",
     "passive_skill": 9,
     "elements": 3,
     "base_hp": 400,
@@ -209,7 +209,7 @@
   },
   {
     "id": 9,
-    "name": "",
+    "name": "电电鼠",
     "passive_skill": 10,
     "elements": 4,
     "base_hp": 140,
@@ -231,7 +231,7 @@
   },
   {
     "id": 10,
-    "name": "",
+    "name": "斯托姆",
     "passive_skill": 11,
     "elements": 5,
     "base_hp": 150,
@@ -253,7 +253,7 @@
   },
   {
     "id": 11,
-    "name": "",
+    "name": "小闪光",
     "passive_skill": 12,
     "elements": 4,
     "base_hp": 200,
