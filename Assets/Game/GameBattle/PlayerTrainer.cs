@@ -40,7 +40,10 @@ namespace Game.GamePlay
 
         // Draw zone, hand zone, discard zone
         [ShowInInspector, ReadOnly] public HashSet<ActiveSkillData> drawZone = new();
-        [ShowInInspector, ReadOnly] public HashSet<ActiveSkillData> handZone = new();
+
+        [ShowInInspector, ReadOnly]
+        public HashSet<ActiveSkillData> handZone { get; private set; } = new HashSet<ActiveSkillData>();
+
         [ShowInInspector, ReadOnly] public HashSet<ActiveSkillData> discardZone = new();
         [ShowInInspector, ReadOnly] public HashSet<ActiveSkillData> consumedZone = new(); // 墓地区域
 
@@ -131,6 +134,21 @@ namespace Game.GamePlay
             }
 
             await UniTask.Delay(TimeSpan.FromSeconds(1));
+        }
+
+        public int GetHandZoneCount()
+        {
+            return handZone.Count;
+        }
+
+        public UniTask DiscardAllHandCards()
+        {
+            Debug.Log("弃掉所有手牌");
+            List<ActiveSkillData> list = ListPool<ActiveSkillData>.Get();
+            list.AddRange(handZone);
+            handZone.Clear();
+            discardZone.AddRange(list);
+            return OnDiscardCard(list);
         }
 
         public async UniTask ChangeCurrentHulu(HuluData data)
@@ -237,13 +255,14 @@ namespace Game.GamePlay
             Debug.Log($"重置抽牌区,当前抽牌区有:{drawZone.Count}张牌");
         }
 
-        private async UniTask Discard2DrawZone()
+        public async UniTask Discard2DrawZone()
         {
             Debug.Log("清空弃牌区 弃牌区加入抽牌区");
             drawZone.AddRange(discardZone);
             await OnDiscardToDraw(discardZone.ToList(), drawZone.ToList());
             discardZone.Clear();
         }
+
 
         /// <summary>
         /// 重新计算卡组
@@ -292,7 +311,8 @@ namespace Game.GamePlay
                     // 弃牌区加入抽牌区
                     await Discard2DrawZone();
                 }
-                if(drawZone.Count == 0)
+
+                if (drawZone.Count == 0)
                 {
                     Debug.LogError("抽牌区没牌了");
                     break;
@@ -307,6 +327,32 @@ namespace Game.GamePlay
             // Debug.Log($"抽到了{drawList.Count}张牌");
             handZone.AddRange(drawList);
             // Debug.Log($"当前手牌数量:{handZone.Count}");
+
+            await OnDrawCard(drawList.ToList());
+            HashSetPool<ActiveSkillData>.Release(drawList);
+        }
+
+        public async UniTask DrawTarget(ActiveSkillTypeEnum type, int cnt)
+        {
+            HashSet<ActiveSkillData> drawList = HashSetPool<ActiveSkillData>.Get();
+
+            foreach (var activeSkillData in drawZone)
+            {
+                if (activeSkillData.config.Type == type)
+                {
+                    drawList.Add(activeSkillData);
+                    if (drawList.Count == cnt)
+                    {
+                        break;
+                    }
+                }
+            }
+
+            foreach (var target in drawList)
+            {
+                drawZone.Remove(target);
+                handZone.Add(target);
+            }
 
             await OnDrawCard(drawList.ToList());
             HashSetPool<ActiveSkillData>.Release(drawList);

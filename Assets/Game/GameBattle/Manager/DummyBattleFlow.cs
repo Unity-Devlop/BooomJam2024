@@ -464,6 +464,33 @@ namespace Game.GamePlay
                     await userTrainer.DrawSkills(3);
                 }
 
+                if (operation.data.id == ActiveSkillEnum.重整思路)
+                {
+                    Debug.Log($"重整思路 弃所有手牌 抽等量牌");
+                    Global.Event.Send<BattleTipEvent>(new BattleTipEvent($"重整思路 弃所有手牌 抽等量牌"));
+                    int currentCount = userTrainer.handZone.Count;
+                    await userTrainer.DiscardAllHandCards();
+                    await userTrainer.DrawSkills(currentCount);
+                }
+
+                if (operation.data.id == ActiveSkillEnum.战术规划)
+                {
+                    int cnt = 0;
+                    foreach (var handCard in userTrainer.handZone)
+                    {
+                        if (handCard.config.Type == ActiveSkillTypeEnum.指挥)
+                        {
+                            cnt++;
+                        }
+                    }
+
+                    if (cnt < 2)
+                    {
+                        await userTrainer.Discard2DrawZone();
+                    }
+                    userTrainer.DrawTarget(ActiveSkillTypeEnum.指挥, 2);
+                }
+
                 return;
             }
 

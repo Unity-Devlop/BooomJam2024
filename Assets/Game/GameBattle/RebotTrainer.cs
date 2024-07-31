@@ -14,6 +14,7 @@ namespace Game.GamePlay
 
         [field: SerializeField] public TrainerData trainerData { get; set; }
         public HuluData currentBattleData { get; set; }
+        public HashSet<ActiveSkillData> handZone { get; }
 
         public event Func<List<ActiveSkillData>, UniTask> OnDrawCard;
         public event Func<ActiveSkillData, UniTask> OnUseHandCard;
@@ -48,6 +49,27 @@ namespace Game.GamePlay
         {
             Debug.LogWarning($"机器人随机弃牌未实现");
             return UniTask.CompletedTask;
+        }
+
+        public int GetHandZoneCount()
+        {
+            throw new NotImplementedException();
+        }
+
+        public UniTask DiscardAllHandCards()
+        {
+            throw new NotImplementedException();
+        }
+
+        public UniTask Discard2DrawZone()
+        {
+            throw new NotImplementedException();
+        }
+
+        public UniTask DrawTarget(ActiveSkillTypeEnum type, int cnt)
+        {
+            throw new NotImplementedException();
+            
         }
 
         public void PushOperation(IBattleOperation operation)

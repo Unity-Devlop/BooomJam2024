@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using cfg;
 using Cysharp.Threading.Tasks;
 
 namespace Game.GamePlay
@@ -15,6 +16,8 @@ namespace Game.GamePlay
         public bool canFight { get; }
         public TrainerData trainerData { get; }
         public HuluData currentBattleData { get; }
+        
+        public HashSet<ActiveSkillData> handZone { get; }
 
         public HuluData Get(int idx)
         {
@@ -42,6 +45,9 @@ namespace Game.GamePlay
 
         public UniTask UseCardFromHandZone(ActiveSkillData data);
         UniTask RandomDiscard(int i);
+        UniTask DiscardAllHandCards();
+        UniTask Discard2DrawZone();
+        UniTask DrawTarget(ActiveSkillTypeEnum type, int cnt);
     }
 
     public interface IBattleFlow
