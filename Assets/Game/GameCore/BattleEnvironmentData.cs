@@ -14,8 +14,8 @@ namespace Game
     public class BuffContainer
     {
         public IBattleTrainer trainer;
-        public List<BuffEnum> buffEnums = new List<BuffEnum>();
-        public List<BuffEnum> lastRoundBuffEnums = new List<BuffEnum>();
+        public List<BattleBuffEnum> buffEnums = new List<BattleBuffEnum>();
+        public List<BattleBuffEnum> lastRoundBuffEnums = new List<BattleBuffEnum>();
     }
 
     [Serializable]
@@ -38,7 +38,7 @@ namespace Game
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void RemoveBuff(IBattleTrainer trainer, BuffEnum buff)
+        public void RemoveBuff(IBattleTrainer trainer, BattleBuffEnum buff)
         {
             var container = _containers[trainer];
             Assert.IsNotNull(container);
@@ -46,7 +46,7 @@ namespace Game
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public async UniTask AddBuff(IBattleTrainer atkTrainer, BuffEnum buff)
+        public async UniTask AddBuff(IBattleTrainer atkTrainer, BattleBuffEnum buff)
         {
             var container = _containers[atkTrainer];
             Assert.IsNotNull(container);

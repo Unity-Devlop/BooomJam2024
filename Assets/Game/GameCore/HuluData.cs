@@ -67,7 +67,7 @@ namespace Game
         [NonSerialized] public bool canReborn = true; // Ugly 狂风不灭
         [NonSerialized] public int skillTimes = 0; // Ugly 自由者
         [NonSerialized] public int enterTimes = 0; // 第几次进入战场
-        public List<BuffEnum> buffList = new List<BuffEnum>(); // 守护
+        [ShowInInspector] private List<BattleBuffEnum> buffList; // 守护
 
 
         public ElementEnum elementEnum;
@@ -114,7 +114,7 @@ namespace Game
         {
             bind = new BindData<HuluData, UniTask>(this);
             ownedSkills = new List<ActiveSkillData>();
-            buffList = new List<BuffEnum>();
+            buffList = new List<BattleBuffEnum>();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -193,9 +193,29 @@ namespace Game
 
         public async UniTask ClearRoundData()
         {
-            buffList.Remove(BuffEnum.守护);
-            buffList.Remove(BuffEnum.站起来);
-            buffList.Remove(BuffEnum.规避弱点);
+            buffList.Remove(BattleBuffEnum.守护);
+            buffList.Remove(BattleBuffEnum.站起来);
+            buffList.Remove(BattleBuffEnum.规避弱点);
+        }
+
+        public async UniTask AddBuff(BattleBuffEnum configSelfBattleBuffAfterUse)
+        {
+            buffList.Add(configSelfBattleBuffAfterUse);
+        }
+
+        public bool Contains(BattleBuffEnum buff)
+        {
+            return buffList.Contains(buff);
+        }
+
+        public void Remove(BattleBuffEnum buff)
+        {
+            buffList.Remove(buff);
+        }
+
+        public void Add(BattleBuffEnum buff)
+        {
+            buffList.Add(buff);
         }
     }
 }

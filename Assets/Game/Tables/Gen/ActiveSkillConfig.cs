@@ -23,6 +23,8 @@ public sealed partial class ActiveSkillConfig : Luban.BeanBase
         { if(!_buf["type"].IsNumber) { throw new SerializationException(); }  Type = (ActiveSkillTypeEnum)_buf["type"].AsInt; }
         { if(!_buf["damage_point"].IsNumber) { throw new SerializationException(); }  DamagePoint = _buf["damage_point"]; }
         { if(!_buf["priority"].IsNumber) { throw new SerializationException(); }  Priority = _buf["priority"]; }
+        { if(!_buf["self_battle_buff_count_after_use"].IsNumber) { throw new SerializationException(); }  SelfBattleBuffCountAfterUse = _buf["self_battle_buff_count_after_use"]; }
+        { if(!_buf["self_battle_buff_after_use"].IsNumber) { throw new SerializationException(); }  SelfBattleBuffAfterUse = (BattleBuffEnum)_buf["self_battle_buff_after_use"].AsInt; }
         { if(!_buf["hit_rate"].IsNumber) { throw new SerializationException(); }  HitRate = _buf["hit_rate"]; }
         { var __json0 = _buf["mul_attack_times"]; if(!__json0.IsArray) { throw new SerializationException(); } int _n0 = __json0.Count; MulAttackTimes = new int[_n0]; int __index0=0; foreach(JSONNode __e0 in __json0.Children) { int __v0;  { if(!__e0.IsNumber) { throw new SerializationException(); }  __v0 = __e0; }  MulAttackTimes[__index0++] = __v0; }   }
         { if(!_buf["change_battle_env_after_use"].IsNumber) { throw new SerializationException(); }  ChangeBattleEnvAfterUse = (BattleEnvironmentEnum)_buf["change_battle_env_after_use"].AsInt; }
@@ -72,6 +74,14 @@ public sealed partial class ActiveSkillConfig : Luban.BeanBase
     /// 优先级
     /// </summary>
     public readonly int Priority;
+    /// <summary>
+    /// 数量
+    /// </summary>
+    public readonly int SelfBattleBuffCountAfterUse;
+    /// <summary>
+    /// 使用后给自己增加的Buff
+    /// </summary>
+    public readonly BattleBuffEnum SelfBattleBuffAfterUse;
     /// <summary>
     /// 命中率
     /// </summary>
@@ -174,6 +184,8 @@ public sealed partial class ActiveSkillConfig : Luban.BeanBase
         
         
         
+        
+        
     }
 
     public override string ToString()
@@ -185,6 +197,8 @@ public sealed partial class ActiveSkillConfig : Luban.BeanBase
         + "type:" + Type + ","
         + "damagePoint:" + DamagePoint + ","
         + "priority:" + Priority + ","
+        + "selfBattleBuffCountAfterUse:" + SelfBattleBuffCountAfterUse + ","
+        + "selfBattleBuffAfterUse:" + SelfBattleBuffAfterUse + ","
         + "hitRate:" + HitRate + ","
         + "mulAttackTimes:" + Luban.StringUtil.CollectionToString(MulAttackTimes) + ","
         + "changeBattleEnvAfterUse:" + ChangeBattleEnvAfterUse + ","

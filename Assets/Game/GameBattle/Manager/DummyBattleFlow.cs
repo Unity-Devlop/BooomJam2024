@@ -57,6 +57,7 @@ namespace Game.GamePlay
         {
             _environmentData.id = configChangeBattleEnvAfterUse;
         }
+
         public async UniTask Enter()
         {
             Assert.IsNull(_cts);
@@ -384,7 +385,7 @@ namespace Game.GamePlay
             BuffContainer container)
         {
             Assert.IsTrue(positiveTrainer != negativeTrainer);
-            if (container.lastRoundBuffEnums.Contains(BuffEnum.起风))
+            if (container.lastRoundBuffEnums.Contains(BattleBuffEnum.起风))
             {
                 Debug.Log("起风消失");
                 Global.Event.Send<BattleTipEvent>(new BattleTipEvent("起风消失"));
@@ -398,10 +399,10 @@ namespace Game.GamePlay
                     await data.IncreaseCurrentSpeed(10);
                 }
 
-                container.lastRoundBuffEnums.Remove(BuffEnum.起风);
+                container.lastRoundBuffEnums.Remove(BattleBuffEnum.起风);
             }
 
-            if (container.buffEnums.Contains(BuffEnum.起风))
+            if (container.buffEnums.Contains(BattleBuffEnum.起风))
             {
                 Debug.Log("起风");
                 Global.Event.Send<BattleTipEvent>(new BattleTipEvent("起风"));
@@ -415,8 +416,8 @@ namespace Game.GamePlay
                     await data.IncreaseCurrentSpeed(10);
                 }
 
-                container.buffEnums.Remove(BuffEnum.起风);
-                container.lastRoundBuffEnums.Add(BuffEnum.起风);
+                container.buffEnums.Remove(BattleBuffEnum.起风);
+                container.lastRoundBuffEnums.Add(BattleBuffEnum.起风);
             }
         }
 
@@ -469,38 +470,6 @@ namespace Game.GamePlay
                     int currentCount = userTrainer.handZone.Count;
                     await userTrainer.DiscardAllHandCards();
                     await userTrainer.DrawSkills(currentCount);
-                }
-
-                if (operation.data.id == ActiveSkillEnum.寻找弱点)
-                {
-                    Global.Event.Send<BattleTipEvent>(new BattleTipEvent("寻找弱点"));
-                    await UniTask.Delay(TimeSpan.FromSeconds(0.2f));
-                    userPosition.currentData.buffList.Add(BuffEnum.寻找弱点);
-                    return;
-                }
-
-                if (operation.data.id == ActiveSkillEnum.快躲开)
-                {
-                    Global.Event.Send<BattleTipEvent>(new BattleTipEvent("快躲开"));
-                    await UniTask.Delay(TimeSpan.FromSeconds(0.2f));
-                    userPosition.currentData.buffList.Add(BuffEnum.快躲开);
-                    return;
-                }
-
-                if (operation.data.id == ActiveSkillEnum.站起来)
-                {
-                    Global.Event.Send<BattleTipEvent>(new BattleTipEvent("站起来"));
-                    await UniTask.Delay(TimeSpan.FromSeconds(0.2f));
-                    userPosition.currentData.buffList.Add(BuffEnum.站起来);
-                    return;
-                }
-
-                if (operation.data.id == ActiveSkillEnum.滑轮技巧)
-                {
-                    Global.Event.Send<BattleTipEvent>(new BattleTipEvent("滑轮技巧"));
-                    await UniTask.Delay(TimeSpan.FromSeconds(0.2f));
-                    userPosition.currentData.buffList.Add(BuffEnum.滑轮技巧);
-                    return;
                 }
 
                 return;
@@ -585,11 +554,6 @@ namespace Game.GamePlay
             else if (operation.data.config.Type == ActiveSkillTypeEnum.变化技能)
             {
                 await userPosition.ExecuteSkill(operation);
-                if (operation.data.id == ActiveSkillEnum.守护)
-                {
-                    userPosition.currentData.buffList.Add(BuffEnum.守护);
-                    Global.Event.Send<BattleTipEvent>(new BattleTipEvent($"{userPosition}使用{operation.data.id}"));
-                }
             }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -633,7 +597,27 @@ namespace Game.GamePlay
                 }
 
                 userTrainer.DrawTarget(ActiveSkillTypeEnum.指挥, operation.data.config.DarwLeaderCardCountAfterUse);
-                return;
+            }
+
+            if (operation.data.config.SelfBattleBuffAfterUse != BattleBuffEnum.None)
+            {
+                var buffConfig = Global.Table.BattleBuffTable.Get(operation.data.config.SelfBattleBuffAfterUse);
+                for (int i = 0; i != operation.data.config.SelfBattleBuffCountAfterUse; ++i)
+                {
+                    Global.Event.Send<BattleTipEvent>(
+                        new BattleTipEvent(
+                            $"{userPosition}使用{operation.data.id}获得{operation.data.config.SelfBattleBuffAfterUse}"));
+                    Debug.Log($"{userPosition}使用{operation.data.id}获得{operation.data.config.SelfBattleBuffAfterUse}");
+                    await UniTask.Delay(TimeSpan.FromSeconds(0.2f));
+                    if (buffConfig.IsEnvBuff)
+                    {
+                        await _environmentData.AddBuff(userTrainer, operation.data.config.SelfBattleBuffAfterUse);
+                    }
+                    else
+                    {
+                        await userTrainer.currentBattleData.AddBuff(operation.data.config.SelfBattleBuffAfterUse);
+                    }
+                }
             }
 
 

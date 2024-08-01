@@ -12,11 +12,11 @@ namespace Game
     {
         public static async UniTask PostprocessHuluData(HuluData data)
         {
-            if (data.buffList.Contains(BuffEnum.站起来) && data.currentHp <= 0)
+            if (data.Contains(BattleBuffEnum.站起来) && data.currentHp <= 0)
             {
                 Global.Event.Send(new BattleTipEvent("站起来"));
                 Debug.Log("站起来");
-                data.buffList.Remove(BuffEnum.站起来);
+                data.Remove(BattleBuffEnum.站起来);
                 await data.DecreaseHealth(-1);
             }
 
@@ -76,15 +76,6 @@ namespace Game
                 await atk.DecreaseHealth(heal);
                 return;
             }
-
-            if (skill.Id == ActiveSkillEnum.起风)
-            {
-                Debug.Log("起风");
-                Global.Event.Send(new BattleTipEvent("起风"));
-                await environmentData.AddBuff(atkTrainer, BuffEnum.起风);
-                await environmentData.AddBuff(atkTrainer, BuffEnum.起风);
-                await environmentData.AddBuff(atkTrainer, BuffEnum.起风);
-            }
         }
 
         public static void PostprocessHuluDataWhenUseSkill(HuluData atk, ActiveSkillConfig skill)
@@ -103,7 +94,7 @@ namespace Game
             ActiveSkillConfig atkSkill)
         {
             // Buff
-            if (atk.buffList.Contains(BuffEnum.寻找弱点))
+            if (atk.Contains(BattleBuffEnum.寻找弱点))
             {
                 Debug.Log("寻找弱点");
                 Global.Event.Send(new BattleTipEvent("寻找弱点"));
@@ -152,16 +143,16 @@ namespace Game
             BattleEnvironmentData environmentData)
         {
             bool res = true; // 最终是否能命中
-            if (def.buffList.Contains(BuffEnum.守护))
+            if (def.Contains(BattleBuffEnum.守护))
             {
                 Global.Event.Send(new BattleTipEvent($"{def}守护中，无法被攻击"));
                 Debug.Log("守护");
                 return false;
             }
 
-            if (res && def.buffList.Contains(BuffEnum.快躲开))
+            if (res && def.Contains(BattleBuffEnum.快躲开))
             {
-                def.buffList.Remove(BuffEnum.快躲开);
+                def.Remove(BattleBuffEnum.快躲开);
                 res &= !(Random.value < 0.6f);
                 if (!res)
                 {
@@ -223,7 +214,7 @@ namespace Game
         {
             IBattleOperation operation;
             if (hulu.id == HuluEnum.电电鼠 && hulu.passiveSkillConfig.Id == PassiveSkillEnum.胆小鬼 &&
-                hulu.buffList.Contains(BuffEnum.胆小鬼) && hulu.currentHp < hulu.hp / 2 && hulu.currentHp > 0)
+                hulu.Contains(BattleBuffEnum.胆小鬼) && hulu.currentHp < hulu.hp / 2 && hulu.currentHp > 0)
             {
                 int tar = -1;
                 for (int i = 0; i < trainer.trainerData.datas.Count; i++)
@@ -250,8 +241,8 @@ namespace Game
                     Debug.Log("胆小鬼触发！");
                     Global.Event.Send(new BattleTipEvent($"{hulu}胆小鬼"));
                     await UniTask.Delay(TimeSpan.FromSeconds(1));
-                    hulu.buffList.Remove(BuffEnum.胆小鬼);
-                    hulu.buffList.Add(BuffEnum.胆小鬼归来);
+                    hulu.Remove(BattleBuffEnum.胆小鬼);
+                    hulu.Add(BattleBuffEnum.胆小鬼归来);
                     return operation;
                 }
             }
@@ -301,13 +292,13 @@ namespace Game
             // Debug.Log($"{next}进入战场 times:{next.enterTimes}");
             if (next.id == HuluEnum.电电鼠 && next.passiveSkillConfig.Id == PassiveSkillEnum.胆小鬼 && next.enterTimes == 1)
             {
-                next.buffList.Add(BuffEnum.胆小鬼);
+                next.Add(BattleBuffEnum.胆小鬼);
                 return;
             }
 
-            if (next.buffList.Contains(BuffEnum.胆小鬼归来))
+            if (next.Contains(BattleBuffEnum.胆小鬼归来))
             {
-                next.buffList.Remove(BuffEnum.胆小鬼归来);
+                next.Remove(BattleBuffEnum.胆小鬼归来);
                 Debug.Log("胆小鬼归来");
                 Global.Event.Send(new BattleTipEvent($"{next}胆小鬼归来"));
                 next.hp = (int)(next.hp * 1.5f);
@@ -353,9 +344,9 @@ namespace Game
             ActiveSkillConfig config)
         {
             float res = finalValue;
-            if (def.buffList.Contains(BuffEnum.规避弱点))
+            if (def.Contains(BattleBuffEnum.规避弱点))
             {
-                def.buffList.Remove(BuffEnum.规避弱点);
+                def.Remove(BattleBuffEnum.规避弱点);
                 res *= 0.5f;
                 Debug.Log("规避弱点");
             }

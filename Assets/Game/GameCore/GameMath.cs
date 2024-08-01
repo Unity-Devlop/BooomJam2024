@@ -67,11 +67,11 @@ namespace Game
             Assert.IsTrue(rs.config.Type != ActiveSkillTypeEnum.指挥);
             Assert.IsTrue(ls.config.Type != ActiveSkillTypeEnum.指挥);
 
-            if (r.buffList.Contains(BuffEnum.滑轮技巧) && l.buffList.Contains(BuffEnum.滑轮技巧))
+            if (r.Contains(BattleBuffEnum.轮滑技巧) && l.Contains(BattleBuffEnum.轮滑技巧))
             {
                 Debug.Log($"{r} {l} 都有滑轮技巧");
-                r.buffList.Remove(BuffEnum.滑轮技巧);
-                l.buffList.Remove(BuffEnum.滑轮技巧);
+                r.Remove(BattleBuffEnum.轮滑技巧);
+                l.Remove(BattleBuffEnum.轮滑技巧);
                 
                 if (UnityEngine.Random.value > 0.5f)
                 {
@@ -81,16 +81,16 @@ namespace Game
                 return (r, l);
             }
 
-            if (r.buffList.Contains(BuffEnum.滑轮技巧))
+            if (r.Contains(BattleBuffEnum.轮滑技巧))
             {
-                r.buffList.Remove(BuffEnum.滑轮技巧);
+                r.Remove(BattleBuffEnum.轮滑技巧);
                 Debug.Log($"{r} 有滑轮技巧");
                 return (r, l);
             }
 
-            if (l.buffList.Contains(BuffEnum.滑轮技巧))
+            if (l.Contains(BattleBuffEnum.轮滑技巧))
             {
-                l.buffList.Remove(BuffEnum.滑轮技巧);
+                l.Remove(BattleBuffEnum.轮滑技巧);
                 Debug.Log($"{l} 有滑轮技巧");
                 return (l, r);
             }
