@@ -30,7 +30,7 @@ namespace Game.GamePlay
         private CancellationTokenSource _cts;
         private BattleEnvironmentData _environmentData;
 
-        public void Init(PlayerBattleTrainer self, RebotBattleTrainer enemy, BattleEnvironmentData environmentData)
+        public  void Init(PlayerBattleTrainer self, RebotBattleTrainer enemy, BattleEnvironmentData environmentData)
         {
             Assert.IsNull(_cts);
             _self = self;

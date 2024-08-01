@@ -1,4 +1,5 @@
 ﻿#define QUICK_DEV
+using System;
 using System.Collections.Generic;
 using System.IO;
 using Cysharp.Threading.Tasks;
@@ -27,7 +28,7 @@ namespace Game.GamePlay
 
             // Init Battle Controller
             battleFlow = GetComponent<DummyBattleFlow>();
-            await UniTask.DelayFrame(5); // TODO 后续删除这个等待逻辑 因为在进入游戏时 一定初始完毕了
+            await UniTask.Delay(TimeSpan.FromSeconds(1)); // TODO 后续删除这个等待逻辑 因为在进入游戏时 一定初始完毕了
             StartBattle();
         }
 
