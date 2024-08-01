@@ -235,18 +235,17 @@ MonoBehaviour:
   playerBattleTrainer:
     <trainerData>k__BackingField:
       trainerSkills:
-      - id: 28
-      - id: 61
-      - id: 61
-      - id: 47
-      - id: 55
-      - id: 31
-      - id: 34
-      - id: 58
-      - id: 35
+      - id: 36
+      - id: 36
+      - id: 36
+      - id: 36
+      - id: 36
+      - id: 36
+      - id: 36
+      - id: 36
+      - id: 36
       datas:
       - id: 10
-        buffList: 
         elementEnum: 5
         hp: 202
         currentHp: 202
@@ -269,7 +268,6 @@ MonoBehaviour:
         - id: 14
         - id: 21
       - id: 9
-        buffList: 
         elementEnum: 4
         hp: 188
         currentHp: 188
@@ -292,7 +290,6 @@ MonoBehaviour:
         - id: 16
         - id: 26
       - id: 0
-        buffList: 
         elementEnum: 1
         hp: 366
         currentHp: 366
@@ -331,7 +328,6 @@ MonoBehaviour:
       - id: 3
       datas:
       - id: 4
-        buffList: 
         elementEnum: 5
         hp: 454
         currentHp: 454
@@ -354,7 +350,6 @@ MonoBehaviour:
         - id: 3
         - id: 3
       - id: 0
-        buffList: 
         elementEnum: 1
         hp: 368
         currentHp: 368
@@ -368,7 +363,6 @@ MonoBehaviour:
         currentAdap: 1
         ownedSkills: []
       - id: 0
-        buffList: 
         elementEnum: 1
         hp: 328
         currentHp: 328
@@ -719,7 +713,6 @@ MonoBehaviour:
     - id: 0
     datas:
     - id: 0
-      buffList: 
       elementEnum: 0
       hp: 0
       currentHp: 0
@@ -739,7 +732,6 @@ MonoBehaviour:
       - id: 0
       - id: 0
     - id: 0
-      buffList: 
       elementEnum: 0
       hp: 0
       currentHp: 0

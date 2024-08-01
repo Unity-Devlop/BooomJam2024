@@ -331,8 +331,7 @@ namespace Game.GamePlay
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void ModifyOperAfterUseSkill(ref IBattleOperation oper)
         {
-            Assert.IsTrue(oper is ActiveSkillBattleOperation);
-            var atk = (ActiveSkillBattleOperation)oper;
+            if(oper is not ActiveSkillBattleOperation atk) return;
 
             if (atk.data.config.Type != ActiveSkillTypeEnum.指挥)
             {
