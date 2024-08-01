@@ -132,7 +132,7 @@ namespace Game
             }
 
             Debug.Log($"{this}当前生命值{currentHp}");
-            UglyMath.PostprocessHuluData(this);
+            await UglyMath.PostprocessHuluData(this);
             await bind.Invoke();
         }
 
@@ -161,7 +161,6 @@ namespace Game
         }
 
 
-
         public async UniTask ChangeElement(ElementEnum elementEnum1)
         {
             elementEnum = elementEnum1;
@@ -175,8 +174,8 @@ namespace Game
             Debug.Log($"{this}当前速度{currentSpeed}");
             await bind.Invoke();
         }
-        
-        
+
+
         public bool HealthIsZero()
         {
             return currentHp <= 0;
@@ -190,6 +189,13 @@ namespace Game
             }
 
             return config.Name;
+        }
+
+        public async UniTask ClearRoundData()
+        {
+            buffList.Remove(BuffEnum.守护);
+            buffList.Remove(BuffEnum.站起来);
+            buffList.Remove(BuffEnum.规避弱点);
         }
     }
 }

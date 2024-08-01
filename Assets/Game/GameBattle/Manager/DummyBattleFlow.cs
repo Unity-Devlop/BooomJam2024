@@ -30,7 +30,7 @@ namespace Game.GamePlay
         private CancellationTokenSource _cts;
         private BattleEnvironmentData _environmentData;
 
-        public  void Init(PlayerBattleTrainer self, RebotBattleTrainer enemy, BattleEnvironmentData environmentData)
+        public void Init(PlayerBattleTrainer self, RebotBattleTrainer enemy, BattleEnvironmentData environmentData)
         {
             Assert.IsNull(_cts);
             _self = self;
@@ -229,6 +229,9 @@ namespace Game.GamePlay
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public async UniTask RoundEnd()
         {
+            await selfPos.currentData.ClearRoundData();
+            await enemyPos.currentData.ClearRoundData();
+
             await selfPos.ClearRoundData();
             await enemyPos.ClearRoundData();
         }
@@ -450,6 +453,8 @@ namespace Game.GamePlay
 
             UglyMath.PostprocessHuluDataWhenUseSkill(userPosition.currentData, operation.data.config);
 
+            #region 指挥牌
+
             if (operation.data.config.Type == ActiveSkillTypeEnum.指挥)
             {
                 if (operation.data.id == ActiveSkillEnum.疗伤药膏)
@@ -490,11 +495,47 @@ namespace Game.GamePlay
                     {
                         await userTrainer.Discard2DrawZone();
                     }
+
                     userTrainer.DrawTarget(ActiveSkillTypeEnum.指挥, 2);
+                    return;
+                }
+
+                if (operation.data.id == ActiveSkillEnum.寻找弱点)
+                {
+                    Global.Event.Send<BattleTipEvent>(new BattleTipEvent("寻找弱点"));
+                    await UniTask.Delay(TimeSpan.FromSeconds(0.2f));
+                    userPosition.currentData.buffList.Add(BuffEnum.寻找弱点);
+                    return;
+                }
+
+                if (operation.data.id == ActiveSkillEnum.快躲开)
+                {
+                    Global.Event.Send<BattleTipEvent>(new BattleTipEvent("快躲开"));
+                    await UniTask.Delay(TimeSpan.FromSeconds(0.2f));
+                    userPosition.currentData.buffList.Add(BuffEnum.快躲开);
+                    return;
+                }
+
+                if (operation.data.id == ActiveSkillEnum.站起来)
+                {
+                    Global.Event.Send<BattleTipEvent>(new BattleTipEvent("站起来"));
+                    await UniTask.Delay(TimeSpan.FromSeconds(0.2f));
+                    userPosition.currentData.buffList.Add(BuffEnum.站起来);
+                    return;
+                }
+
+                if (operation.data.id == ActiveSkillEnum.滑轮技巧)
+                {
+                    Global.Event.Send<BattleTipEvent>(new BattleTipEvent("滑轮技巧"));
+                    await UniTask.Delay(TimeSpan.FromSeconds(0.2f));
+                    userPosition.currentData.buffList.Add(BuffEnum.滑轮技巧);
+                    return;
                 }
 
                 return;
             }
+
+            #endregion
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             if (operation.data.config.Type == ActiveSkillTypeEnum.伤害技能)

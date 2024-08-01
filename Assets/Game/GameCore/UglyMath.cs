@@ -10,8 +10,15 @@ namespace Game
 {
     public static class UglyMath
     {
-        public static void PostprocessHuluData(HuluData data)
+        public static async UniTask PostprocessHuluData(HuluData data)
         {
+            if (data.buffList.Contains(BuffEnum.站起来) && data.currentHp<=0)
+            {
+                Global.Event.Send(new BattleTipEvent("站起来"));
+                Debug.Log("站起来");
+                data.buffList.Remove(BuffEnum.站起来);
+                await data.DecreaseHealth(-1);
+            }
             if (data.id == HuluEnum.枯木妖 && data.passiveSkillConfig.Id == PassiveSkillEnum.枯木逢春)
             {
                 Debug.Log($"枯木逢春");
@@ -22,8 +29,6 @@ namespace Game
                 adapIncreate = Mathf.Clamp(adapIncreate, 0, 20);
                 data.currentAdap = data.adap;
                 data.currentAdap += adapIncreate;
-
-                return;
             }
         }
 
@@ -123,6 +128,15 @@ namespace Game
         public static float PostprocessBattleBaseValue(float baseValue, HuluData atk, HuluData def,
             ActiveSkillConfig atkSkill)
         {
+            // Buff
+            if (atk.buffList.Contains(BuffEnum.寻找弱点))
+            {
+                Debug.Log("寻找弱点");
+                Global.Event.Send(new BattleTipEvent("寻找弱点"));
+                baseValue *= 1.5f;
+            }
+
+
             if (atk.id == HuluEnum.怒潮龙 && atk.passiveSkillConfig.Id == PassiveSkillEnum.怒火喷发 && atk.currentHp == atk.hp)
             {
                 Debug.Log("怒火喷发");
@@ -162,21 +176,37 @@ namespace Game
         public static bool PostprocessHitRate(HuluData atk, HuluData def, ActiveSkillEnum atkSkill,
             BattleEnvironmentData environmentData)
         {
+            bool res = true;// 最终是否能命中
             if (def.buffList.Contains(BuffEnum.守护))
             {
                 Global.Event.Send(new BattleTipEvent($"{def}守护中，无法被攻击"));
                 Debug.Log("守护");
-                def.buffList.Remove(BuffEnum.守护);
                 return false;
             }
 
-            if (atk.id == HuluEnum.一口鲸 && atk.passiveSkillConfig.Id == PassiveSkillEnum.大口吃 && Random.value < 0.2f)
+            if (res && def.buffList.Contains(BuffEnum.快躲开))
+            {
+                def.buffList.Remove(BuffEnum.快躲开);
+                res &= !(Random.value < 0.6f);
+                if(!res)
+                {
+                    Global.Event.Send(new BattleTipEvent("快躲开"));
+                    Debug.Log("快躲开");
+                }
+            }
+
+            if (res && atk.id == HuluEnum.一口鲸 && atk.passiveSkillConfig.Id == PassiveSkillEnum.大口吃 )
             {
                 Debug.Log("大口吃");
-                return false;
+                res &= !(Random.value < 0.2f);// 生效了就不命中
+                if(!res)
+                {
+                    Global.Event.Send(new BattleTipEvent("大口吃"));
+                    Debug.Log("大口吃");
+                }
             }
 
-            return true;
+            return res;
         }
 
         public static float PostprocessRunTimeSpeed(HuluData p0, BattleEnvironmentData environmentData)
@@ -281,13 +311,14 @@ namespace Game
 
         public static int PostprocessPriority(HuluData p0, ActiveSkillData rs)
         {
+            int priority = rs.config.Priority;
             if (p0.id == HuluEnum.疾风之翼 && p0.passiveSkillConfig.Id == PassiveSkillEnum.顺风 &&
                 rs.config.Element == ElementEnum.风)
             {
-                return rs.config.Priority + 1;
+                priority += 1;
             }
 
-            return rs.config.Priority;
+            return priority;
         }
 
         public static async UniTask PostprocessHuluEnterBattle(HuluData next)
@@ -343,6 +374,19 @@ namespace Game
             }
 
             return atk.currentAtk;
+        }
+
+        public static float PostprocessBattleFinalValue(float finalValue, HuluData atk, HuluData def, ActiveSkillConfig config)
+        {
+            float res = finalValue;
+            if (def.buffList.Contains(BuffEnum.规避弱点))
+            {
+                def.buffList.Remove(BuffEnum.规避弱点);
+                res *= 0.5f;
+                Debug.Log("规避弱点");
+            }
+
+            return res;
         }
     }
 }
