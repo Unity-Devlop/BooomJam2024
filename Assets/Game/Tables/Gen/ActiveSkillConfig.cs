@@ -25,7 +25,17 @@ public sealed partial class ActiveSkillConfig : Luban.BeanBase
         { if(!_buf["priority"].IsNumber) { throw new SerializationException(); }  Priority = _buf["priority"]; }
         { if(!_buf["hit_rate"].IsNumber) { throw new SerializationException(); }  HitRate = _buf["hit_rate"]; }
         { var __json0 = _buf["mul_attack_times"]; if(!__json0.IsArray) { throw new SerializationException(); } int _n0 = __json0.Count; MulAttackTimes = new int[_n0]; int __index0=0; foreach(JSONNode __e0 in __json0.Children) { int __v0;  { if(!__e0.IsNumber) { throw new SerializationException(); }  __v0 = __e0; }  MulAttackTimes[__index0++] = __v0; }   }
+        { if(!_buf["effect_hit_rate"].IsNumber) { throw new SerializationException(); }  EffectHitRate = _buf["effect_hit_rate"]; }
+        { if(!_buf["def_point"].IsNumber) { throw new SerializationException(); }  DefPoint = _buf["def_point"]; }
         { if(!_buf["type2"].IsNumber) { throw new SerializationException(); }  Type2 = (CardTypeEnum)_buf["type2"].AsInt; }
+        { if(!_buf["health_percent"].IsNumber) { throw new SerializationException(); }  HealthPercent = _buf["health_percent"]; }
+        { if(!_buf["speed_point"].IsNumber) { throw new SerializationException(); }  SpeedPoint = _buf["speed_point"]; }
+        { if(!_buf["discard_card_rate"].IsNumber) { throw new SerializationException(); }  DiscardCardRate = _buf["discard_card_rate"]; }
+        { if(!_buf["discard_count"].IsNumber) { throw new SerializationException(); }  DiscardCount = _buf["discard_count"]; }
+        { if(!_buf["full_hp_base_value_rate"].IsNumber) { throw new SerializationException(); }  FullHpBaseValueRate = _buf["full_hp_base_value_rate"]; }
+        { if(!_buf["percentage_damage_by_self"].IsNumber) { throw new SerializationException(); }  PercentageDamageBySelf = _buf["percentage_damage_by_self"]; }
+        { if(!_buf["element_after_use"].IsNumber) { throw new SerializationException(); }  ElementAfterUse = (ElementEnum)_buf["element_after_use"].AsInt; }
+        { if(!_buf["increase_damage_point_when_grass_env"].IsNumber) { throw new SerializationException(); }  IncreaseDamagePointWhenGrassEnv = _buf["increase_damage_point_when_grass_env"]; }
     }
 
     public static ActiveSkillConfig DeserializeActiveSkillConfig(JSONNode _buf)
@@ -53,16 +63,75 @@ public sealed partial class ActiveSkillConfig : Luban.BeanBase
     /// 伤害值
     /// </summary>
     public readonly int DamagePoint;
+    /// <summary>
+    /// 优先级
+    /// </summary>
     public readonly int Priority;
+    /// <summary>
+    /// 命中率
+    /// </summary>
     public readonly float HitRate;
+    /// <summary>
+    /// 多次攻击次数
+    /// </summary>
     public readonly int[] MulAttackTimes;
+    /// <summary>
+    /// 会心率
+    /// </summary>
+    public readonly float EffectHitRate;
+    /// <summary>
+    /// 使用后增加的防御点数
+    /// </summary>
+    public readonly int DefPoint;
+    /// <summary>
+    /// 牌的使用类型
+    /// </summary>
     public readonly CardTypeEnum Type2;
+    /// <summary>
+    /// 使用后恢复生命的百分比
+    /// </summary>
+    public readonly float HealthPercent;
+    /// <summary>
+    /// 使用后增加的速度值
+    /// </summary>
+    public readonly int SpeedPoint;
+    /// <summary>
+    /// 受伤方弃牌概率
+    /// </summary>
+    public readonly float DiscardCardRate;
+    /// <summary>
+    /// 受伤方弃牌数量
+    /// </summary>
+    public readonly int DiscardCount;
+    /// <summary>
+    /// 满血时baseValue加成
+    /// </summary>
+    public readonly float FullHpBaseValueRate;
+    /// <summary>
+    /// 受到自己造成伤害的百分比
+    /// </summary>
+    public readonly float PercentageDamageBySelf;
+    public readonly ElementEnum ElementAfterUse;
+    /// <summary>
+    /// 在草属性场地的威力加成
+    /// </summary>
+    public readonly int IncreaseDamagePointWhenGrassEnv;
    
     public const int __ID__ = -652779027;
     public override int GetTypeId() => __ID__;
 
     public  void ResolveRef(Tables tables)
     {
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         
         
         
@@ -85,7 +154,17 @@ public sealed partial class ActiveSkillConfig : Luban.BeanBase
         + "priority:" + Priority + ","
         + "hitRate:" + HitRate + ","
         + "mulAttackTimes:" + Luban.StringUtil.CollectionToString(MulAttackTimes) + ","
+        + "effectHitRate:" + EffectHitRate + ","
+        + "defPoint:" + DefPoint + ","
         + "type2:" + Type2 + ","
+        + "healthPercent:" + HealthPercent + ","
+        + "speedPoint:" + SpeedPoint + ","
+        + "discardCardRate:" + DiscardCardRate + ","
+        + "discardCount:" + DiscardCount + ","
+        + "fullHpBaseValueRate:" + FullHpBaseValueRate + ","
+        + "percentageDamageBySelf:" + PercentageDamageBySelf + ","
+        + "elementAfterUse:" + ElementAfterUse + ","
+        + "increaseDamagePointWhenGrassEnv:" + IncreaseDamagePointWhenGrassEnv + ","
         + "}";
     }
 }
