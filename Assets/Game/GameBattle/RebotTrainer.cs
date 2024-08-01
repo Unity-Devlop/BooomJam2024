@@ -4,6 +4,9 @@ using System.Runtime.CompilerServices;
 using cfg;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Pool;
+using UnityToolkit;
+using Random = UnityEngine.Random;
 
 namespace Game.GamePlay
 {
@@ -69,7 +72,6 @@ namespace Game.GamePlay
         public UniTask DrawTarget(ActiveSkillTypeEnum type, int cnt)
         {
             throw new NotImplementedException();
-            
         }
 
         public void PushOperation(IBattleOperation operation)
@@ -78,14 +80,25 @@ namespace Game.GamePlay
 
         public void ClearOperation()
         {
-            
         }
 
         public UniTask<IBattleOperation> CalOperation()
         {
+            List<ActiveSkillEnum> targets = ListPool<ActiveSkillEnum>.Get();
+            foreach (var activeSkillConfig in Global.Table.ActiveSkillTable.DataList)
+            {
+                if (activeSkillConfig.Type == ActiveSkillTypeEnum.伤害技能)
+                {
+                    targets.Add(activeSkillConfig.Id);
+                }
+            }
+
+            ActiveSkillEnum target = targets.RandomTake();
+            ListPool<ActiveSkillEnum>.Release(targets);
+
             ActiveSkillData data = new ActiveSkillData()
             {
-                id = ActiveSkillEnum.冲浪
+                id = target
             };
             IBattleOperation operation = new ActiveSkillBattleOperation()
             {

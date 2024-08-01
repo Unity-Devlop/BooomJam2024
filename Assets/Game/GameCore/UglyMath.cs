@@ -12,13 +12,14 @@ namespace Game
     {
         public static async UniTask PostprocessHuluData(HuluData data)
         {
-            if (data.buffList.Contains(BuffEnum.站起来) && data.currentHp<=0)
+            if (data.buffList.Contains(BuffEnum.站起来) && data.currentHp <= 0)
             {
                 Global.Event.Send(new BattleTipEvent("站起来"));
                 Debug.Log("站起来");
                 data.buffList.Remove(BuffEnum.站起来);
                 await data.DecreaseHealth(-1);
             }
+
             if (data.id == HuluEnum.枯木妖 && data.passiveSkillConfig.Id == PassiveSkillEnum.枯木逢春)
             {
                 Debug.Log($"枯木逢春");
@@ -37,6 +38,37 @@ namespace Game
             ActiveSkillConfig skill,
             int damagePoint, BattleEnvironmentData environmentData)
         {
+            if (Random.value < skill.DefDiscardCardRate)
+            {
+                Global.Event.Send(new BattleTipEvent($"{skill} 弃牌生效 {defTrainer}弃{skill.DefDiscardCount} 张"));
+                await defTrainer.RandomDiscard(skill.DefDiscardCount);
+            }
+
+            if (skill.IncreaseSelfSpeedPointAfterUse != 0)
+            {
+                Global.Event.Send(new BattleTipEvent($"{skill} 速度+{skill.IncreaseSelfSpeedPointAfterUse}"));
+                await atk.IncreaseCurrentSpeed(skill.IncreaseSelfSpeedPointAfterUse);
+            }
+
+            if (skill.IncreaseSelfDefPointAfterUse != 0)
+            {
+                Global.Event.Send(new BattleTipEvent($"{skill} 防御+{skill.IncreaseSelfDefPointAfterUse}"));
+                await atk.IncreaseDef(skill.IncreaseSelfDefPointAfterUse);
+            }
+
+            if (skill.PercentageDamageBySelf != 0)
+            {
+                Global.Event.Send(
+                    new BattleTipEvent($"{skill} 对自己反伤造成{damagePoint * skill.PercentageDamageBySelf}点伤害"));
+                await atk.DecreaseHealth((int)(damagePoint * skill.PercentageDamageBySelf));
+            }
+
+            if (skill.ChangeElementAfterUse != ElementEnum.None)
+            {
+                Global.Event.Send(new BattleTipEvent($"{atk} 变成{skill.ChangeElementAfterUse}属性"));
+                await atk.ChangeElement(skill.ChangeElementAfterUse);
+            }
+
             if (atk.id == HuluEnum.毒宝宝 && atk.passiveSkillConfig.Id == PassiveSkillEnum.毒素治疗 &&
                 skill.Element == ElementEnum.毒)
             {
@@ -45,65 +77,7 @@ namespace Game
                 return;
             }
 
-            else if (skill.Id == ActiveSkillEnum.吞吐 && Random.value <= 0.4)
-            {
-                Global.Event.Send(new BattleTipEvent("吞吐"));
-                await defTrainer.RandomDiscard(2);
-                return;
-            }
-
-            else if (skill.Id == ActiveSkillEnum.火焰冲)
-            {
-                Debug.Log("火焰冲 +10");
-                Global.Event.Send(new BattleTipEvent("火焰冲 +10"));
-                await atk.IncreaseAtk(10);
-                await UniTask.Delay(TimeSpan.FromSeconds(1));
-                return;
-            }
-            else if (skill.Id == ActiveSkillEnum.扎根)
-            {
-                Debug.Log("扎根 -10");
-                Global.Event.Send(new BattleTipEvent("扎根 -10"));
-                await atk.DecreaseCurrentSpeed(10);
-                await UniTask.Delay(TimeSpan.FromSeconds(1));
-                return;
-            }
-            else if (skill.Id == ActiveSkillEnum.滚动)
-            {
-                Debug.Log("滚动 +10");
-                Global.Event.Send(new BattleTipEvent("滚动 +10"));
-                await atk.IncreaseDef(10);
-                return;
-            }
-            else if (skill.Id == ActiveSkillEnum.轰隆隆隆隆)
-            {
-                Debug.Log($"轰隆隆隆隆 反伤:{damagePoint / 2}");
-                Global.Event.Send(new BattleTipEvent($"轰隆隆隆隆 反伤:{damagePoint / 2}"));
-                await atk.DecreaseHealth(damagePoint / 2);
-                return;
-            }
-            else if (skill.Id == ActiveSkillEnum.放电)
-            {
-                Debug.Log($"放电 变成{ElementEnum.普通}属性");
-                Global.Event.Send(new BattleTipEvent("放电 变成普通属性"));
-                await atk.ChangeElement(ElementEnum.普通);
-                return;
-            }
-            else if (skill.Id == ActiveSkillEnum.闪电飞盘)
-            {
-                Debug.Log("闪电飞盘 +10");
-                Global.Event.Send(new BattleTipEvent("闪电飞盘 +10"));
-                await atk.IncreaseCurrentSpeed(10);
-                return;
-            }
-            else if (skill.Id == ActiveSkillEnum.狂风)
-            {
-                Debug.Log("狂风 -20");
-                Global.Event.Send(new BattleTipEvent("狂风 -20"));
-                await atk.DecreaseCurrentSpeed(20);
-                return;
-            }
-            else if (skill.Id == ActiveSkillEnum.起风)
+            if (skill.Id == ActiveSkillEnum.起风)
             {
                 Debug.Log("起风");
                 Global.Event.Send(new BattleTipEvent("起风"));
@@ -136,6 +110,19 @@ namespace Game
                 baseValue *= 1.5f;
             }
 
+            if (atkSkill.FullHpIncreaseBaseValueRate != 0 && atk.currentHp >= atk.hp)
+            {
+                Debug.Log($"满血加成{atkSkill.FullHpIncreaseBaseValueRate}");
+                Global.Event.Send(new BattleTipEvent($"满血加成{atkSkill.FullHpIncreaseBaseValueRate}"));
+                baseValue *= (1 + atkSkill.FullHpIncreaseBaseValueRate);
+            }
+
+            if (Random.value < atkSkill.EffectHitRate)
+            {
+                Debug.Log($"技能{atkSkill}命中要害");
+                Global.Event.Send(new BattleTipEvent($"技能{atkSkill}命中要害"));
+                baseValue *= 1.5f;
+            }
 
             if (atk.id == HuluEnum.怒潮龙 && atk.passiveSkillConfig.Id == PassiveSkillEnum.怒火喷发 && atk.currentHp == atk.hp)
             {
@@ -157,18 +144,6 @@ namespace Game
                 baseValue /= GameMath.CalDamageElementFit(atkSkill.Element, def.elementEnum);
                 return baseValue;
             }
-            else if (atkSkill.Id == ActiveSkillEnum.喙啄 && Random.value < 0.2f)
-            {
-                Debug.Log("喙啄");
-                baseValue *= 1.5f;
-                return baseValue;
-            }
-            else if (atkSkill.Id == ActiveSkillEnum.吐火 && atk.currentHp >= atk.hp)
-            {
-                Debug.Log("吐火");
-                baseValue *= 1.5f;
-                return baseValue;
-            }
 
             return baseValue;
         }
@@ -176,7 +151,7 @@ namespace Game
         public static bool PostprocessHitRate(HuluData atk, HuluData def, ActiveSkillEnum atkSkill,
             BattleEnvironmentData environmentData)
         {
-            bool res = true;// 最终是否能命中
+            bool res = true; // 最终是否能命中
             if (def.buffList.Contains(BuffEnum.守护))
             {
                 Global.Event.Send(new BattleTipEvent($"{def}守护中，无法被攻击"));
@@ -188,18 +163,18 @@ namespace Game
             {
                 def.buffList.Remove(BuffEnum.快躲开);
                 res &= !(Random.value < 0.6f);
-                if(!res)
+                if (!res)
                 {
                     Global.Event.Send(new BattleTipEvent("快躲开"));
                     Debug.Log("快躲开");
                 }
             }
 
-            if (res && atk.id == HuluEnum.一口鲸 && atk.passiveSkillConfig.Id == PassiveSkillEnum.大口吃 )
+            if (res && atk.id == HuluEnum.一口鲸 && atk.passiveSkillConfig.Id == PassiveSkillEnum.大口吃)
             {
                 Debug.Log("大口吃");
-                res &= !(Random.value < 0.2f);// 生效了就不命中
-                if(!res)
+                res &= !(Random.value < 0.2f); // 生效了就不命中
+                if (!res)
                 {
                     Global.Event.Send(new BattleTipEvent("大口吃"));
                     Debug.Log("大口吃");
@@ -336,10 +311,10 @@ namespace Game
                 Debug.Log("胆小鬼归来");
                 Global.Event.Send(new BattleTipEvent($"{next}胆小鬼归来"));
                 next.hp = (int)(next.hp * 1.5f);
-                next.atk = (int)(next.atk * 1.5f);
-                next.def = (int)(next.def * 1.5f);
-                next.speed = (int)(next.speed * 1.5f);
-                next.adap = (int)(next.adap * 1.5f);
+                // next.atk = (int)(next.atk * 1.5f);
+                // next.def = (int)(next.def * 1.5f);
+                // next.speed = (int)(next.speed * 1.5f);
+                // next.adap = (int)(next.adap * 1.5f);
 
                 next.currentHp = (int)(next.currentHp * 1.5f);
                 next.currentAtk = (int)(next.currentAtk * 1.5f);
@@ -353,11 +328,10 @@ namespace Game
 
         public static int PostprocessDamagePoint(ActiveSkillConfig config, BattleEnvironmentData environmentData)
         {
-            if (config.Id == ActiveSkillEnum.轰隆隆隆隆 && environmentData.id == BattleEnvironmentEnum.草地)
+            if (environmentData.id == BattleEnvironmentEnum.草地 && config.IncreaseDamagePointWhenGrassEnv != 0)
             {
-                Global.Event.Send(new BattleTipEvent("轰隆隆隆隆"));
-                Debug.Log("轰隆隆隆隆");
-                return config.DamagePoint + 30;
+                Global.Event.Send(new BattleTipEvent($"草地增伤:{config.IncreaseDamagePointWhenGrassEnv}"));
+                return config.DamagePoint + config.IncreaseDamagePointWhenGrassEnv;
             }
 
             return config.DamagePoint;
@@ -366,17 +340,17 @@ namespace Game
         public static int PostprocessAtkPoint(HuluData atk, ActiveSkillConfig config,
             BattleEnvironmentData environmentData)
         {
-            if (config.Id == ActiveSkillEnum.电流猛扑)
+            if (config.UsingDefToCalDamage)
             {
-                Debug.Log("电流猛扑");
-                Global.Event.Send(new BattleTipEvent("电流猛扑"));
+                Global.Event.Send(new BattleTipEvent($"{config}使用防御力计算伤害"));
                 return atk.currentDef;
             }
 
             return atk.currentAtk;
         }
 
-        public static float PostprocessBattleFinalValue(float finalValue, HuluData atk, HuluData def, ActiveSkillConfig config)
+        public static float PostprocessBattleFinalValue(float finalValue, HuluData atk, HuluData def,
+            ActiveSkillConfig config)
         {
             float res = finalValue;
             if (def.buffList.Contains(BuffEnum.规避弱点))

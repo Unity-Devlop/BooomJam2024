@@ -25,16 +25,21 @@ public sealed partial class ActiveSkillConfig : Luban.BeanBase
         { if(!_buf["priority"].IsNumber) { throw new SerializationException(); }  Priority = _buf["priority"]; }
         { if(!_buf["hit_rate"].IsNumber) { throw new SerializationException(); }  HitRate = _buf["hit_rate"]; }
         { var __json0 = _buf["mul_attack_times"]; if(!__json0.IsArray) { throw new SerializationException(); } int _n0 = __json0.Count; MulAttackTimes = new int[_n0]; int __index0=0; foreach(JSONNode __e0 in __json0.Children) { int __v0;  { if(!__e0.IsNumber) { throw new SerializationException(); }  __v0 = __e0; }  MulAttackTimes[__index0++] = __v0; }   }
+        { if(!_buf["change_battle_env_after_use"].IsNumber) { throw new SerializationException(); }  ChangeBattleEnvAfterUse = (BattleEnvironmentEnum)_buf["change_battle_env_after_use"].AsInt; }
+        { if(!_buf["using_def_to_cal_damage"].IsBoolean) { throw new SerializationException(); }  UsingDefToCalDamage = _buf["using_def_to_cal_damage"]; }
+        { if(!_buf["darw_leader_card_count_after_use"].IsNumber) { throw new SerializationException(); }  DarwLeaderCardCountAfterUse = _buf["darw_leader_card_count_after_use"]; }
+        { if(!_buf["darw_card_count_after_use"].IsNumber) { throw new SerializationException(); }  DarwCardCountAfterUse = _buf["darw_card_count_after_use"]; }
         { if(!_buf["effect_hit_rate"].IsNumber) { throw new SerializationException(); }  EffectHitRate = _buf["effect_hit_rate"]; }
-        { if(!_buf["def_point"].IsNumber) { throw new SerializationException(); }  DefPoint = _buf["def_point"]; }
+        { if(!_buf["increase_self_def_point_after_use"].IsNumber) { throw new SerializationException(); }  IncreaseSelfDefPointAfterUse = _buf["increase_self_def_point_after_use"]; }
         { if(!_buf["type2"].IsNumber) { throw new SerializationException(); }  Type2 = (CardTypeEnum)_buf["type2"].AsInt; }
-        { if(!_buf["health_percent"].IsNumber) { throw new SerializationException(); }  HealthPercent = _buf["health_percent"]; }
-        { if(!_buf["speed_point"].IsNumber) { throw new SerializationException(); }  SpeedPoint = _buf["speed_point"]; }
-        { if(!_buf["discard_card_rate"].IsNumber) { throw new SerializationException(); }  DiscardCardRate = _buf["discard_card_rate"]; }
-        { if(!_buf["discard_count"].IsNumber) { throw new SerializationException(); }  DiscardCount = _buf["discard_count"]; }
-        { if(!_buf["full_hp_base_value_rate"].IsNumber) { throw new SerializationException(); }  FullHpBaseValueRate = _buf["full_hp_base_value_rate"]; }
+        { if(!_buf["increase_health_point_after_use"].IsNumber) { throw new SerializationException(); }  IncreaseHealthPointAfterUse = _buf["increase_health_point_after_use"]; }
+        { if(!_buf["increase_health_percent_after_use"].IsNumber) { throw new SerializationException(); }  IncreaseHealthPercentAfterUse = _buf["increase_health_percent_after_use"]; }
+        { if(!_buf["increase_self_speed_point_after_use"].IsNumber) { throw new SerializationException(); }  IncreaseSelfSpeedPointAfterUse = _buf["increase_self_speed_point_after_use"]; }
+        { if(!_buf["def_discard_card_rate"].IsNumber) { throw new SerializationException(); }  DefDiscardCardRate = _buf["def_discard_card_rate"]; }
+        { if(!_buf["def_discard_count"].IsNumber) { throw new SerializationException(); }  DefDiscardCount = _buf["def_discard_count"]; }
+        { if(!_buf["full_hp_increase_base_value_rate"].IsNumber) { throw new SerializationException(); }  FullHpIncreaseBaseValueRate = _buf["full_hp_increase_base_value_rate"]; }
         { if(!_buf["percentage_damage_by_self"].IsNumber) { throw new SerializationException(); }  PercentageDamageBySelf = _buf["percentage_damage_by_self"]; }
-        { if(!_buf["element_after_use"].IsNumber) { throw new SerializationException(); }  ElementAfterUse = (ElementEnum)_buf["element_after_use"].AsInt; }
+        { if(!_buf["change_element_after_use"].IsNumber) { throw new SerializationException(); }  ChangeElementAfterUse = (ElementEnum)_buf["change_element_after_use"].AsInt; }
         { if(!_buf["increase_damage_point_when_grass_env"].IsNumber) { throw new SerializationException(); }  IncreaseDamagePointWhenGrassEnv = _buf["increase_damage_point_when_grass_env"]; }
     }
 
@@ -76,42 +81,65 @@ public sealed partial class ActiveSkillConfig : Luban.BeanBase
     /// </summary>
     public readonly int[] MulAttackTimes;
     /// <summary>
+    /// 使用后变更的场地
+    /// </summary>
+    public readonly BattleEnvironmentEnum ChangeBattleEnvAfterUse;
+    /// <summary>
+    /// 是否使用防御力代替攻击力计算伤害
+    /// </summary>
+    public readonly bool UsingDefToCalDamage;
+    /// <summary>
+    /// 使用后抽指挥牌的数量
+    /// </summary>
+    public readonly int DarwLeaderCardCountAfterUse;
+    /// <summary>
+    /// 使用后抽牌数量
+    /// </summary>
+    public readonly int DarwCardCountAfterUse;
+    /// <summary>
     /// 会心率
     /// </summary>
     public readonly float EffectHitRate;
     /// <summary>
     /// 使用后增加的防御点数
     /// </summary>
-    public readonly int DefPoint;
+    public readonly int IncreaseSelfDefPointAfterUse;
     /// <summary>
     /// 牌的使用类型
     /// </summary>
     public readonly CardTypeEnum Type2;
     /// <summary>
+    /// 使用后恢复生命的点数
+    /// </summary>
+    public readonly int IncreaseHealthPointAfterUse;
+    /// <summary>
     /// 使用后恢复生命的百分比
     /// </summary>
-    public readonly float HealthPercent;
+    public readonly float IncreaseHealthPercentAfterUse;
     /// <summary>
     /// 使用后增加的速度值
     /// </summary>
-    public readonly int SpeedPoint;
+    public readonly int IncreaseSelfSpeedPointAfterUse;
     /// <summary>
     /// 受伤方弃牌概率
     /// </summary>
-    public readonly float DiscardCardRate;
+    public readonly float DefDiscardCardRate;
     /// <summary>
     /// 受伤方弃牌数量
     /// </summary>
-    public readonly int DiscardCount;
+    public readonly int DefDiscardCount;
     /// <summary>
     /// 满血时baseValue加成
     /// </summary>
-    public readonly float FullHpBaseValueRate;
+    public readonly float FullHpIncreaseBaseValueRate;
     /// <summary>
     /// 受到自己造成伤害的百分比
     /// </summary>
     public readonly float PercentageDamageBySelf;
-    public readonly ElementEnum ElementAfterUse;
+    /// <summary>
+    /// 使用后修改自己的属性
+    /// </summary>
+    public readonly ElementEnum ChangeElementAfterUse;
     /// <summary>
     /// 在草属性场地的威力加成
     /// </summary>
@@ -122,6 +150,11 @@ public sealed partial class ActiveSkillConfig : Luban.BeanBase
 
     public  void ResolveRef(Tables tables)
     {
+        
+        
+        
+        
+        
         
         
         
@@ -154,16 +187,21 @@ public sealed partial class ActiveSkillConfig : Luban.BeanBase
         + "priority:" + Priority + ","
         + "hitRate:" + HitRate + ","
         + "mulAttackTimes:" + Luban.StringUtil.CollectionToString(MulAttackTimes) + ","
+        + "changeBattleEnvAfterUse:" + ChangeBattleEnvAfterUse + ","
+        + "usingDefToCalDamage:" + UsingDefToCalDamage + ","
+        + "darwLeaderCardCountAfterUse:" + DarwLeaderCardCountAfterUse + ","
+        + "darwCardCountAfterUse:" + DarwCardCountAfterUse + ","
         + "effectHitRate:" + EffectHitRate + ","
-        + "defPoint:" + DefPoint + ","
+        + "increaseSelfDefPointAfterUse:" + IncreaseSelfDefPointAfterUse + ","
         + "type2:" + Type2 + ","
-        + "healthPercent:" + HealthPercent + ","
-        + "speedPoint:" + SpeedPoint + ","
-        + "discardCardRate:" + DiscardCardRate + ","
-        + "discardCount:" + DiscardCount + ","
-        + "fullHpBaseValueRate:" + FullHpBaseValueRate + ","
+        + "increaseHealthPointAfterUse:" + IncreaseHealthPointAfterUse + ","
+        + "increaseHealthPercentAfterUse:" + IncreaseHealthPercentAfterUse + ","
+        + "increaseSelfSpeedPointAfterUse:" + IncreaseSelfSpeedPointAfterUse + ","
+        + "defDiscardCardRate:" + DefDiscardCardRate + ","
+        + "defDiscardCount:" + DefDiscardCount + ","
+        + "fullHpIncreaseBaseValueRate:" + FullHpIncreaseBaseValueRate + ","
         + "percentageDamageBySelf:" + PercentageDamageBySelf + ","
-        + "elementAfterUse:" + ElementAfterUse + ","
+        + "changeElementAfterUse:" + ChangeElementAfterUse + ","
         + "increaseDamagePointWhenGrassEnv:" + IncreaseDamagePointWhenGrassEnv + ","
         + "}";
     }

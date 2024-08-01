@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Threading;
+using System.Threading.Tasks;
 using cfg;
 using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
@@ -52,6 +53,10 @@ namespace Game.GamePlay
             UIRoot.Singleton.ClosePanel<GameBattlePanel>();
         }
 
+        public async UniTask ChangeBattleEnv(BattleEnvironmentEnum configChangeBattleEnvAfterUse)
+        {
+            _environmentData.id = configChangeBattleEnvAfterUse;
+        }
         public async UniTask Enter()
         {
             Assert.IsNull(_cts);
@@ -457,20 +462,6 @@ namespace Game.GamePlay
 
             if (operation.data.config.Type == ActiveSkillTypeEnum.指挥)
             {
-                if (operation.data.id == ActiveSkillEnum.疗伤药膏)
-                {
-                    Debug.Log($"疗伤药膏+100");
-                    Global.Event.Send<BattleTipEvent>(new BattleTipEvent($"疗伤药膏+100"));
-                    await userPosition.currentData.DecreaseHealth(-100);
-                }
-
-                if (operation.data.id == ActiveSkillEnum.战斗灵感)
-                {
-                    Debug.Log($"战斗灵感 抽三张牌");
-                    Global.Event.Send<BattleTipEvent>(new BattleTipEvent($"战斗灵感 抽三张牌"));
-                    await userTrainer.DrawSkills(3);
-                }
-
                 if (operation.data.id == ActiveSkillEnum.重整思路)
                 {
                     Debug.Log($"重整思路 弃所有手牌 抽等量牌");
@@ -478,26 +469,6 @@ namespace Game.GamePlay
                     int currentCount = userTrainer.handZone.Count;
                     await userTrainer.DiscardAllHandCards();
                     await userTrainer.DrawSkills(currentCount);
-                }
-
-                if (operation.data.id == ActiveSkillEnum.战术规划)
-                {
-                    int cnt = 0;
-                    foreach (var handCard in userTrainer.handZone)
-                    {
-                        if (handCard.config.Type == ActiveSkillTypeEnum.指挥)
-                        {
-                            cnt++;
-                        }
-                    }
-
-                    if (cnt < 2)
-                    {
-                        await userTrainer.Discard2DrawZone();
-                    }
-
-                    userTrainer.DrawTarget(ActiveSkillTypeEnum.指挥, 2);
-                    return;
                 }
 
                 if (operation.data.id == ActiveSkillEnum.寻找弱点)
@@ -619,15 +590,57 @@ namespace Game.GamePlay
                     userPosition.currentData.buffList.Add(BuffEnum.守护);
                     Global.Event.Send<BattleTipEvent>(new BattleTipEvent($"{userPosition}使用{operation.data.id}"));
                 }
-                else if (operation.data.id == ActiveSkillEnum.光合作用)
-                {
-                    Global.Event.Send<BattleTipEvent>(new BattleTipEvent($"{userPosition}使用{operation.data.id}"));
-                    int delta = userPosition.currentData.hp / 5;
-                    await userPosition.currentData.DecreaseHealth(-delta);
-                }
             }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+            if (operation.data.config.IncreaseHealthPercentAfterUse != 0)
+            {
+                Debug.Log(
+                    $"{userPosition}使用{operation.data.id}回血,百分比:{operation.data.config.IncreaseHealthPercentAfterUse}");
+                await userPosition.currentData.DecreaseHealth(
+                    -(int)(operation.data.config.IncreaseHealthPercentAfterUse *
+                           userPosition.currentData.hp));
+            }
+
+            if (operation.data.config.IncreaseHealthPointAfterUse != 0)
+            {
+                Debug.Log(
+                    $"{userPosition}使用{operation.data.id}回血,固定值:{operation.data.config.IncreaseHealthPointAfterUse}");
+                await userPosition.currentData.DecreaseHealth(-operation.data.config.IncreaseHealthPointAfterUse);
+            }
+
+            if (operation.data.config.DarwCardCountAfterUse != 0)
+            {
+                Debug.Log($"{userPosition}使用{operation.data.id}抽牌,数量:{operation.data.config.DarwCardCountAfterUse}");
+                await userTrainer.DrawSkills(operation.data.config.DarwCardCountAfterUse);
+            }
+
+            if (operation.data.config.DarwLeaderCardCountAfterUse != 0)
+            {
+                int cnt = 0;
+                foreach (var handCard in userTrainer.handZone)
+                {
+                    if (handCard.config.Type == ActiveSkillTypeEnum.指挥)
+                    {
+                        cnt++;
+                    }
+                }
+
+                if (cnt < operation.data.config.DarwLeaderCardCountAfterUse)
+                {
+                    await userTrainer.Discard2DrawZone();
+                }
+
+                userTrainer.DrawTarget(ActiveSkillTypeEnum.指挥, operation.data.config.DarwLeaderCardCountAfterUse);
+                return;
+            }
+
+
+            if (operation.data.config.ChangeBattleEnvAfterUse != BattleEnvironmentEnum.None)
+            {
+                await ChangeBattleEnv(operation.data.config.ChangeBattleEnvAfterUse);
+            }
 
             if (userTrainer == _self)
             {
