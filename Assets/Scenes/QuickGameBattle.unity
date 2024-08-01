@@ -382,7 +382,7 @@ MonoBehaviour:
         currentAdap: 20
         ownedSkills: []
   environmentData:
-    id: 0
+    id: 1
 --- !u!4 &169709044
 Transform:
   m_ObjectHideFlags: 0
