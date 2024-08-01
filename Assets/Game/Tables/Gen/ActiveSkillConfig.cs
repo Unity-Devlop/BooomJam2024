@@ -23,6 +23,10 @@ public sealed partial class ActiveSkillConfig : Luban.BeanBase
         { if(!_buf["type"].IsNumber) { throw new SerializationException(); }  Type = (ActiveSkillTypeEnum)_buf["type"].AsInt; }
         { if(!_buf["damage_point"].IsNumber) { throw new SerializationException(); }  DamagePoint = _buf["damage_point"]; }
         { if(!_buf["priority"].IsNumber) { throw new SerializationException(); }  Priority = _buf["priority"]; }
+        { if(!_buf["def_trainer_buff_after_use_count"].IsNumber) { throw new SerializationException(); }  DefTrainerBuffAfterUseCount = _buf["def_trainer_buff_after_use_count"]; }
+        { if(!_buf["def_trainer_buff_after_use"].IsNumber) { throw new SerializationException(); }  DefTrainerBuffAfterUse = (BattleBuffEnum)_buf["def_trainer_buff_after_use"].AsInt; }
+        { if(!_buf["self_trainer_buff_after_use_count"].IsNumber) { throw new SerializationException(); }  SelfTrainerBuffAfterUseCount = _buf["self_trainer_buff_after_use_count"]; }
+        { if(!_buf["self_trainer_buff_after_use"].IsNumber) { throw new SerializationException(); }  SelfTrainerBuffAfterUse = (BattleBuffEnum)_buf["self_trainer_buff_after_use"].AsInt; }
         { if(!_buf["self_battle_buff_count_after_use"].IsNumber) { throw new SerializationException(); }  SelfBattleBuffCountAfterUse = _buf["self_battle_buff_count_after_use"]; }
         { if(!_buf["self_battle_buff_after_use"].IsNumber) { throw new SerializationException(); }  SelfBattleBuffAfterUse = (BattleBuffEnum)_buf["self_battle_buff_after_use"].AsInt; }
         { if(!_buf["hit_rate"].IsNumber) { throw new SerializationException(); }  HitRate = _buf["hit_rate"]; }
@@ -74,6 +78,22 @@ public sealed partial class ActiveSkillConfig : Luban.BeanBase
     /// 优先级
     /// </summary>
     public readonly int Priority;
+    /// <summary>
+    /// 数量
+    /// </summary>
+    public readonly int DefTrainerBuffAfterUseCount;
+    /// <summary>
+    /// 给对面训练家的buff
+    /// </summary>
+    public readonly BattleBuffEnum DefTrainerBuffAfterUse;
+    /// <summary>
+    /// 数量
+    /// </summary>
+    public readonly int SelfTrainerBuffAfterUseCount;
+    /// <summary>
+    /// 给自己训练家上的Buff
+    /// </summary>
+    public readonly BattleBuffEnum SelfTrainerBuffAfterUse;
     /// <summary>
     /// 数量
     /// </summary>
@@ -186,6 +206,10 @@ public sealed partial class ActiveSkillConfig : Luban.BeanBase
         
         
         
+        
+        
+        
+        
     }
 
     public override string ToString()
@@ -197,6 +221,10 @@ public sealed partial class ActiveSkillConfig : Luban.BeanBase
         + "type:" + Type + ","
         + "damagePoint:" + DamagePoint + ","
         + "priority:" + Priority + ","
+        + "defTrainerBuffAfterUseCount:" + DefTrainerBuffAfterUseCount + ","
+        + "defTrainerBuffAfterUse:" + DefTrainerBuffAfterUse + ","
+        + "selfTrainerBuffAfterUseCount:" + SelfTrainerBuffAfterUseCount + ","
+        + "selfTrainerBuffAfterUse:" + SelfTrainerBuffAfterUse + ","
         + "selfBattleBuffCountAfterUse:" + SelfBattleBuffCountAfterUse + ","
         + "selfBattleBuffAfterUse:" + SelfBattleBuffAfterUse + ","
         + "hitRate:" + HitRate + ","

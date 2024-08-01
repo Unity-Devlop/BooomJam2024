@@ -172,8 +172,8 @@ namespace Game.GamePlay
 
                     // if (selfAtk.data.config.Type == ActiveSkillTypeEnum.指挥)
                     // {
-                        await ExecuteSkill(_self, _enemy, selfPos, enemyPos, selfAtk);
-                        await ExecuteSkill(_enemy, _self, enemyPos, selfPos, enemyAtk);
+                    await ExecuteSkill(_self, _enemy, selfPos, enemyPos, selfAtk);
+                    await ExecuteSkill(_enemy, _self, enemyPos, selfPos, enemyAtk);
                     // }
                     // else
                     // {
@@ -262,11 +262,13 @@ namespace Game.GamePlay
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public async UniTask RoundEnd()
         {
-            await selfPos.currentData.ClearRoundData();
-            await enemyPos.currentData.ClearRoundData();
+            await selfPos.currentData.RoundEnd();
+            await enemyPos.currentData.RoundEnd();
 
-            await selfPos.ClearRoundData();
-            await enemyPos.ClearRoundData();
+            await selfPos.RoundEnd();
+            await enemyPos.RoundEnd();
+
+            await _environmentData.RoundEnd();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -366,7 +368,8 @@ namespace Game.GamePlay
 
         private async UniTask BothPokemonSkill(ActiveSkillBattleOperation selfAtk, ActiveSkillBattleOperation enemyAtk)
         {
-            var (faster, slower) = GameMath.WhoFirst(selfPos.currentData, enemyPos.currentData, selfAtk.data,
+            var (faster, slower) = GameMath.WhoFirst(_self, _enemy, selfPos.currentData, enemyPos.currentData,
+                selfAtk.data,
                 enemyAtk.data, _environmentData);
 
             // 根据顺序结算
@@ -410,41 +413,6 @@ namespace Game.GamePlay
         private async UniTask ExecuteBuffBeforeRound(IBattleTrainer positiveTrainer, IBattleTrainer negativeTrainer,
             BuffContainer container)
         {
-            Assert.IsTrue(positiveTrainer != negativeTrainer);
-            if (container.lastRoundBuffEnums.Contains(BattleBuffEnum.起风))
-            {
-                Debug.Log("起风消失");
-                Global.Event.Send<BattleTipEvent>(new BattleTipEvent("起风消失"));
-                foreach (var data in positiveTrainer.trainerData.datas)
-                {
-                    await data.DecreaseCurrentSpeed(10);
-                }
-
-                foreach (var data in positiveTrainer.trainerData.datas)
-                {
-                    await data.IncreaseCurrentSpeed(10);
-                }
-
-                container.lastRoundBuffEnums.Remove(BattleBuffEnum.起风);
-            }
-
-            if (container.buffEnums.Contains(BattleBuffEnum.起风))
-            {
-                Debug.Log("起风");
-                Global.Event.Send<BattleTipEvent>(new BattleTipEvent("起风"));
-                foreach (var data in positiveTrainer.trainerData.datas)
-                {
-                    await data.DecreaseCurrentSpeed(10);
-                }
-
-                foreach (var data in positiveTrainer.trainerData.datas)
-                {
-                    await data.IncreaseCurrentSpeed(10);
-                }
-
-                container.buffEnums.Remove(BattleBuffEnum.起风);
-                container.lastRoundBuffEnums.Add(BattleBuffEnum.起风);
-            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -472,26 +440,26 @@ namespace Game.GamePlay
         private async UniTask ExecuteSkill(IBattleTrainer userTrainer, IBattleTrainer defTrainer,
             BattlePosition userPosition, BattlePosition defPosition, IBattleOperation iOperation)
         {
+            Assert.IsTrue(iOperation is ActiveSkillBattleOperation);
+            var operation = (ActiveSkillBattleOperation)iOperation;
             Assert.IsTrue(userPosition.CanFight());
             Assert.IsTrue(userTrainer.currentBattleData == userPosition.currentData);
             Assert.IsTrue(defTrainer.currentBattleData == defPosition.currentData);
-            if (iOperation is not ActiveSkillBattleOperation operation)
+
+            if (_environmentData.GetBuff(userTrainer).buffEnums.Contains(BattleBuffEnum.喝茶))
             {
-                Debug.LogWarning("不是技能操作");
+                Debug.Log("喝茶 双方结束回合 自己回50血");
+                if (userTrainer == _self)
+                {
+                    ModifyOperAfterUseSkill(ref selfOper);
+                }
+                else
+                {
+                    ModifyOperAfterUseSkill(ref enemyOper);
+                }
+
                 return;
             }
-
-            if (userTrainer == _self && selfOper is not ActiveSkillBattleOperation)
-            {
-                Debug.LogWarning("操作被modify了");
-                return;
-            }
-
-            if (userTrainer == _enemy && enemyOper is not ActiveSkillBattleOperation)
-            {
-                Debug.LogWarning("操作被modify了");
-            }
-
 
             await userTrainer.UseCardFromHandZone(operation.data);
 
@@ -667,6 +635,38 @@ namespace Game.GamePlay
                     {
                         await userTrainer.currentBattleData.AddBuff(operation.data.config.SelfBattleBuffAfterUse);
                     }
+                }
+            }
+
+            if (operation.data.config.SelfTrainerBuffAfterUse != BattleBuffEnum.None)
+            {
+                var buffConfig = Global.Table.BattleBuffTable.Get(operation.data.config.SelfTrainerBuffAfterUse);
+                for (int i = 0; i < operation.data.config.SelfTrainerBuffAfterUseCount; i++)
+                {
+                    Global.Event.Send<BattleTipEvent>(
+                        new BattleTipEvent(
+                            $"{userPosition}使用{operation.data.id}获得{operation.data.config.SelfTrainerBuffAfterUse}"));
+                    Debug.Log($"{userPosition}使用{operation.data.id}获得{operation.data.config.SelfTrainerBuffAfterUse}");
+                    await UniTask.Delay(TimeSpan.FromSeconds(0.2f));
+                    Assert.IsTrue(buffConfig.IsEnvBuff);
+
+                    await _environmentData.AddBuff(userTrainer, operation.data.config.SelfTrainerBuffAfterUse);
+                }
+            }
+
+            if (operation.data.config.DefTrainerBuffAfterUse != BattleBuffEnum.None)
+            {
+                var buffConfig = Global.Table.BattleBuffTable.Get(operation.data.config.DefTrainerBuffAfterUse);
+                for (int i = 0; i < operation.data.config.DefTrainerBuffAfterUseCount; i++)
+                {
+                    Global.Event.Send<BattleTipEvent>(
+                        new BattleTipEvent(
+                            $"{userPosition}使用{operation.data.id}给对方加buff:{operation.data.config.DefTrainerBuffAfterUse}"));
+                    Debug.Log(
+                        $"{userPosition}使用{operation.data.id}给对方加buff:{operation.data.config.DefTrainerBuffAfterUse}");
+                    await UniTask.Delay(TimeSpan.FromSeconds(0.2f));
+                    Assert.IsTrue(buffConfig.IsEnvBuff);
+                    await _environmentData.AddBuff(defTrainer, operation.data.config.DefTrainerBuffAfterUse);
                 }
             }
 

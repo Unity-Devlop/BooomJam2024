@@ -25,32 +25,44 @@
   },
   {
     "id": 5,
-    "desc": "下一次技能伤害1.5",
-    "remove_when_round_end": false,
-    "is_env_buff": false
+    "desc": "‘-10速度",
+    "remove_when_round_end": true,
+    "is_env_buff": true
   },
   {
     "id": 6,
-    "desc": "60%不会命中",
+    "desc": "-10速度",
     "remove_when_round_end": false,
     "is_env_buff": false
   },
   {
     "id": 7,
+    "desc": "60%不会命中",
+    "remove_when_round_end": false,
+    "is_env_buff": false
+  },
+  {
+    "id": 8,
     "desc": "气势披带",
     "remove_when_round_end": true,
     "is_env_buff": false
   },
   {
-    "id": 8,
+    "id": 9,
     "desc": "0.5伤害",
     "remove_when_round_end": true,
     "is_env_buff": false
   },
   {
-    "id": 9,
+    "id": 10,
     "desc": "技能必定先攻击",
     "remove_when_round_end": false,
     "is_env_buff": false
+  },
+  {
+    "id": 11,
+    "desc": "",
+    "remove_when_round_end": true,
+    "is_env_buff": true
   }
 ]

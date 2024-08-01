@@ -129,7 +129,7 @@ namespace Game.GamePlay
             int cnt = Mathf.Clamp(handZone.Count, 0, i);
             for (int j = 0; j < cnt; j++)
             {
-                var discard = handZone.RandomTake();
+                var discard = handZone.RandomTakeWithoutRemove();
                 await Discard(discard);
             }
 

@@ -175,32 +175,44 @@ namespace Game
             return res;
         }
 
-        public static float PostprocessRunTimeSpeed(HuluData p0, BattleEnvironmentData environmentData)
+        public static float PostprocessRunTimeSpeed(IBattleTrainer user, HuluData userHulu,
+            BattleEnvironmentData environmentData)
         {
-            float speed = p0.currentSpeed;
+            float speed = userHulu.currentSpeed;
+
+            if (environmentData.GetBuff(user).buffEnums.Contains(BattleBuffEnum.顺风))
+            {
+                speed += 10;
+            }
+
+            if (environmentData.GetBuff(user).buffEnums.Contains(BattleBuffEnum.逆风))
+            {
+                speed -= 10;
+            }
+
             switch (environmentData.id)
             {
                 case BattleEnvironmentEnum.草地:
-                    if (p0.id == HuluEnum.推土牛 && p0.passiveSkillConfig.Id == PassiveSkillEnum.轰隆冲击)
+                    if (userHulu.id == HuluEnum.推土牛 && userHulu.passiveSkillConfig.Id == PassiveSkillEnum.轰隆冲击)
                     {
                         Debug.Log("轰隆冲击");
-                        speed = p0.currentSpeed * 2f;
+                        speed = userHulu.currentSpeed * 2f;
                     }
 
                     break;
                 case BattleEnvironmentEnum.沙漠:
                     break;
                 case BattleEnvironmentEnum.海洋:
-                    if (p0.elementEnum == ElementEnum.水)
+                    if (userHulu.elementEnum == ElementEnum.水)
                     {
-                        speed = p0.currentSpeed * 1.05f;
+                        speed = userHulu.currentSpeed * 1.05f;
                     }
 
                     break;
                 case BattleEnvironmentEnum.火山:
                     break;
                 case BattleEnvironmentEnum.雪地:
-                    speed = p0.currentSpeed * 0.9f;
+                    speed = userHulu.currentSpeed * 0.9f;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

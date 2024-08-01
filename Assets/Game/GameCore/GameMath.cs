@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using cfg;
+using Game.GamePlay;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -61,7 +62,7 @@ namespace Game
             return (r, l);
         }
 
-        public static (HuluData, HuluData) WhoFirst(HuluData r, HuluData l, ActiveSkillData rs, ActiveSkillData ls,
+        public static (HuluData, HuluData) WhoFirst(IBattleTrainer rT,IBattleTrainer lt,HuluData r, HuluData l, ActiveSkillData rs, ActiveSkillData ls,
             BattleEnvironmentData environmentData)
         {
             Assert.IsTrue(rs.config.Type != ActiveSkillTypeEnum.指挥);
@@ -107,8 +108,8 @@ namespace Game
                 return (l, r);
             }
 
-            int rRuntimeSpeed = (int)UglyMath.PostprocessRunTimeSpeed(r, environmentData);
-            int lRuntimeSpeed = (int)UglyMath.PostprocessRunTimeSpeed(l, environmentData);
+            int rRuntimeSpeed = (int)UglyMath.PostprocessRunTimeSpeed(rT,r, environmentData);
+            int lRuntimeSpeed = (int)UglyMath.PostprocessRunTimeSpeed(lt,l, environmentData);
 
             if (rRuntimeSpeed > lRuntimeSpeed)
             {

@@ -14,8 +14,9 @@ namespace Game
     public class BuffContainer
     {
         public IBattleTrainer trainer;
+
         public List<BattleBuffEnum> buffEnums = new List<BattleBuffEnum>();
-        public List<BattleBuffEnum> lastRoundBuffEnums = new List<BattleBuffEnum>();
+        // public List<BattleBuffEnum> lastRoundBuffEnums = new List<BattleBuffEnum>();
     }
 
     [Serializable]
@@ -30,6 +31,7 @@ namespace Game
         {
             _containers = new Dictionary<IBattleTrainer, BuffContainer>();
         }
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public BuffContainer GetBuff(IBattleTrainer trainer)
         {
@@ -61,6 +63,22 @@ namespace Game
             {
                 trainer = trainer
             });
+        }
+
+        public async UniTask RoundEnd()
+        {
+            foreach (var (trainer, buffList) in _containers)
+            {
+                for (int i = buffList.buffEnums.Count - 1; i >= 0; i--)
+                {
+                    var buff = buffList.buffEnums[i];
+                    var buffConfig = Global.Table.BattleBuffTable.Get(buff);
+                    if (buffConfig.RemoveWhenRoundEnd)
+                    {
+                        buffList.buffEnums.RemoveAt(i);
+                    }
+                }
+            }
         }
     }
 }
