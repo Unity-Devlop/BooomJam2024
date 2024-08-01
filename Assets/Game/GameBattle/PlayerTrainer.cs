@@ -141,14 +141,15 @@ namespace Game.GamePlay
             return handZone.Count;
         }
 
-        public UniTask DiscardAllHandCards()
+        public async UniTask DiscardAllHandCards()
         {
             Debug.Log("弃掉所有手牌");
             List<ActiveSkillData> list = ListPool<ActiveSkillData>.Get();
             list.AddRange(handZone);
             handZone.Clear();
             discardZone.AddRange(list);
-            return OnDiscardCard(list);
+            await OnDiscardCard(list);
+            ListPool<ActiveSkillData>.Release(list);
         }
 
         public async UniTask ChangeCurrentHulu(HuluData data)

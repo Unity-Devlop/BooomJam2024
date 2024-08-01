@@ -235,15 +235,15 @@ MonoBehaviour:
   playerBattleTrainer:
     <trainerData>k__BackingField:
       trainerSkills:
-      - id: 36
-      - id: 36
-      - id: 36
-      - id: 36
-      - id: 36
-      - id: 36
-      - id: 36
-      - id: 36
-      - id: 36
+      - id: 47
+      - id: 57
+      - id: 33
+      - id: 37
+      - id: 47
+      - id: 53
+      - id: 44
+      - id: 49
+      - id: 39
       datas:
       - id: 10
         elementEnum: 5
@@ -258,15 +258,15 @@ MonoBehaviour:
         adap: 40
         currentAdap: 40
         ownedSkills:
-        - id: 20
-        - id: 20
-        - id: 20
-        - id: 20
-        - id: 20
-        - id: 20
-        - id: 20
-        - id: 20
-        - id: 20
+        - id: 21
+        - id: 21
+        - id: 14
+        - id: 19
+        - id: 21
+        - id: 14
+        - id: 21
+        - id: 21
+        - id: 19
       - id: 9
         elementEnum: 4
         hp: 188
@@ -315,66 +315,82 @@ MonoBehaviour:
   rebotBattleTrainer:
     <trainerData>k__BackingField:
       trainerSkills:
-      - id: 3
-      - id: 3
-      - id: 3
-      - id: 3
-      - id: 3
-      - id: 3
-      - id: 3
-      - id: 3
-      - id: 3
-      - id: 3
-      - id: 3
+      - id: 61
+      - id: 59
+      - id: 45
+      - id: 60
+      - id: 31
+      - id: 35
+      - id: 58
+      - id: 55
+      - id: 53
       datas:
       - id: 4
         elementEnum: 5
-        hp: 454
-        currentHp: 454
-        atk: 53
-        currentAtk: 53
-        def: 34
-        currentDef: 34
-        speed: 133
-        currentSpeed: 133
-        adap: 14
-        currentAdap: 14
+        hp: 406
+        currentHp: 406
+        atk: 71
+        currentAtk: 71
+        def: 66
+        currentDef: 66
+        speed: 142
+        currentSpeed: 142
+        adap: 21
+        currentAdap: 21
         ownedSkills:
-        - id: 3
-        - id: 3
-        - id: 3
-        - id: 3
-        - id: 3
-        - id: 3
-        - id: 3
-        - id: 3
-        - id: 3
+        - id: 19
+        - id: 18
+        - id: 24
+        - id: 24
+        - id: 20
+        - id: 20
+        - id: 24
+        - id: 20
+        - id: 24
       - id: 0
         elementEnum: 1
-        hp: 368
-        currentHp: 368
-        atk: 65
-        currentAtk: 65
-        def: 42
-        currentDef: 42
-        speed: 110
-        currentSpeed: 110
-        adap: 1
-        currentAdap: 1
-        ownedSkills: []
+        hp: 330
+        currentHp: 330
+        atk: 70
+        currentAtk: 70
+        def: 61
+        currentDef: 61
+        speed: 136
+        currentSpeed: 136
+        adap: 27
+        currentAdap: 27
+        ownedSkills:
+        - id: 19
+        - id: 1
+        - id: 0
+        - id: 24
+        - id: 1
+        - id: 1
+        - id: 25
+        - id: 24
+        - id: 0
       - id: 0
         elementEnum: 1
-        hp: 328
-        currentHp: 328
-        atk: 73
-        currentAtk: 73
-        def: 70
-        currentDef: 70
-        speed: 143
-        currentSpeed: 143
-        adap: 20
-        currentAdap: 20
-        ownedSkills: []
+        hp: 332
+        currentHp: 332
+        atk: 67
+        currentAtk: 67
+        def: 57
+        currentDef: 57
+        speed: 119
+        currentSpeed: 119
+        adap: 9
+        currentAdap: 9
+        ownedSkills:
+        - id: 19
+        - id: 24
+        - id: 0
+        - id: 0
+        - id: 1
+        - id: 24
+        - id: 2
+        - id: 0
+        - id: 1
   environmentData:
     id: 1
 --- !u!4 &169709044
