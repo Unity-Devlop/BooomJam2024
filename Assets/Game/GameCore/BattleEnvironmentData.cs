@@ -7,6 +7,7 @@ using Cysharp.Threading.Tasks;
 using Game.GamePlay;
 using Sirenix.OdinInspector;
 using UnityEngine.Assertions;
+using UnityEngine.Pool;
 using UnityToolkit;
 
 namespace Game
@@ -68,18 +69,27 @@ namespace Game
 
         public async UniTask RoundEnd()
         {
+            HashSet<BattleBuffEnum> record = HashSetPool<BattleBuffEnum>.Get();
             foreach (var (trainer, buffList) in _containers)
             {
                 for (int i = buffList.buffEnums.Count - 1; i >= 0; i--)
                 {
                     var buff = buffList.buffEnums[i];
                     var buffConfig = Global.Table.BattleBuffTable.Get(buff);
+                    if (!buffConfig.RemoveAllWhenRoundEnd && record.Contains(buffConfig.Id))
+                    {
+                        continue;
+                    }
+
                     if (buffConfig.RemoveWhenRoundEnd)
                     {
+                        record.Add(buffConfig.Id);
                         buffList.buffEnums.RemoveAt(i);
                     }
                 }
             }
+
+            HashSetPool<BattleBuffEnum>.Release(record);
         }
     }
 }
