@@ -65,6 +65,7 @@ namespace Game.GamePlay
             selfPos.SetNext(selfPos.battleTrainer.Get(0));
             enemyPos.SetNext(enemyPos.battleTrainer.Get(0));
 
+            Global.Get<AudioSystem>().Get(FMODName.Event.first_step).start();
             await IBattleFlow.RoundFlow(this, _cts.Token);
         }
 
@@ -235,6 +236,7 @@ namespace Game.GamePlay
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public UniTask Exit()
         {
+            Global.Get<AudioSystem>().Get(FMODName.Event.first_step).stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
             Debug.Log("Exit");
             if (UIRoot.Singleton.GetOpenedPanel(out GameBattlePanel battlePanel))
             {

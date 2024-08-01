@@ -49,7 +49,7 @@ namespace Game
 
         
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Create(string path, out EventInstance instance, bool singleton = false)
+        public void Create(string path, out EventInstance instance, bool singleton = true)
         {
             if (singleton) // 单例
             {
@@ -69,6 +69,10 @@ namespace Game
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public EventInstance Get(string path)
         {
+            if(!_cache.TryGetValue(path, out var instance))
+            {
+                Create(path, out instance, true);
+            }
             return _cache[path];
         }
 
@@ -90,6 +94,11 @@ namespace Game
                 instance.release();
                 _cache.Remove(path);
             }
+        }
+
+        public void Play(string path)
+        {
+            RuntimeManager.PlayOneShot(path);
         }
     }
 }
