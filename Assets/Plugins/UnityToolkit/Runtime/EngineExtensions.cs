@@ -174,6 +174,18 @@ namespace UnityToolkit
             return t;
         }
         
+        public static T RandomTakeWithoutRemove<T>(this HashSet<T> set)
+        {
+            if (set.Count == 0)
+            {
+                throw new NullReferenceException($"HashSet<{typeof(T)}> is empty");
+            }
+
+            int index = Random.Range(0, set.Count);
+            T t = set.ElementAt(index);
+            return t;
+        }
+        
         public static List<T> Shuffle<T>(this List<T> list)
         {
             for (int i = 0; i < list.Count; i++)

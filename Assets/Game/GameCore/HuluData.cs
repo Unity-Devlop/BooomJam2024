@@ -191,11 +191,17 @@ namespace Game
             return config.Name;
         }
 
-        public async UniTask ClearRoundData()
+        public async UniTask RoundEnd()
         {
-            buffList.Remove(BattleBuffEnum.守护);
-            buffList.Remove(BattleBuffEnum.站起来);
-            buffList.Remove(BattleBuffEnum.规避弱点);
+            for (int i = buffList.Count - 1; i >= 0; i--)
+            {
+                var buff = buffList[i];
+                var buffConfig = Global.Table.BattleBuffTable.Get(buff);
+                if (buffConfig.RemoveWhenRoundEnd)
+                {
+                    buffList.RemoveAt(i);
+                }
+            }
         }
 
         public async UniTask AddBuff(BattleBuffEnum configSelfBattleBuffAfterUse)

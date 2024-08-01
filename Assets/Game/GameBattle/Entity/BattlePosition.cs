@@ -57,8 +57,9 @@ namespace Game.GamePlay
             await UniTask.WaitUntil(() => flag);
         }
 
-        public async UniTask ClearRoundData()
+        public async UniTask RoundEnd()
         {
+            
         }
 
         public bool CanFight()

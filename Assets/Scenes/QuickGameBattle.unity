@@ -258,15 +258,15 @@ MonoBehaviour:
         adap: 40
         currentAdap: 40
         ownedSkills:
-        - id: 19
-        - id: 21
-        - id: 14
-        - id: 19
-        - id: 14
-        - id: 14
-        - id: 26
-        - id: 14
-        - id: 21
+        - id: 20
+        - id: 20
+        - id: 20
+        - id: 20
+        - id: 20
+        - id: 20
+        - id: 20
+        - id: 20
+        - id: 20
       - id: 9
         elementEnum: 4
         hp: 188
