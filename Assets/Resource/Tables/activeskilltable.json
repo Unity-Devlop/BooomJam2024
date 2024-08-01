@@ -1031,7 +1031,7 @@
     "effect_hit_rate": 0,
     "increase_self_def_point_after_use": 0,
     "type2": 1,
-    "increase_health_point_after_use": 0,
+    "increase_health_point_after_use": 50,
     "increase_health_percent_after_use": 0,
     "increase_self_speed_point_after_use": 0,
     "def_discard_card_rate": 0,

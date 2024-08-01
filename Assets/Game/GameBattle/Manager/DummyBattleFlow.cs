@@ -153,33 +153,33 @@ namespace Game.GamePlay
                         continue;
                     }
 
-                    if (selfAtk.data.config.Type == ActiveSkillTypeEnum.指挥 &&
-                        enemyAtk.data.config.Type == ActiveSkillTypeEnum.指挥)
-                    {
-                        if (Random.value < 0.5)
-                        {
-                            await ExecuteSkill(_self, _enemy, selfPos, enemyPos, selfAtk);
-                            await ExecuteSkill(_enemy, _self, enemyPos, selfPos, enemyAtk);
-                        }
-                        else
-                        {
-                            await ExecuteSkill(_enemy, _self, enemyPos, selfPos, enemyAtk);
-                            await ExecuteSkill(_self, _enemy, selfPos, enemyPos, selfAtk);
-                        }
+                    // if (selfAtk.data.config.Type == ActiveSkillTypeEnum.指挥 &&
+                    //     enemyAtk.data.config.Type == ActiveSkillTypeEnum.指挥)
+                    // {
+                    //     if (Random.value < 0.5)
+                    //     {
+                    //         await ExecuteSkill(_self, _enemy, selfPos, enemyPos, selfAtk);
+                    //         await ExecuteSkill(_enemy, _self, enemyPos, selfPos, enemyAtk);
+                    //     }
+                    //     else
+                    //     {
+                    //         await ExecuteSkill(_enemy, _self, enemyPos, selfPos, enemyAtk);
+                    //         await ExecuteSkill(_self, _enemy, selfPos, enemyPos, selfAtk);
+                    //     }
+                    //
+                    //     continue;
+                    // }
 
-                        continue;
-                    }
-
-                    if (selfAtk.data.config.Type == ActiveSkillTypeEnum.指挥)
-                    {
+                    // if (selfAtk.data.config.Type == ActiveSkillTypeEnum.指挥)
+                    // {
                         await ExecuteSkill(_self, _enemy, selfPos, enemyPos, selfAtk);
                         await ExecuteSkill(_enemy, _self, enemyPos, selfPos, enemyAtk);
-                    }
-                    else
-                    {
-                        await ExecuteSkill(_enemy, _self, enemyPos, selfPos, enemyAtk);
-                        await ExecuteSkill(_self, _enemy, selfPos, enemyPos, selfAtk);
-                    }
+                    // }
+                    // else
+                    // {
+                    //     await ExecuteSkill(_enemy, _self, enemyPos, selfPos, enemyAtk);
+                    //     await ExecuteSkill(_self, _enemy, selfPos, enemyPos, selfAtk);
+                    // }
 
                     continue; // 这里双方技能都结算了 所以直接跳到下一回合
                 }
@@ -331,7 +331,7 @@ namespace Game.GamePlay
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void ModifyOperAfterUseSkill(ref IBattleOperation oper)
         {
-            if(oper is not ActiveSkillBattleOperation atk) return;
+            if (oper is not ActiveSkillBattleOperation atk) return;
 
             if (atk.data.config.Type != ActiveSkillTypeEnum.指挥)
             {
@@ -472,16 +472,26 @@ namespace Game.GamePlay
         private async UniTask ExecuteSkill(IBattleTrainer userTrainer, IBattleTrainer defTrainer,
             BattlePosition userPosition, BattlePosition defPosition, IBattleOperation iOperation)
         {
+            Assert.IsTrue(userPosition.CanFight());
+            Assert.IsTrue(userTrainer.currentBattleData == userPosition.currentData);
+            Assert.IsTrue(defTrainer.currentBattleData == defPosition.currentData);
             if (iOperation is not ActiveSkillBattleOperation operation)
             {
                 Debug.LogWarning("不是技能操作");
                 return;
             }
 
-            Assert.IsTrue(userPosition.CanFight());
+            if (userTrainer == _self && selfOper is not ActiveSkillBattleOperation)
+            {
+                Debug.LogWarning("操作被modify了");
+                return;
+            }
 
-            Assert.IsTrue(userTrainer.currentBattleData == userPosition.currentData);
-            Assert.IsTrue(defTrainer.currentBattleData == defPosition.currentData);
+            if (userTrainer == _enemy && enemyOper is not ActiveSkillBattleOperation)
+            {
+                Debug.LogWarning("操作被modify了");
+            }
+
 
             await userTrainer.UseCardFromHandZone(operation.data);
 
