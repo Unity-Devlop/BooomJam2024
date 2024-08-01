@@ -223,7 +223,7 @@ namespace Game
         {
             IBattleOperation operation;
             if (hulu.id == HuluEnum.电电鼠 && hulu.passiveSkillConfig.Id == PassiveSkillEnum.胆小鬼 &&
-                hulu.buffList.Contains(BuffEnum.胆小鬼) && hulu.currentHp < hulu.hp / 2)
+                hulu.buffList.Contains(BuffEnum.胆小鬼) && hulu.currentHp < hulu.hp / 2 && hulu.currentHp > 0)
             {
                 int tar = -1;
                 for (int i = 0; i < trainer.trainerData.datas.Count; i++)
