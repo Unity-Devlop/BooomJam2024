@@ -10,6 +10,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Serialization;
 using UnityToolkit;
+using Random = UnityEngine.Random;
 
 namespace Game.GamePlay
 {
@@ -152,8 +153,34 @@ namespace Game.GamePlay
                         continue;
                     }
 
-                    await ExecuteSkill(_self, _enemy, selfPos, enemyPos, selfAtk);
-                    await ExecuteSkill(_enemy, _self, enemyPos, selfPos, enemyAtk);
+                    if (selfAtk.data.config.Type == ActiveSkillTypeEnum.指挥 &&
+                        enemyAtk.data.config.Type == ActiveSkillTypeEnum.指挥)
+                    {
+                        if (Random.value < 0.5)
+                        {
+                            await ExecuteSkill(_self, _enemy, selfPos, enemyPos, selfAtk);
+                            await ExecuteSkill(_enemy, _self, enemyPos, selfPos, enemyAtk);
+                        }
+                        else
+                        {
+                            await ExecuteSkill(_enemy, _self, enemyPos, selfPos, enemyAtk);
+                            await ExecuteSkill(_self, _enemy, selfPos, enemyPos, selfAtk);
+                        }
+
+                        continue;
+                    }
+
+                    if (selfAtk.data.config.Type == ActiveSkillTypeEnum.指挥)
+                    {
+                        await ExecuteSkill(_self, _enemy, selfPos, enemyPos, selfAtk);
+                        await ExecuteSkill(_enemy, _self, enemyPos, selfPos, enemyAtk);
+                    }
+                    else
+                    {
+                        await ExecuteSkill(_enemy, _self, enemyPos, selfPos, enemyAtk);
+                        await ExecuteSkill(_self, _enemy, selfPos, enemyPos, selfAtk);
+                    }
+
                     continue; // 这里双方技能都结算了 所以直接跳到下一回合
                 }
 
@@ -444,8 +471,14 @@ namespace Game.GamePlay
         }
 
         private async UniTask ExecuteSkill(IBattleTrainer userTrainer, IBattleTrainer defTrainer,
-            BattlePosition userPosition, BattlePosition defPosition, ActiveSkillBattleOperation operation)
+            BattlePosition userPosition, BattlePosition defPosition, IBattleOperation iOperation)
         {
+            if (iOperation is not ActiveSkillBattleOperation operation)
+            {
+                Debug.LogWarning("不是技能操作");
+                return;
+            }
+
             Assert.IsTrue(userPosition.CanFight());
 
             Assert.IsTrue(userTrainer.currentBattleData == userPosition.currentData);
@@ -472,7 +505,13 @@ namespace Game.GamePlay
                     await userTrainer.DrawSkills(currentCount);
                 }
 
-                return;
+                if (operation.data.id == ActiveSkillEnum.喝茶)
+                {
+                    Debug.Log($"喝茶 双方结束回合 自己回50血");
+                    Global.Event.Send<BattleTipEvent>(new BattleTipEvent($"喝茶 双方结束回合 自己回50血"));
+                    selfOper = new EndRoundOperation();
+                    enemyOper = new EndRoundOperation();
+                }
             }
 
             #endregion
@@ -558,6 +597,8 @@ namespace Game.GamePlay
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+            #region 通用效果
+
             if (operation.data.config.IncreaseHealthPercentAfterUse != 0)
             {
                 Debug.Log(
@@ -620,11 +661,12 @@ namespace Game.GamePlay
                 }
             }
 
-
             if (operation.data.config.ChangeBattleEnvAfterUse != BattleEnvironmentEnum.None)
             {
                 await ChangeBattleEnv(operation.data.config.ChangeBattleEnvAfterUse);
             }
+
+            #endregion
 
             if (userTrainer == _self)
             {
