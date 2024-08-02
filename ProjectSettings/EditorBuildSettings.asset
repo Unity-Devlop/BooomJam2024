@@ -5,9 +5,18 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/GameEntry.unity
     guid: ba764f7d2101c1449be0a48da3786af3
+  - enabled: 1
+    path: Assets/Scenes/QuickGameBattle.unity
+    guid: 8c9cfa26abfee488c85f1582747f6a02
+  - enabled: 0
+    path: Assets/Scenes/GameOutside.unity
+    guid: 19575959ae28134449d9f8cf8122417f
+  - enabled: 0
+    path: Assets/Scenes/GameHome.unity
+    guid: 1ff178673b570a0458b9a8e4cc5a5d65
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: 7423d5e44551f7544aa689fed69b73db, type: 2}
     com.unity.input.settings: {fileID: 11400000, guid: 4b5ddb59a395ba642a26f85f16365b2d, type: 2}
