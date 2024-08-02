@@ -16,7 +16,7 @@ namespace Game.GamePlay
         public DummyBattleFlow battleFlow { get; private set; }
 
         public PlayerBattleTrainer playerBattleTrainer;
-        public RebotBattleTrainer rebotBattleTrainer;
+        [FormerlySerializedAs("rebotBattleTrainer")] public RobotBattleTrainer robotBattleTrainer;
         public BattleEnvironmentData environmentData;
 
         protected override async void OnInit()
@@ -42,11 +42,11 @@ namespace Game.GamePlay
 
             // TODO 后续配置一下 随机几个拿出来
             Debug.LogWarning($"随机生成机器人未实现");
-            TrainerData aiTrainerData = rebotBattleTrainer.trainerData;
-            rebotBattleTrainer.Init(aiTrainerData);
+            TrainerData aiTrainerData = robotBattleTrainer.trainerData;
+            robotBattleTrainer.Init(aiTrainerData);
 
 
-            battleFlow.Init(playerBattleTrainer, rebotBattleTrainer, environmentData);
+            battleFlow.Init(playerBattleTrainer, robotBattleTrainer, environmentData);
             await battleFlow.Enter();
         }
 

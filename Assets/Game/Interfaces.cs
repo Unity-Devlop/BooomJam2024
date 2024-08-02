@@ -47,7 +47,10 @@ namespace Game.GamePlay
         UniTask RandomDiscard(int i);
         UniTask DiscardAllHandCards();
         UniTask Discard2DrawZone();
-        UniTask DrawTarget(ActiveSkillTypeEnum type, int cnt);
+        UniTask<int> DrawTarget(ActiveSkillTypeEnum type, int cnt);
+        
+        UniTask<int> DrawTarget(ActiveSkillEnum target, int cnt);
+        
     }
 
     public interface IBattleFlow

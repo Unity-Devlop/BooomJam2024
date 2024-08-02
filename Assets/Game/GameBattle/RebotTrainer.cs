@@ -6,12 +6,11 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Pool;
 using UnityToolkit;
-using Random = UnityEngine.Random;
 
 namespace Game.GamePlay
 {
     [Serializable]
-    public class RebotBattleTrainer : IBattleTrainer
+    public class RobotBattleTrainer : IBattleTrainer
     {
         public bool canFight => trainerData.canFight;
 
@@ -56,22 +55,33 @@ namespace Game.GamePlay
 
         public int GetHandZoneCount()
         {
-            throw new NotImplementedException();
+            Debug.LogError("机器人未实现的方法");
+            return 0;
         }
 
         public UniTask DiscardAllHandCards()
         {
-            throw new NotImplementedException();
+            Debug.LogError("机器人未实现的方法");
+            return UniTask.CompletedTask;
         }
 
         public UniTask Discard2DrawZone()
         {
-            throw new NotImplementedException();
+            Debug.LogError("机器人未实现的方法");
+            return UniTask.CompletedTask;
         }
 
-        public UniTask DrawTarget(ActiveSkillTypeEnum type, int cnt)
+
+        public UniTask<int> DrawTarget(ActiveSkillEnum target, int cnt)
         {
-            throw new NotImplementedException();
+            Debug.LogError("机器人未实现的方法");
+            return new UniTask<int>(cnt);
+        }
+
+        public UniTask<int> DrawTarget(ActiveSkillTypeEnum type, int cnt)
+        {
+            Debug.LogError("机器人未实现的方法");
+            return new UniTask<int>(cnt);
         }
 
         public void PushOperation(IBattleOperation operation)

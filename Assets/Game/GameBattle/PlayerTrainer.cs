@@ -235,6 +235,7 @@ namespace Game.GamePlay
                 Assert.IsFalse(drawZone.Contains(ownedSkill));
                 drawZone.Add(ownedSkill);
             }
+
             Debug.Log($"为当前宝可梦{currentBattleData}填充抽牌区域");
         }
 
@@ -325,7 +326,7 @@ namespace Game.GamePlay
             HashSetPool<ActiveSkillData>.Release(drawList);
         }
 
-        public async UniTask DrawTarget(ActiveSkillTypeEnum type, int cnt)
+        public async UniTask<int> DrawTarget(ActiveSkillTypeEnum type, int cnt)
         {
             HashSet<ActiveSkillData> drawList = HashSetPool<ActiveSkillData>.Get();
 
@@ -348,7 +349,38 @@ namespace Game.GamePlay
             }
 
             await OnDrawCard(drawList.ToList());
+            int result = drawList.Count;
             HashSetPool<ActiveSkillData>.Release(drawList);
+            return result;
+        }
+
+        public async UniTask<int> DrawTarget(ActiveSkillEnum target, int cnt)
+        {
+            HashSet<ActiveSkillData> drawList = HashSetPool<ActiveSkillData>.Get();
+
+
+            foreach (var activeSkillData in drawZone)
+            {
+                if (activeSkillData.id == target)
+                {
+                    drawList.Add(activeSkillData);
+                    if (drawList.Count == cnt)
+                    {
+                        break;
+                    }
+                }
+            }
+
+            foreach (var target1 in drawList)
+            {
+                drawZone.Remove(target1);
+                handZone.Add(target1);
+            }
+
+            await OnDrawCard(drawList.ToList());
+            int result = drawList.Count;
+            HashSetPool<ActiveSkillData>.Release(drawList);
+            return result;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

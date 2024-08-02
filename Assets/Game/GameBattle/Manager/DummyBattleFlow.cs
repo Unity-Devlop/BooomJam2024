@@ -20,7 +20,7 @@ namespace Game.GamePlay
         private PlayerBattleTrainer _self;
 
         [ReadOnly, NonSerialized, ShowInInspector]
-        private RebotBattleTrainer _enemy;
+        private RobotBattleTrainer _enemy;
 
         [HorizontalGroup("1")] public BattlePosition selfPos;
 
@@ -32,7 +32,7 @@ namespace Game.GamePlay
         private CancellationTokenSource _cts;
         private BattleEnvironmentData _environmentData;
 
-        public void Init(PlayerBattleTrainer self, RebotBattleTrainer enemy, BattleEnvironmentData environmentData)
+        public void Init(PlayerBattleTrainer self, RobotBattleTrainer enemy, BattleEnvironmentData environmentData)
         {
             Assert.IsNull(_cts);
             _self = self;
@@ -243,7 +243,7 @@ namespace Game.GamePlay
         }
 
 
-        public UniTask AfterRound()
+        public async UniTask AfterRound()
         {
             if (!selfPos.CanFight() && _self.trainerData.FindFirstCanFight(out HuluData selfNext))
             {
@@ -256,7 +256,7 @@ namespace Game.GamePlay
             }
 
             // 如果有一方G了 则进行自动替换逻辑
-            return UniTask.CompletedTask;
+            await UniTask.CompletedTask;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -672,6 +672,19 @@ namespace Game.GamePlay
             if (operation.data.config.ChangeBattleEnvAfterUse != BattleEnvironmentEnum.None)
             {
                 await ChangeBattleEnv(operation.data.config.ChangeBattleEnvAfterUse);
+            }
+
+
+            var drawTargetCardConfigAfterUse = operation.data.config.DarwTargetCardConfigAfterUse;
+            if (drawTargetCardConfigAfterUse != null && drawTargetCardConfigAfterUse.Target != ActiveSkillEnum.None)
+            {
+                int drawed = await userTrainer.DrawTarget(drawTargetCardConfigAfterUse.Target,
+                    drawTargetCardConfigAfterUse.Cnt);
+                if (drawTargetCardConfigAfterUse.DrawAnyIfCanNotDrawTarget && drawed < drawTargetCardConfigAfterUse.Cnt)
+                {
+                    Debug.Log($"抽指定牌失败，抽了{drawed}张，继续抽{drawTargetCardConfigAfterUse.Cnt - drawed}张任意牌");
+                    await userTrainer.DrawSkills(drawTargetCardConfigAfterUse.Cnt - drawed);
+                }
             }
 
             #endregion

@@ -33,6 +33,7 @@ public sealed partial class ActiveSkillConfig : Luban.BeanBase
         { var __json0 = _buf["mul_attack_times"]; if(!__json0.IsArray) { throw new SerializationException(); } int _n0 = __json0.Count; MulAttackTimes = new int[_n0]; int __index0=0; foreach(JSONNode __e0 in __json0.Children) { int __v0;  { if(!__e0.IsNumber) { throw new SerializationException(); }  __v0 = __e0; }  MulAttackTimes[__index0++] = __v0; }   }
         { if(!_buf["change_battle_env_after_use"].IsNumber) { throw new SerializationException(); }  ChangeBattleEnvAfterUse = (BattleEnvironmentEnum)_buf["change_battle_env_after_use"].AsInt; }
         { if(!_buf["using_def_to_cal_damage"].IsBoolean) { throw new SerializationException(); }  UsingDefToCalDamage = _buf["using_def_to_cal_damage"]; }
+        { if(!_buf["darw_target_card_config_after_use"].IsObject) { throw new SerializationException(); }  DarwTargetCardConfigAfterUse = DrawTargetCardTuple.DeserializeDrawTargetCardTuple(_buf["darw_target_card_config_after_use"]);  }
         { if(!_buf["darw_leader_card_count_after_use"].IsNumber) { throw new SerializationException(); }  DarwLeaderCardCountAfterUse = _buf["darw_leader_card_count_after_use"]; }
         { if(!_buf["darw_card_count_after_use"].IsNumber) { throw new SerializationException(); }  DarwCardCountAfterUse = _buf["darw_card_count_after_use"]; }
         { if(!_buf["effect_hit_rate"].IsNumber) { throw new SerializationException(); }  EffectHitRate = _buf["effect_hit_rate"]; }
@@ -119,6 +120,10 @@ public sealed partial class ActiveSkillConfig : Luban.BeanBase
     /// </summary>
     public readonly bool UsingDefToCalDamage;
     /// <summary>
+    /// 目标牌
+    /// </summary>
+    public readonly DrawTargetCardTuple DarwTargetCardConfigAfterUse;
+    /// <summary>
     /// 使用后抽指挥牌的数量
     /// </summary>
     public readonly int DarwLeaderCardCountAfterUse;
@@ -196,6 +201,7 @@ public sealed partial class ActiveSkillConfig : Luban.BeanBase
         
         
         
+        DarwTargetCardConfigAfterUse?.ResolveRef(tables);
         
         
         
@@ -231,6 +237,7 @@ public sealed partial class ActiveSkillConfig : Luban.BeanBase
         + "mulAttackTimes:" + Luban.StringUtil.CollectionToString(MulAttackTimes) + ","
         + "changeBattleEnvAfterUse:" + ChangeBattleEnvAfterUse + ","
         + "usingDefToCalDamage:" + UsingDefToCalDamage + ","
+        + "darwTargetCardConfigAfterUse:" + DarwTargetCardConfigAfterUse + ","
         + "darwLeaderCardCountAfterUse:" + DarwLeaderCardCountAfterUse + ","
         + "darwCardCountAfterUse:" + DarwCardCountAfterUse + ","
         + "effectHitRate:" + EffectHitRate + ","

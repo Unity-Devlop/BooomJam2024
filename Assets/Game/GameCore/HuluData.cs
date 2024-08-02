@@ -126,11 +126,11 @@ namespace Game
             await UglyMath.PostprocessHuluData(this);
             await bind.Invoke();
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public async UniTask TakeDamageFromSelfSkillEffect(int point)
         {
-            if(buffList.Contains(BattleBuffEnum.阻止自身技能伤害))
+            if (buffList.Contains(BattleBuffEnum.阻止自身技能伤害))
                 return;
             currentHp -= point;
             currentHp = Mathf.Clamp(currentHp, 0, hp);
@@ -170,6 +170,7 @@ namespace Game
                 Debug.Log("阻止属性变化");
                 return;
             }
+
             elementEnum = elementEnum1;
             await bind.Invoke();
         }
@@ -200,13 +201,31 @@ namespace Game
 
         public async UniTask RoundEnd()
         {
+            if(healP0intBy回满血然后回合结束受到等量伤害 > 0)
+            {
+                await DecreaseHealth(healP0intBy回满血然后回合结束受到等量伤害);
+            }
+            healP0intBy回满血然后回合结束受到等量伤害 = 0;
             GameMath.PrcessBuffWhenRoundEnd(this.buffList);
             await bind.Invoke();
         }
 
-        public async UniTask AddBuff(BattleBuffEnum configSelfBattleBuffAfterUse)
+        [FormerlySerializedAs("healPintBy回满血然后回合结束受到等量伤害")] public int healP0intBy回满血然后回合结束受到等量伤害 = 0;
+
+        public async UniTask AddBuff(BattleBuffEnum buff)
         {
-            buffList.Add(configSelfBattleBuffAfterUse);
+            if (buff == BattleBuffEnum.回满血然后回合结束受到等量伤害)
+            {
+                healP0intBy回满血然后回合结束受到等量伤害 = hp - currentHp;
+                await DecreaseHealth(-healP0intBy回满血然后回合结束受到等量伤害);
+            }
+
+            var buffConfig = Global.Table.BattleBuffTable.Get(buff);
+            if (!buffConfig.CanStack && buffList.Contains(buff))
+            {
+                return;
+            }
+            buffList.Add(buff);
         }
 
         public bool Contains(BattleBuffEnum buff)

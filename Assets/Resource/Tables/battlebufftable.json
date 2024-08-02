@@ -89,5 +89,12 @@
     "remove_count_when_round_end": -1,
     "is_env_buff": false,
     "can_stack": false
+  },
+  {
+    "id": 14,
+    "desc": "回满血然后回合结束受到等量伤害",
+    "remove_count_when_round_end": -1,
+    "is_env_buff": false,
+    "can_stack": false
   }
 ]

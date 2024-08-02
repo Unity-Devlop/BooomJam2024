@@ -55,6 +55,8 @@ namespace Game
         {
             var container = _containers[atkTrainer];
             Assert.IsNotNull(container);
+            if(container.buffList.Contains(buff) && !Global.Table.BattleBuffTable.Get(buff).CanStack)
+                return;
             container.buffList.Add(buff);
             // await Global.BattleUI.ShowBuff(atkTrainer, 起风);
         }
