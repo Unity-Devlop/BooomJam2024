@@ -5,7 +5,6 @@ namespace Game
     {
         public static class Event
         {
-        	public const string first_step = "event:/first_step";
         	public const string SFX_ui_进入卡牌 = "event:/SFX/ui_进入卡牌";
         	public const string SFX_ui_选择牌 = "event:/SFX/ui_选择牌";
         	public const string MX_NORMAL_DEMO1 = "event:/MX_NORMAL_DEMO1";

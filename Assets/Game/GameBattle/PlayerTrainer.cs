@@ -108,7 +108,7 @@ namespace Game.GamePlay
 
         private async UniTask Discard(ActiveSkillData data)
         {
-            Assert.IsTrue(data.config.Type2 == CardTypeEnum.Normal);
+            // Assert.IsTrue(data.config.Type2 == CardTypeEnum.Normal);
             Assert.IsTrue(handZone.Contains(data));
             Assert.IsFalse(discardZone.Contains(data));
             handZone.Remove(data);

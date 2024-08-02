@@ -30,7 +30,7 @@ namespace Game.GamePlay
             nameText.text = obj.name;
             hpText.text = $"{obj.currentHp}/{obj.hp}";
             elementText.text = obj.elementEnum.ToString();
-            statusText.text = $"Atk:{obj.atk}\nDef:{obj.def}\nSpeed:{obj.speed}\nAdap:{obj.adap}";
+            statusText.text = $"Atk:{obj.currentAtk}\nDef:{obj.currentDef}\nSpeed:{obj.currentSpeed}\nAdap:{obj.currentAdap}";
         }
 
         private async UniTask OnData(HuluData obj)
@@ -39,7 +39,7 @@ namespace Game.GamePlay
 
             elementText.text = obj.elementEnum.ToString();
 
-            statusText.text = $"Atk:{obj.atk}\nDef:{obj.def}\nSpeed:{obj.speed}\nAdap:{obj.adap}";
+            statusText.text = $"Atk:{obj.currentAtk}\nDef:{obj.currentDef}\nSpeed:{obj.currentSpeed}\nAdap:{obj.currentAdap}";
 
             int origin = hpText.text == "" ? 0 : int.Parse(hpText.text.Split('/')[0]);
             int delta = obj.currentHp - origin;
