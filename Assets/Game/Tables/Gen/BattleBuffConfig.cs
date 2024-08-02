@@ -19,10 +19,9 @@ public sealed partial class BattleBuffConfig : Luban.BeanBase
     {
         { if(!_buf["id"].IsNumber) { throw new SerializationException(); }  Id = (BattleBuffEnum)_buf["id"].AsInt; }
         { if(!_buf["desc"].IsString) { throw new SerializationException(); }  Desc = _buf["desc"]; }
-        { if(!_buf["remove_when_round_end"].IsBoolean) { throw new SerializationException(); }  RemoveWhenRoundEnd = _buf["remove_when_round_end"]; }
+        { if(!_buf["remove_count_when_round_end"].IsNumber) { throw new SerializationException(); }  RemoveCountWhenRoundEnd = _buf["remove_count_when_round_end"]; }
         { if(!_buf["is_env_buff"].IsBoolean) { throw new SerializationException(); }  IsEnvBuff = _buf["is_env_buff"]; }
         { if(!_buf["can_stack"].IsBoolean) { throw new SerializationException(); }  CanStack = _buf["can_stack"]; }
-        { if(!_buf["remove_all_when_round_end"].IsBoolean) { throw new SerializationException(); }  RemoveAllWhenRoundEnd = _buf["remove_all_when_round_end"]; }
     }
 
     public static BattleBuffConfig DeserializeBattleBuffConfig(JSONNode _buf)
@@ -36,9 +35,9 @@ public sealed partial class BattleBuffConfig : Luban.BeanBase
     public readonly BattleBuffEnum Id;
     public readonly string Desc;
     /// <summary>
-    /// 是否回合结束时消失
+    /// 回合结束后移除的数量(-1表示所有)
     /// </summary>
-    public readonly bool RemoveWhenRoundEnd;
+    public readonly int RemoveCountWhenRoundEnd;
     /// <summary>
     /// 是否是场地buff
     /// </summary>
@@ -47,17 +46,12 @@ public sealed partial class BattleBuffConfig : Luban.BeanBase
     /// 是否可以叠加
     /// </summary>
     public readonly bool CanStack;
-    /// <summary>
-    /// (只有是场地buff时生效)回合结束时是否移除所有
-    /// </summary>
-    public readonly bool RemoveAllWhenRoundEnd;
    
     public const int __ID__ = 1259790445;
     public override int GetTypeId() => __ID__;
 
     public  void ResolveRef(Tables tables)
     {
-        
         
         
         
@@ -70,10 +64,9 @@ public sealed partial class BattleBuffConfig : Luban.BeanBase
         return "{ "
         + "id:" + Id + ","
         + "desc:" + Desc + ","
-        + "removeWhenRoundEnd:" + RemoveWhenRoundEnd + ","
+        + "removeCountWhenRoundEnd:" + RemoveCountWhenRoundEnd + ","
         + "isEnvBuff:" + IsEnvBuff + ","
         + "canStack:" + CanStack + ","
-        + "removeAllWhenRoundEnd:" + RemoveAllWhenRoundEnd + ","
         + "}";
     }
 }

@@ -8,6 +8,7 @@ using Game.GamePlay;
 using Sirenix.OdinInspector;
 using UnityEngine.Assertions;
 using UnityEngine.Pool;
+using UnityEngine.Serialization;
 using UnityToolkit;
 
 namespace Game
@@ -17,7 +18,7 @@ namespace Game
     {
         public IBattleTrainer trainer;
 
-        public List<BattleBuffEnum> buffEnums = new List<BattleBuffEnum>();
+        [FormerlySerializedAs("buffEnums")] public List<BattleBuffEnum> buffList = new List<BattleBuffEnum>();
         // public List<BattleBuffEnum> lastRoundBuffEnums = new List<BattleBuffEnum>();
     }
 
@@ -46,7 +47,7 @@ namespace Game
         {
             var container = _containers[trainer];
             Assert.IsNotNull(container);
-            container.buffEnums.Remove(buff);
+            container.buffList.Remove(buff);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -54,7 +55,7 @@ namespace Game
         {
             var container = _containers[atkTrainer];
             Assert.IsNotNull(container);
-            container.buffEnums.Add(buff);
+            container.buffList.Add(buff);
             // await Global.BattleUI.ShowBuff(atkTrainer, 起风);
         }
 
@@ -69,27 +70,32 @@ namespace Game
 
         public async UniTask RoundEnd()
         {
-            HashSet<BattleBuffEnum> record = HashSetPool<BattleBuffEnum>.Get();
-            foreach (var (trainer, buffList) in _containers)
+            foreach (var (trainer, buffContainer) in _containers)
             {
-                for (int i = buffList.buffEnums.Count - 1; i >= 0; i--)
+                buffContainer.buffList.Sort();
+                HashSet<BattleBuffEnum> contains = HashSetPool<BattleBuffEnum>.Get();
+                foreach (var buffEnum in buffContainer.buffList)
                 {
-                    var buff = buffList.buffEnums[i];
-                    var buffConfig = Global.Table.BattleBuffTable.Get(buff);
-                    if (!buffConfig.RemoveAllWhenRoundEnd && record.Contains(buffConfig.Id))
+                    contains.Add(buffEnum);
+                }
+
+                foreach (var buffEnum in contains)
+                {
+                    var buffConfig = Global.Table.BattleBuffTable.Get(buffEnum);
+                    int removeCnt = buffConfig.RemoveCountWhenRoundEnd;
+                    if (removeCnt == -1)
                     {
+                        buffContainer.buffList.RemoveAll(x => x == buffEnum);
                         continue;
                     }
-
-                    if (buffConfig.RemoveWhenRoundEnd)
+                    for (int i = 0; i < removeCnt; i++)
                     {
-                        record.Add(buffConfig.Id);
-                        buffList.buffEnums.RemoveAt(i);
+                        buffContainer.buffList.Remove(buffEnum);
                     }
                 }
-            }
 
-            HashSetPool<BattleBuffEnum>.Release(record);
+                HashSetPool<BattleBuffEnum>.Release(contains);
+            }
         }
     }
 }

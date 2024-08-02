@@ -180,13 +180,13 @@ namespace Game
         {
             float speed = userHulu.currentSpeed;
 
-            if (environmentData.GetBuff(user).buffEnums.Contains(BattleBuffEnum.顺风))
+            if (environmentData.GetBuff(user).buffList.Contains(BattleBuffEnum.顺风))
             {
                 Debug.Log($"{userHulu}顺风+10");
                 speed += 10;
             }
 
-            if (environmentData.GetBuff(user).buffEnums.Contains(BattleBuffEnum.逆风))
+            if (environmentData.GetBuff(user).buffList.Contains(BattleBuffEnum.逆风))
             {
                 Debug.Log($"{userHulu}逆风-10");
                 speed -= 10;

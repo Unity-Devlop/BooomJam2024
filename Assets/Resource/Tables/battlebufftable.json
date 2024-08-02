@@ -2,89 +2,85 @@
   {
     "id": 1,
     "desc": "免疫伤害",
-    "remove_when_round_end": true,
+    "remove_count_when_round_end": -1,
     "is_env_buff": false,
-    "can_stack": false,
-    "remove_all_when_round_end": true
+    "can_stack": false
   },
   {
     "id": 2,
     "desc": "小于50%生命值退出",
-    "remove_when_round_end": false,
+    "remove_count_when_round_end": 0,
     "is_env_buff": false,
-    "can_stack": false,
-    "remove_all_when_round_end": false
+    "can_stack": false
   },
   {
     "id": 3,
     "desc": "入场时所有属性1.5",
-    "remove_when_round_end": false,
+    "remove_count_when_round_end": 0,
     "is_env_buff": false,
-    "can_stack": false,
-    "remove_all_when_round_end": false
+    "can_stack": false
   },
   {
     "id": 4,
     "desc": "己方+10速度，对方-10速度",
-    "remove_when_round_end": true,
+    "remove_count_when_round_end": 1,
     "is_env_buff": true,
-    "can_stack": true,
-    "remove_all_when_round_end": false
+    "can_stack": true
   },
   {
     "id": 5,
     "desc": "‘-10速度",
-    "remove_when_round_end": true,
+    "remove_count_when_round_end": 1,
     "is_env_buff": true,
-    "can_stack": true,
-    "remove_all_when_round_end": false
+    "can_stack": true
   },
   {
     "id": 6,
     "desc": "-10速度",
-    "remove_when_round_end": false,
+    "remove_count_when_round_end": 0,
     "is_env_buff": false,
-    "can_stack": false,
-    "remove_all_when_round_end": false
+    "can_stack": false
   },
   {
     "id": 7,
     "desc": "60%不会命中",
-    "remove_when_round_end": false,
+    "remove_count_when_round_end": 0,
     "is_env_buff": false,
-    "can_stack": false,
-    "remove_all_when_round_end": false
+    "can_stack": false
   },
   {
     "id": 8,
     "desc": "气势披带",
-    "remove_when_round_end": true,
+    "remove_count_when_round_end": -1,
     "is_env_buff": false,
-    "can_stack": false,
-    "remove_all_when_round_end": true
+    "can_stack": false
   },
   {
     "id": 9,
     "desc": "0.5伤害",
-    "remove_when_round_end": true,
+    "remove_count_when_round_end": 0,
     "is_env_buff": false,
-    "can_stack": false,
-    "remove_all_when_round_end": false
+    "can_stack": false
   },
   {
     "id": 10,
     "desc": "技能必定先攻击",
-    "remove_when_round_end": false,
+    "remove_count_when_round_end": 0,
     "is_env_buff": false,
-    "can_stack": false,
-    "remove_all_when_round_end": false
+    "can_stack": false
   },
   {
     "id": 11,
     "desc": "",
-    "remove_when_round_end": true,
+    "remove_count_when_round_end": -1,
     "is_env_buff": true,
-    "can_stack": false,
-    "remove_all_when_round_end": true
+    "can_stack": false
+  },
+  {
+    "id": 12,
+    "desc": "本回合属性发生变化时，阻止",
+    "remove_count_when_round_end": -1,
+    "is_env_buff": false,
+    "can_stack": false
   }
 ]
