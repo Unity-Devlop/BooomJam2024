@@ -73,7 +73,7 @@ namespace Game.GamePlay
         }
 
         /// <summary>
-        /// 消耗一张牌
+        /// 使用手牌
         /// </summary>
         /// <param name="data"></param>
         public async UniTask UseCardFromHandZone(ActiveSkillData data)
@@ -110,7 +110,7 @@ namespace Game.GamePlay
         }
 
 
-        public async UniTask Discard(ActiveSkillData data)
+        private async UniTask Discard(ActiveSkillData data)
         {
             Assert.IsTrue(data.config.Type2 == CardTypeEnum.Normal);
             Assert.IsTrue(handZone.Contains(data));
@@ -158,7 +158,7 @@ namespace Game.GamePlay
             Debug.Log($"切换当前宝可梦{currentBattleData}->{data}");
             if (currentBattleData != null)
             {
-                await DestroyCurrentCard();
+                await DestroyCurrentPokemonSkillCard();
             }
             else
             {
@@ -168,12 +168,12 @@ namespace Game.GamePlay
             Debug.Log($"{this}切换成功");
             currentBattleData = data;
             RecalculateDeck();
-            ReFillDrawZone();
+            ReFillDrawZoneWhenChangeHulu();
             await DrawSkills(4);
         }
 
 
-        private async UniTask DestroyCurrentCard()
+        private async UniTask DestroyCurrentPokemonSkillCard()
         {
             List<ActiveSkillData> needDelete = ListPool<ActiveSkillData>.Get();
 
@@ -181,12 +181,10 @@ namespace Game.GamePlay
 
             foreach (var activeSkillData in currentBattleData.ownedSkills)
             {
-                if (drawZone.Contains(activeSkillData))
+                if (!consumedZone.Contains(activeSkillData))
+                {
                     needDelete.Add(activeSkillData);
-                if (handZone.Contains(activeSkillData))
-                    needDelete.Add(activeSkillData);
-                if (discardZone.Contains(activeSkillData))
-                    needDelete.Add(activeSkillData);
+                }
             }
 
 
@@ -216,44 +214,17 @@ namespace Game.GamePlay
             ListPool<ActiveSkillData>.Release(needDelete);
         }
 
-        private void ReFillDrawZone()
+        private void ReFillDrawZoneWhenChangeHulu()
         {
             //此时手里是没抽新宝可梦的技能牌的
             foreach (var ownedSkill in currentBattleData.ownedSkills)
             {
-                if (handZone.Contains(ownedSkill))
-                {
-                    // Debug.Log($"手牌区域有{ownedSkill} 不再加入抽牌区");
-                    continue;
-                }
-
-                if (consumedZone.Contains(ownedSkill))
-                {
-                    // Debug.Log($"墓地区域有{ownedSkill} 不再加入抽牌区");
-                    continue;
-                }
-
+                Assert.IsFalse(handZone.Contains(ownedSkill));
+                Assert.IsFalse(discardZone.Contains(ownedSkill));
+                Assert.IsFalse(drawZone.Contains(ownedSkill));
                 drawZone.Add(ownedSkill);
             }
-
-            foreach (var trainerSkill in trainerData.trainerSkills)
-            {
-                if (handZone.Contains(trainerSkill))
-                {
-                    // Debug.Log($"手牌区域有{trainerSkill} 不再加入抽牌区");
-                    continue;
-                }
-
-                if (consumedZone.Contains(trainerSkill))
-                {
-                    // Debug.Log($"墓地区域有{trainerSkill} 不再加入抽牌区");
-                    continue;
-                }
-
-                drawZone.Add(trainerSkill);
-            }
-
-            Debug.Log($"重置抽牌区,当前抽牌区有:{drawZone.Count}张牌");
+            Debug.Log($"为当前宝可梦{currentBattleData}填充抽牌区域");
         }
 
         public async UniTask Discard2DrawZone()
@@ -273,13 +244,23 @@ namespace Game.GamePlay
             deck.Clear();
             foreach (var ownedSkill in currentBattleData.ownedSkills)
             {
-                if (consumedZone.Contains(ownedSkill)) continue;
+                if (consumedZone.Contains(ownedSkill))
+                {
+                    Debug.Log($"墓地区域有{ownedSkill} 不再加入卡组");
+                    continue;
+                }
+
                 deck.Add(ownedSkill.id);
             }
 
             foreach (var skill in trainerData.trainerSkills)
             {
-                if (consumedZone.Contains(skill)) continue;
+                if (consumedZone.Contains(skill))
+                {
+                    Debug.Log($"墓地区域有{skill} 不再加入卡组");
+                    continue;
+                }
+
                 deck.Add(skill.id);
             }
 
