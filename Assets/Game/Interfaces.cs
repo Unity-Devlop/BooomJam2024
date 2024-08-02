@@ -28,7 +28,7 @@ namespace Game.GamePlay
 
         public event Func<ActiveSkillData, UniTask> OnUseHandCard;
         public event Func<List<ActiveSkillData>, UniTask> OnDestroyCard;
-        public event Func<List<ActiveSkillData>, UniTask> OnDiscardCard;
+        public event Func<List<ActiveSkillData>, IBattleTrainer, UniTask> OnDiscardCard;
         public event Func<List<ActiveSkillData>, UniTask> OnConsumedCard;
 
         public event Func<List<ActiveSkillData>, List<ActiveSkillData>, UniTask> OnDiscardToDraw;
@@ -58,8 +58,10 @@ namespace Game.GamePlay
 
 
         void ExitBattle();
-        UniTask OnEnemyTrainerDiscardCard(List<ActiveSkillData> discard);
         void SetEnvironmentData(BattleEnvironmentData environmentData);
+        UniTask ConsumeCard(ActiveSkillData data);
+
+        UniTask OnEnemyTrainerDiscardCard(List<ActiveSkillData> arg, IBattleTrainer trainer);
     }
 
     public interface IBattleFlow

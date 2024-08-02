@@ -17,10 +17,10 @@ namespace Game.GamePlay
     public class DummyBattleFlow : MonoBehaviour, IBattleFlow
     {
         [ReadOnly, NonSerialized, ShowInInspector]
-        private PlayerBattleTrainer _self;
+        private IBattleTrainer _self;
 
         [ReadOnly, NonSerialized, ShowInInspector]
-        private RobotBattleTrainer _enemy;
+        private IBattleTrainer _enemy;
 
         [HorizontalGroup("1")] public BattlePosition selfPos;
 
@@ -32,7 +32,7 @@ namespace Game.GamePlay
         private CancellationTokenSource _cts;
         private BattleEnvironmentData _environmentData;
 
-        public void Init(PlayerBattleTrainer self, RobotBattleTrainer enemy, BattleEnvironmentData environmentData)
+        public void Init(IBattleTrainer self, IBattleTrainer enemy, BattleEnvironmentData environmentData)
         {
             Assert.IsNull(_cts);
             _self = self;

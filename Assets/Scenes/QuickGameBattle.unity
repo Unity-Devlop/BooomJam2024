@@ -312,85 +312,86 @@ MonoBehaviour:
         - id: 0
         - id: 2
     deck: 
-  rebotBattleTrainer:
+  robotBattleTrainer:
     <trainerData>k__BackingField:
       trainerSkills:
-      - id: 61
-      - id: 59
-      - id: 45
-      - id: 60
-      - id: 31
-      - id: 35
-      - id: 58
-      - id: 55
-      - id: 53
+      - id: 36
+      - id: 57
+      - id: 36
+      - id: 36
+      - id: 36
+      - id: 36
+      - id: 36
+      - id: 36
+      - id: 36
       datas:
-      - id: 4
+      - id: 10
         elementEnum: 5
-        hp: 406
-        currentHp: 406
-        atk: 71
-        currentAtk: 71
-        def: 66
-        currentDef: 66
-        speed: 142
-        currentSpeed: 142
-        adap: 21
-        currentAdap: 21
+        hp: 202
+        currentHp: 202
+        atk: 106
+        currentAtk: 106
+        def: 25
+        currentDef: 25
+        speed: 200
+        currentSpeed: 200
+        adap: 40
+        currentAdap: 40
         ownedSkills:
+        - id: 21
+        - id: 21
+        - id: 14
         - id: 19
-        - id: 18
-        - id: 24
-        - id: 24
-        - id: 20
-        - id: 20
-        - id: 24
-        - id: 20
-        - id: 24
+        - id: 21
+        - id: 14
+        - id: 21
+        - id: 21
+        - id: 19
+      - id: 9
+        elementEnum: 4
+        hp: 188
+        currentHp: 188
+        atk: 89
+        currentAtk: 89
+        def: 31
+        currentDef: 31
+        speed: 105
+        currentSpeed: 105
+        adap: 14
+        currentAdap: 14
+        ownedSkills:
+        - id: 12
+        - id: 22
+        - id: 16
+        - id: 22
+        - id: 12
+        - id: 16
+        - id: 22
+        - id: 16
+        - id: 26
       - id: 0
         elementEnum: 1
-        hp: 330
-        currentHp: 330
-        atk: 70
-        currentAtk: 70
-        def: 61
-        currentDef: 61
-        speed: 136
-        currentSpeed: 136
-        adap: 27
-        currentAdap: 27
+        hp: 366
+        currentHp: 366
+        atk: 74
+        currentAtk: 74
+        def: 77
+        currentDef: 77
+        speed: 126
+        currentSpeed: 126
+        adap: 13
+        currentAdap: 13
         ownedSkills:
+        - id: 0
         - id: 19
-        - id: 1
         - id: 0
         - id: 24
-        - id: 1
-        - id: 1
-        - id: 25
-        - id: 24
-        - id: 0
-      - id: 0
-        elementEnum: 1
-        hp: 332
-        currentHp: 332
-        atk: 67
-        currentAtk: 67
-        def: 57
-        currentDef: 57
-        speed: 119
-        currentSpeed: 119
-        adap: 9
-        currentAdap: 9
-        ownedSkills:
-        - id: 19
-        - id: 24
-        - id: 0
-        - id: 0
-        - id: 1
         - id: 24
         - id: 2
         - id: 0
-        - id: 1
+        - id: 0
+        - id: 2
+    deck: 
   environmentData:
     id: 1
 --- !u!4 &169709044

@@ -66,7 +66,7 @@ namespace Game.Editor
                 // 移除前缀
                 string eventName = eventRef.Path.Substring(EventPrefix.Length);
                 eventName = ProcessString(eventName);
-                sb.AppendLine($"        \tpublic const string {eventName} = \"{eventRef.Path}\";");
+                sb.AppendLine($"        \tpublic const string {eventName} = \"{eventRef.name}\";");
                 foreach (var eventRefParameter in eventRef.Parameters)
                 {
                     string eventRefParameterName = ProcessString($"{eventName}_{eventRefParameter.Name}");

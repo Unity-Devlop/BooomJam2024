@@ -25,7 +25,11 @@ namespace Game.GamePlay
         public event Func<List<ActiveSkillData>, UniTask> OnDrawCard = delegate { return UniTask.CompletedTask; };
         public event Func<ActiveSkillData, UniTask> OnUseHandCard = delegate { return UniTask.CompletedTask; };
         public event Func<List<ActiveSkillData>, UniTask> OnDestroyCard = delegate { return UniTask.CompletedTask; };
-        public event Func<List<ActiveSkillData>, UniTask> OnDiscardCard = delegate { return UniTask.CompletedTask; };
+
+        public event Func<List<ActiveSkillData>, IBattleTrainer, UniTask> OnDiscardCard = delegate
+        {
+            return UniTask.CompletedTask;
+        };
 
         public event Func<List<ActiveSkillData>, UniTask> OnConsumedCard = delegate { return UniTask.CompletedTask; };
         public event Func<UniTask> OnStartCalOperation = delegate { return UniTask.CompletedTask; };
@@ -54,7 +58,7 @@ namespace Game.GamePlay
             _operation = null;
         }
 
-        public async UniTask<IBattleOperation> CalOperation()
+        public virtual async UniTask<IBattleOperation> CalOperation()
         {
             Assert.IsNull(_operation);
             // Debug.Log("开始计算操作");
@@ -84,21 +88,13 @@ namespace Game.GamePlay
             // Debug.Log($"消耗牌{data} HashCode: {data.GetHashCode()}");
             Assert.IsTrue(handZone.Contains(data));
             await OnUseHandCard(data);
-            if (data.config.Type2 == CardTypeEnum.Normal)
-            {
-                await Discard(data);
-            }
-            else if (data.config.Type2 == CardTypeEnum.消耗)
-            {
-                Debug.Log($"消耗牌{data}");
-                await Consumed(data);
-            }
+            await Discard(data);
         }
 
-        private async UniTask Consumed(ActiveSkillData data)
+        public async UniTask ConsumeCard(ActiveSkillData data)
         {
-            Assert.IsTrue(data.config.Type2 == CardTypeEnum.消耗);
-            Assert.IsTrue(handZone.Contains(data));
+            // Assert.IsTrue(data.config.Type2 == CardTypeEnum.消耗);
+            // Assert.IsTrue(handZone.Contains(data));
             Assert.IsFalse(consumedZone.Contains(data));
 
             handZone.Remove(data);
@@ -119,7 +115,13 @@ namespace Game.GamePlay
             discardZone.Add(data);
             List<ActiveSkillData> list = ListPool<ActiveSkillData>.Get();
             list.Add(data);
-            await OnDiscardCard(list);
+            await OnDiscardCard(list, this);
+
+            if ((data.config.Type2 & CardTypeEnum.消耗) != 0)
+            {
+                await ConsumeCard(data);
+            }
+
             ListPool<ActiveSkillData>.Release(list);
         }
 
@@ -148,7 +150,7 @@ namespace Game.GamePlay
             list.AddRange(handZone);
             handZone.Clear();
             discardZone.AddRange(list);
-            await OnDiscardCard(list);
+            await OnDiscardCard(list, this);
             ListPool<ActiveSkillData>.Release(list);
         }
 
@@ -424,11 +426,22 @@ namespace Game.GamePlay
         }
 
 
-        public async UniTask OnEnemyTrainerDiscardCard(List<ActiveSkillData> arg)
+        public async UniTask OnEnemyTrainerDiscardCard(List<ActiveSkillData> arg, IBattleTrainer trainer)
         {
             if (_env.GetBuff(this).buffList.Contains(BattleBuffEnum.对手弃牌时自己摸等量手牌))
             {
                 await DrawSkills(arg.Count);
+            }
+
+            if (_env.GetBuff(this).buffList.Contains(BattleBuffEnum.回合内消耗对手弃置的牌))
+            {
+                foreach (var data in arg)
+                {
+                    if (data.config.Type2 != CardTypeEnum.消耗)
+                    {
+                        await trainer.ConsumeCard(data);
+                    }
+                }
             }
 
             await UniTask.CompletedTask;

@@ -105,7 +105,7 @@ namespace Game
             await selfCardContainer.DestroyCard(arg);
         }
 
-        private async UniTask DiscardCard(List<ActiveSkillData> arg)
+        private async UniTask DiscardCard(List<ActiveSkillData> arg, IBattleTrainer trainer)
         {
             await selfCardContainer.Discard(arg);
         }
