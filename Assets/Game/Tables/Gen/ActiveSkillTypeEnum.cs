@@ -11,11 +11,12 @@
 
 namespace cfg
 { 
+    [System.Flags]
     public enum ActiveSkillTypeEnum
     {
-        指挥 = 0,
-        伤害技能 = 1,
-        变化技能 = 2,
+        指挥 = 1,
+        伤害技能 = 2,
+        变化技能 = 4,
     }
 
 } 

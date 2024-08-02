@@ -20,6 +20,9 @@ public sealed partial class DrawTargetCardTuple : Luban.BeanBase
         { if(!_buf["target"].IsNumber) { throw new SerializationException(); }  Target = (ActiveSkillEnum)_buf["target"].AsInt; }
         { if(!_buf["cnt"].IsNumber) { throw new SerializationException(); }  Cnt = _buf["cnt"]; }
         { if(!_buf["draw_any_if_can_not_draw_target"].IsBoolean) { throw new SerializationException(); }  DrawAnyIfCanNotDrawTarget = _buf["draw_any_if_can_not_draw_target"]; }
+        { if(!_buf["add_when_skill_card_less_than_cnt"].IsNumber) { throw new SerializationException(); }  AddWhenSkillCardLessThanCnt = _buf["add_when_skill_card_less_than_cnt"]; }
+        { if(!_buf["add_target"].IsNumber) { throw new SerializationException(); }  AddTarget = (ActiveSkillEnum)_buf["add_target"].AsInt; }
+        { if(!_buf["add_cnt"].IsNumber) { throw new SerializationException(); }  AddCnt = _buf["add_cnt"]; }
     }
 
     public static DrawTargetCardTuple DeserializeDrawTargetCardTuple(JSONNode _buf)
@@ -30,12 +33,18 @@ public sealed partial class DrawTargetCardTuple : Luban.BeanBase
     public readonly ActiveSkillEnum Target;
     public readonly int Cnt;
     public readonly bool DrawAnyIfCanNotDrawTarget;
+    public readonly int AddWhenSkillCardLessThanCnt;
+    public readonly ActiveSkillEnum AddTarget;
+    public readonly int AddCnt;
    
     public const int __ID__ = -855832061;
     public override int GetTypeId() => __ID__;
 
     public  void ResolveRef(Tables tables)
     {
+        
+        
+        
         
         
         
@@ -47,6 +56,9 @@ public sealed partial class DrawTargetCardTuple : Luban.BeanBase
         + "target:" + Target + ","
         + "cnt:" + Cnt + ","
         + "drawAnyIfCanNotDrawTarget:" + DrawAnyIfCanNotDrawTarget + ","
+        + "addWhenSkillCardLessThanCnt:" + AddWhenSkillCardLessThanCnt + ","
+        + "addTarget:" + AddTarget + ","
+        + "addCnt:" + AddCnt + ","
         + "}";
     }
 }

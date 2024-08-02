@@ -685,6 +685,18 @@ namespace Game.GamePlay
                     Debug.Log($"抽指定牌失败，抽了{drawed}张，继续抽{drawTargetCardConfigAfterUse.Cnt - drawed}张任意牌");
                     await userTrainer.DrawSkills(drawTargetCardConfigAfterUse.Cnt - drawed);
                 }
+
+                int targetCnt = userTrainer.GetTargetCntInDeck(ActiveSkillTypeEnum.伤害技能 | ActiveSkillTypeEnum.变化技能);
+                if (targetCnt < drawTargetCardConfigAfterUse.AddWhenSkillCardLessThanCnt)
+                {
+                    for (int i = 0; i < drawTargetCardConfigAfterUse.AddCnt; i++)
+                    {
+                        await userTrainer.AddCardToDeck(new ActiveSkillData()
+                        {
+                            id = drawTargetCardConfigAfterUse.AddTarget
+                        });
+                    }
+                }
             }
 
             #endregion

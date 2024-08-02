@@ -78,6 +78,18 @@ namespace Game.GamePlay
             return new UniTask<int>(cnt);
         }
 
+        public int GetTargetCntInDeck(ActiveSkillTypeEnum targetType)
+        {
+            Debug.LogError("机器人未实现的方法");
+            return 0;
+        }
+
+        public UniTask AddCardToDeck(ActiveSkillData added)
+        {
+            Debug.LogError("机器人未实现的方法");
+            return UniTask.CompletedTask;
+        }
+
         public UniTask<int> DrawTarget(ActiveSkillTypeEnum type, int cnt)
         {
             Debug.LogError("机器人未实现的方法");

@@ -383,6 +383,35 @@ namespace Game.GamePlay
             return result;
         }
 
+        public int GetTargetCntInDeck(ActiveSkillTypeEnum targetType)
+        {
+            int cnt = 0;
+            foreach (var skillEnum in deck)
+            {
+                var config = Global.Table.ActiveSkillTable.Get(skillEnum);
+                if ((targetType & config.Type) != 0)
+                {
+                    cnt++;
+                }
+            }
+
+            return cnt;
+        }
+
+        public UniTask AddCardToDeck(ActiveSkillData added)
+        {
+            Assert.IsNotNull(added);
+            Assert.IsFalse(deck.Contains(added.id));
+            Assert.IsFalse(drawZone.Contains(added));
+            Assert.IsFalse(handZone.Contains(added));
+            Assert.IsFalse(discardZone.Contains(added));
+            
+            deck.Add(added.id);
+            drawZone.Add(added);
+            // TODO 通知UI
+            return UniTask.CompletedTask;
+        }
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Init(TrainerData trainerData1)
         {

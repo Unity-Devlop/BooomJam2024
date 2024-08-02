@@ -11,12 +11,13 @@
 
 namespace cfg
 { 
+    [System.Flags]
     public enum CardTypeEnum
     {
-        Normal = 0,
-        消耗 = 1,
-        保留 = 2,
-        虚无 = 3,
+        Normal = 1,
+        消耗 = 2,
+        保留 = 4,
+        虚无 = 8,
     }
 
 } 

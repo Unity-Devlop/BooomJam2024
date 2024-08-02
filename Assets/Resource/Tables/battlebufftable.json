@@ -96,5 +96,12 @@
     "remove_count_when_round_end": -1,
     "is_env_buff": false,
     "can_stack": false
+  },
+  {
+    "id": 15,
+    "desc": "下一次技能伤害两倍",
+    "remove_count_when_round_end": 0,
+    "is_env_buff": false,
+    "can_stack": false
   }
 ]

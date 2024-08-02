@@ -50,7 +50,9 @@ namespace Game.GamePlay
         UniTask<int> DrawTarget(ActiveSkillTypeEnum type, int cnt);
         
         UniTask<int> DrawTarget(ActiveSkillEnum target, int cnt);
-        
+
+        int GetTargetCntInDeck(ActiveSkillTypeEnum targetType);
+        UniTask AddCardToDeck(ActiveSkillData added);
     }
 
     public interface IBattleFlow
