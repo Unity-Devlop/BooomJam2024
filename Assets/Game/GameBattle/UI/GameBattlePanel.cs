@@ -15,7 +15,6 @@ namespace Game
         [SerializeField] private CardHorizontalContainer selfCardContainer;
         [SerializeField] private Button endRoundButton;
         [SerializeField] private LeftTeamHuluView leftTeamHuluView;
-
         private IBattleTrainer _trainer;
         public TextMeshProUGUI tipText;
 

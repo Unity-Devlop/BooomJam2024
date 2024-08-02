@@ -27,11 +27,11 @@ namespace Game.GamePlay
             // 访问一下 让Global初始化 正常从GameEntry进是不需要这一步的 因为初始化完毕才会加载到GamePlayMgr
             var _ = Global.Singleton;
 #endif
-
+            UIRoot.Singleton.OpenPanel<GameDebugPanel>();
+            
             // Init Battle Controller
             battleFlow = GetComponent<DummyBattleFlow>();
             await UniTask.Delay(TimeSpan.FromSeconds(1)); // TODO 后续删除这个等待逻辑 因为在进入游戏时 一定初始完毕了
-            StartBattle();
         }
 
         [Button]
@@ -51,21 +51,21 @@ namespace Game.GamePlay
             huluValues.Shuffle();
 
             TrainerData playerTrainerData = new TrainerData();
-            playerBattleTrainer.trainerData.RollTrainerSkill9();
+            playerTrainerData.RollTrainerSkill9();
             for (int i = 0; i < 3; i++)
             {
                 var data = new HuluData();
                 data.id = huluValues[i];
                 data.Roll9Skills();
                 data.RollAbility();
-                playerBattleTrainer.trainerData.datas.Add(data);
+                playerTrainerData.datas.Add(data);
             }
 
             playerBattleTrainer.Init(playerTrainerData);
 
 
             TrainerData aiTrainerData = new TrainerData();
-            robotBattleTrainer.trainerData.RollTrainerSkill9();
+            aiTrainerData.RollTrainerSkill9();
             for (int i = 3; i < 6; i++)
             {
                 var data = new HuluData();
