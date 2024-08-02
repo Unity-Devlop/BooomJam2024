@@ -201,16 +201,17 @@ namespace Game
 
         public async UniTask RoundEnd()
         {
-            if(healP0intBy回满血然后回合结束受到等量伤害 > 0)
+            if (healP0intBy回满血然后回合结束受到等量伤害 > 0)
             {
                 await DecreaseHealth(healP0intBy回满血然后回合结束受到等量伤害);
             }
+
             healP0intBy回满血然后回合结束受到等量伤害 = 0;
             GameMath.PrcessBuffWhenRoundEnd(this.buffList);
             await bind.Invoke();
         }
 
-        [FormerlySerializedAs("healPintBy回满血然后回合结束受到等量伤害")] public int healP0intBy回满血然后回合结束受到等量伤害 = 0;
+        private int healP0intBy回满血然后回合结束受到等量伤害 = 0;
 
         public async UniTask AddBuff(BattleBuffEnum buff)
         {
@@ -220,11 +221,18 @@ namespace Game
                 await DecreaseHealth(-healP0intBy回满血然后回合结束受到等量伤害);
             }
 
+
             var buffConfig = Global.Table.BattleBuffTable.Get(buff);
+            if (buffConfig.NotSave)
+            {
+                return;
+            }
+
             if (!buffConfig.CanStack && buffList.Contains(buff))
             {
                 return;
             }
+
             buffList.Add(buff);
         }
 

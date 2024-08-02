@@ -6,6 +6,14 @@
     "type": 2,
     "damage_point": 90,
     "priority": 0,
+    "not_full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
     "def_trainer_buff_after_use_count": 0,
     "def_trainer_buff_after_use": 0,
     "self_trainer_buff_after_use_count": 0,
@@ -46,6 +54,14 @@
     "type": 2,
     "damage_point": 50,
     "priority": 1,
+    "not_full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
     "def_trainer_buff_after_use_count": 0,
     "def_trainer_buff_after_use": 0,
     "self_trainer_buff_after_use_count": 0,
@@ -86,6 +102,14 @@
     "type": 2,
     "damage_point": 60,
     "priority": 2,
+    "not_full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
     "def_trainer_buff_after_use_count": 0,
     "def_trainer_buff_after_use": 0,
     "self_trainer_buff_after_use_count": 0,
@@ -126,6 +150,14 @@
     "type": 2,
     "damage_point": 40,
     "priority": 0,
+    "not_full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
     "def_trainer_buff_after_use_count": 0,
     "def_trainer_buff_after_use": 0,
     "self_trainer_buff_after_use_count": 0,
@@ -166,6 +198,14 @@
     "type": 2,
     "damage_point": 90,
     "priority": 0,
+    "not_full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
     "def_trainer_buff_after_use_count": 0,
     "def_trainer_buff_after_use": 0,
     "self_trainer_buff_after_use_count": 0,
@@ -206,6 +246,14 @@
     "type": 2,
     "damage_point": 60,
     "priority": 0,
+    "not_full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
     "def_trainer_buff_after_use_count": 0,
     "def_trainer_buff_after_use": 0,
     "self_trainer_buff_after_use_count": 0,
@@ -246,6 +294,14 @@
     "type": 2,
     "damage_point": 110,
     "priority": 0,
+    "not_full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
     "def_trainer_buff_after_use_count": 0,
     "def_trainer_buff_after_use": 0,
     "self_trainer_buff_after_use_count": 0,
@@ -286,6 +342,14 @@
     "type": 2,
     "damage_point": 80,
     "priority": 0,
+    "not_full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
     "def_trainer_buff_after_use_count": 0,
     "def_trainer_buff_after_use": 0,
     "self_trainer_buff_after_use_count": 0,
@@ -326,6 +390,14 @@
     "type": 4,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
     "def_trainer_buff_after_use_count": 0,
     "def_trainer_buff_after_use": 0,
     "self_trainer_buff_after_use_count": 0,
@@ -366,6 +438,14 @@
     "type": 2,
     "damage_point": 70,
     "priority": 0,
+    "not_full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
     "def_trainer_buff_after_use_count": 0,
     "def_trainer_buff_after_use": 0,
     "self_trainer_buff_after_use_count": 0,
@@ -406,6 +486,14 @@
     "type": 2,
     "damage_point": 100,
     "priority": 0,
+    "not_full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
     "def_trainer_buff_after_use_count": 0,
     "def_trainer_buff_after_use": 0,
     "self_trainer_buff_after_use_count": 0,
@@ -446,6 +534,14 @@
     "type": 2,
     "damage_point": 90,
     "priority": 0,
+    "not_full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
     "def_trainer_buff_after_use_count": 0,
     "def_trainer_buff_after_use": 0,
     "self_trainer_buff_after_use_count": 0,
@@ -486,6 +582,14 @@
     "type": 2,
     "damage_point": 110,
     "priority": 0,
+    "not_full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
     "def_trainer_buff_after_use_count": 0,
     "def_trainer_buff_after_use": 0,
     "self_trainer_buff_after_use_count": 0,
@@ -526,6 +630,14 @@
     "type": 2,
     "damage_point": 60,
     "priority": 0,
+    "not_full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
     "def_trainer_buff_after_use_count": 0,
     "def_trainer_buff_after_use": 0,
     "self_trainer_buff_after_use_count": 0,
@@ -566,6 +678,14 @@
     "type": 2,
     "damage_point": 120,
     "priority": 0,
+    "not_full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
     "def_trainer_buff_after_use_count": 0,
     "def_trainer_buff_after_use": 0,
     "self_trainer_buff_after_use_count": 0,
@@ -606,6 +726,14 @@
     "type": 2,
     "damage_point": 50,
     "priority": 3,
+    "not_full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
     "def_trainer_buff_after_use_count": 0,
     "def_trainer_buff_after_use": 0,
     "self_trainer_buff_after_use_count": 0,
@@ -646,6 +774,14 @@
     "type": 2,
     "damage_point": 30,
     "priority": 0,
+    "not_full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
     "def_trainer_buff_after_use_count": 0,
     "def_trainer_buff_after_use": 0,
     "self_trainer_buff_after_use_count": 0,
@@ -689,6 +825,14 @@
     "type": 2,
     "damage_point": 80,
     "priority": 0,
+    "not_full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
     "def_trainer_buff_after_use_count": 0,
     "def_trainer_buff_after_use": 0,
     "self_trainer_buff_after_use_count": 0,
@@ -729,6 +873,14 @@
     "type": 2,
     "damage_point": 60,
     "priority": 0,
+    "not_full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
     "def_trainer_buff_after_use_count": 0,
     "def_trainer_buff_after_use": 0,
     "self_trainer_buff_after_use_count": 0,
@@ -769,6 +921,14 @@
     "type": 2,
     "damage_point": 90,
     "priority": 0,
+    "not_full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
     "def_trainer_buff_after_use_count": 0,
     "def_trainer_buff_after_use": 0,
     "self_trainer_buff_after_use_count": 0,
@@ -809,6 +969,14 @@
     "type": 4,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
     "def_trainer_buff_after_use_count": 3,
     "def_trainer_buff_after_use": 5,
     "self_trainer_buff_after_use_count": 3,
@@ -849,6 +1017,14 @@
     "type": 2,
     "damage_point": 110,
     "priority": 0,
+    "not_full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
     "def_trainer_buff_after_use_count": 0,
     "def_trainer_buff_after_use": 0,
     "self_trainer_buff_after_use_count": 0,
@@ -889,6 +1065,14 @@
     "type": 2,
     "damage_point": 70,
     "priority": 0,
+    "not_full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
     "def_trainer_buff_after_use_count": 0,
     "def_trainer_buff_after_use": 0,
     "self_trainer_buff_after_use_count": 0,
@@ -929,6 +1113,14 @@
     "type": 2,
     "damage_point": 60,
     "priority": 0,
+    "not_full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
     "def_trainer_buff_after_use_count": 0,
     "def_trainer_buff_after_use": 0,
     "self_trainer_buff_after_use_count": 0,
@@ -969,6 +1161,14 @@
     "type": 2,
     "damage_point": 60,
     "priority": 0,
+    "not_full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
     "def_trainer_buff_after_use_count": 0,
     "def_trainer_buff_after_use": 0,
     "self_trainer_buff_after_use_count": 0,
@@ -1009,6 +1209,14 @@
     "type": 4,
     "damage_point": 0,
     "priority": 5,
+    "not_full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
     "def_trainer_buff_after_use_count": 0,
     "def_trainer_buff_after_use": 0,
     "self_trainer_buff_after_use_count": 0,
@@ -1049,6 +1257,14 @@
     "type": 2,
     "damage_point": 50,
     "priority": 1,
+    "not_full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
     "def_trainer_buff_after_use_count": 0,
     "def_trainer_buff_after_use": 0,
     "self_trainer_buff_after_use_count": 0,
@@ -1089,6 +1305,14 @@
     "type": 2,
     "damage_point": 20,
     "priority": 0,
+    "not_full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
     "def_trainer_buff_after_use_count": 0,
     "def_trainer_buff_after_use": 0,
     "self_trainer_buff_after_use_count": 0,
@@ -1132,6 +1356,14 @@
     "type": 1,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
     "def_trainer_buff_after_use_count": 0,
     "def_trainer_buff_after_use": 0,
     "self_trainer_buff_after_use_count": 0,
@@ -1172,6 +1404,14 @@
     "type": 1,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
     "def_trainer_buff_after_use_count": 0,
     "def_trainer_buff_after_use": 0,
     "self_trainer_buff_after_use_count": 0,
@@ -1212,6 +1452,14 @@
     "type": 1,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
     "def_trainer_buff_after_use_count": 0,
     "def_trainer_buff_after_use": 0,
     "self_trainer_buff_after_use_count": 0,
@@ -1252,6 +1500,14 @@
     "type": 1,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
     "def_trainer_buff_after_use_count": 0,
     "def_trainer_buff_after_use": 0,
     "self_trainer_buff_after_use_count": 0,
@@ -1292,6 +1548,14 @@
     "type": 1,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
     "def_trainer_buff_after_use_count": 0,
     "def_trainer_buff_after_use": 0,
     "self_trainer_buff_after_use_count": 0,
@@ -1332,6 +1596,14 @@
     "type": 1,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
     "def_trainer_buff_after_use_count": 0,
     "def_trainer_buff_after_use": 0,
     "self_trainer_buff_after_use_count": 0,
@@ -1372,6 +1644,14 @@
     "type": 1,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
     "def_trainer_buff_after_use_count": 0,
     "def_trainer_buff_after_use": 0,
     "self_trainer_buff_after_use_count": 0,
@@ -1412,6 +1692,14 @@
     "type": 1,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
     "def_trainer_buff_after_use_count": 0,
     "def_trainer_buff_after_use": 0,
     "self_trainer_buff_after_use_count": 0,
@@ -1452,6 +1740,14 @@
     "type": 1,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
     "def_trainer_buff_after_use_count": 1,
     "def_trainer_buff_after_use": 11,
     "self_trainer_buff_after_use_count": 1,
@@ -1492,6 +1788,14 @@
     "type": 1,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
     "def_trainer_buff_after_use_count": 0,
     "def_trainer_buff_after_use": 0,
     "self_trainer_buff_after_use_count": 0,
@@ -1532,6 +1836,14 @@
     "type": 1,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
     "def_trainer_buff_after_use_count": 0,
     "def_trainer_buff_after_use": 0,
     "self_trainer_buff_after_use_count": 0,
@@ -1572,6 +1884,14 @@
     "type": 1,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user_pokemon": {
+      "cnt": 1,
+      "buff": 16
+    },
+    "full_hp_buff_for_user_pokemon": {
+      "cnt": 1,
+      "buff": 15
+    },
     "def_trainer_buff_after_use_count": 0,
     "def_trainer_buff_after_use": 0,
     "self_trainer_buff_after_use_count": 0,
@@ -1612,6 +1932,14 @@
     "type": 1,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
     "def_trainer_buff_after_use_count": 0,
     "def_trainer_buff_after_use": 0,
     "self_trainer_buff_after_use_count": 0,
@@ -1652,6 +1980,14 @@
     "type": 1,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
     "def_trainer_buff_after_use_count": 0,
     "def_trainer_buff_after_use": 0,
     "self_trainer_buff_after_use_count": 0,
@@ -1692,6 +2028,14 @@
     "type": 1,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
     "def_trainer_buff_after_use_count": 0,
     "def_trainer_buff_after_use": 0,
     "self_trainer_buff_after_use_count": 0,
@@ -1732,6 +2076,14 @@
     "type": 1,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
     "def_trainer_buff_after_use_count": 0,
     "def_trainer_buff_after_use": 0,
     "self_trainer_buff_after_use_count": 0,
@@ -1772,6 +2124,14 @@
     "type": 1,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
     "def_trainer_buff_after_use_count": 0,
     "def_trainer_buff_after_use": 0,
     "self_trainer_buff_after_use_count": 0,
@@ -1812,6 +2172,14 @@
     "type": 1,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
     "def_trainer_buff_after_use_count": 0,
     "def_trainer_buff_after_use": 0,
     "self_trainer_buff_after_use_count": 0,
@@ -1852,6 +2220,14 @@
     "type": 1,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
     "def_trainer_buff_after_use_count": 0,
     "def_trainer_buff_after_use": 0,
     "self_trainer_buff_after_use_count": 0,
@@ -1892,6 +2268,14 @@
     "type": 1,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
     "def_trainer_buff_after_use_count": 0,
     "def_trainer_buff_after_use": 0,
     "self_trainer_buff_after_use_count": 0,
@@ -1932,6 +2316,14 @@
     "type": 1,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
     "def_trainer_buff_after_use_count": 0,
     "def_trainer_buff_after_use": 0,
     "self_trainer_buff_after_use_count": 0,
@@ -1972,6 +2364,14 @@
     "type": 1,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
     "def_trainer_buff_after_use_count": 0,
     "def_trainer_buff_after_use": 0,
     "self_trainer_buff_after_use_count": 0,
@@ -2012,6 +2412,14 @@
     "type": 1,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
     "def_trainer_buff_after_use_count": 0,
     "def_trainer_buff_after_use": 0,
     "self_trainer_buff_after_use_count": 0,
@@ -2052,6 +2460,14 @@
     "type": 1,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
     "def_trainer_buff_after_use_count": 0,
     "def_trainer_buff_after_use": 0,
     "self_trainer_buff_after_use_count": 0,
@@ -2092,6 +2508,14 @@
     "type": 1,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
     "def_trainer_buff_after_use_count": 0,
     "def_trainer_buff_after_use": 0,
     "self_trainer_buff_after_use_count": 0,
@@ -2132,6 +2556,14 @@
     "type": 1,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
     "def_trainer_buff_after_use_count": 0,
     "def_trainer_buff_after_use": 0,
     "self_trainer_buff_after_use_count": 0,
@@ -2172,6 +2604,14 @@
     "type": 1,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
     "def_trainer_buff_after_use_count": 0,
     "def_trainer_buff_after_use": 0,
     "self_trainer_buff_after_use_count": 0,
@@ -2212,6 +2652,14 @@
     "type": 1,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
     "def_trainer_buff_after_use_count": 0,
     "def_trainer_buff_after_use": 0,
     "self_trainer_buff_after_use_count": 0,
@@ -2252,6 +2700,14 @@
     "type": 1,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
     "def_trainer_buff_after_use_count": 0,
     "def_trainer_buff_after_use": 0,
     "self_trainer_buff_after_use_count": 0,
@@ -2292,6 +2748,14 @@
     "type": 1,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
     "def_trainer_buff_after_use_count": 0,
     "def_trainer_buff_after_use": 0,
     "self_trainer_buff_after_use_count": 0,
@@ -2332,6 +2796,14 @@
     "type": 1,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
     "def_trainer_buff_after_use_count": 0,
     "def_trainer_buff_after_use": 0,
     "self_trainer_buff_after_use_count": 0,
@@ -2372,6 +2844,14 @@
     "type": 1,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
     "def_trainer_buff_after_use_count": 0,
     "def_trainer_buff_after_use": 0,
     "self_trainer_buff_after_use_count": 0,
@@ -2412,6 +2892,14 @@
     "type": 1,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
     "def_trainer_buff_after_use_count": 0,
     "def_trainer_buff_after_use": 0,
     "self_trainer_buff_after_use_count": 0,
@@ -2452,6 +2940,14 @@
     "type": 1,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
     "def_trainer_buff_after_use_count": 0,
     "def_trainer_buff_after_use": 0,
     "self_trainer_buff_after_use_count": 0,
@@ -2492,6 +2988,14 @@
     "type": 1,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
     "def_trainer_buff_after_use_count": 0,
     "def_trainer_buff_after_use": 0,
     "self_trainer_buff_after_use_count": 0,
@@ -2532,6 +3036,14 @@
     "type": 1,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
     "def_trainer_buff_after_use_count": 0,
     "def_trainer_buff_after_use": 0,
     "self_trainer_buff_after_use_count": 0,

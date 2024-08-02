@@ -53,6 +53,14 @@ namespace Game
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public async UniTask AddBuff(IBattleTrainer atkTrainer, BattleBuffEnum buff)
         {
+
+            if (buff == BattleBuffEnum.抽两张牌)
+            {
+                await atkTrainer.DrawSkills(2);
+            }
+            if(Global.Table.BattleBuffTable.Get(buff).NotSave)
+                return;
+            
             var container = _containers[atkTrainer];
             Assert.IsNotNull(container);
             if(container.buffList.Contains(buff) && !Global.Table.BattleBuffTable.Get(buff).CanStack)

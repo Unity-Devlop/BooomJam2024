@@ -22,6 +22,7 @@ public sealed partial class BattleBuffConfig : Luban.BeanBase
         { if(!_buf["remove_count_when_round_end"].IsNumber) { throw new SerializationException(); }  RemoveCountWhenRoundEnd = _buf["remove_count_when_round_end"]; }
         { if(!_buf["is_env_buff"].IsBoolean) { throw new SerializationException(); }  IsEnvBuff = _buf["is_env_buff"]; }
         { if(!_buf["can_stack"].IsBoolean) { throw new SerializationException(); }  CanStack = _buf["can_stack"]; }
+        { if(!_buf["not_save"].IsBoolean) { throw new SerializationException(); }  NotSave = _buf["not_save"]; }
     }
 
     public static BattleBuffConfig DeserializeBattleBuffConfig(JSONNode _buf)
@@ -46,12 +47,17 @@ public sealed partial class BattleBuffConfig : Luban.BeanBase
     /// 是否可以叠加
     /// </summary>
     public readonly bool CanStack;
+    /// <summary>
+    /// 不保存
+    /// </summary>
+    public readonly bool NotSave;
    
     public const int __ID__ = 1259790445;
     public override int GetTypeId() => __ID__;
 
     public  void ResolveRef(Tables tables)
     {
+        
         
         
         
@@ -67,6 +73,7 @@ public sealed partial class BattleBuffConfig : Luban.BeanBase
         + "removeCountWhenRoundEnd:" + RemoveCountWhenRoundEnd + ","
         + "isEnvBuff:" + IsEnvBuff + ","
         + "canStack:" + CanStack + ","
+        + "notSave:" + NotSave + ","
         + "}";
     }
 }

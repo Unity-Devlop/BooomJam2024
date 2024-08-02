@@ -699,6 +699,26 @@ namespace Game.GamePlay
                 }
             }
 
+            var fullHpAddBuffConfig = operation.data.config.FullHpBuffForUserPokemon;
+            if (userTrainer.currentBattleData.currentHp >= userTrainer.currentBattleData.hp &&
+                fullHpAddBuffConfig.Buff != BattleBuffEnum.None)
+            {
+                for (int i = 0; i < fullHpAddBuffConfig.Cnt; i++)
+                {
+                    await _environmentData.AddBuff(userTrainer, fullHpAddBuffConfig.Buff);
+                }
+            }
+            
+            var notFullHpAddBuffConfig = operation.data.config.NotFullHpBuffForUserPokemon;
+            if (userTrainer.currentBattleData.currentHp < userTrainer.currentBattleData.hp &&
+                notFullHpAddBuffConfig.Buff != BattleBuffEnum.None)
+            {
+                for (int i = 0; i < notFullHpAddBuffConfig.Cnt; i++)
+                {
+                    await _environmentData.AddBuff(userTrainer,notFullHpAddBuffConfig.Buff);
+                }
+            }
+
             #endregion
 
             if (userTrainer == _self)
