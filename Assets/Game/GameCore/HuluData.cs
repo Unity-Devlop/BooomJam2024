@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using cfg;
 using Cysharp.Threading.Tasks;
+using Game.GamePlay;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Pool;
@@ -264,12 +265,18 @@ namespace Game
             buffList.Add(buff);
         }
 
-        public async UniTask UseSkill(ActiveSkillData skillData)
+        public async UniTask UseSkill(ActiveSkillData skill,IBattleTrainer tar)
         {
-            if (skillData.config.Element == ElementEnum.风 && buffList.Contains(BattleBuffEnum.下次一次使用风属性时速度提高20))
+            if (skill.config.Element == ElementEnum.风 && buffList.Contains(BattleBuffEnum.下次一次使用风属性时速度提高20))
             {
                 RemoveBuff(BattleBuffEnum.下次一次使用风属性时速度提高20);
                 await IncreaseCurrentSpeed(20);
+            }
+
+            if (skill.id == ActiveSkillEnum.喙啄 && buffList.Contains(BattleBuffEnum.使用喙啄时对方丢一张牌))
+            {
+                RemoveBuff(BattleBuffEnum.使用喙啄时对方丢一张牌);
+                await tar.RandomDiscard(1);
             }
         }
     }

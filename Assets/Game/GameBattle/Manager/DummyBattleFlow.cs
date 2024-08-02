@@ -512,7 +512,7 @@ namespace Game.GamePlay
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             if (config.Type == ActiveSkillTypeEnum.伤害技能)
             {
-                await userTrainer.currentBattleData.UseSkill(operation.data);
+                await userTrainer.currentBattleData.UseSkill(operation.data, defTrainer);
                 int times;
                 if (config.MulAttackTimes == null || config.MulAttackTimes.Length == 0)
                 {

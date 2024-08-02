@@ -134,5 +134,21 @@
     "is_env_buff": false,
     "can_stack": true,
     "not_save": false
+  },
+  {
+    "id": 18,
+    "desc": "",
+    "remove_count_when_round_end": 0,
+    "is_env_buff": false,
+    "can_stack": false,
+    "not_save": false
+  },
+  {
+    "id": 19,
+    "desc": "",
+    "remove_count_when_round_end": 0,
+    "is_env_buff": false,
+    "can_stack": false,
+    "not_save": false
   }
 ]

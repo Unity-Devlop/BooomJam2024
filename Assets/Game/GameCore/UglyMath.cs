@@ -102,6 +102,16 @@ namespace Game
                 baseValue *= 2;
             }
 
+            if (atk.ContainsBuff(BattleBuffEnum.技能造成的伤害变成优先级倍))
+            {
+                atk.RemoveBuff(BattleBuffEnum.技能造成的伤害变成优先级倍);
+                Debug.Log("技能造成的伤害变成优先级倍");
+                Global.Event.Send(new BattleTipEvent("技能造成的伤害变成优先级倍"));
+                // TODO 狗策划
+                int priority = Mathf.Clamp(atkSkill.Priority, 1, int.MaxValue);
+                baseValue *= priority;
+            }
+
             if (atkSkill.FullHpIncreaseBaseValueRate != 0 && atk.currentHp >= atk.hp)
             {
                 Debug.Log($"满血加成{atkSkill.FullHpIncreaseBaseValueRate}");
