@@ -121,8 +121,23 @@ namespace Game
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public async UniTask DecreaseHealth(int delta)
         {
+            if (buffList.Contains(BattleBuffEnum.规避弱点) && delta > 0)
+            {
+                buffList.Remove(BattleBuffEnum.规避弱点);
+                delta /= 2;
+            }
+
             currentHp -= delta;
             currentHp = Mathf.Clamp(currentHp, 0, hp);
+
+            if (buffList.Contains(BattleBuffEnum.站起来) && currentHp <= 0)
+            {
+                Global.Event.Send(new BattleTipEvent("站起来"));
+                Debug.Log("站起来");
+                buffList.Remove(BattleBuffEnum.站起来);
+                await DecreaseHealth(-1);
+            }
+
             await UglyMath.PostprocessHuluData(this);
             await bind.Invoke();
         }
@@ -132,9 +147,7 @@ namespace Game
         {
             if (buffList.Contains(BattleBuffEnum.阻止自身技能伤害))
                 return;
-            currentHp -= point;
-            currentHp = Mathf.Clamp(currentHp, 0, hp);
-            await UglyMath.PostprocessHuluData(this);
+            await DecreaseHealth(point);
             await bind.Invoke();
         }
 
@@ -236,12 +249,12 @@ namespace Game
             buffList.Add(buff);
         }
 
-        public bool Contains(BattleBuffEnum buff)
+        public bool ContainsBuff(BattleBuffEnum buff)
         {
             return buffList.Contains(buff);
         }
 
-        public void Remove(BattleBuffEnum buff)
+        public void RemoveBuff(BattleBuffEnum buff)
         {
             buffList.Remove(buff);
         }
@@ -249,6 +262,15 @@ namespace Game
         public void Add(BattleBuffEnum buff)
         {
             buffList.Add(buff);
+        }
+
+        public async UniTask UseSkill(ActiveSkillData skillData)
+        {
+            if (skillData.config.Element == ElementEnum.风 && buffList.Contains(BattleBuffEnum.下次一次使用风属性时速度提高20))
+            {
+                RemoveBuff(BattleBuffEnum.下次一次使用风属性时速度提高20);
+                await IncreaseCurrentSpeed(20);
+            }
         }
     }
 }
