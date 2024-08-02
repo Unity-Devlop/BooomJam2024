@@ -21,7 +21,7 @@ namespace Game.GamePlay
         public event Func<List<ActiveSkillData>, UniTask> OnDrawCard;
         public event Func<ActiveSkillData, UniTask> OnUseHandCard;
         public event Func<List<ActiveSkillData>, UniTask> OnDestroyCard;
-        public event Func<List<ActiveSkillData>, UniTask> OnDiscardCard;
+        public event Func<List<ActiveSkillData>, UniTask> OnDiscardCard = delegate { return UniTask.CompletedTask; };
         public event Func<List<ActiveSkillData>, UniTask> OnConsumedCard;
         public event Func<List<ActiveSkillData>, List<ActiveSkillData>, UniTask> OnDiscardToDraw;
         public event Func<UniTask> OnStartCalOperation;
@@ -41,10 +41,10 @@ namespace Game.GamePlay
             return UniTask.CompletedTask;
         }
 
-        public UniTask UseCardFromHandZone(ActiveSkillData data)
+        public async UniTask UseCardFromHandZone(ActiveSkillData data)
         {
             Debug.LogWarning($"机器人使用技能未实现");
-            return UniTask.CompletedTask;
+            await OnDiscardCard(new List<ActiveSkillData> {data});
         }
 
         public UniTask RandomDiscard(int i)
@@ -143,6 +143,22 @@ namespace Game.GamePlay
         public void Init(TrainerData trainerData1)
         {
             trainerData = trainerData1;
+        }
+
+        public void ExitBattle()
+        {
+            
+        }
+
+        public UniTask OnEnemyTrainerDiscardCard(List<ActiveSkillData> arg)
+        {
+            Debug.LogWarning($"机器人对手弃牌未实现");
+            return UniTask.CompletedTask;
+        }
+
+        public void SetEnvironmentData(BattleEnvironmentData environmentData)
+        {
+            
         }
     }
 }

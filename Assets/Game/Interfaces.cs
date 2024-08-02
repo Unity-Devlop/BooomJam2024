@@ -16,7 +16,7 @@ namespace Game.GamePlay
         public bool canFight { get; }
         public TrainerData trainerData { get; }
         public HuluData currentBattleData { get; }
-        
+
         public HashSet<ActiveSkillData> handZone { get; }
 
         public HuluData Get(int idx)
@@ -35,6 +35,7 @@ namespace Game.GamePlay
 
         public event Func<UniTask> OnStartCalOperation;
         public event Func<UniTask> OnEndCalOperation;
+
         public void PushOperation(IBattleOperation operation);
 
         public void ClearOperation();
@@ -48,12 +49,17 @@ namespace Game.GamePlay
         UniTask DiscardAllHandCards();
         UniTask Discard2DrawZone();
         UniTask<int> DrawTarget(ActiveSkillTypeEnum type, int cnt);
-        
+
         UniTask<int> DrawTarget(ActiveSkillEnum target, int cnt);
 
         int GetTargetCntInDeck(ActiveSkillTypeEnum targetType);
         UniTask AddCardToDeck(ActiveSkillData added);
         UniTask DrawHandFull();
+
+
+        void ExitBattle();
+        UniTask OnEnemyTrainerDiscardCard(List<ActiveSkillData> discard);
+        void SetEnvironmentData(BattleEnvironmentData environmentData);
     }
 
     public interface IBattleFlow

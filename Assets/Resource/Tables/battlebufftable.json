@@ -150,5 +150,13 @@
     "is_env_buff": false,
     "can_stack": false,
     "not_save": false
+  },
+  {
+    "id": 20,
+    "desc": "",
+    "remove_count_when_round_end": -1,
+    "is_env_buff": false,
+    "can_stack": false,
+    "not_save": false
   }
 ]

@@ -71,6 +71,12 @@ namespace Game.GamePlay
 
             selfPos.SetNext(selfPos.battleTrainer.Get(0));
             enemyPos.SetNext(enemyPos.battleTrainer.Get(0));
+            
+            _self.OnDiscardCard += _enemy.OnEnemyTrainerDiscardCard;
+            _enemy.OnDiscardCard += _self.OnEnemyTrainerDiscardCard;
+            
+            _self.SetEnvironmentData(_environmentData);
+            _enemy.SetEnvironmentData(_environmentData);
 
             Global.Get<AudioSystem>().Get(FMODName.Event.first_step).start();
             await IBattleFlow.RoundFlow(this, _cts.Token);
@@ -274,6 +280,13 @@ namespace Game.GamePlay
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public UniTask Exit()
         {
+            _self.OnDiscardCard -= _enemy.OnEnemyTrainerDiscardCard;
+            _enemy.OnDiscardCard -= _self.OnEnemyTrainerDiscardCard;
+            _environmentData.Clear();
+            
+            _self.ExitBattle();
+            _enemy.ExitBattle();
+            
             Global.Get<AudioSystem>().Get(FMODName.Event.first_step).stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
             Debug.Log("Exit");
             if (UIRoot.Singleton.GetOpenedPanel(out GameBattlePanel battlePanel))

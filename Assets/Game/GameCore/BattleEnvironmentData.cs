@@ -85,5 +85,11 @@ namespace Game
                 GameMath.PrcessBuffWhenRoundEnd(buffContainer.buffList);
             }
         }
+        
+
+        public void Clear()
+        {
+            
+        }
     }
 }

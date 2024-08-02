@@ -422,5 +422,28 @@ namespace Game.GamePlay
         {
             trainerData = trainerData1;
         }
+
+
+        public async UniTask OnEnemyTrainerDiscardCard(List<ActiveSkillData> arg)
+        {
+            if (_env.GetBuff(this).buffList.Contains(BattleBuffEnum.对手弃牌时自己摸等量手牌))
+            {
+                await DrawSkills(arg.Count);
+            }
+
+            await UniTask.CompletedTask;
+        }
+
+        private BattleEnvironmentData _env;
+
+        public void SetEnvironmentData(BattleEnvironmentData environmentData)
+        {
+            _env = environmentData;
+        }
+
+        public void ExitBattle()
+        {
+            // TODO Clear All Event
+        }
     }
 }
