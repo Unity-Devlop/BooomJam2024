@@ -161,6 +161,7 @@ namespace UnityToolkit
             return v;
         }
 
+
         public static T RandomTake<T>(this HashSet<T> set)
         {
             if (set.Count == 0)
@@ -173,7 +174,7 @@ namespace UnityToolkit
             set.Remove(t);
             return t;
         }
-        
+
         public static T RandomTakeWithoutRemove<T>(this HashSet<T> set)
         {
             if (set.Count == 0)
@@ -185,8 +186,8 @@ namespace UnityToolkit
             T t = set.ElementAt(index);
             return t;
         }
-        
-        public static List<T> Shuffle<T>(this List<T> list)
+
+        public static IList<T> Shuffle<T>(this IList<T> list)
         {
             for (int i = 0; i < list.Count; i++)
             {
@@ -197,7 +198,7 @@ namespace UnityToolkit
             return list;
         }
 
-        public static T RandomTake<T>(this List<T> list)
+        public static T RandomTake<T>(this IList<T> list)
         {
             if (list.Count == 0)
             {

@@ -19,7 +19,7 @@ namespace Game
         [HorizontalGroup("1")] public HuluEnum id;
 
         [HorizontalGroup("1"), Button]
-        private void Roll9Skills()
+        public void Roll9Skills()
         {
             if (ownedSkills == null)
                 ownedSkills = new List<ActiveSkillData>(9);
@@ -33,7 +33,7 @@ namespace Game
         }
 
         [HorizontalGroup("1"), Button]
-        private void RollAbility()
+        public void RollAbility()
         {
             hp = UnityEngine.Random.Range(config.BaseHp, config.MaxHp);
             atk = UnityEngine.Random.Range(config.BaseAtk, config.MaxAtk);

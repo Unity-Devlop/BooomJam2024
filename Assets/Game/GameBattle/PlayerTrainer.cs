@@ -121,8 +121,6 @@ namespace Game.GamePlay
             {
                 await ConsumeCard(data);
             }
-
-            ListPool<ActiveSkillData>.Release(list);
         }
 
         public async UniTask RandomDiscard(int i)
@@ -145,13 +143,11 @@ namespace Game.GamePlay
 
         public async UniTask DiscardAllHandCards()
         {
-            Debug.Log("弃掉所有手牌");
-            List<ActiveSkillData> list = ListPool<ActiveSkillData>.Get();
-            list.AddRange(handZone);
-            handZone.Clear();
-            discardZone.AddRange(list);
-            await OnDiscardCard(list, this);
-            ListPool<ActiveSkillData>.Release(list);
+            var copy = handZone.ToList();
+            foreach (var activeSkillData in copy)
+            {
+                await Discard(activeSkillData);
+            }
         }
 
         public async UniTask ChangeCurrentHulu(HuluData data)

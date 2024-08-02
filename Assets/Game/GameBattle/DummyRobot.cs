@@ -13,25 +13,10 @@ namespace Game.GamePlay
         public override async UniTask<IBattleOperation> CalOperation()
         {
             await UniTask.DelayFrame(1);
-            List<ActiveSkillEnum> targets = ListPool<ActiveSkillEnum>.Get();
-            foreach (var activeSkillConfig in Global.Table.ActiveSkillTable.DataList)
-            {
-                if (activeSkillConfig.Type == ActiveSkillTypeEnum.伤害技能)
-                {
-                    targets.Add(activeSkillConfig.Id);
-                }
-            }
-
-            ActiveSkillEnum target = targets.RandomTake();
-            ListPool<ActiveSkillEnum>.Release(targets);
-
-            ActiveSkillData data = new ActiveSkillData()
-            {
-                id = target
-            };
+            var target = handZone.RandomTakeWithoutRemove();
             IBattleOperation operation = new ActiveSkillBattleOperation()
             {
-                data = data
+                data = target
             };
             return operation;
         }

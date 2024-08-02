@@ -42,7 +42,7 @@ namespace Game
             trainerSkills = new List<ActiveSkillData>();
             datas = new List<HuluData>();
         }
-#if UNITY_EDITOR && ODIN_INSPECTOR
+
 
         [Button]
         private void AddToPreset()
@@ -51,7 +51,7 @@ namespace Game
         }
 
         [Button]
-        private void RollTrainerSkill9()
+        public void RollTrainerSkill9()
         {
             if (trainerSkills == null)
                 trainerSkills = new List<ActiveSkillData>(9);
@@ -69,7 +69,7 @@ namespace Game
             }
         }
 
-#endif
+
         public bool FindFirstCanFight(out HuluData data)
         {
             foreach (var huluData in datas)
