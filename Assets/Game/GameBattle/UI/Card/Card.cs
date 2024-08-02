@@ -1,6 +1,7 @@
 ﻿using System;
 using Cysharp.Threading.Tasks;
 using Game.Game;
+using Game.GamePlay;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -22,14 +23,16 @@ namespace Game
 
         public event Action<Card, bool> SelectEvent = delegate { };
 
+        public event Action<Card, bool> HoverEvent = delegate { };
+
         // States
-        [ReadOnly] public bool isDragging { get; private set; }
+        public bool isDragging { get; private set; }
 
-        [ReadOnly] public bool wasDragged { get; private set; }
+        public bool wasDragged { get; private set; }
 
-        [ReadOnly] public bool isHovering { get; private set; }
+        public bool isHovering { get; private set; }
 
-        [ReadOnly] public bool selected { get; private set; }
+        public bool selected { get; private set; }
 
         // Config
         public Vector3 offset;
@@ -86,6 +89,7 @@ namespace Game
             {
                 _container.cardVisualPool.Release(_visual.gameObject);
             }
+
             _visual = null;
 
             data = null;
@@ -148,6 +152,9 @@ namespace Game
             base.OnPointerEnter(eventData);
             PointerEnterEvent.Invoke(this);
             isHovering = true;
+            
+            Global.Event.Send<OnCardHover>(new OnCardHover(this, isHovering));
+            HoverEvent.Invoke(this, isHovering);
             Global.Get<AudioSystem>().Play(FMODName.Event.SFX_ui_进入卡牌);
         }
 
@@ -156,6 +163,9 @@ namespace Game
             base.OnPointerExit(eventData);
             PointerExitEvent.Invoke(this);
             isHovering = false;
+
+            Global.Event.Send<OnCardHover>(new OnCardHover(this, isHovering));
+            HoverEvent.Invoke(this, isHovering);
         }
 
 
@@ -196,6 +206,11 @@ namespace Game
 
         public void OnDrag(PointerEventData eventData)
         {
+        }
+
+        public void ShowInfo()
+        {
+            // TODO Hover and not drag
         }
     }
 }
