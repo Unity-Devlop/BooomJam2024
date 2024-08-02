@@ -365,7 +365,7 @@ namespace Game
 
             if (config.UsingDefToCalDamage)
             {
-                Debug.Log($"{config}使用防御力计算伤害");
+                Debug.Log($"{atk}使用防御力计算伤害");
                 Global.Event.Send(new BattleTipEvent($"{config}使用防御力计算伤害"));
                 return atk.currentDef;
             }

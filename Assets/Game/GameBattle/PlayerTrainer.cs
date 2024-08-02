@@ -102,7 +102,6 @@ namespace Game.GamePlay
             List<ActiveSkillData> list = ListPool<ActiveSkillData>.Get();
             list.Add(data);
             await OnConsumedCard(list);
-            ListPool<ActiveSkillData>.Release(list);
         }
 
 

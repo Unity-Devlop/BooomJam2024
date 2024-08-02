@@ -131,12 +131,17 @@ namespace Game
             {
                 // TODO 暂时不做消耗牌的表现 直接移除
                 var card = handZoneCardList.Find(card => card.data == skillData);
-                Assert.IsNotNull(card);
+                if (card == null)
+                {
+                    Debug.LogWarning($"消耗的牌不在手牌里: {skillData} 可能是打出了消耗牌");
+                    continue;
+                }
                 cardSlotPool.Release(card.transform.parent.gameObject);
                 cardPool.Release(card.gameObject);
                 handZoneCardList.Remove(card);
-                await UniTask.DelayFrame(1);
+                // await UniTask.DelayFrame(1);
             }
+            await UniTask.CompletedTask;
         }
 
         public async UniTask Discard(List<ActiveSkillData> activeSkillDatas)
