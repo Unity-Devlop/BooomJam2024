@@ -5,6 +5,7 @@ using cfg;
 using Game.GamePlay;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.Pool;
 
 namespace Game
 {
@@ -62,7 +63,8 @@ namespace Game
             return (r, l);
         }
 
-        public static (HuluData, HuluData) WhoFirst(IBattleTrainer rT,IBattleTrainer lt,HuluData r, HuluData l, ActiveSkillData rs, ActiveSkillData ls,
+        public static (HuluData, HuluData) WhoFirst(IBattleTrainer rT, IBattleTrainer lt, HuluData r, HuluData l,
+            ActiveSkillData rs, ActiveSkillData ls,
             BattleEnvironmentData environmentData)
         {
             Assert.IsTrue(rs.config.Type != ActiveSkillTypeEnum.指挥);
@@ -73,7 +75,7 @@ namespace Game
                 Debug.Log($"{r} {l} 都有滑轮技巧");
                 r.Remove(BattleBuffEnum.轮滑技巧);
                 l.Remove(BattleBuffEnum.轮滑技巧);
-                
+
                 if (UnityEngine.Random.value > 0.5f)
                 {
                     return (l, r);
@@ -108,8 +110,8 @@ namespace Game
                 return (l, r);
             }
 
-            int rRuntimeSpeed = (int)UglyMath.PostprocessRunTimeSpeed(rT,r, environmentData);
-            int lRuntimeSpeed = (int)UglyMath.PostprocessRunTimeSpeed(lt,l, environmentData);
+            int rRuntimeSpeed = (int)UglyMath.PostprocessRunTimeSpeed(rT, r, environmentData);
+            int lRuntimeSpeed = (int)UglyMath.PostprocessRunTimeSpeed(lt, l, environmentData);
 
             if (rRuntimeSpeed > lRuntimeSpeed)
             {
@@ -173,7 +175,7 @@ namespace Game
             float finalValue = baseValue * (1 - Mathf.Clamp(def.currentAdap, 0, 100) / 100f);
 
             finalValue = UglyMath.PostprocessBattleFinalValue(finalValue, atk, def, config);
-            
+
             return (int)finalValue;
         }
 
@@ -184,6 +186,33 @@ namespace Game
         {
             ActiveSkillConfig config = Global.Table.ActiveSkillTable.Get(dataID);
             return UnityEngine.Random.value <= config.HitRate;
+        }
+
+        public static void PrcessBuffWhenRoundEnd(List<BattleBuffEnum> buffList)
+        {
+            HashSet<BattleBuffEnum> contains = HashSetPool<BattleBuffEnum>.Get();
+            foreach (var buffEnum in buffList)
+            {
+                contains.Add(buffEnum);
+            }
+
+            foreach (var buffEnum in contains)
+            {
+                var buffConfig = Global.Table.BattleBuffTable.Get(buffEnum);
+                int removeCnt = buffConfig.RemoveCountWhenRoundEnd;
+                if (removeCnt == -1)
+                {
+                    buffList.RemoveAll(x => x == buffEnum);
+                    continue;
+                }
+
+                for (int i = 0; i < removeCnt; i++)
+                {
+                    buffList.Remove(buffEnum);
+                }
+            }
+
+            HashSetPool<BattleBuffEnum>.Release(contains);
         }
     }
 }

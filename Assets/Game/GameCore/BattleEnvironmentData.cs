@@ -72,29 +72,7 @@ namespace Game
         {
             foreach (var (trainer, buffContainer) in _containers)
             {
-                buffContainer.buffList.Sort();
-                HashSet<BattleBuffEnum> contains = HashSetPool<BattleBuffEnum>.Get();
-                foreach (var buffEnum in buffContainer.buffList)
-                {
-                    contains.Add(buffEnum);
-                }
-
-                foreach (var buffEnum in contains)
-                {
-                    var buffConfig = Global.Table.BattleBuffTable.Get(buffEnum);
-                    int removeCnt = buffConfig.RemoveCountWhenRoundEnd;
-                    if (removeCnt == -1)
-                    {
-                        buffContainer.buffList.RemoveAll(x => x == buffEnum);
-                        continue;
-                    }
-                    for (int i = 0; i < removeCnt; i++)
-                    {
-                        buffContainer.buffList.Remove(buffEnum);
-                    }
-                }
-
-                HashSetPool<BattleBuffEnum>.Release(contains);
+                GameMath.PrcessBuffWhenRoundEnd(buffContainer.buffList);
             }
         }
     }

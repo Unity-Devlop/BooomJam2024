@@ -6,6 +6,7 @@ using cfg;
 using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Pool;
 using UnityEngine.Serialization;
 using UnityToolkit;
 
@@ -163,6 +164,11 @@ namespace Game
 
         public async UniTask ChangeElement(ElementEnum elementEnum1)
         {
+            if (buffList.Contains(BattleBuffEnum.阻止属性变化))
+            {
+                Debug.Log("阻止属性变化");
+                return;
+            }
             elementEnum = elementEnum1;
             await bind.Invoke();
         }
@@ -193,15 +199,8 @@ namespace Game
 
         public async UniTask RoundEnd()
         {
-            for (int i = buffList.Count - 1; i >= 0; i--)
-            {
-                var buff = buffList[i];
-                var buffConfig = Global.Table.BattleBuffTable.Get(buff);
-                if (buffConfig.RemoveWhenRoundEnd)
-                {
-                    buffList.RemoveAt(i);
-                }
-            }
+            GameMath.PrcessBuffWhenRoundEnd(this.buffList);
+            await bind.Invoke();
         }
 
         public async UniTask AddBuff(BattleBuffEnum configSelfBattleBuffAfterUse)
