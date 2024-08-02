@@ -405,11 +405,16 @@ namespace Game.GamePlay
             Assert.IsFalse(drawZone.Contains(added));
             Assert.IsFalse(handZone.Contains(added));
             Assert.IsFalse(discardZone.Contains(added));
-            
+
             deck.Add(added.id);
             drawZone.Add(added);
             // TODO 通知UI
             return UniTask.CompletedTask;
+        }
+
+        public async UniTask DrawHandFull()
+        {
+            await DrawSkills(Consts.MaxHandCard - handZone.Count);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

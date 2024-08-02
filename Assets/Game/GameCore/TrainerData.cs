@@ -84,5 +84,24 @@ namespace Game
             data = null;
             return false;
         }
+
+        public HuluData RandomSelectExpect(HuluData expect)
+        {
+            List<HuluData> list = new List<HuluData>();
+            foreach (var huluData in datas)
+            {
+                if (huluData != expect && !huluData.HealthIsZero())
+                {
+                    list.Add(huluData);
+                }
+            }
+
+            if (list.Count == 0)
+            {
+                return null;
+            }
+
+            return list[UnityEngine.Random.Range(0, list.Count)];
+        }
     }
 }

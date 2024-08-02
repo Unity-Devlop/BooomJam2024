@@ -445,6 +445,7 @@ namespace Game.GamePlay
             Assert.IsTrue(userPosition.CanFight());
             Assert.IsTrue(userTrainer.currentBattleData == userPosition.currentData);
             Assert.IsTrue(defTrainer.currentBattleData == defPosition.currentData);
+            var config = operation.data.config;
 
             if (_environmentData.GetBuff(userTrainer).buffList.Contains(BattleBuffEnum.结束回合))
             {
@@ -464,14 +465,15 @@ namespace Game.GamePlay
 
             // 计算伤害
             Global.Event.Send<BattleTipEvent>(
-                new BattleTipEvent($"{userPosition}使用[{operation.data.config.Type}]{operation}"));
+                new BattleTipEvent($"{userPosition}使用[{config.Type}]{operation}"));
 
-            UglyMath.PostprocessHuluDataWhenUseSkill(userPosition.currentData, operation.data.config);
+            UglyMath.PostprocessHuluDataWhenUseSkill(userPosition.currentData, config);
 
             #region 指挥牌
 
-            if (operation.data.config.Type == ActiveSkillTypeEnum.指挥)
+            if (config.Type == ActiveSkillTypeEnum.指挥)
             {
+                await userPosition.ExecuteSkill(operation);
                 if (operation.data.id == ActiveSkillEnum.重整思路)
                 {
                     Debug.Log($"重整思路 弃所有手牌 抽等量牌");
@@ -488,24 +490,39 @@ namespace Game.GamePlay
                     selfOper = new EndRoundOperation();
                     enemyOper = new EndRoundOperation();
                 }
+
+                if (operation.data.id == ActiveSkillEnum.轮转)
+                {
+                    HuluData next = userTrainer.trainerData.RandomSelectExpect(userTrainer.currentBattleData);
+                    if (next == null)
+                    {
+                        Debug.Log("轮转没有可用的精灵");
+                        Global.Event.Send<BattleTipEvent>(new BattleTipEvent("轮转没有可用的精灵"));
+                    }
+                    else
+                    {
+                        int idx = userTrainer.trainerData.datas.IndexOf(next);
+                        await ExecuteSwitch(userTrainer, userPosition, idx);
+                    }
+                }
             }
 
             #endregion
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            if (operation.data.config.Type == ActiveSkillTypeEnum.伤害技能)
+            if (config.Type == ActiveSkillTypeEnum.伤害技能)
             {
                 int times;
-                if (operation.data.config.MulAttackTimes == null || operation.data.config.MulAttackTimes.Length == 0)
+                if (config.MulAttackTimes == null || config.MulAttackTimes.Length == 0)
                 {
                     times = 1;
                 }
                 else
                 {
-                    Assert.IsTrue(operation.data.config.MulAttackTimes.Length == 2);
-                    Assert.IsTrue(operation.data.config.MulAttackTimes[0] <= operation.data.config.MulAttackTimes[1]);
-                    times = UnityEngine.Random.Range(operation.data.config.MulAttackTimes[0],
-                        operation.data.config.MulAttackTimes[1]);
+                    Assert.IsTrue(config.MulAttackTimes.Length == 2);
+                    Assert.IsTrue(config.MulAttackTimes[0] <= config.MulAttackTimes[1]);
+                    times = UnityEngine.Random.Range(config.MulAttackTimes[0],
+                        config.MulAttackTimes[1]);
                     Global.Event.Send<BattleTipEvent>(new BattleTipEvent($"{userPosition}攻击次数:{times}"));
                 }
 
@@ -521,7 +538,7 @@ namespace Game.GamePlay
                         break;
                     }
 
-                    await UglyMath.PostprocessHuluDataBeforeUseSkill(userPosition.currentData, operation.data.config);
+                    await UglyMath.PostprocessHuluDataBeforeUseSkill(userPosition.currentData, config);
                     bool hitted = GameMath.CalHit(userPosition.currentData, defPosition.currentData, operation.data.id,
                         _environmentData);
                     if (hitted && UglyMath.PostprocessHitRate(userPosition.currentData, defPosition.currentData,
@@ -552,7 +569,7 @@ namespace Game.GamePlay
 
                         await UglyMath.PostprocessHuluDataWhenAfterUseSkill(userTrainer, userPosition.currentData,
                             defTrainer,
-                            operation.data.config,
+                            config,
                             damage, _environmentData);
                     }
                     else
@@ -566,7 +583,7 @@ namespace Game.GamePlay
             }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            else if (operation.data.config.Type == ActiveSkillTypeEnum.变化技能)
+            else if (config.Type == ActiveSkillTypeEnum.变化技能)
             {
                 await userPosition.ExecuteSkill(operation);
             }
@@ -575,29 +592,35 @@ namespace Game.GamePlay
 
             #region 通用效果
 
-            if (operation.data.config.IncreaseHealthPercentAfterUse != 0)
+            if (config.IncreaseHealthPercentAfterUse != 0)
             {
                 Debug.Log(
-                    $"{userPosition}使用{operation.data.id}回血,百分比:{operation.data.config.IncreaseHealthPercentAfterUse}");
+                    $"{userPosition}使用{operation.data.id}回血,百分比:{config.IncreaseHealthPercentAfterUse}");
                 await userPosition.currentData.DecreaseHealth(
-                    -(int)(operation.data.config.IncreaseHealthPercentAfterUse *
+                    -(int)(config.IncreaseHealthPercentAfterUse *
                            userPosition.currentData.hp));
             }
 
-            if (operation.data.config.IncreaseHealthPointAfterUse != 0)
+            if (config.IncreaseHealthPointAfterUse != 0)
             {
                 Debug.Log(
-                    $"{userPosition}使用{operation.data.id}回血,固定值:{operation.data.config.IncreaseHealthPointAfterUse}");
-                await userPosition.currentData.DecreaseHealth(-operation.data.config.IncreaseHealthPointAfterUse);
+                    $"{userPosition}使用{operation.data.id}回血,固定值:{config.IncreaseHealthPointAfterUse}");
+                await userPosition.currentData.DecreaseHealth(-config.IncreaseHealthPointAfterUse);
             }
 
-            if (operation.data.config.DarwCardCountAfterUse != 0)
+            if (config.DarwCardCountAfterUse > 0)
             {
-                Debug.Log($"{userPosition}使用{operation.data.id}抽牌,数量:{operation.data.config.DarwCardCountAfterUse}");
-                await userTrainer.DrawSkills(operation.data.config.DarwCardCountAfterUse);
+                Debug.Log($"{userPosition}使用{operation.data.id}抽牌,数量:{config.DarwCardCountAfterUse}");
+                await userTrainer.DrawSkills(config.DarwCardCountAfterUse);
             }
 
-            if (operation.data.config.DarwLeaderCardCountAfterUse != 0)
+            if (config.DarwCardCountAfterUse == -1)
+            {
+                Debug.Log($"{userPosition}使用{operation.data.id}抽牌,手牌抽满");
+                await userTrainer.DrawHandFull();
+            }
+
+            if (config.DarwLeaderCardCountAfterUse != 0)
             {
                 int cnt = 0;
                 foreach (var handCard in userTrainer.handZone)
@@ -608,74 +631,74 @@ namespace Game.GamePlay
                     }
                 }
 
-                if (cnt < operation.data.config.DarwLeaderCardCountAfterUse)
+                if (cnt < config.DarwLeaderCardCountAfterUse)
                 {
                     await userTrainer.Discard2DrawZone();
                 }
 
-                userTrainer.DrawTarget(ActiveSkillTypeEnum.指挥, operation.data.config.DarwLeaderCardCountAfterUse);
+                userTrainer.DrawTarget(ActiveSkillTypeEnum.指挥, config.DarwLeaderCardCountAfterUse);
             }
 
-            if (operation.data.config.SelfBattleBuffAfterUse != BattleBuffEnum.None)
+            if (config.SelfBattleBuffAfterUse != BattleBuffEnum.None)
             {
-                var buffConfig = Global.Table.BattleBuffTable.Get(operation.data.config.SelfBattleBuffAfterUse);
-                for (int i = 0; i != operation.data.config.SelfBattleBuffCountAfterUse; ++i)
+                var buffConfig = Global.Table.BattleBuffTable.Get(config.SelfBattleBuffAfterUse);
+                for (int i = 0; i != config.SelfBattleBuffCountAfterUse; ++i)
                 {
                     Global.Event.Send<BattleTipEvent>(
                         new BattleTipEvent(
-                            $"{userPosition}使用{operation.data.id}获得{operation.data.config.SelfBattleBuffAfterUse}"));
-                    Debug.Log($"{userPosition}使用{operation.data.id}获得{operation.data.config.SelfBattleBuffAfterUse}");
+                            $"{userPosition}使用{operation.data.id}获得{config.SelfBattleBuffAfterUse}"));
+                    Debug.Log($"{userPosition}使用{operation.data.id}获得{config.SelfBattleBuffAfterUse}");
                     await UniTask.Delay(TimeSpan.FromSeconds(0.2f));
                     if (buffConfig.IsEnvBuff)
                     {
-                        await _environmentData.AddBuff(userTrainer, operation.data.config.SelfBattleBuffAfterUse);
+                        await _environmentData.AddBuff(userTrainer, config.SelfBattleBuffAfterUse);
                     }
                     else
                     {
-                        await userTrainer.currentBattleData.AddBuff(operation.data.config.SelfBattleBuffAfterUse);
+                        await userTrainer.currentBattleData.AddBuff(config.SelfBattleBuffAfterUse);
                     }
                 }
             }
 
-            if (operation.data.config.SelfTrainerBuffAfterUse != BattleBuffEnum.None)
+            if (config.SelfTrainerBuffAfterUse != BattleBuffEnum.None)
             {
-                var buffConfig = Global.Table.BattleBuffTable.Get(operation.data.config.SelfTrainerBuffAfterUse);
-                for (int i = 0; i < operation.data.config.SelfTrainerBuffAfterUseCount; i++)
+                var buffConfig = Global.Table.BattleBuffTable.Get(config.SelfTrainerBuffAfterUse);
+                for (int i = 0; i < config.SelfTrainerBuffAfterUseCount; i++)
                 {
                     Global.Event.Send<BattleTipEvent>(
                         new BattleTipEvent(
-                            $"{userPosition}使用{operation.data.id}获得{operation.data.config.SelfTrainerBuffAfterUse}"));
-                    Debug.Log($"{userPosition}使用{operation.data.id}获得{operation.data.config.SelfTrainerBuffAfterUse}");
+                            $"{userPosition}使用{operation.data.id}获得{config.SelfTrainerBuffAfterUse}"));
+                    Debug.Log($"{userPosition}使用{operation.data.id}获得{config.SelfTrainerBuffAfterUse}");
                     await UniTask.Delay(TimeSpan.FromSeconds(0.2f));
                     Assert.IsTrue(buffConfig.IsEnvBuff);
 
-                    await _environmentData.AddBuff(userTrainer, operation.data.config.SelfTrainerBuffAfterUse);
+                    await _environmentData.AddBuff(userTrainer, config.SelfTrainerBuffAfterUse);
                 }
             }
 
-            if (operation.data.config.DefTrainerBuffAfterUse != BattleBuffEnum.None)
+            if (config.DefTrainerBuffAfterUse != BattleBuffEnum.None)
             {
-                var buffConfig = Global.Table.BattleBuffTable.Get(operation.data.config.DefTrainerBuffAfterUse);
-                for (int i = 0; i < operation.data.config.DefTrainerBuffAfterUseCount; i++)
+                var buffConfig = Global.Table.BattleBuffTable.Get(config.DefTrainerBuffAfterUse);
+                for (int i = 0; i < config.DefTrainerBuffAfterUseCount; i++)
                 {
                     Global.Event.Send<BattleTipEvent>(
                         new BattleTipEvent(
-                            $"{userPosition}使用{operation.data.id}给对方加buff:{operation.data.config.DefTrainerBuffAfterUse}"));
+                            $"{userPosition}使用{operation.data.id}给对方加buff:{config.DefTrainerBuffAfterUse}"));
                     Debug.Log(
-                        $"{userPosition}使用{operation.data.id}给对方加buff:{operation.data.config.DefTrainerBuffAfterUse}");
+                        $"{userPosition}使用{operation.data.id}给对方加buff:{config.DefTrainerBuffAfterUse}");
                     await UniTask.Delay(TimeSpan.FromSeconds(0.2f));
                     Assert.IsTrue(buffConfig.IsEnvBuff);
-                    await _environmentData.AddBuff(defTrainer, operation.data.config.DefTrainerBuffAfterUse);
+                    await _environmentData.AddBuff(defTrainer, config.DefTrainerBuffAfterUse);
                 }
             }
 
-            if (operation.data.config.ChangeBattleEnvAfterUse != BattleEnvironmentEnum.None)
+            if (config.ChangeBattleEnvAfterUse != BattleEnvironmentEnum.None)
             {
-                await ChangeBattleEnv(operation.data.config.ChangeBattleEnvAfterUse);
+                await ChangeBattleEnv(config.ChangeBattleEnvAfterUse);
             }
 
 
-            var drawTargetCardConfigAfterUse = operation.data.config.DarwTargetCardConfigAfterUse;
+            var drawTargetCardConfigAfterUse = config.DarwTargetCardConfigAfterUse;
             if (drawTargetCardConfigAfterUse != null && drawTargetCardConfigAfterUse.Target != ActiveSkillEnum.None)
             {
                 int drawed = await userTrainer.DrawTarget(drawTargetCardConfigAfterUse.Target,
@@ -699,7 +722,7 @@ namespace Game.GamePlay
                 }
             }
 
-            var fullHpAddBuffConfig = operation.data.config.FullHpBuffForUserPokemon;
+            var fullHpAddBuffConfig = config.FullHpBuffForUserPokemon;
             if (userTrainer.currentBattleData.currentHp >= userTrainer.currentBattleData.hp &&
                 fullHpAddBuffConfig.Buff != BattleBuffEnum.None)
             {
@@ -708,14 +731,14 @@ namespace Game.GamePlay
                     await _environmentData.AddBuff(userTrainer, fullHpAddBuffConfig.Buff);
                 }
             }
-            
-            var notFullHpAddBuffConfig = operation.data.config.NotFullHpBuffForUserPokemon;
+
+            var notFullHpAddBuffConfig = config.NotFullHpBuffForUserPokemon;
             if (userTrainer.currentBattleData.currentHp < userTrainer.currentBattleData.hp &&
                 notFullHpAddBuffConfig.Buff != BattleBuffEnum.None)
             {
                 for (int i = 0; i < notFullHpAddBuffConfig.Cnt; i++)
                 {
-                    await _environmentData.AddBuff(userTrainer,notFullHpAddBuffConfig.Buff);
+                    await _environmentData.AddBuff(userTrainer, notFullHpAddBuffConfig.Buff);
                 }
             }
 

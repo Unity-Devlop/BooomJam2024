@@ -90,6 +90,12 @@ namespace Game.GamePlay
             return UniTask.CompletedTask;
         }
 
+        public UniTask DrawHandFull()
+        {
+            Debug.LogError("机器人未实现的方法");
+            return UniTask.CompletedTask;
+        }
+
         public UniTask<int> DrawTarget(ActiveSkillTypeEnum type, int cnt)
         {
             Debug.LogError("机器人未实现的方法");

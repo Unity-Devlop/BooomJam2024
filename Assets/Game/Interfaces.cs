@@ -53,6 +53,7 @@ namespace Game.GamePlay
 
         int GetTargetCntInDeck(ActiveSkillTypeEnum targetType);
         UniTask AddCardToDeck(ActiveSkillData added);
+        UniTask DrawHandFull();
     }
 
     public interface IBattleFlow

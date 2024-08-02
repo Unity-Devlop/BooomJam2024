@@ -3063,7 +3063,7 @@
       "add_cnt": 0
     },
     "darw_leader_card_count_after_use": 0,
-    "darw_card_count_after_use": 0,
+    "darw_card_count_after_use": -1,
     "effect_hit_rate": 0,
     "increase_self_def_point_after_use": 0,
     "type2": 1,
