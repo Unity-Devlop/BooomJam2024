@@ -49,7 +49,7 @@ namespace Game.GamePlay
 
         public void Dispose()
         {
-            _cts.Cancel();
+            _cts?.Cancel();
             _cts = null;
             UIRoot.Singleton.ClosePanel<GameBattlePanel>();
         }
