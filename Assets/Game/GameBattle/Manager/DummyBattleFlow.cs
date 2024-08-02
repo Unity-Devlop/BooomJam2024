@@ -645,6 +645,7 @@ namespace Game.GamePlay
                     }
                 }
 
+                // TODO 有必要触发洗牌么
                 if (cnt < config.DarwLeaderCardCountAfterUse)
                 {
                     await userTrainer.Discard2DrawZone();

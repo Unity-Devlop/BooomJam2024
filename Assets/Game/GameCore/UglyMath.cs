@@ -354,8 +354,18 @@ namespace Game
         public static int PostprocessAtkPoint(HuluData atk, ActiveSkillConfig config,
             BattleEnvironmentData environmentData)
         {
+            //TODO 狗策划 边际情况 
+            if (atk.ContainsBuff(BattleBuffEnum.用该选手的速度代替攻击力进行伤害计算))
+            {
+                Debug.Log($"{atk}使用速度代替攻击力计算伤害");
+                Global.Event.Send(new BattleTipEvent($"{atk}使用速度代替攻击力计算伤害"));
+                atk.RemoveBuff(BattleBuffEnum.用该选手的速度代替攻击力进行伤害计算);
+                return atk.currentSpeed;
+            }
+
             if (config.UsingDefToCalDamage)
             {
+                Debug.Log($"{config
                 Global.Event.Send(new BattleTipEvent($"{config}使用防御力计算伤害"));
                 return atk.currentDef;
             }
