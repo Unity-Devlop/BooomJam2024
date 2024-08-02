@@ -203,7 +203,7 @@ namespace Game
                     new Vector2(screenPoint.x, screenPoint.y), UIRoot.Singleton.UICamera)
                 && _calCts is { IsCancellationRequested: false })
             {
-                Global.Get<AudioSystem>().Play(FMODName.Event.ui_出牌);
+                Global.Get<AudioSystem>().Play(FMODName.Event.SFX_ui_出牌);
                 _trainer.PushOperation(new ActiveSkillBattleOperation()
                 {
                     data = selectedCard.data

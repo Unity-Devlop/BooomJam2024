@@ -6,9 +6,11 @@ namespace Game
         public static class Event
         {
         	public const string first_step = "event:/first_step";
-        	public const string ui_进入卡牌 = "event:/ui_进入卡牌";
-        	public const string ui_选择牌 = "event:/ui_选择牌";
-        	public const string ui_出牌 = "event:/ui_出牌";
+        	public const string SFX_ui_进入卡牌 = "event:/SFX/ui_进入卡牌";
+        	public const string SFX_ui_选择牌 = "event:/SFX/ui_选择牌";
+        	public const string MX_NORMAL_DEMO1 = "event:/MX_NORMAL_DEMO1";
+        	public const string MX_COMBAT_DEMO1 = "event:/MX_COMBAT_DEMO1";
+        	public const string SFX_ui_出牌 = "event:/SFX/ui_出牌";
         }
         public static class Snapshot
         {

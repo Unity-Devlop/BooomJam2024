@@ -148,7 +148,7 @@ namespace Game
             base.OnPointerEnter(eventData);
             PointerEnterEvent.Invoke(this);
             isHovering = true;
-            Global.Get<AudioSystem>().Play(FMODName.Event.ui_进入卡牌);
+            Global.Get<AudioSystem>().Play(FMODName.Event.SFX_ui_进入卡牌);
         }
 
         public override void OnPointerExit(PointerEventData eventData)
@@ -171,7 +171,7 @@ namespace Game
         public override void OnSelect(BaseEventData eventData)
         {
             base.OnSelect(eventData);
-            Global.Get<AudioSystem>().Play(FMODName.Event.ui_选择牌);
+            Global.Get<AudioSystem>().Play(FMODName.Event.SFX_ui_选择牌);
             selected = true;
             transform.localPosition += (_visual.transform.up * selectionOffset);
             SelectEvent.Invoke(this, selected);

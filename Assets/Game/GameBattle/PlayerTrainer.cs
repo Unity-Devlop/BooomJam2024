@@ -162,7 +162,7 @@ namespace Game.GamePlay
             }
             else
             {
-                Debug.Log("最初进入战斗 直接抽牌");
+                InitOwnerSkillToDrawZone();
             }
 
             Debug.Log($"{this}切换成功");
@@ -170,6 +170,17 @@ namespace Game.GamePlay
             RecalculateDeck();
             ReFillDrawZoneWhenChangeHulu();
             await DrawSkills(4);
+        }
+
+        private void InitOwnerSkillToDrawZone()
+        {
+            foreach (var trainerSkill in trainerData.trainerSkills)
+            {
+                Assert.IsFalse(drawZone.Contains(trainerSkill));
+                Assert.IsFalse(handZone.Contains(trainerSkill));
+                Assert.IsFalse(discardZone.Contains(trainerSkill));
+                drawZone.Add(trainerSkill);
+            }
         }
 
 

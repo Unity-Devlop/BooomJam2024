@@ -122,17 +122,18 @@ namespace Game
         public async UniTask DecreaseHealth(int delta)
         {
             currentHp -= delta;
-            if (currentHp < 0)
-            {
-                currentHp = 0;
-            }
-
-            if (currentHp > hp)
-            {
-                currentHp = hp;
-            }
-
-            Debug.Log($"{this}当前生命值{currentHp}");
+            currentHp = Mathf.Clamp(currentHp, 0, hp);
+            await UglyMath.PostprocessHuluData(this);
+            await bind.Invoke();
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public async UniTask TakeDamageFromSelfSkillEffect(int point)
+        {
+            if(buffList.Contains(BattleBuffEnum.阻止自身技能伤害))
+                return;
+            currentHp -= point;
+            currentHp = Mathf.Clamp(currentHp, 0, hp);
             await UglyMath.PostprocessHuluData(this);
             await bind.Invoke();
         }

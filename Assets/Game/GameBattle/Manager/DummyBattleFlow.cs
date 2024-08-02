@@ -446,9 +446,8 @@ namespace Game.GamePlay
             Assert.IsTrue(userTrainer.currentBattleData == userPosition.currentData);
             Assert.IsTrue(defTrainer.currentBattleData == defPosition.currentData);
 
-            if (_environmentData.GetBuff(userTrainer).buffList.Contains(BattleBuffEnum.喝茶))
+            if (_environmentData.GetBuff(userTrainer).buffList.Contains(BattleBuffEnum.结束回合))
             {
-                Debug.Log("喝茶 双方结束回合 自己回50血");
                 if (userTrainer == _self)
                 {
                     ModifyOperAfterUseSkill(ref selfOper);

@@ -60,7 +60,7 @@ namespace Game
             {
                 Global.Event.Send(
                     new BattleTipEvent($"{skill} 对自己反伤造成{damagePoint * skill.PercentageDamageBySelf}点伤害"));
-                await atk.DecreaseHealth((int)(damagePoint * skill.PercentageDamageBySelf));
+                await atk.TakeDamageFromSelfSkillEffect((int)(damagePoint * skill.PercentageDamageBySelf));
             }
 
             if (skill.ChangeElementAfterUse != ElementEnum.None)

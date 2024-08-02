@@ -65,11 +65,13 @@ namespace Game.Editor
 
                 // 移除前缀
                 string eventName = eventRef.Path.Substring(EventPrefix.Length);
+                eventName = ProcessString(eventName);
                 sb.AppendLine($"        \tpublic const string {eventName} = \"{eventRef.Path}\";");
                 foreach (var eventRefParameter in eventRef.Parameters)
                 {
+                    string eventRefParameterName = ProcessString($"{eventName}_{eventRefParameter.Name}");
                     sb.AppendLine(
-                        $"        \tpublic const ParameterID {eventName}_{eventRefParameter.Name} = \"{eventRefParameter.ID}\";");
+                        $"        \tpublic const string {eventRefParameterName} = \"{eventRefParameter.Name}\";");
                 }
             }
 
@@ -87,6 +89,7 @@ namespace Game.Editor
 
                 // 移除前缀
                 string snapshotName = eventRef.Path.Substring(SnapshotPrefix.Length);
+                snapshotName = ProcessString(snapshotName);
                 sb.AppendLine($"        \tpublic const string {snapshotName} = \"{eventRef.Path}\";");
             }
 
@@ -97,9 +100,7 @@ namespace Game.Editor
             sb.AppendLine("        {");
             foreach (var editorBankRef in EventManager.Banks)
             {
-                string bankName = editorBankRef.Name;
-                // 替换. 为_
-                bankName = bankName.Replace(".", "_");
+                string bankName = ProcessString(editorBankRef.Name);
                 sb.AppendLine($"        \tpublic const string {bankName} = \"{editorBankRef.StudioPath}\";");
             }
 
@@ -110,8 +111,9 @@ namespace Game.Editor
             sb.AppendLine("        {");
             foreach (var editorParamRef in EventManager.Parameters)
             {
+                string name= ProcessString(editorParamRef.Name);
                 sb.AppendLine(
-                    $"        \tpublic const string {editorParamRef.Name} = \"{editorParamRef.StudioPath}\";");
+                    $"        \tpublic const string {name} = \"{editorParamRef.StudioPath}\";");
             }
 
             sb.AppendLine("        }");
@@ -121,6 +123,12 @@ namespace Game.Editor
             sb.AppendLine("}");
 
             return System.IO.File.WriteAllTextAsync(targetPath, sb.ToString());
+        }
+
+        private static string ProcessString(string str)
+        {
+            // 非数字 字母 下划线 替换为_
+            return System.Text.RegularExpressions.Regex.Replace(str, @"[^\w\d_]", "_");
         }
 
         private List<EditorEventRef> GetAllEventRef()
