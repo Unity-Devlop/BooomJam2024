@@ -8,6 +8,7 @@ using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.Pool;
 using UnityEngine.Serialization;
 using UnityToolkit;
 using Random = UnityEngine.Random;
@@ -781,6 +782,46 @@ namespace Game.GamePlay
                 {
                     await userTrainer.currentBattleData.DecreaseHealth(-(int)heal);
                 }
+            }
+
+            var consumeSelfCardBuff = config.ConsumeSelfCardBuffConfig;
+            if (consumeSelfCardBuff.Cnt != 0 && consumeSelfCardBuff.Buff == BattleBuffEnum.None &&
+                (consumeSelfCardBuff.TargetType & ActiveSkillTypeEnum.None) != 0)
+            {
+                int cnt = 0;
+                // 消耗自己的牌
+                int handTargetCnt = userTrainer.GetConsumeCardInHandCount(consumeSelfCardBuff.TargetType);
+                if (consumeSelfCardBuff.Cnt == -1)
+                {
+                    cnt = handTargetCnt;
+                }
+                else
+                {
+                    cnt = Math.Min(consumeSelfCardBuff.Cnt, handTargetCnt);
+                }
+
+                List<ActiveSkillData> targets = ListPool<ActiveSkillData>.Get();
+                int takeCnt = 0;
+                foreach (var skillData in userTrainer.handZone)
+                {
+                    if (takeCnt >= cnt) break;
+                    if ((skillData.config.Type & consumeSelfCardBuff.TargetType) != 0)
+                    {
+                        targets.Add(skillData);
+                        takeCnt++;
+                    }
+                }
+
+                Assert.IsTrue(targets.Count == cnt);
+
+                foreach (var target in targets)
+                {
+                    Assert.IsTrue(userTrainer.handZone.Contains(target));
+                    await userTrainer.ConsumeCardFromHand(target);
+                    await userTrainer.AddBuff(consumeSelfCardBuff.Buff);
+                }
+
+                ListPool<ActiveSkillData>.Release(targets);
             }
 
             #endregion

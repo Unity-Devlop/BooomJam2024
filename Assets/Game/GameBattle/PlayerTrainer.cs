@@ -153,6 +153,20 @@ namespace Game.GamePlay
             return buffList.Contains(buff);
         }
 
+        public int GetConsumeCardInHandCount(ActiveSkillTypeEnum target)
+        {
+            int cnt = 0;
+            foreach (var activeSkillData in handZone)
+            {
+                if ((activeSkillData.config.Type & target) != 0)
+                {
+                    cnt++;
+                }
+            }
+
+            return cnt;
+        }
+
         public async UniTask RandomDiscardCardFromHand(int i)
         {
             Debug.Log($"随机弃牌{i}张");
@@ -489,9 +503,17 @@ namespace Game.GamePlay
 
             if (Global.Table.BattleBuffTable.Get(buff).NotSave)
                 return;
-
-            if (buffList.Contains(buff) && !Global.Table.BattleBuffTable.Get(buff).CanStack)
+            var buffConfig = Global.Table.BattleBuffTable.Get(buff);
+            if (buffList.Contains(buff) && !buffConfig.CanStack)
                 return;
+            int cnt = buffList.Count((x) => x == buff);
+
+            if (buffConfig.MaxStack > 0 && cnt >= buffConfig.MaxStack)
+            {
+                Debug.Log($"{this} buff {buff} 已经达到最大层数{buffConfig.MaxStack}");
+                return;
+            }
+
             buffList.Add(buff);
         }
 

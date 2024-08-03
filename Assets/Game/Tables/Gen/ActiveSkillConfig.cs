@@ -48,6 +48,7 @@ public sealed partial class ActiveSkillConfig : Luban.BeanBase
         { if(!_buf["def_discard_count_when_hitted"].IsNumber) { throw new SerializationException(); }  DefDiscardCountWhenHitted = _buf["def_discard_count_when_hitted"]; }
         { if(!_buf["def_discard_count_anyway"].IsNumber) { throw new SerializationException(); }  DefDiscardCountAnyway = _buf["def_discard_count_anyway"]; }
         { if(!_buf["user_discard_count_anyway"].IsNumber) { throw new SerializationException(); }  UserDiscardCountAnyway = _buf["user_discard_count_anyway"]; }
+        { if(!_buf["consume_self_card_buff_config"].IsObject) { throw new SerializationException(); }  ConsumeSelfCardBuffConfig = Tuple3.DeserializeTuple3(_buf["consume_self_card_buff_config"]);  }
         { if(!_buf["when_adap_geater_than_buff"].IsObject) { throw new SerializationException(); }  WhenAdapGeaterThanBuff = AbilityTuple.DeserializeAbilityTuple(_buf["when_adap_geater_than_buff"]);  }
         { if(!_buf["when_spped_less_than_buff"].IsObject) { throw new SerializationException(); }  WhenSppedLessThanBuff = AbilityTuple.DeserializeAbilityTuple(_buf["when_spped_less_than_buff"]);  }
         { if(!_buf["full_hp_increase_base_value_rate"].IsNumber) { throw new SerializationException(); }  FullHpIncreaseBaseValueRate = _buf["full_hp_increase_base_value_rate"]; }
@@ -186,6 +187,10 @@ public sealed partial class ActiveSkillConfig : Luban.BeanBase
     /// </summary>
     public readonly int UserDiscardCountAnyway;
     /// <summary>
+    /// 消耗牌 然后获得Buff
+    /// </summary>
+    public readonly Tuple3 ConsumeSelfCardBuffConfig;
+    /// <summary>
     /// 满足条件后可以获得的Buff
     /// </summary>
     public readonly AbilityTuple WhenAdapGeaterThanBuff;
@@ -252,6 +257,7 @@ public sealed partial class ActiveSkillConfig : Luban.BeanBase
         
         
         
+        
     }
 
     public override string ToString()
@@ -288,6 +294,7 @@ public sealed partial class ActiveSkillConfig : Luban.BeanBase
         + "defDiscardCountWhenHitted:" + DefDiscardCountWhenHitted + ","
         + "defDiscardCountAnyway:" + DefDiscardCountAnyway + ","
         + "userDiscardCountAnyway:" + UserDiscardCountAnyway + ","
+        + "consumeSelfCardBuffConfig:" + ConsumeSelfCardBuffConfig + ","
         + "whenAdapGeaterThanBuff:" + WhenAdapGeaterThanBuff + ","
         + "whenSppedLessThanBuff:" + WhenSppedLessThanBuff + ","
         + "fullHpIncreaseBaseValueRate:" + FullHpIncreaseBaseValueRate + ","
