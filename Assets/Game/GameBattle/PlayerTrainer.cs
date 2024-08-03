@@ -481,6 +481,7 @@ namespace Game.GamePlay
 
         public async UniTask AddBuff(BattleBuffEnum buff)
         {
+            Debug.Log($"{this} 获得buff {buff}");
             if (buff == BattleBuffEnum.抽两张牌)
             {
                 await DrawSkills(2);

@@ -758,13 +758,28 @@ namespace Game.GamePlay
                 }
             }
 
-            var WhenSppedLessThanBuff = config.WhenSppedLessThanBuff;
-            if (WhenSppedLessThanBuff.Buff != BattleBuffEnum.None && WhenSppedLessThanBuff.Compare != -1)
+            var whenSpeedLessThanBuff = config.WhenSppedLessThanBuff;
+            if (whenSpeedLessThanBuff.Buff != BattleBuffEnum.None && whenSpeedLessThanBuff.Compare != -1)
             {
                 float speed = UglyMath.PostprocessRunTimeSpeed(userTrainer, _envData);
-                if (speed < WhenSppedLessThanBuff.Compare)
+                if (speed < whenSpeedLessThanBuff.Compare)
                 {
-                    await userTrainer.AddBuff(WhenSppedLessThanBuff.Buff);
+                    await userTrainer.AddBuff(whenSpeedLessThanBuff.Buff);
+                }
+            }
+
+            var whenAdapGreaterThanBuff = config.WhenAdapGeaterThanBuff;
+            if (whenAdapGreaterThanBuff.Buff != BattleBuffEnum.None && whenAdapGreaterThanBuff.Compare != -1)
+            {
+                float heal = whenAdapGreaterThanBuff.Point;
+                float adap = GameMath.CalRunTimeAdap(userTrainer.currentBattleData, _envData);
+                if (adap >= whenAdapGreaterThanBuff.Compare)
+                {
+                    await userTrainer.AddBuff(whenAdapGreaterThanBuff.Buff);
+                }
+                else
+                {
+                    await userTrainer.currentBattleData.DecreaseHealth(-(int)heal);
                 }
             }
 

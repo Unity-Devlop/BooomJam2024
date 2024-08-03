@@ -48,6 +48,7 @@ public sealed partial class ActiveSkillConfig : Luban.BeanBase
         { if(!_buf["def_discard_count_when_hitted"].IsNumber) { throw new SerializationException(); }  DefDiscardCountWhenHitted = _buf["def_discard_count_when_hitted"]; }
         { if(!_buf["def_discard_count_anyway"].IsNumber) { throw new SerializationException(); }  DefDiscardCountAnyway = _buf["def_discard_count_anyway"]; }
         { if(!_buf["user_discard_count_anyway"].IsNumber) { throw new SerializationException(); }  UserDiscardCountAnyway = _buf["user_discard_count_anyway"]; }
+        { if(!_buf["when_adap_geater_than_buff"].IsObject) { throw new SerializationException(); }  WhenAdapGeaterThanBuff = AbilityTuple.DeserializeAbilityTuple(_buf["when_adap_geater_than_buff"]);  }
         { if(!_buf["when_spped_less_than_buff"].IsObject) { throw new SerializationException(); }  WhenSppedLessThanBuff = AbilityTuple.DeserializeAbilityTuple(_buf["when_spped_less_than_buff"]);  }
         { if(!_buf["full_hp_increase_base_value_rate"].IsNumber) { throw new SerializationException(); }  FullHpIncreaseBaseValueRate = _buf["full_hp_increase_base_value_rate"]; }
         { if(!_buf["percentage_damage_by_self"].IsNumber) { throw new SerializationException(); }  PercentageDamageBySelf = _buf["percentage_damage_by_self"]; }
@@ -187,6 +188,10 @@ public sealed partial class ActiveSkillConfig : Luban.BeanBase
     /// <summary>
     /// 满足条件后可以获得的Buff
     /// </summary>
+    public readonly AbilityTuple WhenAdapGeaterThanBuff;
+    /// <summary>
+    /// 满足条件后可以获得的Buff
+    /// </summary>
     public readonly AbilityTuple WhenSppedLessThanBuff;
     /// <summary>
     /// 满血时baseValue加成
@@ -246,6 +251,7 @@ public sealed partial class ActiveSkillConfig : Luban.BeanBase
         
         
         
+        
     }
 
     public override string ToString()
@@ -282,6 +288,7 @@ public sealed partial class ActiveSkillConfig : Luban.BeanBase
         + "defDiscardCountWhenHitted:" + DefDiscardCountWhenHitted + ","
         + "defDiscardCountAnyway:" + DefDiscardCountAnyway + ","
         + "userDiscardCountAnyway:" + UserDiscardCountAnyway + ","
+        + "whenAdapGeaterThanBuff:" + WhenAdapGeaterThanBuff + ","
         + "whenSppedLessThanBuff:" + WhenSppedLessThanBuff + ","
         + "fullHpIncreaseBaseValueRate:" + FullHpIncreaseBaseValueRate + ","
         + "percentageDamageBySelf:" + PercentageDamageBySelf + ","

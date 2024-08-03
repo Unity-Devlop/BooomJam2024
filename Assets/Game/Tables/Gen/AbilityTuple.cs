@@ -31,6 +31,9 @@ public partial struct AbilityTuple
     /// 比较的基准
     /// </summary>
     public readonly int Compare;
+    /// <summary>
+    /// 不满足时的点数
+    /// </summary>
     public readonly int Point;
     /// <summary>
     /// 增加的Buff

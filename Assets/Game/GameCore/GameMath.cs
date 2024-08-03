@@ -189,7 +189,7 @@ namespace Game
             return (int)finalValue;
         }
 
-        private static int CalRunTimeAdap(HuluData def, BattleData data)
+        public static int CalRunTimeAdap(HuluData def, BattleData data)
         {
             int baseAdap = def.currentAdap;
             if (def.ContainsBuff(BattleBuffEnum.加十点适应力))
