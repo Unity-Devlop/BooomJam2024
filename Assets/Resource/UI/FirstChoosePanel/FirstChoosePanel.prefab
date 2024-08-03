@@ -107,6 +107,8 @@ MonoBehaviour:
   valueName: {fileID: 7138018520375679479}
   slider: {fileID: 4255189942074754699}
   valueNum: {fileID: 8631811548933959458}
+  addBtn: {fileID: 0}
+  addText: {fileID: 0}
 --- !u!1 &750737811754597847
 GameObject:
   m_ObjectHideFlags: 0
@@ -720,6 +722,8 @@ MonoBehaviour:
   valueName: {fileID: 2761657935302277267}
   slider: {fileID: 6692537598214204539}
   valueNum: {fileID: 3750540760656833022}
+  addBtn: {fileID: 0}
+  addText: {fileID: 0}
 --- !u!1 &1522121185000356348
 GameObject:
   m_ObjectHideFlags: 0
@@ -971,6 +975,7 @@ MonoBehaviour:
   skillImg: {fileID: 6825546702760956362}
   skillName: {fileID: 3726091625694963686}
   SkillDescription: {fileID: 2191408894744639734}
+  changeBtn: {fileID: 0}
 --- !u!1 &1790531901585111733
 GameObject:
   m_ObjectHideFlags: 0
@@ -1786,6 +1791,8 @@ MonoBehaviour:
   valueName: {fileID: 3845916855788986267}
   slider: {fileID: 3994758367985067318}
   valueNum: {fileID: 5860349967619984655}
+  addBtn: {fileID: 0}
+  addText: {fileID: 0}
 --- !u!1 &3813131816814969569
 GameObject:
   m_ObjectHideFlags: 0
@@ -1915,6 +1922,7 @@ MonoBehaviour:
   skillImg: {fileID: 7075579525805059347}
   skillName: {fileID: 4882565497328558048}
   SkillDescription: {fileID: 8295411705606751358}
+  changeBtn: {fileID: 0}
 --- !u!1 &3946571409945974878
 GameObject:
   m_ObjectHideFlags: 0
@@ -2987,6 +2995,8 @@ MonoBehaviour:
   valueName: {fileID: 9145781921118154022}
   slider: {fileID: 7417142405493653341}
   valueNum: {fileID: 3994732494785337499}
+  addBtn: {fileID: 0}
+  addText: {fileID: 0}
 --- !u!1 &6795158776785878811
 GameObject:
   m_ObjectHideFlags: 0
@@ -3173,6 +3183,8 @@ MonoBehaviour:
   valueName: {fileID: 1384008232173061352}
   slider: {fileID: 1791821024409272898}
   valueNum: {fileID: 4105524995474160027}
+  addBtn: {fileID: 0}
+  addText: {fileID: 0}
 --- !u!1 &7224895210655572597
 GameObject:
   m_ObjectHideFlags: 0
@@ -3266,6 +3278,7 @@ MonoBehaviour:
   skillImg: {fileID: 7898406050780357542}
   skillName: {fileID: 3738774333883902363}
   SkillDescription: {fileID: 8917547526443507854}
+  changeBtn: {fileID: 0}
 --- !u!1 &7443859692600300870
 GameObject:
   m_ObjectHideFlags: 0

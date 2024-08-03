@@ -226,12 +226,12 @@ MonoBehaviour:
   sortingOrder: 0
   confirmBtn: {fileID: 8653105669336605068}
   huluNames:
-  - {fileID: 7271002504637305755}
-  - {fileID: 5221862359553994898}
-  - {fileID: 3204629143148830148}
-  - {fileID: 7927179436956886049}
-  - {fileID: 8671836567122006500}
-  - {fileID: 4763980386569593542}
+  - {fileID: 7121747696604450090}
+  - {fileID: 3860973641803920668}
+  - {fileID: 1492086190793482395}
+  - {fileID: 5806856999633765699}
+  - {fileID: 6315578885652239770}
+  - {fileID: 233721403744332349}
 --- !u!114 &5120557170947753037
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1653,8 +1653,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aacbe3f410e8bc443aedcc34e8fea251, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tableWidth: 4
-  tableHeight: 5
 --- !u!1 &9167818368248233585
 GameObject:
   m_ObjectHideFlags: 0

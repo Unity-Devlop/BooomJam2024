@@ -133,9 +133,21 @@ namespace Game
         public void Continue()
         {
             var playerData = Global.Get<DataSystem>().Get<PlayerData>();
-            for(int i=0;i<chosenHulu.Count;++i)
+            for(int i=0;i<huluIds.Count; ++i)
             {
-                //Ìí¼Óhulu
+                if (chosenHulu.Contains(huluIds[i]))
+                {
+                    //Ìí¼Óhulu
+                    HuluData h = new HuluData(huluIds[i]);
+                    h.id = huluIds[i];
+                    for (int j = 0; j < activeSkills[i].Count; ++j)
+                    {
+                        ActiveSkillData asd = new ActiveSkillData();
+                        asd.id = activeSkills[i][j];
+                        h.ownedSkills.Add(asd);
+                    }
+                    playerData.trainerData.datas.Add(h);
+                 }
             }
             var e = new ChangeStateEvent();
             e.poState = POState.DailyTrainState;

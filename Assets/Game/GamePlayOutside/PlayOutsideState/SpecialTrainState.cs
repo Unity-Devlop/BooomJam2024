@@ -10,7 +10,7 @@ namespace Game
         public override void OnEnter()
         {
             base.OnEnter();
-
+            UIRoot.Singleton.OpenPanel<SpecialTrainPanel>();
         }
 
         public override void OnStay()
@@ -21,6 +21,7 @@ namespace Game
         public override void OnExit()
         {
             base.OnExit();
+            UIRoot.Singleton.ClosePanel<SpecialTrainPanel>();
 
         }
     }

@@ -119,6 +119,19 @@ namespace Game
             buffList = new List<BattleBuffEnum>();
         }
 
+        public HuluData(HuluEnum id)
+        {
+            bind = new BindData<HuluData, UniTask>(this);
+            ownedSkills = new List<ActiveSkillData>();
+            buffList = new List<BattleBuffEnum>();
+            this.id = id;
+            hp = config.BaseHp;
+            atk = config.BaseAtk;
+            def = config.BaseDef;
+            speed = config.BaseSpeed;
+            adap = config.BaseAdap;
+        }
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public async UniTask DecreaseHealth(int delta, HuluData attacker = null)
         {
