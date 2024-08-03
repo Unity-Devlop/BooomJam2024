@@ -38,17 +38,7 @@ MonoBehaviour:
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 1ff178673b570a0458b9a8e4cc5a5d65
-    m_Address: Home
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 01061f83bf694b841b1713e15ae229e3
-    m_Address: Game
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: ae5714c6f1ff4e04ba3c52cc36ba1562
-    m_Address: UI
+    m_Address: Assets/Scenes/GameHome.unity
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -62,8 +52,8 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: ee1e7202bc89bc447bc7e3fa1b6e531f
-    m_Address: Animations
+  - m_GUID: 01061f83bf694b841b1713e15ae229e3
+    m_Address: Assets/Scenes/GameBattle.unity
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
