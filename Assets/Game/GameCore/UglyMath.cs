@@ -73,7 +73,6 @@ namespace Game
         public static async UniTask<float> PostprocessBattleBaseValue(float baseValue, HuluData atk, HuluData def,
             ActiveSkillConfig atkSkill)
         {
-            
             while (atk.ContainsBuff(BattleBuffEnum.下一次伤害加80))
             {
                 await atk.RemoveBuff(BattleBuffEnum.下一次伤害加80);
@@ -139,7 +138,7 @@ namespace Game
             {
                 Debug.Log("内敛");
                 Global.Event.Send(new BattleTipEvent("内敛"));
-                baseValue /= GameMath.CalDamageElementFit(atk, atkSkill.Element, def.elementEnum);
+                baseValue /= await GameMath.CalDamageElementFit(atk, atkSkill.Element, def.elementEnum);
             }
 
             return baseValue;
@@ -341,7 +340,7 @@ namespace Game
             return config.DamagePoint;
         }
 
-        public static int PostprocessAtkPoint(HuluData atk, ActiveSkillConfig config,
+        public static async UniTask<int> PostprocessAtkPoint(HuluData atk, ActiveSkillConfig config,
             BattleData data)
         {
             //TODO 狗策划 边际情况 
@@ -349,7 +348,7 @@ namespace Game
             {
                 Debug.Log($"{atk}使用速度代替攻击力计算伤害");
                 Global.Event.Send(new BattleTipEvent($"{atk}使用速度代替攻击力计算伤害"));
-                atk.RemoveBuff(BattleBuffEnum.用速度代替攻击力进行伤害计算);
+                await atk.RemoveBuff(BattleBuffEnum.用速度代替攻击力进行伤害计算);
                 return atk.currentSpeed;
             }
 

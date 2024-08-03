@@ -21,22 +21,22 @@ namespace Game
         /// <param name="def"></param>
         /// <returns></returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float CalDamageElementFit(HuluData user, ElementEnum atk, ElementEnum def)
+        public static async UniTask<float> CalDamageElementFit(HuluData user, ElementEnum atk, ElementEnum def)
         {
             var fit = Global.Table.ElementFitTable.Get(atk).Fit;
             float value = fit.GetValueOrDefault(def, 1);
             if (user.ContainsBuff(BattleBuffEnum.技能效果不好时变成一点五倍) && Mathf.Approximately(value, 0.5f))
             {
-                user.RemoveBuff(BattleBuffEnum.技能效果不好时变成一点五倍);
+                await user.RemoveBuff(BattleBuffEnum.技能效果不好时变成一点五倍);
                 value = 1.5f;
             }
 
             return value;
         }
 
-        public static string CalElementFitText(HuluData user, ElementEnum atk, ElementEnum def)
+        public static async UniTask<string> CalElementFitText(HuluData user, ElementEnum atk, ElementEnum def)
         {
-            float value = CalDamageElementFit(user, atk, def);
+            float value = await CalDamageElementFit(user, atk, def);
 
             switch (value)
             {
@@ -166,7 +166,7 @@ namespace Game
 
             Assert.IsTrue(config.Type == ActiveSkillTypeEnum.伤害技能);
             int damagePoint = UglyMath.PostprocessDamagePoint(config, data);
-            int atkPoint = UglyMath.PostprocessAtkPoint(atk, config, data);
+            int atkPoint = await UglyMath.PostprocessAtkPoint(atk, config, data);
             Debug.Log(
                 $"攻击力{atkPoint},伤害{damagePoint},防御力{def.currentDef}" +
                 $" 本系威力加成{CalSelfElementFit(atk.config, config)} \n" +
@@ -175,7 +175,7 @@ namespace Game
                               *
                               CalSelfElementFit(atk.config, config) // 本系威力加成
                               *
-                              CalDamageElementFit(atk, config.Element, def.config.Elements // 属性克制
+                              await CalDamageElementFit(atk, config.Element, def.config.Elements // 属性克制
                               );
             Debug.Log($"处理前的基础伤害{baseValue} ");
             baseValue = await UglyMath.PostprocessBattleBaseValue(baseValue, atk, def, config);

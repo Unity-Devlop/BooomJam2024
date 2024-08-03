@@ -7,6 +7,7 @@ using Cysharp.Threading.Tasks;
 using Game.GamePlay;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.Pool;
 using UnityEngine.Serialization;
 using UnityToolkit;
@@ -253,6 +254,9 @@ namespace Game
 
         public async UniTask AddBuff(BattleBuffEnum buff)
         {
+            var buffConfig = Global.Table.BattleBuffTable.Get(buff);
+
+            Assert.IsFalse(buffConfig.IsTrainerBuff);
             if (buff == BattleBuffEnum.回满血然后回合结束受到等量伤害)
             {
                 healP0intBy回满血然后回合结束受到等量伤害 = hp - currentHp;
@@ -260,7 +264,6 @@ namespace Game
             }
 
 
-            var buffConfig = Global.Table.BattleBuffTable.Get(buff);
             if (buffConfig.NotSave)
             {
                 return;

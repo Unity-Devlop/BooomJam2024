@@ -40,7 +40,7 @@ namespace Game.GamePlay
             return UniTask.CompletedTask;
         };
 
-        private List<BattleBuffEnum> buffList = new List<BattleBuffEnum>();
+        [SerializeField] private List<BattleBuffEnum> buffList = new List<BattleBuffEnum>();
 
 
         public List<ActiveSkillEnum> deck = new();
@@ -125,7 +125,11 @@ namespace Game.GamePlay
 
         public async UniTask ConsumeCardFromHand(ActiveSkillData data)
         {
-            Assert.IsTrue((data.config.Type2 & CardTypeEnum.消耗) != 0);
+            if ((data.config.Type2 & CardTypeEnum.消耗) == 0)
+            {
+                Debug.LogWarning($"尝试消耗非消耗牌{data}");
+            }
+
             Assert.IsTrue(handZone.Contains(data));
             Assert.IsFalse(discardZone.Contains(data));
             Assert.IsFalse(drawZone.Contains(data));
@@ -495,6 +499,10 @@ namespace Game.GamePlay
 
         public async UniTask AddBuff(BattleBuffEnum buff)
         {
+            var buffConfig = Global.Table.BattleBuffTable.Get(buff);
+
+            Assert.IsTrue(buffConfig.IsTrainerBuff);
+            
             Debug.Log($"{this} 获得buff {buff}");
             if (buff == BattleBuffEnum.抽两张牌)
             {
@@ -503,7 +511,7 @@ namespace Game.GamePlay
 
             if (Global.Table.BattleBuffTable.Get(buff).NotSave)
                 return;
-            var buffConfig = Global.Table.BattleBuffTable.Get(buff);
+         
             if (buffList.Contains(buff) && !buffConfig.CanStack)
                 return;
             int cnt = buffList.Count((x) => x == buff);
