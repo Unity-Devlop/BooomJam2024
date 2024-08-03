@@ -47,7 +47,7 @@ namespace Game
             }
         }
 
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Create(string path, out EventInstance instance, bool singleton = true)
         {
@@ -62,30 +62,31 @@ namespace Game
                 _cache.Add(path, instance);
                 return;
             }
+
             // 不缓存
             instance = RuntimeManager.CreateInstance(path);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public EventInstance Get(string path)
+        public EventInstance GetSingleton(string path)
         {
-            if(!_cache.TryGetValue(path, out var instance))
+            if (!_cache.TryGetValue(path, out var instance))
             {
                 Create(path, out instance, true);
             }
+
             return _cache[path];
         }
 
-        public void Stop(string path)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void StopSingleton(string path,FMOD.Studio.STOP_MODE mode)
         {
-            
+            if (_cache.TryGetValue(path, out var instance))
+            {
+                instance.stop(mode);
+            }
         }
-        
-        public void Stop(ref EventInstance instance)
-        {
-            
-        }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Destroy(string path)
         {
@@ -96,7 +97,7 @@ namespace Game
             }
         }
 
-        public void Play(string path)
+        public void PlayOneShot(string path)
         {
             RuntimeManager.PlayOneShot(path);
         }
