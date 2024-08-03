@@ -81,6 +81,12 @@ namespace Game
             valueUIItems[2].addBtn.onClick.AddListener(AddDefence);
             valueUIItems[3].addBtn.onClick.AddListener(AddSpeed);
             valueUIItems[4].addBtn.onClick.AddListener(AddAdaptability);
+            var huluData = playerData.trainerData.datas[curHulu];
+            for (int i=0;i<skillUIItems.Length;++i)
+            {
+                int index = i;
+                skillUIItems[i].changeBtn.onClick.AddListener(() => { SwitchCard(huluData.id, skillUIItems[index].id); }) ;
+            }
         }
 
         private void UnRegister()
@@ -92,6 +98,12 @@ namespace Game
             valueUIItems[2].addBtn.onClick.RemoveListener(AddDefence);
             valueUIItems[3].addBtn.onClick.RemoveListener(AddSpeed);
             valueUIItems[4].addBtn.onClick.RemoveListener(AddAdaptability);
+            var huluData = playerData.trainerData.datas[curHulu];
+            for (int i = 0; i < skillUIItems.Length; ++i)
+            {
+                int index = i;
+                skillUIItems[i].changeBtn.onClick.RemoveListener(() => { SwitchCard(huluData.id, skillUIItems[index].id); });
+            }
         }
 
         private void ShowUI()
@@ -105,6 +117,7 @@ namespace Game
                 var skill = huluData.ownedSkills[i];
                 skillUIItems[i].skillName.text = skill.ToString();
                 skillUIItems[i].SkillDescription.text = Global.Table.ActiveSkillTable.Get(skill.id).Desc;
+                skillUIItems[i].id = skill.id;
             }
             valueUIItems[0].valueNum.text = huluData.hp.ToString();
             valueUIItems[0].slider.value = (float)huluData.hp / huluData.config.MaxHp;
@@ -210,9 +223,21 @@ namespace Game
             }
         }
 
-        private void SwitchCard()
+        private void SwitchCard(HuluEnum huluId,ActiveSkillEnum skillId)
         {
+            var panel = (ManageCardsPanel)UIRoot.Singleton.OpenPanel<ManageCardsPanel>();
+            panel.SelectSkillCard(huluId,skillId,SwitchResult);
+        }
 
+        private void SwitchResult(bool isSwitched, HuluEnum huluId, ActiveSkillEnum removeId,ActiveSkillEnum addId)
+        {
+            if(isSwitched)
+            {
+                playerData.trainerData.datas[curHulu].ReplaceOwnedSkill(removeId, addId);
+
+            }
+            HideAddBtnAndTxt();
+            ShowUI();
         }
 
         public void Confirm()

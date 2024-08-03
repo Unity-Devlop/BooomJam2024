@@ -1,3 +1,4 @@
+using cfg;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,5 +12,6 @@ namespace Game
         public Text skillName;
         public Text SkillDescription;
         public Button changeBtn;
+        public ActiveSkillEnum id;
     }
 }

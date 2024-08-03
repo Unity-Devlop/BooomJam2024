@@ -132,6 +132,40 @@ namespace Game
             adap = config.BaseAdap;
         }
 
+        public void RemoveOwnedSkill(ActiveSkillEnum id)
+        {
+            int index = -1;
+            for(int i=0;i<ownedSkills.Count;++i)
+            {
+                if (ownedSkills[i].id==id)
+                {
+                    index = i;
+                    break;
+                }
+            }
+            if (index >= 0) ownedSkills.RemoveAt(index);
+        }
+
+        public void AddOwnedSkill(ActiveSkillEnum id)
+        {
+            ActiveSkillData data = new ActiveSkillData();
+            data.id = id;
+            ownedSkills.Add(data);
+        }
+
+        public void ReplaceOwnedSkill(ActiveSkillEnum ori, ActiveSkillEnum target)
+        {
+            int index = -1;
+            for (int i = 0; i < ownedSkills.Count; ++i)
+            {
+                if (ownedSkills[i].id == ori)
+                {
+                    ownedSkills[i].id = target;
+                    break;
+                }
+            }
+        }
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public async UniTask DecreaseHealth(int delta, HuluData attacker = null)
         {
