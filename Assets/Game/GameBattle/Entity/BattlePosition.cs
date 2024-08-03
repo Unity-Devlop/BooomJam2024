@@ -7,19 +7,25 @@ namespace Game.GamePlay
 {
     public class BattlePosition : MonoBehaviour
     {
+        public enum Direction
+        {
+            Left,
+            Right
+        }
+
         public IBattleTrainer battleTrainer;
-        public HuluData currentData { get; private set; } // 当前上场的数据
+        public HuluData current { get; private set; } // 当前上场的数据
         public HuluData next { get; private set; } // 准备上场的数据
 
-        public Hulu visual;
-        public Transform atkPos;
+        public HuluVisual visual;
+        public Direction direction;
 
         public async UniTask ExecuteEnter()
         {
             visual.gameObject.SetActive(false);
             await UniTask.DelayFrame(6);
             // 执行入场逻辑
-            Debug.LogWarning($"{gameObject.name}-{currentData}入场");
+            Debug.LogWarning($"{gameObject.name}-{current}入场");
             visual.gameObject.SetActive(true);
         }
 
@@ -30,10 +36,10 @@ namespace Game.GamePlay
 
         public async UniTask Prepare2Current()
         {
-            currentData = next;
+            current = next;
             next = null;
             visual.UnBind();
-            visual.Bind(currentData);
+            visual.Bind(current);
             await UniTask.CompletedTask;
         }
 
@@ -41,20 +47,18 @@ namespace Game.GamePlay
         {
             if (operation.data.config.Type == ActiveSkillTypeEnum.指挥)
             {
-                Debug.LogWarning($"{this}-{currentData}使用指挥技能:{operation.data}");
+                Debug.LogWarning($"{this}-{current}使用指挥技能:{operation.data}");
                 return;
             }
 
-            bool flag = false;
-
-            Vector3 origin = visual.transform.position;
-            var t = visual.transform.DOMove(atkPos.position, 0.5f).SetEase(Ease.OutBack);
-            t.onComplete += () =>
+            if ((operation.data.config.Type & ActiveSkillTypeEnum.变化技能) != 0)
             {
-                visual.transform.position = origin;
-                flag = true;
-            };
-            await UniTask.WaitUntil(() => flag);
+                Debug.LogWarning($"{this}-{current}使用变化技能:{operation.data}");
+                return;
+            }
+
+            Global.LogInfo($"{this}-{current}使用主动技能:{operation.data}");
+            await visual.ExecuteSkill(operation.data);
         }
 
         public async UniTask RoundEnd()
@@ -64,12 +68,12 @@ namespace Game.GamePlay
 
         public bool CanFight()
         {
-            return !currentData.HealthIsZero();
+            return !current.HealthIsZero();
         }
 
         public override string ToString()
         {
-            return $"{gameObject.name}-{currentData}";
+            return $"{gameObject.name}-{current}";
         }
     }
 }

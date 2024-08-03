@@ -249,8 +249,8 @@ namespace Game.GamePlay
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public async UniTask RoundEnd()
         {
-            await selfPos.currentData.RoundEnd();
-            await enemyPos.currentData.RoundEnd();
+            await selfPos.current.RoundEnd();
+            await enemyPos.current.RoundEnd();
 
             await selfPos.RoundEnd();
             await enemyPos.RoundEnd();
@@ -362,12 +362,12 @@ namespace Game.GamePlay
 
         private async UniTask BothPokemonSkill(ActiveSkillBattleOperation selfAtk, ActiveSkillBattleOperation enemyAtk)
         {
-            var (faster, slower) = GameMath.WhoFirst(_self, _enemy, selfPos.currentData, enemyPos.currentData,
+            var (faster, slower) = GameMath.WhoFirst(_self, _enemy, selfPos.current, enemyPos.current,
                 selfAtk.data,
                 enemyAtk.data, _envData);
 
             // 根据顺序结算
-            if (faster == selfPos.currentData)
+            if (faster == selfPos.current)
             {
                 await ExecuteSkill(_self, _enemy, selfPos, enemyPos, selfAtk);
                 if (!enemyPos.CanFight())
@@ -421,7 +421,7 @@ namespace Game.GamePlay
             await trainer.SwitchPokemon(next);
             next.enterTimes += 1;
             Debug.Log($"{position}登场 times:{next.enterTimes}");
-            Debug.Log($"{trainer.currentBattleData}->{next}->{position.currentData}");
+            Debug.Log($"{trainer.currentBattleData}->{next}->{position.current}");
             Assert.IsTrue(trainer == position.battleTrainer);
             await UglyMath.PostprocessHuluEnterBattle(next);
         }
@@ -432,8 +432,8 @@ namespace Game.GamePlay
             Assert.IsTrue(iOperation is ActiveSkillBattleOperation);
             var operation = (ActiveSkillBattleOperation)iOperation;
             Assert.IsTrue(userPosition.CanFight());
-            Assert.IsTrue(userTrainer.currentBattleData == userPosition.currentData);
-            Assert.IsTrue(defTrainer.currentBattleData == defPosition.currentData);
+            Assert.IsTrue(userTrainer.currentBattleData == userPosition.current);
+            Assert.IsTrue(defTrainer.currentBattleData == defPosition.current);
             var config = operation.data.config;
 
             if (userTrainer.ContainsBuff(BattleBuffEnum.结束回合))
@@ -473,7 +473,7 @@ namespace Game.GamePlay
             Global.Event.Send(
                 new BattleTipEvent($"{userPosition}使用[{config.Type}]{operation}"));
 
-            UglyMath.PostprocessHuluDataWhenUseSkill(userPosition.currentData, config);
+            UglyMath.PostprocessHuluDataWhenUseSkill(userPosition.current, config);
 
             #region 指挥牌
 
@@ -528,7 +528,7 @@ namespace Game.GamePlay
                 {
                     Assert.IsTrue(config.MulAttackTimes.Length == 2);
                     Assert.IsTrue(config.MulAttackTimes[0] <= config.MulAttackTimes[1]);
-                    times = GameMath.CalAtkTimes(userPosition.currentData, config);
+                    times = GameMath.CalAtkTimes(userPosition.current, config);
                     Global.Event.Send<BattleTipEvent>(new BattleTipEvent($"{userPosition}攻击次数:{times}"));
                 }
 
@@ -537,13 +537,13 @@ namespace Game.GamePlay
                 {
                     if (userTrainer.currentBattleData.HealthIsZero())
                     {
-                        Debug.Log($"{userPosition.currentData}已经死亡 不再计算伤害");
+                        Debug.Log($"{userPosition.current}已经死亡 不再计算伤害");
                         break;
                     }
 
-                    if (defPosition.currentData.HealthIsZero())
+                    if (defPosition.current.HealthIsZero())
                     {
-                        Debug.Log($"{defPosition.currentData}已经死亡 不再计算伤害");
+                        Debug.Log($"{defPosition.current}已经死亡 不再计算伤害");
                         break;
                     }
 
@@ -551,19 +551,19 @@ namespace Game.GamePlay
                     Global.Event.Send<BattleTipEvent>(new BattleTipEvent($"{userPosition}攻击次数:{i + 1}"));
                     // await UniTask.Delay(TimeSpan.FromSeconds(0.5f));
 
-                    await UglyMath.PostprocessHuluDataBeforeUseSkill(userPosition.currentData, config);
-                    bool hitted = GameMath.CalHit(userPosition.currentData, defPosition.currentData, operation.data.id,
+                    await UglyMath.PostprocessHuluDataBeforeUseSkill(userPosition.current, config);
+                    bool hitted = GameMath.CalHit(userPosition.current, defPosition.current, operation.data.id,
                         _envData);
-                    if (hitted && UglyMath.PostprocessHitRate(userPosition.currentData, defPosition.currentData,
+                    if (hitted && UglyMath.PostprocessHitRate(userPosition.current, defPosition.current,
                             operation.data.id, _envData))
                     {
-                        int damage = await GameMath.CalDamage(userPosition.currentData, defPosition.currentData,
+                        int damage = await GameMath.CalDamage(userPosition.current, defPosition.current,
                             operation.data.id, _envData);
                         Global.Event.Send<BattleTipEvent>(
-                            new BattleTipEvent($"{userPosition}对{defPosition.currentData}造成{damage}伤害"));
+                            new BattleTipEvent($"{userPosition}对{defPosition.current}造成{damage}伤害"));
                         Debug.Log(
-                            $"计算技能伤害,pos:{userPosition},{userPosition.currentData}对{defPosition.currentData}使用{operation.data.id} 造成{damage}伤害");
-                        await defPosition.currentData.DecreaseHealth(damage);
+                            $"计算技能伤害,pos:{userPosition},{userPosition.current}对{defPosition.current}使用{operation.data.id} 造成{damage}伤害");
+                        await defPosition.current.DecreaseHealth(damage);
 
                         IBattleOperation newOper =
                             await UglyMath.CalNewOperWhenPokemonHealthChange(defTrainer);
@@ -585,7 +585,7 @@ namespace Game.GamePlay
                     {
                         Global.Event.Send<BattleTipEvent>(new BattleTipEvent($"{userPosition}未命中"));
                         Debug.Log(
-                            $"计算技能伤害,pos:{userPosition},{userPosition.currentData}对{defPosition.currentData}使用{operation.data.id} 未命中");
+                            $"计算技能伤害,pos:{userPosition},{userPosition.current}对{defPosition.current}使用{operation.data.id} 未命中");
                         // break;
                     }
                 }
@@ -618,16 +618,16 @@ namespace Game.GamePlay
             {
                 Debug.Log(
                     $"{userPosition}使用{operation.data.id}回血,百分比:{config.IncreaseHealthPercentAfterUse}");
-                await userPosition.currentData.DecreaseHealth(
+                await userPosition.current.DecreaseHealth(
                     -(int)(config.IncreaseHealthPercentAfterUse *
-                           userPosition.currentData.hp));
+                           userPosition.current.hp));
             }
 
             if (config.IncreaseHealthPointAfterUse != 0)
             {
                 Debug.Log(
                     $"{userPosition}使用{operation.data.id}回血,固定值:{config.IncreaseHealthPointAfterUse}");
-                await userPosition.currentData.DecreaseHealth(-config.IncreaseHealthPointAfterUse);
+                await userPosition.current.DecreaseHealth(-config.IncreaseHealthPointAfterUse);
             }
 
             if (config.DarwCardCountAfterUse > 0)

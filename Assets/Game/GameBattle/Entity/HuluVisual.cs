@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
 using TMPro;
@@ -8,13 +9,13 @@ using UnityToolkit;
 
 namespace Game.GamePlay
 {
-    public class Hulu : MonoBehaviour
+    public class HuluVisual : MonoBehaviour
     {
         [ReadOnly, ShowInInspector] private HuluData _data;
-        [SerializeField] private TextMeshPro hpText;
-        [SerializeField] private TextMeshPro nameText;
-        [SerializeField] private TextMeshPro elementText;
-        [SerializeField] private TextMeshPro statusText;
+        [SerializeField] private TMP_Text hpText;
+        [SerializeField] private TMP_Text nameText;
+        [SerializeField] private TMP_Text elementText;
+        // [SerializeField] private TextMeshPro statusText;
 
         private ICommand _unbindCmd;
 
@@ -30,7 +31,7 @@ namespace Game.GamePlay
             nameText.text = obj.name;
             hpText.text = $"{obj.currentHp}/{obj.hp}";
             elementText.text = obj.elementEnum.ToString();
-            statusText.text = $"Atk:{obj.currentAtk}\nDef:{obj.currentDef}\nSpeed:{obj.currentSpeed}\nAdap:{obj.currentAdap}";
+            // statusText.text = $"Atk:{obj.currentAtk}\nDef:{obj.currentDef}\nSpeed:{obj.currentSpeed}\nAdap:{obj.currentAdap}";
         }
 
         private async UniTask OnData(HuluData obj)
@@ -39,7 +40,7 @@ namespace Game.GamePlay
 
             elementText.text = obj.elementEnum.ToString();
 
-            statusText.text = $"Atk:{obj.currentAtk}\nDef:{obj.currentDef}\nSpeed:{obj.currentSpeed}\nAdap:{obj.currentAdap}";
+            // statusText.text = $"Atk:{obj.currentAtk}\nDef:{obj.currentDef}\nSpeed:{obj.currentSpeed}\nAdap:{obj.currentAdap}";
 
             int origin = hpText.text == "" ? 0 : int.Parse(hpText.text.Split('/')[0]);
             int delta = obj.currentHp - origin;
@@ -59,6 +60,10 @@ namespace Game.GamePlay
             if (_unbindCmd == null) return;
             _unbindCmd.Execute();
             _data = null;
+        }
+
+        public async UniTask ExecuteSkill(ActiveSkillData skill)
+        {
         }
     }
 }

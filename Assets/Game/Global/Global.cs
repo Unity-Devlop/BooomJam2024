@@ -91,7 +91,7 @@ namespace Game
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void LogInfo(string message)
         {
-            Debug.Log($"[Info] {message}");
+            Debug.Log($"[Info] {message}".Color(Color.white));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

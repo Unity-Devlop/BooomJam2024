@@ -170,7 +170,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   visual: {fileID: 2845058849497429861}
-  atkPos: {fileID: 736002592}
+  direction: 0
 --- !u!1 &107563471
 GameObject:
   m_ObjectHideFlags: 0
@@ -474,7 +474,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   visual: {fileID: 1042461721}
-  atkPos: {fileID: 107563472}
+  direction: 0
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
@@ -598,7 +598,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1419082003397717780, guid: 40d9c7ef4dbec26419a96188ac0cce0f, type: 3}
       propertyPath: m_Name
-      value: SelfHulu
+      value: Visual
+      objectReference: {fileID: 0}
+    - target: {fileID: 2433393478596094957, guid: 40d9c7ef4dbec26419a96188ac0cce0f, type: 3}
+      propertyPath: m_Mesh
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4991546566594950609, guid: 40d9c7ef4dbec26419a96188ac0cce0f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -643,19 +647,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 2760903527968480628, guid: 40d9c7ef4dbec26419a96188ac0cce0f, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
-    - targetCorrespondingSourceObject: {fileID: 3312096850841980562, guid: 40d9c7ef4dbec26419a96188ac0cce0f, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
-    - targetCorrespondingSourceObject: {fileID: 7262344611488757791, guid: 40d9c7ef4dbec26419a96188ac0cce0f, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
-    - targetCorrespondingSourceObject: {fileID: 7715806389002527333, guid: 40d9c7ef4dbec26419a96188ac0cce0f, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 40d9c7ef4dbec26419a96188ac0cce0f, type: 3}
 --- !u!4 &920250701 stripped
 Transform:
@@ -922,7 +914,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1419082003397717780, guid: 40d9c7ef4dbec26419a96188ac0cce0f, type: 3}
       propertyPath: m_Name
-      value: EnemyHulu
+      value: Viusal
+      objectReference: {fileID: 0}
+    - target: {fileID: 2433393478596094957, guid: 40d9c7ef4dbec26419a96188ac0cce0f, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3808304372315388424, guid: 40d9c7ef4dbec26419a96188ac0cce0f, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4991546566594950609, guid: 40d9c7ef4dbec26419a96188ac0cce0f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -967,19 +967,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 2760903527968480628, guid: 40d9c7ef4dbec26419a96188ac0cce0f, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
-    - targetCorrespondingSourceObject: {fileID: 3312096850841980562, guid: 40d9c7ef4dbec26419a96188ac0cce0f, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
-    - targetCorrespondingSourceObject: {fileID: 7262344611488757791, guid: 40d9c7ef4dbec26419a96188ac0cce0f, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
-    - targetCorrespondingSourceObject: {fileID: 7715806389002527333, guid: 40d9c7ef4dbec26419a96188ac0cce0f, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 40d9c7ef4dbec26419a96188ac0cce0f, type: 3}
 --- !u!4 &2845058849497429860 stripped
 Transform:
