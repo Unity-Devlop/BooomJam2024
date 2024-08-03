@@ -43,19 +43,19 @@ namespace Game
                 switch(abilities[i])
                 {
                     case Ability.Health:
-                        hulu.currentHp += Random.Range(minHealth, maxHealth + 1);
+                        hulu.hp += Random.Range(minHealth, maxHealth + 1);
                         break;
                     case Ability.Attack:
-                        hulu.currentAtk += Random.Range(minAttack, maxAttack + 1);
+                        hulu.atk += Random.Range(minAttack, maxAttack + 1);
                         break;
                     case Ability.Defence:
-                        hulu.currentDef += Random.Range(minDefence, maxDefence + 1);
+                        hulu.def += Random.Range(minDefence, maxDefence + 1);
                         break;
                     case Ability.Speed:
-                        hulu.currentSpeed += Random.Range(minSpeed, maxSpeed + 1);
+                        hulu.speed += Random.Range(minSpeed, maxSpeed + 1);
                         break;
                     case Ability.Adaptability:
-                        hulu.currentAdap += Random.Range(minAdaptability, maxAdaptability + 1);
+                        hulu.adap += Random.Range(minAdaptability, maxAdaptability + 1);
                         break;
                     case Ability.Random:
                         RandomAbility(hulu);
@@ -73,19 +73,19 @@ namespace Game
             switch(r)
             {
                 case 0:
-                    hulu.currentHp += value;
+                    hulu.hp += value;
                     break;
                 case 1:
-                    hulu.currentAtk += value;
+                    hulu.atk += value;
                     break;
                 case 2:
-                    hulu.currentDef += value;
+                    hulu.def += value;
                     break;
                 case 3:
-                    hulu.currentSpeed += value;
+                    hulu.speed += value;
                     break;
                 case 4:
-                    hulu.currentAdap += value;
+                    hulu.adap += value;
                     break;
                 default:
                     break;

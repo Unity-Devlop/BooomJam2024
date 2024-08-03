@@ -24,8 +24,8 @@ namespace Game
         private static DailyTrainTable dailyTrainTable = null;
         public static DailyTrainTable Instance => dailyTrainTable;
 
-        public int tableWidth;
-        public int tableHeight;
+        private int tableWidth=4;
+        private int tableHeight;
         private RectTransform rectTransform;
         private float gridWidth = 100;
         private float gridHeight = 100;
@@ -38,6 +38,7 @@ namespace Game
             {
                 dailyTrainTable = this;
             }
+            tableHeight = Global.Get<DataSystem>().Get<PlayerData>().trainerData.datas.Count;
             InitGrids();
             rectTransform = GetComponent<RectTransform>();
             rectTransform.sizeDelta = new Vector2(tableWidth * gridWidth, tableHeight * gridHeight);

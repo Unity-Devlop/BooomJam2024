@@ -11,7 +11,8 @@ namespace Game
     public class DailyTrainPanel : UIPanel
     {
         public Button confirmBtn;
-        public List<Text> huluNames = new List<Text>();
+        public List<GameObject> huluNames = new List<GameObject>();
+        private List<Text> names = new List<Text>();
 
         private PlayerData playerData;
         
@@ -21,6 +22,7 @@ namespace Game
             base.OnLoaded();
             Register();
             playerData = Global.Get<DataSystem>().Get<PlayerData>();
+            for (int i = 0; i < huluNames.Count; ++i) names.Add(huluNames[i].GetComponentInChildren<Text>());
         }
 
         public override void OnDispose()
@@ -51,7 +53,7 @@ namespace Game
             for(int i=0;i<list.Count;++i)
             {
                 huluNames[i].gameObject.SetActive(true);
-                huluNames[i].text = Global.Table.HuluTable.Get(list[i].id).ToString();
+                names[i].text = Global.Table.HuluTable.Get(list[i].id).Id.ToString();
             }
         }
 

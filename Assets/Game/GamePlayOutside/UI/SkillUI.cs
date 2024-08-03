@@ -10,5 +10,6 @@ namespace Game
         public Image skillImg;
         public Text skillName;
         public Text SkillDescription;
+        public Button changeBtn;
     }
 }

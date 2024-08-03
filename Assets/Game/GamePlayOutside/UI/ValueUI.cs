@@ -10,5 +10,7 @@ namespace Game
         public Text valueName;
         public Slider slider;
         public Text valueNum;
+        public Button addBtn;
+        public Text addText;
     }
 }
