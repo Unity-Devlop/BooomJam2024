@@ -73,8 +73,6 @@ namespace Game
         public static async UniTask<float> PostprocessBattleBaseValue(float baseValue, HuluData atk, HuluData def,
             ActiveSkillConfig atkSkill)
         {
-         
-            Debug.Log($"PostprocessBattleBaseValue:{baseValue}");
             while (atk.ContainsBuff(BattleBuffEnum.下一次伤害加80))
             {
                 await atk.RemoveBuff(BattleBuffEnum.下一次伤害加80);
