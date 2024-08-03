@@ -282,7 +282,7 @@ namespace Game
             if (skill.id == ActiveSkillEnum.喙啄 && buffList.Contains(BattleBuffEnum.使用喙啄时对方丢一张牌))
             {
                 RemoveBuff(BattleBuffEnum.使用喙啄时对方丢一张牌);
-                await tar.RandomDiscard(1);
+                await tar.RandomDiscardCardFromHand(1);
             }
         }
     }

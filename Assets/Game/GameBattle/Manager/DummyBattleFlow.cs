@@ -70,8 +70,8 @@ namespace Game.GamePlay
             selfPos.SetNext(selfPos.battleTrainer.Get(0));
             enemyPos.SetNext(enemyPos.battleTrainer.Get(0));
 
-            _self.OnDiscardCard += _enemy.OnEnemyTrainerDiscardCard;
-            _enemy.OnDiscardCard += _self.OnEnemyTrainerDiscardCard;
+            _self.OnDiscardCardFromHand += _enemy.OnEnemyTrainerDiscardCard;
+            _enemy.OnDiscardCardFromHand += _self.OnEnemyTrainerDiscardCard;
 
 
             Global.Get<AudioSystem>().Get(FMODName.Event.MX_COMBAT_DEMO1).start();
@@ -251,8 +251,8 @@ namespace Game.GamePlay
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public UniTask Exit()
         {
-            _self.OnDiscardCard -= _enemy.OnEnemyTrainerDiscardCard;
-            _enemy.OnDiscardCard -= _self.OnEnemyTrainerDiscardCard;
+            _self.OnDiscardCardFromHand -= _enemy.OnEnemyTrainerDiscardCard;
+            _enemy.OnDiscardCardFromHand -= _self.OnEnemyTrainerDiscardCard;
             _envData.Clear();
 
             _self.ExitBattle();
@@ -408,7 +408,7 @@ namespace Game.GamePlay
             await position.Prepare2Current();
             await position.ExecuteEnter();
             Global.Event.Send<BattleTipEvent>(new BattleTipEvent($"{position}切换到{next}"));
-            await trainer.ChangeCurrentHulu(next);
+            await trainer.SwitchPokemon(next);
             next.enterTimes += 1;
             Debug.Log($"{position}登场 times:{next.enterTimes}");
             Debug.Log($"{trainer.currentBattleData}->{next}->{position.currentData}");
@@ -440,7 +440,7 @@ namespace Game.GamePlay
                 return;
             }
 
-            await userTrainer.UseCardFromHandZone(operation.data);
+            await userTrainer.UseCardFromHand(operation.data);
 
             await GameMath.ProcessTrainerAfterUseCardFromHandZone(userTrainer);
 
@@ -584,13 +584,13 @@ namespace Game.GamePlay
             if (config.UserDiscardCountAnyway != 0)
             {
                 Debug.Log($"{userTrainer} 弃牌生效 {config.UserDiscardCountAnyway}");
-                await userTrainer.RandomDiscard(config.UserDiscardCountAnyway);
+                await userTrainer.RandomDiscardCardFromHand(config.UserDiscardCountAnyway);
             }
 
             if (config.DefDiscardCountAnyway != 0)
             {
                 Global.Event.Send(new BattleTipEvent($"{config} 弃牌生效 {defTrainer}弃{config.DefDiscardCountAnyway} 张"));
-                await defTrainer.RandomDiscard(config.DefDiscardCountAnyway);
+                await defTrainer.RandomDiscardCardFromHand(config.DefDiscardCountAnyway);
             }
 
 

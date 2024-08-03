@@ -37,7 +37,7 @@ namespace Game
             if (Random.value < defDiscardCardRateWhenHitted)
             {
                 Global.Event.Send(new BattleTipEvent($"{skill} 弃牌生效 {defTrainer}弃{skill.DefDiscardCountWhenHitted} 张"));
-                await defTrainer.RandomDiscard(skill.DefDiscardCountWhenHitted);
+                await defTrainer.RandomDiscardCardFromHand(skill.DefDiscardCountWhenHitted);
             }
 
             if (skill.IncreaseSelfSpeedPointAfterUse != 0)

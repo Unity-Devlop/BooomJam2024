@@ -23,10 +23,10 @@ namespace Game.GamePlay
         [field: NonSerialized] public HuluData currentBattleData { get; private set; }
 
         public event Func<List<ActiveSkillData>, UniTask> OnDrawCard = delegate { return UniTask.CompletedTask; };
-        public event Func<ActiveSkillData, UniTask> OnUseHandCard = delegate { return UniTask.CompletedTask; };
+        public event Func<ActiveSkillData, UniTask> OnUseCardFromHand = delegate { return UniTask.CompletedTask; };
         public event Func<List<ActiveSkillData>, UniTask> OnDestroyCard = delegate { return UniTask.CompletedTask; };
 
-        public event Func<List<ActiveSkillData>, IBattleTrainer, UniTask> OnDiscardCard = delegate
+        public event Func<List<ActiveSkillData>, IBattleTrainer, UniTask> OnDiscardCardFromHand = delegate
         {
             return UniTask.CompletedTask;
         };
@@ -81,26 +81,26 @@ namespace Game.GamePlay
         /// 使用手牌
         /// </summary>
         /// <param name="data"></param>
-        public async UniTask UseCardFromHandZone(ActiveSkillData data)
+        public async UniTask UseCardFromHand(ActiveSkillData data)
         {
             Assert.IsNotNull(data);
             // Debug.Log(
             // $"handZone:{handZone.Contains(data)},drawZone:{drawZone.Contains(data)},discardZone:{discardZone.Contains(data)}");
             // Debug.Log($"消耗牌{data} HashCode: {data.GetHashCode()}");
             Assert.IsTrue(handZone.Contains(data));
-            await OnUseHandCard(data);
+            await OnUseCardFromHand(data);
             if ((data.config.Type2 & CardTypeEnum.消耗) != 0)
             {
-                await ConsumeCard(data);
+                await ConsumeCardFromHand(data);
             }
             else
             {
-                await Discard(data);
+                await DiscardCardFromHand(data);
             }
         }
 
 
-        private async UniTask Discard(ActiveSkillData data)
+        private async UniTask DiscardCardFromHand(ActiveSkillData data)
         {
             // Assert.IsTrue((data.config.Type2 & CardTypeEnum.Normal) != 0);
             Assert.IsTrue(handZone.Contains(data));
@@ -109,15 +109,15 @@ namespace Game.GamePlay
             Assert.IsFalse(drawZone.Contains(data));
             handZone.Remove(data);
             List<ActiveSkillData> list = new List<ActiveSkillData>(1) { data };
-            await OnDiscardCard(list, this);
+            await OnDiscardCardFromHand(list, this);
             discardZone.Add(data);
         }
 
 
-        public async UniTask ConsumeCard(ActiveSkillData data)
+        public async UniTask ConsumeCardFromHand(ActiveSkillData data)
         {
             Assert.IsTrue((data.config.Type2 & CardTypeEnum.消耗) != 0);
-            Assert.IsFalse(handZone.Contains(data));
+            Assert.IsTrue(handZone.Contains(data));
             Assert.IsFalse(discardZone.Contains(data));
             Assert.IsFalse(drawZone.Contains(data));
             Assert.IsFalse(consumedZone.Contains(data));
@@ -129,7 +129,7 @@ namespace Game.GamePlay
             await OnConsumedCard(list);
         }
 
-        public async UniTask MoveDiscardToConsume(ActiveSkillData data)
+        public async UniTask MoveDiscardCardToConsumeZone(ActiveSkillData data)
         {
             Assert.IsTrue(discardZone.Contains(data));
             Assert.IsFalse(consumedZone.Contains(data));
@@ -139,14 +139,14 @@ namespace Game.GamePlay
             await UniTask.CompletedTask;
         }
 
-        public async UniTask RandomDiscard(int i)
+        public async UniTask RandomDiscardCardFromHand(int i)
         {
             Debug.Log($"随机弃牌{i}张");
             int cnt = Mathf.Clamp(handZone.Count, 0, i);
             for (int j = 0; j < cnt; j++)
             {
                 var discard = handZone.RandomTakeWithoutRemove();
-                await Discard(discard);
+                await DiscardCardFromHand(discard);
             }
 
             await UniTask.Delay(TimeSpan.FromSeconds(0.2f));
@@ -157,11 +157,11 @@ namespace Game.GamePlay
             var copy = handZone.ToList();
             foreach (var activeSkillData in copy)
             {
-                await Discard(activeSkillData);
+                await DiscardCardFromHand(activeSkillData);
             }
         }
 
-        public async UniTask ChangeCurrentHulu(HuluData data)
+        public async UniTask SwitchPokemon(HuluData data)
         {
             Assert.IsNotNull(data);
             Debug.Log($"切换当前宝可梦{currentBattleData}->{data}");
@@ -446,7 +446,7 @@ namespace Game.GamePlay
                 {
                     if ((data.config.Type2 & CardTypeEnum.消耗) != 0)
                     {
-                        await trainer.MoveDiscardToConsume(data);
+                        await trainer.MoveDiscardCardToConsumeZone(data);
                     }
                 }
             }

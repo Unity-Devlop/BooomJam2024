@@ -49,12 +49,12 @@ namespace Game
         {
             _trainer = battleTrainer;
             _trainer.OnDrawCard += DrawCardToHand;
-            _trainer.OnDiscardCard += DiscardCard;
+            _trainer.OnDiscardCardFromHand += DiscardCard;
             _trainer.OnConsumedCard += OnConsumedCard;
             _trainer.OnDestroyCard += DestroyCard;
             _trainer.OnStartCalOperation += StartCalOperation;
             _trainer.OnEndCalOperation += EndCalOperation;
-            _trainer.OnUseHandCard += UseHandHandCard;
+            _trainer.OnUseCardFromHand += UseHandHandCard;
             _trainer.OnDiscardToDraw += DiscardToDraw;
 
             selfCardContainer.Bind(battleTrainer);
@@ -67,12 +67,12 @@ namespace Game
         public void UnBind()
         {
             _trainer.OnDrawCard -= DrawCardToHand;
-            _trainer.OnDiscardCard -= DiscardCard;
+            _trainer.OnDiscardCardFromHand -= DiscardCard;
             _trainer.OnConsumedCard -= OnConsumedCard;
             _trainer.OnDestroyCard -= DestroyCard;
             _trainer.OnStartCalOperation -= StartCalOperation;
             _trainer.OnEndCalOperation -= EndCalOperation;
-            _trainer.OnUseHandCard -= UseHandHandCard;
+            _trainer.OnUseCardFromHand -= UseHandHandCard;
             _trainer.OnDiscardToDraw -= DiscardToDraw;
 
 

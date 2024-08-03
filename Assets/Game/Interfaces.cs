@@ -28,9 +28,9 @@ namespace Game.GamePlay
 
         public event Func<List<ActiveSkillData>, UniTask> OnDrawCard;
 
-        public event Func<ActiveSkillData, UniTask> OnUseHandCard;
+        public event Func<ActiveSkillData, UniTask> OnUseCardFromHand;
         public event Func<List<ActiveSkillData>, UniTask> OnDestroyCard;
-        public event Func<List<ActiveSkillData>, IBattleTrainer, UniTask> OnDiscardCard;
+        public event Func<List<ActiveSkillData>, IBattleTrainer, UniTask> OnDiscardCardFromHand;
         public event Func<List<ActiveSkillData>, UniTask> OnConsumedCard;
 
         public event Func<List<ActiveSkillData>, List<ActiveSkillData>, UniTask> OnDiscardToDraw;
@@ -43,11 +43,11 @@ namespace Game.GamePlay
         public void ClearOperation();
         public UniTask<IBattleOperation> CalOperation();
 
-        public UniTask ChangeCurrentHulu(HuluData data);
+        public UniTask SwitchPokemon(HuluData data);
         public UniTask DrawSkills(int cnt);
 
-        public UniTask UseCardFromHandZone(ActiveSkillData data);
-        UniTask RandomDiscard(int i);
+        public UniTask UseCardFromHand(ActiveSkillData data);
+        UniTask RandomDiscardCardFromHand(int i);
         UniTask DiscardAllHandCards();
         UniTask Discard2DrawZone();
         UniTask<int> DrawTarget(ActiveSkillTypeEnum type, int cnt);
@@ -60,13 +60,13 @@ namespace Game.GamePlay
 
 
         void ExitBattle();
-        UniTask ConsumeCard(ActiveSkillData data);
+        UniTask ConsumeCardFromHand(ActiveSkillData data);
 
         UniTask OnEnemyTrainerDiscardCard(List<ActiveSkillData> arg, IBattleTrainer trainer);
         UniTask RemoveBuff(BattleBuffEnum buff);
         UniTask BeforeRounding();
         UniTask AddBuff(BattleBuffEnum buff);
-        UniTask MoveDiscardToConsume(ActiveSkillData data);
+        UniTask MoveDiscardCardToConsumeZone(ActiveSkillData data);
     }
 
     public interface IBattleFlow
