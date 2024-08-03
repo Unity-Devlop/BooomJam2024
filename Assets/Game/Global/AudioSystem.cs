@@ -70,16 +70,22 @@ namespace Game
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public EventInstance GetSingleton(string path)
         {
-            if (!_cache.TryGetValue(path, out var instance))
+            if (!_cache.TryGetValue(path, out _))
             {
-                Create(path, out instance, true);
+                Create(path, out _, true);
             }
 
             return _cache[path];
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void StopSingleton(string path,FMOD.Studio.STOP_MODE mode)
+        public void PlaySingleton(string path)
+        {
+            GetSingleton(path).start();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void StopSingleton(string path, FMOD.Studio.STOP_MODE mode)
         {
             if (_cache.TryGetValue(path, out var instance))
             {
@@ -88,7 +94,7 @@ namespace Game
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Destroy(string path)
+        public void DestroySingleton(string path)
         {
             if (_cache.TryGetValue(path, out var instance))
             {
@@ -97,6 +103,7 @@ namespace Game
             }
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void PlayOneShot(string path)
         {
             RuntimeManager.PlayOneShot(path);

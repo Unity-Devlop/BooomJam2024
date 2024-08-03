@@ -2,8 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.CompilerServices;
 using cfg;
 using Cysharp.Threading.Tasks;
+using FMOD.Studio;
 using Game.Game;
 using Newtonsoft.Json;
 using Sirenix.OdinInspector;
@@ -19,7 +21,9 @@ namespace Game.GamePlay
 
         public PlayerBattleTrainer playerBattleTrainer;
         public DummyRobot robotBattleTrainer;
-        [FormerlySerializedAs("environmentData")] public BattleData data;
+
+        [FormerlySerializedAs("environmentData")]
+        public BattleData data;
 
         protected override async void OnInit()
         {
@@ -28,7 +32,7 @@ namespace Game.GamePlay
             var _ = Global.Singleton;
 #endif
             UIRoot.Singleton.OpenPanel<GameDebugPanel>();
-            
+
             // Init Battle Controller
             battleFlow = GetComponent<DummyBattleFlow>();
             await UniTask.Delay(TimeSpan.FromSeconds(1)); // TODO 后续删除这个等待逻辑 因为在进入游戏时 一定初始完毕了
@@ -103,6 +107,19 @@ namespace Game.GamePlay
         protected override void OnDispose()
         {
             battleFlow.Dispose();
+        }
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void PlayBGM()
+        {
+            Global.Get<AudioSystem>().PlaySingleton(FMODName.Event.MX_COMBAT_DEMO1);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void StopBGM()
+        {
+            Global.Get<AudioSystem>().StopSingleton(FMODName.Event.MX_COMBAT_DEMO1, STOP_MODE.ALLOWFADEOUT);
         }
     }
 }

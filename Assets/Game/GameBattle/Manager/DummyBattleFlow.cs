@@ -73,7 +73,7 @@ namespace Game.GamePlay
             _enemy.OnDiscardCardFromHand += _self.OnEnemyTrainerDiscardCard;
 
 
-            Global.Get<AudioSystem>().GetSingleton(FMODName.Event.MX_COMBAT_DEMO1).start();
+            GameBattleMgr.Singleton.PlayBGM();
             await IBattleFlow.RoundFlow(this, _cts.Token);
         }
 
@@ -268,7 +268,7 @@ namespace Game.GamePlay
             _self.ExitBattle();
             _enemy.ExitBattle();
 
-            Global.Get<AudioSystem>().GetSingleton(FMODName.Event.MX_COMBAT_DEMO1).stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+            GameBattleMgr.Singleton.StopBGM();
             Debug.Log("Exit");
             if (UIRoot.Singleton.GetOpenedPanel(out GameBattlePanel battlePanel))
             {
