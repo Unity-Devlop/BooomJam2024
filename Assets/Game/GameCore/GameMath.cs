@@ -158,7 +158,7 @@ namespace Game
         // 选手技能最终造成的伤害DmgF = 选手每次技能能造成的伤害Dmg * （1 - 被攻击的敌方选手的适应力Prop / 100）【即适应力百分比，比如适应力为20，那最后得到的数值就是20%，参与计算时的伤害就会变成原本伤害的80%】。
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int CalDamage(HuluData atk, HuluData def, ActiveSkillEnum skill,
+        public static async UniTask<int> CalDamage(HuluData atk, HuluData def, ActiveSkillEnum skill,
             BattleData data)
         {
             ActiveSkillConfig config = Global.Table.ActiveSkillTable.Get(skill);
@@ -178,10 +178,10 @@ namespace Game
                               CalDamageElementFit(atk, config.Element, def.config.Elements // 属性克制
                               );
             Debug.Log($"处理前的基础伤害{baseValue} ");
-            baseValue = UglyMath.PostprocessBattleBaseValue(baseValue, atk, def, config);
+            baseValue = await UglyMath.PostprocessBattleBaseValue(baseValue, atk, def, config);
 
             int adap = GameMath.CalRunTimeAdap(def, data);
-            Debug.Log($"基础伤害{baseValue} 适应度{adap}");
+            Debug.Log($"处理后的基础伤害{baseValue} 适应度{adap}");
             float finalValue = baseValue * (1 - Mathf.Clamp(adap, 0, 100) / 100f);
 
             finalValue = UglyMath.PostprocessBattleFinalValue(finalValue, atk, def, config);

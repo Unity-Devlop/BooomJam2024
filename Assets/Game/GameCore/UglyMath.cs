@@ -70,29 +70,37 @@ namespace Game
             }
         }
 
-        public static float PostprocessBattleBaseValue(float baseValue, HuluData atk, HuluData def,
+        public static async UniTask<float> PostprocessBattleBaseValue(float baseValue, HuluData atk, HuluData def,
             ActiveSkillConfig atkSkill)
         {
+            
+            while (atk.ContainsBuff(BattleBuffEnum.下一次伤害加80))
+            {
+                await atk.RemoveBuff(BattleBuffEnum.下一次伤害加80);
+                baseValue += 80;
+            }
+
             // Buff
             if (atk.ContainsBuff(BattleBuffEnum.寻找弱点))
             {
                 Debug.Log("寻找弱点");
                 Global.Event.Send(new BattleTipEvent("寻找弱点"));
                 baseValue *= 1.5f;
-                atk.RemoveBuff(BattleBuffEnum.寻找弱点);
+                await atk.RemoveBuff(BattleBuffEnum.寻找弱点);
             }
 
             if (atk.ContainsBuff(BattleBuffEnum.下一次技能伤害两倍))
             {
-                atk.RemoveBuff(BattleBuffEnum.下一次技能伤害两倍);
+                await atk.RemoveBuff(BattleBuffEnum.下一次技能伤害两倍);
                 Debug.Log("下一次技能伤害两倍");
                 Global.Event.Send(new BattleTipEvent("下一次技能伤害两倍"));
                 baseValue *= 2;
             }
 
+
             if (atk.ContainsBuff(BattleBuffEnum.技能造成的伤害变成优先级倍))
             {
-                atk.RemoveBuff(BattleBuffEnum.技能造成的伤害变成优先级倍);
+                await atk.RemoveBuff(BattleBuffEnum.技能造成的伤害变成优先级倍);
                 Debug.Log("技能造成的伤害变成优先级倍");
                 Global.Event.Send(new BattleTipEvent("技能造成的伤害变成优先级倍"));
                 // TODO 狗策划

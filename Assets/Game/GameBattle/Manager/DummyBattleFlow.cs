@@ -558,7 +558,7 @@ namespace Game.GamePlay
                     if (hitted && UglyMath.PostprocessHitRate(userPosition.currentData, defPosition.currentData,
                             operation.data.id, _envData))
                     {
-                        int damage = GameMath.CalDamage(userPosition.currentData, defPosition.currentData,
+                        int damage = await GameMath.CalDamage(userPosition.currentData, defPosition.currentData,
                             operation.data.id, _envData);
                         Global.Event.Send<BattleTipEvent>(
                             new BattleTipEvent($"{userPosition}对{defPosition.currentData}造成{damage}伤害"));
