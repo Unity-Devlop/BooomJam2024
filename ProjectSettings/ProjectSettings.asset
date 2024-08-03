@@ -13,7 +13,7 @@ PlayerSettings:
   useOnDemandResources: 0
   accelerometerFrequency: 60
   companyName: DefaultCompany
-  productName: BooomJam2024
+  productName: "\u6210\u4E3A\u51A0\u519B\u5427\uFF01"
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
@@ -137,8 +137,7 @@ PlayerSettings:
   vulkanEnableCommandBufferRecycling: 1
   loadStoreDebugModeEnabled: 0
   bundleVersion: 1.0
-  preloadedAssets:
-  - {fileID: 11400000, guid: 4b5ddb59a395ba642a26f85f16365b2d, type: 2}
+  preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   m_HolographicPauseOnTrackingLoss: 1
@@ -160,7 +159,7 @@ PlayerSettings:
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
     Android: com.DefaultCompany.BooomJam2024
-    Standalone: com.DefaultCompany.BooomJam2024
+    Standalone: com.DefaultCompany.------------------
   buildNumber:
     Standalone: 0
     VisionOS: 0

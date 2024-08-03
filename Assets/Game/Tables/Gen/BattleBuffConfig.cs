@@ -48,7 +48,7 @@ public sealed partial class BattleBuffConfig : Luban.BeanBase
     /// </summary>
     public readonly bool CanStack;
     /// <summary>
-    /// 不保存
+    /// 不保存，添加时就执行，不会记录
     /// </summary>
     public readonly bool NotSave;
    

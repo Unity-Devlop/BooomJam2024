@@ -25,12 +25,15 @@ namespace Game
             }
         }
 
-        public static async UniTask PostprocessHuluDataWhenAfterUseSkill(IBattleTrainer atkTrainer, HuluData atk,
+        public static async UniTask PostprocessHuluDataWhenAfterUseSkill(IBattleTrainer atkTrainer,
             IBattleTrainer defTrainer,
             ActiveSkillConfig skill,
             int damagePoint, BattleEnvironmentData environmentData)
         {
-            if (Random.value < skill.DefDiscardCardRate)
+            var atk = atkTrainer.currentBattleData;
+            float defDiscardCardRate =
+                GameMath.CalDefDiscardCardRate(atkTrainer, defTrainer, skill);
+            if (Random.value < defDiscardCardRate)
             {
                 Global.Event.Send(new BattleTipEvent($"{skill} 弃牌生效 {defTrainer}弃{skill.DefDiscardCount} 张"));
                 await defTrainer.RandomDiscard(skill.DefDiscardCount);
@@ -143,7 +146,7 @@ namespace Game
             {
                 Debug.Log("内敛");
                 Global.Event.Send(new BattleTipEvent("内敛"));
-                baseValue /= GameMath.CalDamageElementFit(atkSkill.Element, def.elementEnum);
+                baseValue /= GameMath.CalDamageElementFit(atk, atkSkill.Element, def.elementEnum);
             }
 
             return baseValue;
@@ -233,22 +236,23 @@ namespace Game
             return speed;
         }
 
-        public static async UniTask<IBattleOperation> PostprocessHuluDataWhenHealthChange(HuluData hulu,
-            IBattleTrainer trainer)
+        public static async UniTask<IBattleOperation> PostprocessHuluDataWhenHealthChange(IBattleTrainer defTrainer)
         {
+            var hulu = defTrainer.currentBattleData;
+            
             IBattleOperation operation;
             if (hulu.id == HuluEnum.电电鼠 && hulu.passiveSkillConfig.Id == PassiveSkillEnum.胆小鬼 &&
                 hulu.ContainsBuff(BattleBuffEnum.胆小鬼) && hulu.currentHp < hulu.hp / 2 && hulu.currentHp > 0)
             {
                 int tar = -1;
-                for (int i = 0; i < trainer.trainerData.datas.Count; i++)
+                for (int i = 0; i < defTrainer.trainerData.datas.Count; i++)
                 {
-                    if (trainer.trainerData.datas[i] == hulu)
+                    if (defTrainer.trainerData.datas[i] == hulu)
                     {
                         continue;
                     }
 
-                    if (trainer.trainerData.datas[i].hp < 0)
+                    if (defTrainer.trainerData.datas[i].hp < 0)
                     {
                         continue;
                     }

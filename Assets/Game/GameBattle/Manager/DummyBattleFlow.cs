@@ -71,10 +71,10 @@ namespace Game.GamePlay
 
             selfPos.SetNext(selfPos.battleTrainer.Get(0));
             enemyPos.SetNext(enemyPos.battleTrainer.Get(0));
-            
+
             _self.OnDiscardCard += _enemy.OnEnemyTrainerDiscardCard;
             _enemy.OnDiscardCard += _self.OnEnemyTrainerDiscardCard;
-            
+
             _self.SetEnvironmentData(_environmentData);
             _enemy.SetEnvironmentData(_environmentData);
 
@@ -283,10 +283,10 @@ namespace Game.GamePlay
             _self.OnDiscardCard -= _enemy.OnEnemyTrainerDiscardCard;
             _enemy.OnDiscardCard -= _self.OnEnemyTrainerDiscardCard;
             _environmentData.Clear();
-            
+
             _self.ExitBattle();
             _enemy.ExitBattle();
-            
+
             Global.Get<AudioSystem>().Get(FMODName.Event.MX_COMBAT_DEMO1).stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
             Debug.Log("Exit");
             if (UIRoot.Singleton.GetOpenedPanel(out GameBattlePanel battlePanel))
@@ -535,22 +535,28 @@ namespace Game.GamePlay
                 {
                     Assert.IsTrue(config.MulAttackTimes.Length == 2);
                     Assert.IsTrue(config.MulAttackTimes[0] <= config.MulAttackTimes[1]);
-                    times = UnityEngine.Random.Range(config.MulAttackTimes[0],
-                        config.MulAttackTimes[1]);
+                    times = GameMath.CalAtkTimes(userPosition.currentData, config);
                     Global.Event.Send<BattleTipEvent>(new BattleTipEvent($"{userPosition}攻击次数:{times}"));
                 }
 
                 Debug.Log($"{userPosition}:Attack Times:{times}");
                 for (int i = 0; i < times; i++)
                 {
-                    await userPosition.ExecuteSkill(operation);
-                    Global.Event.Send<BattleTipEvent>(new BattleTipEvent($"{userPosition}攻击次数:{i + 1}"));
-                    // await UniTask.Delay(TimeSpan.FromSeconds(0.5f));
+                    if (userTrainer.currentBattleData.HealthIsZero())
+                    {
+                        Debug.Log($"{userPosition.currentData}已经死亡 不再计算伤害");
+                        break;
+                    }
+
                     if (defPosition.currentData.HealthIsZero())
                     {
                         Debug.Log($"{defPosition.currentData}已经死亡 不再计算伤害");
                         break;
                     }
+
+                    await userPosition.ExecuteSkill(operation);
+                    Global.Event.Send<BattleTipEvent>(new BattleTipEvent($"{userPosition}攻击次数:{i + 1}"));
+                    // await UniTask.Delay(TimeSpan.FromSeconds(0.5f));
 
                     await UglyMath.PostprocessHuluDataBeforeUseSkill(userPosition.currentData, config);
                     bool hitted = GameMath.CalHit(userPosition.currentData, defPosition.currentData, operation.data.id,
@@ -567,7 +573,7 @@ namespace Game.GamePlay
                         await defPosition.currentData.DecreaseHealth(damage);
 
                         IBattleOperation newOper =
-                            await UglyMath.PostprocessHuluDataWhenHealthChange(defPosition.currentData, defTrainer);
+                            await UglyMath.PostprocessHuluDataWhenHealthChange(defTrainer);
                         if (newOper != null)
                         {
                             if (newOper is ChangeHuluOperation changeHuluOperation)
@@ -581,7 +587,7 @@ namespace Game.GamePlay
                             await UglyMath.PostprocessHuluDataWhenDead(defPosition.currentData);
                         }
 
-                        await UglyMath.PostprocessHuluDataWhenAfterUseSkill(userTrainer, userPosition.currentData,
+                        await UglyMath.PostprocessHuluDataWhenAfterUseSkill(userTrainer,
                             defTrainer,
                             config,
                             damage, _environmentData);

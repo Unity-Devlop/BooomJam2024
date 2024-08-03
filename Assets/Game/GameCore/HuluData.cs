@@ -120,12 +120,18 @@ namespace Game
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public async UniTask DecreaseHealth(int delta)
+        public async UniTask DecreaseHealth(int delta, HuluData attacker = null)
         {
             if (buffList.Contains(BattleBuffEnum.规避弱点) && delta > 0)
             {
-                buffList.Remove(BattleBuffEnum.规避弱点);
+                RemoveBuff(BattleBuffEnum.规避弱点);
                 delta /= 2;
+            }
+
+            if (attacker != null && ContainsBuff(BattleBuffEnum.自己受到伤害时攻击方也会受到等量伤害))
+            {
+                RemoveBuff(BattleBuffEnum.自己受到伤害时攻击方也会受到等量伤害);
+                await attacker.DecreaseHealth(delta, null);
             }
 
             currentHp -= delta;
@@ -136,7 +142,7 @@ namespace Game
                 Global.Event.Send(new BattleTipEvent("站起来"));
                 Debug.Log("站起来");
                 buffList.Remove(BattleBuffEnum.站起来);
-                await DecreaseHealth(-1);
+                await DecreaseHealth(-1, null);
             }
 
             await UglyMath.PostprocessHuluData(this);
@@ -221,7 +227,7 @@ namespace Game
             }
 
             healP0intBy回满血然后回合结束受到等量伤害 = 0;
-            GameMath.PrcessBuffWhenRoundEnd(this.buffList);
+            GameMath.ProcessBuffWhenRoundEnd(this.buffList);
             await bind.Invoke();
         }
 
@@ -265,7 +271,7 @@ namespace Game
             buffList.Add(buff);
         }
 
-        public async UniTask UseSkill(ActiveSkillData skill,IBattleTrainer tar)
+        public async UniTask UseSkill(ActiveSkillData skill, IBattleTrainer tar)
         {
             if (skill.config.Element == ElementEnum.风 && buffList.Contains(BattleBuffEnum.下次一次使用风属性时速度提高20))
             {

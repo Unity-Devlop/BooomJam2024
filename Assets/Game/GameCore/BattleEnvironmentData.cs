@@ -82,7 +82,7 @@ namespace Game
         {
             foreach (var (trainer, buffContainer) in _containers)
             {
-                GameMath.PrcessBuffWhenRoundEnd(buffContainer.buffList);
+                GameMath.ProcessBuffWhenRoundEnd(buffContainer.buffList);
             }
         }
         
