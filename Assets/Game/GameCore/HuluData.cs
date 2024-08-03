@@ -149,9 +149,8 @@ namespace Game
                 canReborn)
             {
                 Debug.Log("狂风不灭");
-                await DecreaseHealth(-hp / 2);
                 canReborn = false;
-                await bind.Invoke();
+                await DecreaseHealth(-hp / 2);
             }
             else if (id == HuluEnum.枯木妖 && passiveSkillConfig.Id == PassiveSkillEnum.枯木逢春)
             {

@@ -114,9 +114,14 @@ namespace Game.GamePlay
                     break;
                 }
 
+                await GameMath.ProcessPokemonBeforeRounding(_self);
+                await GameMath.ProcessPokemonBeforeRounding(_enemy);
+                
                 selfOper = await GameMath.ProcessOperationBeforeRounding(_self, selfOper);
                 enemyOper = await GameMath.ProcessOperationBeforeRounding(_enemy, enemyOper);
 
+
+                
                 // 有人不能战斗了
                 if (!selfPos.CanFight() || !enemyPos.CanFight())
                 {

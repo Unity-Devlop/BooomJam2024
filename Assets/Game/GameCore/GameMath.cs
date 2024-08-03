@@ -257,11 +257,6 @@ namespace Game
         public static async UniTask<IBattleOperation> ProcessOperationBeforeRounding(IBattleTrainer trainer,
             IBattleOperation operation)
         {
-            if (trainer.buffList.Contains(BattleBuffEnum.没有手牌时当前宝可梦生命值归0) && trainer.handZone.Count <= 0)
-            {
-                Debug.Log("没有手牌时当前宝可梦生命值归0");
-                await trainer.currentBattleData.DecreaseHealth(trainer.currentBattleData.currentHp);
-            }
 
             if (operation is EndRoundOperation && trainer.buffList.Contains(BattleBuffEnum.回合结束后额外获得一个回合))
             {
@@ -284,6 +279,15 @@ namespace Game
                 {
                     await userTrainer.currentBattleData.DecreaseHealth(buffConfig.DamageForCurrentPokemon);
                 }
+            }
+        }
+
+        public static async UniTask ProcessPokemonBeforeRounding(IBattleTrainer trainer)
+        {
+            if (trainer.buffList.Contains(BattleBuffEnum.没有手牌时当前宝可梦生命值归0) && trainer.handZone.Count <= 0)
+            {
+                Debug.Log("没有手牌时当前宝可梦生命值归0");
+                await trainer.currentBattleData.DecreaseHealth(trainer.currentBattleData.currentHp);
             }
         }
     }
