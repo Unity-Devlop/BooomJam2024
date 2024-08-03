@@ -132,6 +132,11 @@ namespace Game
 
         public void Continue()
         {
+            var playerData = Global.Get<DataSystem>().Get<PlayerData>();
+            for(int i=0;i<chosenHulu.Count;++i)
+            {
+                //Ìí¼Óhulu
+            }
             var e = new ChangeStateEvent();
             e.poState = POState.DailyTrainState;
             TypeEventSystem.Global.Send<ChangeStateEvent>(e);
