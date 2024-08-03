@@ -13,6 +13,10 @@ namespace Game.GamePlay
         public override async UniTask<IBattleOperation> CalOperation()
         {
             await UniTask.DelayFrame(1);
+            if (handZone.Count == 0)
+            {
+                return new EndRoundOperation();
+            }
             var target = handZone.RandomTakeWithoutRemove();
             IBattleOperation operation = new ActiveSkillBattleOperation()
             {

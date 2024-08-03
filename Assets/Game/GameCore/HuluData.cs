@@ -146,7 +146,7 @@ namespace Game
             }
 
             if (id == HuluEnum.斯托姆 && passiveSkillConfig.Id == PassiveSkillEnum.狂风不灭 &&
-                canReborn)
+                canReborn && currentHp <= 0)
             {
                 Debug.Log("狂风不灭");
                 canReborn = false;

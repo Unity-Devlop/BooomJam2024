@@ -257,7 +257,6 @@ namespace Game
         public static async UniTask<IBattleOperation> ProcessOperationBeforeRounding(IBattleTrainer trainer,
             IBattleOperation operation)
         {
-
             if (operation is EndRoundOperation && trainer.buffList.Contains(BattleBuffEnum.回合结束后额外获得一个回合))
             {
                 Debug.Log("回合结束后额外获得一个回合");
@@ -286,7 +285,8 @@ namespace Game
         {
             if (trainer.buffList.Contains(BattleBuffEnum.没有手牌时当前宝可梦生命值归0) && trainer.handZone.Count <= 0)
             {
-                Debug.Log("没有手牌时当前宝可梦生命值归0");
+                Debug.Log($"{trainer}没有手牌!当前宝可梦生命值归0");
+                Global.Event.Send(new BattleTipEvent("没有手牌!当前宝可梦生命值归0"));
                 await trainer.currentBattleData.DecreaseHealth(trainer.currentBattleData.currentHp);
             }
         }
