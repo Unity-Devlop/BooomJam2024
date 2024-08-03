@@ -117,6 +117,14 @@ namespace Game.GamePlay
                 selfOper = await GameMath.ProcessOperationBeforeRounding(_self, selfOper);
                 enemyOper = await GameMath.ProcessOperationBeforeRounding(_enemy, enemyOper);
 
+                // 有人不能战斗了
+                if (!selfPos.CanFight() || !enemyPos.CanFight())
+                {
+                    Debug.Log($"有人不能战斗了");
+                    break;
+                }
+
+
                 // 等待双方操作
                 if (selfOper is not EndRoundOperation)
                 {
@@ -556,18 +564,13 @@ namespace Game.GamePlay
                         await defPosition.currentData.DecreaseHealth(damage);
 
                         IBattleOperation newOper =
-                            await UglyMath.PostprocessHuluDataWhenHealthChange(defTrainer);
+                            await UglyMath.CalNewOperWhenPokemonHealthChange(defTrainer);
                         if (newOper != null)
                         {
                             if (newOper is ChangeHuluOperation changeHuluOperation)
                             {
                                 await ExecuteSwitch(defTrainer, defPosition, changeHuluOperation.next);
                             }
-                        }
-
-                        if (defPosition.currentData.HealthIsZero())
-                        {
-                            await UglyMath.PostprocessHuluDataWhenDead(defPosition.currentData);
                         }
 
                         // Tag 只有命中了才会执行的效果

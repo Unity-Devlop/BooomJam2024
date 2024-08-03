@@ -10,20 +10,6 @@ namespace Game
 {
     public static class UglyMath
     {
-        public static async UniTask PostprocessHuluData(HuluData data)
-        {
-            if (data.id == HuluEnum.枯木妖 && data.passiveSkillConfig.Id == PassiveSkillEnum.枯木逢春)
-            {
-                Debug.Log($"枯木逢春");
-                Global.Event.Send(new BattleTipEvent("枯木逢春"));
-                int damageHp = data.hp - data.currentHp;
-                int cnt = damageHp / 100;
-                int adapIncreate = cnt * 5;
-                adapIncreate = Mathf.Clamp(adapIncreate, 0, 20);
-                data.currentAdap = data.adap;
-                data.currentAdap += adapIncreate;
-            }
-        }
 
         public static async UniTask EffectWhenSkillHitted(IBattleTrainer atkTrainer,
             IBattleTrainer defTrainer,
@@ -236,7 +222,7 @@ namespace Game
             return speed;
         }
 
-        public static async UniTask<IBattleOperation> PostprocessHuluDataWhenHealthChange(IBattleTrainer defTrainer)
+        public static async UniTask<IBattleOperation> CalNewOperWhenPokemonHealthChange(IBattleTrainer defTrainer)
         {
             var hulu = defTrainer.currentBattleData;
             
@@ -278,18 +264,7 @@ namespace Game
             return null;
         }
 
-        public static async UniTask PostprocessHuluDataWhenDead(HuluData huluData)
-        {
-            if (huluData.id == HuluEnum.斯托姆 && huluData.passiveSkillConfig.Id == PassiveSkillEnum.狂风不灭 &&
-                huluData.canReborn)
-            {
-                Debug.Log("狂风不灭");
-                await huluData.DecreaseHealth(-huluData.hp / 2);
-                huluData.canReborn = false;
-                await huluData.bind.Invoke();
-                return;
-            }
-        }
+
 
         public static async UniTask PostprocessHuluDataBeforeUseSkill(HuluData atk, ActiveSkillConfig skill)
         {

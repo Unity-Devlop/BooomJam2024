@@ -62,6 +62,11 @@ namespace Game.GamePlay
         public virtual async UniTask<IBattleOperation> CalOperation()
         {
             Assert.IsNull(_operation);
+
+            if (handZone.Count == 0)
+            {
+                return new EndRoundOperation();
+            }
             // Debug.Log("开始计算操作");
             await OnStartCalOperation(); // 通知UI开始计算操作
             await UniTask.WaitUntil(() => _operation != null); // 等待一个操作

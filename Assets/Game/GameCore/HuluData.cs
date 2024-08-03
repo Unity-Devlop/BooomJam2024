@@ -145,7 +145,26 @@ namespace Game
                 await DecreaseHealth(-1, null);
             }
 
-            await UglyMath.PostprocessHuluData(this);
+            if (id == HuluEnum.斯托姆 && passiveSkillConfig.Id == PassiveSkillEnum.狂风不灭 &&
+                canReborn)
+            {
+                Debug.Log("狂风不灭");
+                await DecreaseHealth(-hp / 2);
+                canReborn = false;
+                await bind.Invoke();
+            }
+            else if (id == HuluEnum.枯木妖 && passiveSkillConfig.Id == PassiveSkillEnum.枯木逢春)
+            {
+                Debug.Log($"枯木逢春");
+                Global.Event.Send(new BattleTipEvent("枯木逢春"));
+                int damageHp = hp - currentHp;
+                int cnt = damageHp / 100;
+                int adaptIncrease = cnt * 5;
+                adaptIncrease = Mathf.Clamp(adaptIncrease, 0, 20);
+                currentAdap = adap;
+                currentAdap += adaptIncrease;
+            }
+
             await bind.Invoke();
         }
 
