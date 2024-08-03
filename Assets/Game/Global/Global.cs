@@ -61,6 +61,9 @@ namespace Game
             _systemLocator.Register<ResourceSystem>(GetComponent<ResourceSystem>());
             // 初始化UI资源加载器
             UIRoot.Singleton.UIDatabase.Loader = new AddressablesUILoader();
+            
+            // 质量变成Ultra
+            QualitySettings.SetQualityLevel(5);
         }
 
         protected override void OnDispose()
