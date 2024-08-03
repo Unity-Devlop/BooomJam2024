@@ -440,6 +440,21 @@ namespace Game.GamePlay
                 return;
             }
 
+            if (!userTrainer.handZone.Contains(operation.data))
+            {
+                if (userTrainer == _self)
+                {
+                    ModifyOperAfterUseSkill(ref selfOper);
+                }
+                else
+                {
+                    ModifyOperAfterUseSkill(ref enemyOper);
+                }
+
+                Debug.LogWarning($"居然打出了不在手牌里的牌，是因为对方的技能让我弃牌了么");
+                return;
+            }
+
             await userTrainer.UseCardFromHand(operation.data);
 
             await GameMath.ProcessTrainerAfterUseCardFromHandZone(userTrainer);
