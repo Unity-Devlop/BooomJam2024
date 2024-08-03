@@ -20,9 +20,9 @@ public sealed partial class BattleBuffConfig : Luban.BeanBase
         { if(!_buf["id"].IsNumber) { throw new SerializationException(); }  Id = (BattleBuffEnum)_buf["id"].AsInt; }
         { if(!_buf["desc"].IsString) { throw new SerializationException(); }  Desc = _buf["desc"]; }
         { if(!_buf["remove_count_when_round_end"].IsNumber) { throw new SerializationException(); }  RemoveCountWhenRoundEnd = _buf["remove_count_when_round_end"]; }
-        { if(!_buf["is_env_buff"].IsBoolean) { throw new SerializationException(); }  IsEnvBuff = _buf["is_env_buff"]; }
         { if(!_buf["can_stack"].IsBoolean) { throw new SerializationException(); }  CanStack = _buf["can_stack"]; }
         { if(!_buf["not_save"].IsBoolean) { throw new SerializationException(); }  NotSave = _buf["not_save"]; }
+        { if(!_buf["is_trainer_buff"].IsBoolean) { throw new SerializationException(); }  IsTrainerBuff = _buf["is_trainer_buff"]; }
     }
 
     public static BattleBuffConfig DeserializeBattleBuffConfig(JSONNode _buf)
@@ -40,10 +40,6 @@ public sealed partial class BattleBuffConfig : Luban.BeanBase
     /// </summary>
     public readonly int RemoveCountWhenRoundEnd;
     /// <summary>
-    /// 是否是场地buff
-    /// </summary>
-    public readonly bool IsEnvBuff;
-    /// <summary>
     /// 是否可以叠加
     /// </summary>
     public readonly bool CanStack;
@@ -51,6 +47,7 @@ public sealed partial class BattleBuffConfig : Luban.BeanBase
     /// 不保存，添加时就执行，不会记录
     /// </summary>
     public readonly bool NotSave;
+    public readonly bool IsTrainerBuff;
    
     public const int __ID__ = 1259790445;
     public override int GetTypeId() => __ID__;
@@ -71,9 +68,9 @@ public sealed partial class BattleBuffConfig : Luban.BeanBase
         + "id:" + Id + ","
         + "desc:" + Desc + ","
         + "removeCountWhenRoundEnd:" + RemoveCountWhenRoundEnd + ","
-        + "isEnvBuff:" + IsEnvBuff + ","
         + "canStack:" + CanStack + ","
         + "notSave:" + NotSave + ","
+        + "isTrainerBuff:" + IsTrainerBuff + ","
         + "}";
     }
 }

@@ -442,11 +442,11 @@ namespace Game.GamePlay
             await UniTask.CompletedTask;
         }
 
-        private BattleEnvironmentData _env;
+        private BattleData _env;
 
-        public void SetEnvironmentData(BattleEnvironmentData environmentData)
+        public void SetEnvironmentData(BattleData data)
         {
-            _env = environmentData;
+            _env = data;
         }
 
         public void ExitBattle()

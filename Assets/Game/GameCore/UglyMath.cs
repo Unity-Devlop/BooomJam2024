@@ -28,7 +28,7 @@ namespace Game
         public static async UniTask PostprocessHuluDataWhenAfterUseSkill(IBattleTrainer atkTrainer,
             IBattleTrainer defTrainer,
             ActiveSkillConfig skill,
-            int damagePoint, BattleEnvironmentData environmentData)
+            int damagePoint, BattleData data)
         {
             var atk = atkTrainer.currentBattleData;
             float defDiscardCardRate =
@@ -153,7 +153,7 @@ namespace Game
         }
 
         public static bool PostprocessHitRate(HuluData atk, HuluData def, ActiveSkillEnum atkSkill,
-            BattleEnvironmentData environmentData)
+            BattleData data)
         {
             bool res = true; // 最终是否能命中
             if (def.ContainsBuff(BattleBuffEnum.守护))
@@ -189,23 +189,23 @@ namespace Game
         }
 
         public static float PostprocessRunTimeSpeed(IBattleTrainer user, HuluData userHulu,
-            BattleEnvironmentData environmentData)
+            BattleData data)
         {
             float speed = userHulu.currentSpeed;
 
-            if (environmentData.GetBuff(user).buffList.Contains(BattleBuffEnum.顺风))
+            if (data.GetBuff(user).buffList.Contains(BattleBuffEnum.顺风))
             {
                 Debug.Log($"{userHulu}顺风+10");
                 speed += 10;
             }
 
-            if (environmentData.GetBuff(user).buffList.Contains(BattleBuffEnum.逆风))
+            if (data.GetBuff(user).buffList.Contains(BattleBuffEnum.逆风))
             {
                 Debug.Log($"{userHulu}逆风-10");
                 speed -= 10;
             }
 
-            switch (environmentData.id)
+            switch (data.id)
             {
                 case BattleEnvironmentEnum.草地:
                     if (userHulu.id == HuluEnum.推土牛 && userHulu.passiveSkillConfig.Id == PassiveSkillEnum.轰隆冲击)
@@ -344,9 +344,9 @@ namespace Game
             }
         }
 
-        public static int PostprocessDamagePoint(ActiveSkillConfig config, BattleEnvironmentData environmentData)
+        public static int PostprocessDamagePoint(ActiveSkillConfig config, BattleData data)
         {
-            if (environmentData.id == BattleEnvironmentEnum.草地 && config.IncreaseDamagePointWhenGrassEnv != 0)
+            if (data.id == BattleEnvironmentEnum.草地 && config.IncreaseDamagePointWhenGrassEnv != 0)
             {
                 Global.Event.Send(new BattleTipEvent($"草地增伤:{config.IncreaseDamagePointWhenGrassEnv}"));
                 return config.DamagePoint + config.IncreaseDamagePointWhenGrassEnv;
@@ -356,14 +356,14 @@ namespace Game
         }
 
         public static int PostprocessAtkPoint(HuluData atk, ActiveSkillConfig config,
-            BattleEnvironmentData environmentData)
+            BattleData data)
         {
             //TODO 狗策划 边际情况 
-            if (atk.ContainsBuff(BattleBuffEnum.用该选手的速度代替攻击力进行伤害计算))
+            if (atk.ContainsBuff(BattleBuffEnum.用速度代替攻击力进行伤害计算))
             {
                 Debug.Log($"{atk}使用速度代替攻击力计算伤害");
                 Global.Event.Send(new BattleTipEvent($"{atk}使用速度代替攻击力计算伤害"));
-                atk.RemoveBuff(BattleBuffEnum.用该选手的速度代替攻击力进行伤害计算);
+                atk.RemoveBuff(BattleBuffEnum.用速度代替攻击力进行伤害计算);
                 return atk.currentSpeed;
             }
 

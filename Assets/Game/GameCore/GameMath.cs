@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using cfg;
+using Cysharp.Threading.Tasks;
 using Game.GamePlay;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -71,7 +72,7 @@ namespace Game
 
         public static (HuluData, HuluData) WhoFirst(IBattleTrainer rT, IBattleTrainer lt, HuluData r, HuluData l,
             ActiveSkillData rs, ActiveSkillData ls,
-            BattleEnvironmentData environmentData)
+            BattleData data)
         {
             Assert.IsTrue(rs.config.Type != ActiveSkillTypeEnum.指挥);
             Assert.IsTrue(ls.config.Type != ActiveSkillTypeEnum.指挥);
@@ -116,8 +117,8 @@ namespace Game
                 return (l, r);
             }
 
-            int rRuntimeSpeed = (int)UglyMath.PostprocessRunTimeSpeed(rT, r, environmentData);
-            int lRuntimeSpeed = (int)UglyMath.PostprocessRunTimeSpeed(lt, l, environmentData);
+            int rRuntimeSpeed = (int)UglyMath.PostprocessRunTimeSpeed(rT, r, data);
+            int lRuntimeSpeed = (int)UglyMath.PostprocessRunTimeSpeed(lt, l, data);
 
             if (rRuntimeSpeed > lRuntimeSpeed)
             {
@@ -156,14 +157,14 @@ namespace Game
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int CalDamage(HuluData atk, HuluData def, ActiveSkillEnum skill,
-            BattleEnvironmentData environmentData)
+            BattleData data)
         {
             ActiveSkillConfig config = Global.Table.ActiveSkillTable.Get(skill);
             Assert.IsTrue(config.DamagePoint != 0);
 
             Assert.IsTrue(config.Type == ActiveSkillTypeEnum.伤害技能);
-            int damagePoint = UglyMath.PostprocessDamagePoint(config, environmentData);
-            int atkPoint = UglyMath.PostprocessAtkPoint(atk, config, environmentData);
+            int damagePoint = UglyMath.PostprocessDamagePoint(config, data);
+            int atkPoint = UglyMath.PostprocessAtkPoint(atk, config, data);
             Debug.Log(
                 $"攻击力{atkPoint},伤害{damagePoint},防御力{def.currentDef}" +
                 $" 本系威力加成{CalSelfElementFit(atk.config, config)} \n" +
@@ -188,7 +189,7 @@ namespace Game
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool CalHit(HuluData atk, HuluData def, ActiveSkillEnum dataID,
-            BattleEnvironmentData environmentData)
+            BattleData data)
         {
             ActiveSkillConfig config = Global.Table.ActiveSkillTable.Get(dataID);
             return UnityEngine.Random.value <= config.HitRate;
@@ -249,6 +250,21 @@ namespace Game
             }
 
             return discardRate;
+        }
+
+        public static async UniTask<IBattleOperation> ProcessOperationBeforeRounding(BattleData env,
+            IBattleTrainer self, IBattleOperation operation)
+        {
+            if (operation is EndRoundOperation && env.GetBuff(self).buffList.Contains(BattleBuffEnum.回合结束后额外获得一个回合))
+            {
+                Debug.Log("回合结束后额外获得一个回合");
+                env.RemoveBuff(self, BattleBuffEnum.回合结束后额外获得一个回合);
+                Global.Table.BattleBuffTable.Get(BattleBuffEnum.回合结束后额外获得一个回合);
+                await UniTask.Delay(TimeSpan.FromSeconds(0.2f));
+                return null;
+            }
+
+            return operation;
         }
     }
 }

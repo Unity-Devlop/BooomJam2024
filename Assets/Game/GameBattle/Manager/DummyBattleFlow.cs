@@ -30,17 +30,17 @@ namespace Game.GamePlay
         public IBattleOperation enemyOper = null;
 
         private CancellationTokenSource _cts;
-        private BattleEnvironmentData _environmentData;
+        private BattleData _data;
 
-        public void Init(IBattleTrainer self, IBattleTrainer enemy, BattleEnvironmentData environmentData)
+        public void Init(IBattleTrainer self, IBattleTrainer enemy, BattleData data)
         {
             Assert.IsNull(_cts);
             _self = self;
             _enemy = enemy;
 
-            _environmentData = environmentData;
-            _environmentData.AddTrainer(_self);
-            _environmentData.AddTrainer(_enemy);
+            _data = data;
+            _data.AddTrainer(_self);
+            _data.AddTrainer(_enemy);
 
             selfPos.battleTrainer = self;
             enemyPos.battleTrainer = enemy;
@@ -56,7 +56,7 @@ namespace Game.GamePlay
 
         public async UniTask ChangeBattleEnv(BattleEnvironmentEnum configChangeBattleEnvAfterUse)
         {
-            _environmentData.id = configChangeBattleEnvAfterUse;
+            _data.id = configChangeBattleEnvAfterUse;
         }
 
         public async UniTask Enter()
@@ -75,8 +75,8 @@ namespace Game.GamePlay
             _self.OnDiscardCard += _enemy.OnEnemyTrainerDiscardCard;
             _enemy.OnDiscardCard += _self.OnEnemyTrainerDiscardCard;
 
-            _self.SetEnvironmentData(_environmentData);
-            _enemy.SetEnvironmentData(_environmentData);
+            _self.SetEnvironmentData(_data);
+            _enemy.SetEnvironmentData(_data);
 
             Global.Get<AudioSystem>().Get(FMODName.Event.MX_COMBAT_DEMO1).start();
             await IBattleFlow.RoundFlow(this, _cts.Token);
@@ -87,9 +87,9 @@ namespace Game.GamePlay
             // throw new System.NotImplementedException();
             // 执行入场逻辑
             await EnterBattleCheck();
-            var selfBuffs = _environmentData.GetBuff(_self);
+            var selfBuffs = _data.GetBuff(_self);
             await ExecuteBuffBeforeRound(_self, _enemy, selfBuffs);
-            var enemyBuffs = _environmentData.GetBuff(_enemy);
+            var enemyBuffs = _data.GetBuff(_enemy);
             await ExecuteBuffBeforeRound(_enemy, _self, enemyBuffs);
         }
 
@@ -120,16 +120,21 @@ namespace Game.GamePlay
                     break;
                 }
 
+                selfOper = await GameMath.ProcessOperationBeforeRounding(_data, _self, selfOper);
+                enemyOper = await GameMath.ProcessOperationBeforeRounding(_data, _enemy, enemyOper);
+
                 // 等待双方操作
                 if (selfOper is not EndRoundOperation)
                 {
                     _self.ClearOperation();
+                    Debug.Log($"{_self}操作");
                     selfOper = await _self.CalOperation();
                 }
 
                 if (enemyOper is not EndRoundOperation)
                 {
                     _enemy.ClearOperation();
+                    Debug.Log($"{_enemy}操作");
                     enemyOper = await _enemy.CalOperation();
                 }
 
@@ -274,7 +279,7 @@ namespace Game.GamePlay
             await selfPos.RoundEnd();
             await enemyPos.RoundEnd();
 
-            await _environmentData.RoundEnd();
+            await _data.RoundEnd();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -282,7 +287,7 @@ namespace Game.GamePlay
         {
             _self.OnDiscardCard -= _enemy.OnEnemyTrainerDiscardCard;
             _enemy.OnDiscardCard -= _self.OnEnemyTrainerDiscardCard;
-            _environmentData.Clear();
+            _data.Clear();
 
             _self.ExitBattle();
             _enemy.ExitBattle();
@@ -383,7 +388,7 @@ namespace Game.GamePlay
         {
             var (faster, slower) = GameMath.WhoFirst(_self, _enemy, selfPos.currentData, enemyPos.currentData,
                 selfAtk.data,
-                enemyAtk.data, _environmentData);
+                enemyAtk.data, _data);
 
             // 根据顺序结算
             if (faster == selfPos.currentData)
@@ -460,7 +465,7 @@ namespace Game.GamePlay
             Assert.IsTrue(defTrainer.currentBattleData == defPosition.currentData);
             var config = operation.data.config;
 
-            if (_environmentData.GetBuff(userTrainer).buffList.Contains(BattleBuffEnum.结束回合))
+            if (_data.GetBuff(userTrainer).buffList.Contains(BattleBuffEnum.结束回合))
             {
                 if (userTrainer == _self)
                 {
@@ -560,12 +565,12 @@ namespace Game.GamePlay
 
                     await UglyMath.PostprocessHuluDataBeforeUseSkill(userPosition.currentData, config);
                     bool hitted = GameMath.CalHit(userPosition.currentData, defPosition.currentData, operation.data.id,
-                        _environmentData);
+                        _data);
                     if (hitted && UglyMath.PostprocessHitRate(userPosition.currentData, defPosition.currentData,
-                            operation.data.id, _environmentData))
+                            operation.data.id, _data))
                     {
                         int damage = GameMath.CalDamage(userPosition.currentData, defPosition.currentData,
-                            operation.data.id, _environmentData);
+                            operation.data.id, _data);
                         Global.Event.Send<BattleTipEvent>(
                             new BattleTipEvent($"{userPosition}对{defPosition.currentData}造成{damage}伤害"));
                         Debug.Log(
@@ -590,7 +595,7 @@ namespace Game.GamePlay
                         await UglyMath.PostprocessHuluDataWhenAfterUseSkill(userTrainer,
                             defTrainer,
                             config,
-                            damage, _environmentData);
+                            damage, _data);
                     }
                     else
                     {
@@ -670,14 +675,8 @@ namespace Game.GamePlay
                             $"{userPosition}使用{operation.data.id}获得{config.SelfBattleBuffAfterUse}"));
                     Debug.Log($"{userPosition}使用{operation.data.id}获得{config.SelfBattleBuffAfterUse}");
                     await UniTask.Delay(TimeSpan.FromSeconds(0.2f));
-                    if (buffConfig.IsEnvBuff)
-                    {
-                        await _environmentData.AddBuff(userTrainer, config.SelfBattleBuffAfterUse);
-                    }
-                    else
-                    {
-                        await userTrainer.currentBattleData.AddBuff(config.SelfBattleBuffAfterUse);
-                    }
+                    Assert.IsFalse(buffConfig.IsTrainerBuff);
+                    await userTrainer.currentBattleData.AddBuff(config.SelfBattleBuffAfterUse);
                 }
             }
 
@@ -691,9 +690,9 @@ namespace Game.GamePlay
                             $"{userPosition}使用{operation.data.id}获得{config.SelfTrainerBuffAfterUse}"));
                     Debug.Log($"{userPosition}使用{operation.data.id}获得{config.SelfTrainerBuffAfterUse}");
                     await UniTask.Delay(TimeSpan.FromSeconds(0.2f));
-                    Assert.IsTrue(buffConfig.IsEnvBuff);
+                    Assert.IsTrue(buffConfig.IsTrainerBuff);
 
-                    await _environmentData.AddBuff(userTrainer, config.SelfTrainerBuffAfterUse);
+                    await _data.AddBuff(userTrainer, config.SelfTrainerBuffAfterUse);
                 }
             }
 
@@ -708,8 +707,8 @@ namespace Game.GamePlay
                     Debug.Log(
                         $"{userPosition}使用{operation.data.id}给对方加buff:{config.DefTrainerBuffAfterUse}");
                     await UniTask.Delay(TimeSpan.FromSeconds(0.2f));
-                    Assert.IsTrue(buffConfig.IsEnvBuff);
-                    await _environmentData.AddBuff(defTrainer, config.DefTrainerBuffAfterUse);
+                    Assert.IsTrue(buffConfig.IsTrainerBuff);
+                    await _data.AddBuff(defTrainer, config.DefTrainerBuffAfterUse);
                 }
             }
 
@@ -749,7 +748,7 @@ namespace Game.GamePlay
             {
                 for (int i = 0; i < fullHpAddBuffConfig.Cnt; i++)
                 {
-                    await _environmentData.AddBuff(userTrainer, fullHpAddBuffConfig.Buff);
+                    await _data.AddBuff(userTrainer, fullHpAddBuffConfig.Buff);
                 }
             }
 
@@ -759,7 +758,7 @@ namespace Game.GamePlay
             {
                 for (int i = 0; i < notFullHpAddBuffConfig.Cnt; i++)
                 {
-                    await _environmentData.AddBuff(userTrainer, notFullHpAddBuffConfig.Buff);
+                    await _data.AddBuff(userTrainer, notFullHpAddBuffConfig.Buff);
                 }
             }
 

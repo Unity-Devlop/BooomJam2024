@@ -19,7 +19,7 @@ namespace Game.GamePlay
 
         public PlayerBattleTrainer playerBattleTrainer;
         public DummyRobot robotBattleTrainer;
-        public BattleEnvironmentData environmentData;
+        [FormerlySerializedAs("environmentData")] public BattleData data;
 
         protected override async void OnInit()
         {
@@ -35,7 +35,7 @@ namespace Game.GamePlay
         }
 
         [Button]
-        public void StartDefault()
+        public void DefaultStart()
         {
             StartBattle();
         }
@@ -45,7 +45,7 @@ namespace Game.GamePlay
         public async void RollToStart()
         {
             BattleEnvironmentEnum[] values = (BattleEnvironmentEnum[])Enum.GetValues(typeof(BattleEnvironmentEnum));
-            environmentData.id = values.Shuffle()[0];
+            data.id = values.Shuffle()[0];
 
             HuluEnum[] huluValues = (HuluEnum[])Enum.GetValues(typeof(HuluEnum));
             huluValues.Shuffle();
@@ -78,7 +78,7 @@ namespace Game.GamePlay
             robotBattleTrainer.Init(aiTrainerData);
 
 
-            battleFlow.Init(playerBattleTrainer, robotBattleTrainer, environmentData);
+            battleFlow.Init(playerBattleTrainer, robotBattleTrainer, data);
             await battleFlow.Enter();
         }
 
@@ -87,7 +87,7 @@ namespace Game.GamePlay
             //TODO Global.Get<GameFlow>().GetParam<TrainerData>(nameof(TrainerData)); // 从游戏流程中获取数据
             TrainerData playerTrainerData = playerBattleTrainer.trainerData;
             // TODO Global.Get<GameFlow>().GetParam<BattleEnvironmentData>(nameof(BattleEnvironmentData));
-            environmentData = environmentData;
+            data = data;
             playerBattleTrainer.Init(playerTrainerData); // 暂时用Inspector配置的数据
 
             // TODO 后续配置一下 随机几个拿出来
@@ -96,7 +96,7 @@ namespace Game.GamePlay
             robotBattleTrainer.Init(aiTrainerData);
 
 
-            battleFlow.Init(playerBattleTrainer, robotBattleTrainer, environmentData);
+            battleFlow.Init(playerBattleTrainer, robotBattleTrainer, data);
             await battleFlow.Enter();
         }
 

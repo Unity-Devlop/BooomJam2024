@@ -23,14 +23,14 @@ namespace Game
     }
 
     [Serializable]
-    public class BattleEnvironmentData : IModel
+    public class BattleData : IModel
     {
         public BattleEnvironmentEnum id;
         public BattleEnvironmentConfig config => Global.Table.BattleEnvironmentTable.Get(id);
 
         [ShowInInspector] private Dictionary<IBattleTrainer, BuffContainer> _containers;
 
-        public BattleEnvironmentData()
+        public BattleData()
         {
             _containers = new Dictionary<IBattleTrainer, BuffContainer>();
         }

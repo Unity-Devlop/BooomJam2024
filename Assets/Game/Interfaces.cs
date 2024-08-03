@@ -58,7 +58,7 @@ namespace Game.GamePlay
 
 
         void ExitBattle();
-        void SetEnvironmentData(BattleEnvironmentData environmentData);
+        void SetEnvironmentData(BattleData data);
         UniTask ConsumeCard(ActiveSkillData data);
 
         UniTask OnEnemyTrainerDiscardCard(List<ActiveSkillData> arg, IBattleTrainer trainer);
