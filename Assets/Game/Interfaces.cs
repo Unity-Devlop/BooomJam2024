@@ -66,6 +66,7 @@ namespace Game.GamePlay
         UniTask RemoveBuff(BattleBuffEnum buff);
         UniTask BeforeRounding();
         UniTask AddBuff(BattleBuffEnum buff);
+        UniTask MoveDiscardToConsume(ActiveSkillData data);
     }
 
     public interface IBattleFlow

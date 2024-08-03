@@ -89,7 +89,14 @@ namespace Game.GamePlay
             // Debug.Log($"消耗牌{data} HashCode: {data.GetHashCode()}");
             Assert.IsTrue(handZone.Contains(data));
             await OnUseHandCard(data);
-            await Discard(data);
+            if ((data.config.Type2 & CardTypeEnum.消耗) != 0)
+            {
+                await ConsumeCard(data);
+            }
+            else
+            {
+                await Discard(data);
+            }
         }
 
 
@@ -103,16 +110,9 @@ namespace Game.GamePlay
             handZone.Remove(data);
             List<ActiveSkillData> list = new List<ActiveSkillData>(1) { data };
             await OnDiscardCard(list, this);
-
-            if ((data.config.Type2 & CardTypeEnum.消耗) != 0)
-            {
-                await ConsumeCard(data);
-            }
-            else
-            {
-                discardZone.Add(data);
-            }
+            discardZone.Add(data);
         }
+
 
         public async UniTask ConsumeCard(ActiveSkillData data)
         {
@@ -127,6 +127,16 @@ namespace Game.GamePlay
             List<ActiveSkillData> list = ListPool<ActiveSkillData>.Get();
             list.Add(data);
             await OnConsumedCard(list);
+        }
+
+        public async UniTask MoveDiscardToConsume(ActiveSkillData data)
+        {
+            Assert.IsTrue(discardZone.Contains(data));
+            Assert.IsFalse(consumedZone.Contains(data));
+            discardZone.Remove(data);
+            consumedZone.Add(data);
+            Debug.Log($"移动弃牌区到消耗区{data}");
+            await UniTask.CompletedTask;
         }
 
         public async UniTask RandomDiscard(int i)
@@ -434,9 +444,9 @@ namespace Game.GamePlay
             {
                 foreach (var data in arg)
                 {
-                    if (data.config.Type2 != CardTypeEnum.消耗)
+                    if ((data.config.Type2 & CardTypeEnum.消耗) != 0)
                     {
-                        await trainer.ConsumeCard(data);
+                        await trainer.MoveDiscardToConsume(data);
                     }
                 }
             }
@@ -473,7 +483,7 @@ namespace Game.GamePlay
 
         public void ExitBattle()
         {
-            // TODO Clear All Event
+            GameMath.ProcessBuffWhenRoundEnd(buffList);
         }
     }
 }
