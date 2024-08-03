@@ -1,9 +1,6 @@
-﻿using System;
-using System.Threading.Tasks;
-using cfg;
+﻿using cfg;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
-using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Game.GamePlay
@@ -37,6 +34,7 @@ namespace Game.GamePlay
             next = null;
             visual.UnBind();
             visual.Bind(currentData);
+            await UniTask.CompletedTask;
         }
 
         public async UniTask ExecuteSkill(ActiveSkillBattleOperation operation)
@@ -61,6 +59,7 @@ namespace Game.GamePlay
 
         public async UniTask RoundEnd()
         {
+            await UniTask.CompletedTask;
         }
 
         public bool CanFight()

@@ -2,16 +2,13 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Threading;
-using System.Threading.Tasks;
 using cfg;
 using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Pool;
-using UnityEngine.Serialization;
 using UnityToolkit;
-using Random = UnityEngine.Random;
 
 namespace Game.GamePlay
 {
@@ -27,8 +24,8 @@ namespace Game.GamePlay
 
         [HorizontalGroup("1")] public BattlePosition enemyPos;
 
-        public IBattleOperation selfOper = null;
-        public IBattleOperation enemyOper = null;
+        private IBattleOperation _selfOper;
+        private IBattleOperation _enemyOper;
 
         private CancellationTokenSource _cts;
         private BattleData _envData;
@@ -56,6 +53,7 @@ namespace Game.GamePlay
         public async UniTask ChangeBattleEnv(BattleEnvironmentEnum configChangeBattleEnvAfterUse)
         {
             _envData.id = configChangeBattleEnvAfterUse;
+            await UniTask.CompletedTask;
         }
 
         public async UniTask Enter()
@@ -100,8 +98,8 @@ namespace Game.GamePlay
         public async UniTask Rounding()
         {
             // throw new System.NotImplementedException();
-            selfOper = null;
-            enemyOper = null;
+            _selfOper = null;
+            _enemyOper = null;
 
             Debug.Log("Rounding");
             while (_cts is { IsCancellationRequested: false })
@@ -118,8 +116,8 @@ namespace Game.GamePlay
                 await GameMath.ProcessPokemonBeforeRounding(_self);
                 await GameMath.ProcessPokemonBeforeRounding(_enemy);
 
-                selfOper = await GameMath.ProcessOperationBeforeRounding(_self, selfOper);
-                enemyOper = await GameMath.ProcessOperationBeforeRounding(_enemy, enemyOper);
+                _selfOper = await GameMath.ProcessOperationBeforeRounding(_self, _selfOper);
+                _enemyOper = await GameMath.ProcessOperationBeforeRounding(_enemy, _enemyOper);
 
 
                 // 有人不能战斗了
@@ -131,30 +129,31 @@ namespace Game.GamePlay
 
 
                 // 等待双方操作
-                if (selfOper is not EndRoundOperation)
+                if (_selfOper is not EndRoundOperation)
                 {
                     _self.ClearOperation();
-                    selfOper = await _self.CalOperation();
+                    _selfOper = await _self.CalOperation();
                 }
 
-                if (enemyOper is not EndRoundOperation)
+                if (_enemyOper is not EndRoundOperation)
                 {
                     _enemy.ClearOperation();
-                    enemyOper = await _enemy.CalOperation();
+                    _enemyOper = await _enemy.CalOperation();
                 }
 
                 // 双方都结束回合 则进入下一阶段
-                if (selfOper is EndRoundOperation && enemyOper is EndRoundOperation)
+                if (_selfOper is EndRoundOperation && _enemyOper is EndRoundOperation)
                 {
                     // Debug.LogWarning("双方结束回合");
                     break;
                 }
 
 
-                Debug.Log($"Self Oper: {selfOper},Enemy Oper: {enemyOper}");
+                Debug.Log($"Self Oper: {_selfOper},Enemy Oper: {_enemyOper}");
 
 
-                if (selfOper is ActiveSkillBattleOperation selfAtk && enemyOper is ActiveSkillBattleOperation enemyAtk)
+                if (_selfOper is ActiveSkillBattleOperation selfAtk &&
+                    _enemyOper is ActiveSkillBattleOperation enemyAtk)
                 {
                     Assert.IsNotNull(selfAtk.data);
                     Assert.IsNotNull(enemyAtk.data);
@@ -172,13 +171,13 @@ namespace Game.GamePlay
                     continue; // 这里双方技能都结算了 所以直接跳到下一回合
                 }
 
-                if (selfOper is EndRoundOperation && enemyOper is ActiveSkillBattleOperation enemyAtk1)
+                if (_selfOper is EndRoundOperation && _enemyOper is ActiveSkillBattleOperation enemyAtk1)
                 {
                     await ExecuteSkill(_enemy, _self, enemyPos, selfPos, enemyAtk1);
                     continue;
                 }
 
-                if (selfOper is ActiveSkillBattleOperation selfAtk1 && enemyOper is EndRoundOperation)
+                if (_selfOper is ActiveSkillBattleOperation selfAtk1 && _enemyOper is EndRoundOperation)
                 {
                     await ExecuteSkill(_self, _enemy, selfPos, enemyPos, selfAtk1);
                     continue;
@@ -186,47 +185,47 @@ namespace Game.GamePlay
 
 
                 // TODO 如果同时切换 或许有先后问题 但是和AI玩不用管 自己先切换
-                if (selfOper is ChangeHuluOperation selfChange1 && enemyOper is ChangeHuluOperation enemyChange1)
+                if (_selfOper is ChangeHuluOperation selfChange1 && _enemyOper is ChangeHuluOperation enemyChange1)
                 {
                     await ExecuteSwitch(_self, selfPos, selfChange1.next);
-                    ModifyOperAfterChangeHulu(ref selfOper);
+                    ModifyOperAfterChangeHulu(ref _selfOper);
                     await ExecuteSwitch(_enemy, enemyPos, enemyChange1.next);
-                    ModifyOperAfterChangeHulu(ref enemyOper);
+                    ModifyOperAfterChangeHulu(ref _enemyOper);
                     continue;
                 }
 
-                if (selfOper is ChangeHuluOperation selfChange2 && enemyOper is ActiveSkillBattleOperation enemyAtk2)
+                if (_selfOper is ChangeHuluOperation selfChange2 && _enemyOper is ActiveSkillBattleOperation enemyAtk2)
                 {
                     await ExecuteSwitch(_self, selfPos, selfChange2.next);
-                    ModifyOperAfterChangeHulu(ref selfOper);
+                    ModifyOperAfterChangeHulu(ref _selfOper);
                     await ExecuteSkill(_enemy, _self, enemyPos, selfPos, enemyAtk2);
                     continue;
                 }
 
-                if (selfOper is ActiveSkillBattleOperation selfAtk3 && enemyOper is ChangeHuluOperation enemyChange2)
+                if (_selfOper is ActiveSkillBattleOperation selfAtk3 && _enemyOper is ChangeHuluOperation enemyChange2)
                 {
                     await ExecuteSwitch(_enemy, enemyPos, enemyChange2.next);
-                    ModifyOperAfterChangeHulu(ref enemyOper);
+                    ModifyOperAfterChangeHulu(ref _enemyOper);
                     await ExecuteSkill(_self, _enemy, selfPos, enemyPos, selfAtk3);
                     continue;
                 }
 
-                if (selfOper is ChangeHuluOperation selfChange && enemyOper is EndRoundOperation)
+                if (_selfOper is ChangeHuluOperation selfChange && _enemyOper is EndRoundOperation)
                 {
                     await ExecuteSwitch(_self, selfPos, selfChange.next);
-                    ModifyOperAfterChangeHulu(ref selfOper);
+                    ModifyOperAfterChangeHulu(ref _selfOper);
                     continue;
                 }
 
-                if (selfOper is EndRoundOperation && enemyOper is ChangeHuluOperation enemyChange)
+                if (_selfOper is EndRoundOperation && _enemyOper is ChangeHuluOperation enemyChange)
                 {
                     await ExecuteSwitch(_enemy, enemyPos, enemyChange.next);
-                    ModifyOperAfterChangeHulu(ref enemyOper);
+                    ModifyOperAfterChangeHulu(ref _enemyOper);
                     continue;
                 }
 
                 throw new NotImplementedException(
-                    $"Self Oper: {selfOper.GetType()},Enemy Oper: {enemyOper.GetType()} NotImplemented");
+                    $"Self Oper: {_selfOper.GetType()},Enemy Oper: {_enemyOper.GetType()} NotImplemented");
             }
         }
 
@@ -418,7 +417,7 @@ namespace Game.GamePlay
             Assert.IsNotNull(next);
             await position.Prepare2Current();
             await position.ExecuteEnter();
-            Global.Event.Send<BattleTipEvent>(new BattleTipEvent($"{position}切换到{next}"));
+            Global.Event.Send(new BattleTipEvent($"{position}切换到{next}"));
             await trainer.SwitchPokemon(next);
             next.enterTimes += 1;
             Debug.Log($"{position}登场 times:{next.enterTimes}");
@@ -441,11 +440,11 @@ namespace Game.GamePlay
             {
                 if (userTrainer == _self)
                 {
-                    ModifyOperAfterUseSkill(ref selfOper);
+                    ModifyOperAfterUseSkill(ref _selfOper);
                 }
                 else
                 {
-                    ModifyOperAfterUseSkill(ref enemyOper);
+                    ModifyOperAfterUseSkill(ref _enemyOper);
                 }
 
                 return;
@@ -455,11 +454,11 @@ namespace Game.GamePlay
             {
                 if (userTrainer == _self)
                 {
-                    ModifyOperAfterUseSkill(ref selfOper);
+                    ModifyOperAfterUseSkill(ref _selfOper);
                 }
                 else
                 {
-                    ModifyOperAfterUseSkill(ref enemyOper);
+                    ModifyOperAfterUseSkill(ref _enemyOper);
                 }
 
                 Debug.LogWarning($"居然打出了不在手牌里的牌，是因为对方的技能让我弃牌了么");
@@ -471,7 +470,7 @@ namespace Game.GamePlay
             await GameMath.ProcessTrainerAfterUseCardFromHandZone(userTrainer);
 
             // 计算伤害
-            Global.Event.Send<BattleTipEvent>(
+            Global.Event.Send(
                 new BattleTipEvent($"{userPosition}使用[{config.Type}]{operation}"));
 
             UglyMath.PostprocessHuluDataWhenUseSkill(userPosition.currentData, config);
@@ -484,7 +483,7 @@ namespace Game.GamePlay
                 if (operation.data.id == ActiveSkillEnum.重整思路)
                 {
                     Debug.Log($"重整思路 弃所有手牌 抽等量牌");
-                    Global.Event.Send<BattleTipEvent>(new BattleTipEvent($"重整思路 弃所有手牌 抽等量牌"));
+                    Global.Event.Send(new BattleTipEvent($"重整思路 弃所有手牌 抽等量牌"));
                     int currentCount = userTrainer.handZone.Count;
                     await userTrainer.DiscardAllHandCards();
                     await userTrainer.DrawSkills(currentCount);
@@ -493,9 +492,9 @@ namespace Game.GamePlay
                 if (operation.data.id == ActiveSkillEnum.喝茶)
                 {
                     Debug.Log($"喝茶 双方结束回合 自己回50血");
-                    Global.Event.Send<BattleTipEvent>(new BattleTipEvent($"喝茶 双方结束回合 自己回50血"));
-                    selfOper = new EndRoundOperation();
-                    enemyOper = new EndRoundOperation();
+                    Global.Event.Send(new BattleTipEvent($"喝茶 双方结束回合 自己回50血"));
+                    _selfOper = new EndRoundOperation();
+                    _enemyOper = new EndRoundOperation();
                 }
 
                 if (operation.data.id == ActiveSkillEnum.轮转)
@@ -785,9 +784,11 @@ namespace Game.GamePlay
             }
 
             var consumeSelfCardBuff = config.ConsumeSelfCardBuffConfig;
-            if (consumeSelfCardBuff.Cnt != 0 && consumeSelfCardBuff.Buff == BattleBuffEnum.None &&
-                (consumeSelfCardBuff.TargetType & ActiveSkillTypeEnum.None) != 0)
+            // Debug.Log($"消耗自己的牌，类型:{consumeSelfCardBuff.TargetType} 数量:{consumeSelfCardBuff.Cnt}");
+            if (consumeSelfCardBuff.Cnt != 0 && consumeSelfCardBuff.Buff != BattleBuffEnum.None &&
+                (consumeSelfCardBuff.TargetType & ActiveSkillTypeEnum.None) == 0)
             {
+                Debug.Log($"消耗自己的牌，类型:{consumeSelfCardBuff.TargetType} 数量:{consumeSelfCardBuff.Cnt}");
                 int cnt = 0;
                 // 消耗自己的牌
                 int handTargetCnt = userTrainer.GetConsumeCardInHandCount(consumeSelfCardBuff.TargetType);
@@ -818,7 +819,7 @@ namespace Game.GamePlay
                 {
                     Assert.IsTrue(userTrainer.handZone.Contains(target));
                     await userTrainer.ConsumeCardFromHand(target);
-                    await userTrainer.AddBuff(consumeSelfCardBuff.Buff);
+                    await userTrainer.currentBattleData.AddBuff(consumeSelfCardBuff.Buff);
                 }
 
                 ListPool<ActiveSkillData>.Release(targets);
@@ -828,11 +829,11 @@ namespace Game.GamePlay
 
             if (userTrainer == _self)
             {
-                ModifyOperAfterUseSkill(ref selfOper);
+                ModifyOperAfterUseSkill(ref _selfOper);
             }
             else
             {
-                ModifyOperAfterUseSkill(ref enemyOper);
+                ModifyOperAfterUseSkill(ref _enemyOper);
             }
         }
     }

@@ -235,15 +235,15 @@ MonoBehaviour:
   playerBattleTrainer:
     <trainerData>k__BackingField:
       trainerSkills:
-      - id: 48
-      - id: 48
-      - id: 48
-      - id: 48
-      - id: 48
-      - id: 48
-      - id: 48
-      - id: 48
-      - id: 48
+      - id: 41
+      - id: 41
+      - id: 41
+      - id: 41
+      - id: 41
+      - id: 41
+      - id: 41
+      - id: 41
+      - id: 41
       datas:
       - id: 10
         elementEnum: 5
@@ -311,6 +311,7 @@ MonoBehaviour:
         - id: 0
         - id: 0
         - id: 2
+    buffList: 
     deck: 
   robotBattleTrainer:
     <trainerData>k__BackingField:
@@ -391,6 +392,7 @@ MonoBehaviour:
         - id: 0
         - id: 0
         - id: 2
+    buffList: 
     deck: 
   data:
     id: 1
