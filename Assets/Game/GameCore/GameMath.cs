@@ -254,13 +254,19 @@ namespace Game
             return discardRate;
         }
 
-        public static async UniTask<IBattleOperation> ProcessOperationBeforeRounding(BattleData env,
-            IBattleTrainer self, IBattleOperation operation)
+        public static async UniTask<IBattleOperation> ProcessOperationBeforeRounding(IBattleTrainer trainer,
+            IBattleOperation operation)
         {
-            if (operation is EndRoundOperation && env.GetBuff(self).buffList.Contains(BattleBuffEnum.回合结束后额外获得一个回合))
+            if (trainer.buffList.Contains(BattleBuffEnum.没有手牌时当前宝可梦生命值归0) && trainer.handZone.Count <= 0)
+            {
+                Debug.Log("没有手牌时当前宝可梦生命值归0");
+                await trainer.currentBattleData.DecreaseHealth(trainer.currentBattleData.currentHp);
+            }
+
+            if (operation is EndRoundOperation && trainer.buffList.Contains(BattleBuffEnum.回合结束后额外获得一个回合))
             {
                 Debug.Log("回合结束后额外获得一个回合");
-                env.RemoveBuff(self, BattleBuffEnum.回合结束后额外获得一个回合);
+                await trainer.RemoveBuff(BattleBuffEnum.回合结束后额外获得一个回合);
                 Global.Table.BattleBuffTable.Get(BattleBuffEnum.回合结束后额外获得一个回合);
                 await UniTask.Delay(TimeSpan.FromSeconds(0.2f));
                 return null;
@@ -269,9 +275,9 @@ namespace Game
             return operation;
         }
 
-        public static async UniTask ProcessTrainerAfterUseCardFromHandZone(IBattleTrainer userTrainer, BattleData envData)
+        public static async UniTask ProcessTrainerAfterUseCardFromHandZone(IBattleTrainer userTrainer)
         {
-            if (envData.GetBuff(userTrainer).buffList.Contains(BattleBuffEnum.出牌时有40概率受到50点伤害))
+            if (userTrainer.buffList.Contains(BattleBuffEnum.出牌时有40概率受到50点伤害))
             {
                 var buffConfig = Global.Table.BattleBuffTable.Get(BattleBuffEnum.出牌时有40概率受到50点伤害);
                 if (Random.value < buffConfig.TriggerRate)

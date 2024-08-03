@@ -28,62 +28,62 @@ namespace Game
         public BattleEnvironmentEnum id;
         public BattleEnvironmentConfig config => Global.Table.BattleEnvironmentTable.Get(id);
 
-        [ShowInInspector] private Dictionary<IBattleTrainer, BuffContainer> _containers;
+        // [ShowInInspector] private Dictionary<IBattleTrainer, BuffContainer> _containers;
 
         public BattleData()
         {
-            _containers = new Dictionary<IBattleTrainer, BuffContainer>();
+            // _containers = new Dictionary<IBattleTrainer, BuffContainer>();
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public BuffContainer GetBuff(IBattleTrainer trainer)
-        {
-            var container = _containers[trainer];
-            return container;
-        }
+        // [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        // public BuffContainer GetBuff(IBattleTrainer trainer)
+        // {
+        //     var container = _containers[trainer];
+        //     return container;
+        // }
+        //
+        // [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        // public void RemoveBuff(IBattleTrainer trainer, BattleBuffEnum buff)
+        // {
+        //     var container = _containers[trainer];
+        //     Assert.IsNotNull(container);
+        //     container.buffList.Remove(buff);
+        // }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void RemoveBuff(IBattleTrainer trainer, BattleBuffEnum buff)
-        {
-            var container = _containers[trainer];
-            Assert.IsNotNull(container);
-            container.buffList.Remove(buff);
-        }
+        // [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        // public async UniTask AddBuff(IBattleTrainer atkTrainer, BattleBuffEnum buff)
+        // {
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public async UniTask AddBuff(IBattleTrainer atkTrainer, BattleBuffEnum buff)
-        {
-
-            if (buff == BattleBuffEnum.抽两张牌)
-            {
-                await atkTrainer.DrawSkills(2);
-            }
-            if(Global.Table.BattleBuffTable.Get(buff).NotSave)
-                return;
-            
-            var container = _containers[atkTrainer];
-            Assert.IsNotNull(container);
-            if(container.buffList.Contains(buff) && !Global.Table.BattleBuffTable.Get(buff).CanStack)
-                return;
-            container.buffList.Add(buff);
+            // if (buff == BattleBuffEnum.抽两张牌)
+            // {
+            //     await atkTrainer.DrawSkills(2);
+            // }
+            // if(Global.Table.BattleBuffTable.Get(buff).NotSave)
+            //     return;
+            //
+            // var container = _containers[atkTrainer];
+            // Assert.IsNotNull(container);
+            // if(container.buffList.Contains(buff) && !Global.Table.BattleBuffTable.Get(buff).CanStack)
+            //     return;
+            // container.buffList.Add(buff);
             // await Global.BattleUI.ShowBuff(atkTrainer, 起风);
-        }
+        // }
 
-        public void AddTrainer(IBattleTrainer trainer)
-        {
-            Assert.IsFalse(_containers.ContainsKey(trainer));
-            _containers.Add(trainer, new BuffContainer()
-            {
-                trainer = trainer
-            });
-        }
+        // public void AddTrainer(IBattleTrainer trainer)
+        // {
+        //     Assert.IsFalse(_containers.ContainsKey(trainer));
+        //     _containers.Add(trainer, new BuffContainer()
+        //     {
+        //         trainer = trainer
+        //     });
+        // }
 
         public async UniTask RoundEnd()
         {
-            foreach (var (trainer, buffContainer) in _containers)
-            {
-                GameMath.ProcessBuffWhenRoundEnd(buffContainer.buffList);
-            }
+            // foreach (var (trainer, buffContainer) in _containers)
+            // {
+            //     GameMath.ProcessBuffWhenRoundEnd(buffContainer.buffList);
+            // }
         }
         
 

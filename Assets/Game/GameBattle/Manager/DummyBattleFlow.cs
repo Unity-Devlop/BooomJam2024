@@ -39,8 +39,6 @@ namespace Game.GamePlay
             _enemy = enemy;
 
             _envData = data;
-            _envData.AddTrainer(_self);
-            _envData.AddTrainer(_enemy);
 
             selfPos.battleTrainer = self;
             enemyPos.battleTrainer = enemy;
@@ -75,8 +73,6 @@ namespace Game.GamePlay
             _self.OnDiscardCard += _enemy.OnEnemyTrainerDiscardCard;
             _enemy.OnDiscardCard += _self.OnEnemyTrainerDiscardCard;
 
-            _self.SetEnvironmentData(_envData);
-            _enemy.SetEnvironmentData(_envData);
 
             Global.Get<AudioSystem>().Get(FMODName.Event.MX_COMBAT_DEMO1).start();
             await IBattleFlow.RoundFlow(this, _cts.Token);
@@ -87,10 +83,8 @@ namespace Game.GamePlay
             // throw new System.NotImplementedException();
             // 执行入场逻辑
             await EnterBattleCheck();
-            var selfBuffs = _envData.GetBuff(_self);
-            await ExecuteBuffBeforeRound(_self, _enemy, selfBuffs);
-            var enemyBuffs = _envData.GetBuff(_enemy);
-            await ExecuteBuffBeforeRound(_enemy, _self, enemyBuffs);
+            await _self.BeforeRounding();
+            await _enemy.BeforeRounding();
         }
 
         public async UniTask BeforeRound()
@@ -120,8 +114,8 @@ namespace Game.GamePlay
                     break;
                 }
 
-                selfOper = await GameMath.ProcessOperationBeforeRounding(_envData, _self, selfOper);
-                enemyOper = await GameMath.ProcessOperationBeforeRounding(_envData, _enemy, enemyOper);
+                selfOper = await GameMath.ProcessOperationBeforeRounding(_self, selfOper);
+                enemyOper = await GameMath.ProcessOperationBeforeRounding(_enemy, enemyOper);
 
                 // 等待双方操作
                 if (selfOper is not EndRoundOperation)
@@ -147,9 +141,7 @@ namespace Game.GamePlay
 
 
                 Debug.Log($"Self Oper: {selfOper},Enemy Oper: {enemyOper}");
-
-
-                // TODO 重写 
+                
 
 
                 if (selfOper is ActiveSkillBattleOperation selfAtk && enemyOper is ActiveSkillBattleOperation enemyAtk)
@@ -163,34 +155,9 @@ namespace Game.GamePlay
                         // 放了技能后 回合自动结束
                         continue;
                     }
-
-                    // if (selfAtk.data.config.Type == ActiveSkillTypeEnum.指挥 &&
-                    //     enemyAtk.data.config.Type == ActiveSkillTypeEnum.指挥)
-                    // {
-                    //     if (Random.value < 0.5)
-                    //     {
-                    //         await ExecuteSkill(_self, _enemy, selfPos, enemyPos, selfAtk);
-                    //         await ExecuteSkill(_enemy, _self, enemyPos, selfPos, enemyAtk);
-                    //     }
-                    //     else
-                    //     {
-                    //         await ExecuteSkill(_enemy, _self, enemyPos, selfPos, enemyAtk);
-                    //         await ExecuteSkill(_self, _enemy, selfPos, enemyPos, selfAtk);
-                    //     }
-                    //
-                    //     continue;
-                    // }
-
-                    // if (selfAtk.data.config.Type == ActiveSkillTypeEnum.指挥)
-                    // {
+                    
                     await ExecuteSkill(_self, _enemy, selfPos, enemyPos, selfAtk);
                     await ExecuteSkill(_enemy, _self, enemyPos, selfPos, enemyAtk);
-                    // }
-                    // else
-                    // {
-                    //     await ExecuteSkill(_enemy, _self, enemyPos, selfPos, enemyAtk);
-                    //     await ExecuteSkill(_self, _enemy, selfPos, enemyPos, selfAtk);
-                    // }
 
                     continue; // 这里双方技能都结算了 所以直接跳到下一回合
                 }
@@ -427,11 +394,6 @@ namespace Game.GamePlay
             }
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private async UniTask ExecuteBuffBeforeRound(IBattleTrainer positiveTrainer, IBattleTrainer negativeTrainer,
-            BuffContainer container)
-        {
-        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private async UniTask ExecuteSwitch(IBattleTrainer trainer, BattlePosition position, int idx)
@@ -465,7 +427,7 @@ namespace Game.GamePlay
             Assert.IsTrue(defTrainer.currentBattleData == defPosition.currentData);
             var config = operation.data.config;
 
-            if (_envData.GetBuff(userTrainer).buffList.Contains(BattleBuffEnum.结束回合))
+            if (userTrainer.buffList.Contains(BattleBuffEnum.结束回合))
             {
                 if (userTrainer == _self)
                 {
@@ -481,8 +443,8 @@ namespace Game.GamePlay
 
             await userTrainer.UseCardFromHandZone(operation.data);
 
-            await GameMath.ProcessTrainerAfterUseCardFromHandZone(userTrainer, _envData);
-            
+            await GameMath.ProcessTrainerAfterUseCardFromHandZone(userTrainer);
+
             // 计算伤害
             Global.Event.Send<BattleTipEvent>(
                 new BattleTipEvent($"{userPosition}使用[{config.Type}]{operation}"));
@@ -594,7 +556,8 @@ namespace Game.GamePlay
                             await UglyMath.PostprocessHuluDataWhenDead(defPosition.currentData);
                         }
 
-                        await UglyMath.PostprocessHuluDataWhenAfterUseSkill(userTrainer,
+                        // Tag 只有命中了才会执行的效果
+                        await UglyMath.EffectWhenSkillHitted(userTrainer,
                             defTrainer,
                             config,
                             damage, _envData);
@@ -640,8 +603,7 @@ namespace Game.GamePlay
                 Debug.Log($"{userPosition}使用{operation.data.id}抽牌,数量:{config.DarwCardCountAfterUse}");
                 await userTrainer.DrawSkills(config.DarwCardCountAfterUse);
             }
-
-            if (config.DarwCardCountAfterUse == -1)
+            else if (config.DarwCardCountAfterUse == -1)
             {
                 Debug.Log($"{userPosition}使用{operation.data.id}抽牌,手牌抽满");
                 await userTrainer.DrawHandFull();
@@ -694,7 +656,7 @@ namespace Game.GamePlay
                     await UniTask.Delay(TimeSpan.FromSeconds(0.2f));
                     Assert.IsTrue(buffConfig.IsTrainerBuff);
 
-                    await _envData.AddBuff(userTrainer, config.SelfTrainerBuffAfterUse);
+                    await userTrainer.AddBuff(config.SelfTrainerBuffAfterUse);
                 }
             }
 
@@ -710,7 +672,7 @@ namespace Game.GamePlay
                         $"{userPosition}使用{operation.data.id}给对方加buff:{config.DefTrainerBuffAfterUse}");
                     await UniTask.Delay(TimeSpan.FromSeconds(0.2f));
                     Assert.IsTrue(buffConfig.IsTrainerBuff);
-                    await _envData.AddBuff(defTrainer, config.DefTrainerBuffAfterUse);
+                    await defTrainer.AddBuff(config.DefTrainerBuffAfterUse);
                 }
             }
 
@@ -750,7 +712,7 @@ namespace Game.GamePlay
             {
                 for (int i = 0; i < fullHpAddBuffConfig.Cnt; i++)
                 {
-                    await _envData.AddBuff(userTrainer, fullHpAddBuffConfig.Buff);
+                    await userTrainer.AddBuff(fullHpAddBuffConfig.Buff);
                 }
             }
 
@@ -760,7 +722,7 @@ namespace Game.GamePlay
             {
                 for (int i = 0; i < notFullHpAddBuffConfig.Cnt; i++)
                 {
-                    await _envData.AddBuff(userTrainer, notFullHpAddBuffConfig.Buff);
+                    await userTrainer.AddBuff(notFullHpAddBuffConfig.Buff);
                 }
             }
 

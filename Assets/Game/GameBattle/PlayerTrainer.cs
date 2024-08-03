@@ -40,6 +40,7 @@ namespace Game.GamePlay
             return UniTask.CompletedTask;
         };
 
+        [field: NonSerialized] public List<BattleBuffEnum> buffList { get; set; } = new List<BattleBuffEnum>();
         public List<ActiveSkillEnum> deck = new();
 
         // Draw zone, hand zone, discard zone
@@ -93,7 +94,7 @@ namespace Game.GamePlay
 
         public async UniTask ConsumeCard(ActiveSkillData data)
         {
-            // Assert.IsTrue(data.config.Type2 == CardTypeEnum.消耗);
+            Assert.IsTrue((data.config.Type2 & CardTypeEnum.消耗) != 0);
             // Assert.IsTrue(handZone.Contains(data));
             Assert.IsFalse(consumedZone.Contains(data));
 
@@ -107,7 +108,7 @@ namespace Game.GamePlay
 
         private async UniTask Discard(ActiveSkillData data)
         {
-            // Assert.IsTrue(data.config.Type2 == CardTypeEnum.Normal);
+            Assert.IsTrue((data.config.Type2 & CardTypeEnum.Normal) != 0);
             Assert.IsTrue(handZone.Contains(data));
             Assert.IsFalse(discardZone.Contains(data));
             handZone.Remove(data);
@@ -423,12 +424,12 @@ namespace Game.GamePlay
 
         public async UniTask OnEnemyTrainerDiscardCard(List<ActiveSkillData> arg, IBattleTrainer trainer)
         {
-            if (_env.GetBuff(this).buffList.Contains(BattleBuffEnum.对手弃牌时自己摸等量手牌))
+            if (buffList.Contains(BattleBuffEnum.对手弃牌时自己摸等量手牌))
             {
                 await DrawSkills(arg.Count);
             }
 
-            if (_env.GetBuff(this).buffList.Contains(BattleBuffEnum.回合内消耗对手弃置的牌))
+            if (buffList.Contains(BattleBuffEnum.回合内消耗对手弃置的牌))
             {
                 foreach (var data in arg)
                 {
@@ -442,12 +443,32 @@ namespace Game.GamePlay
             await UniTask.CompletedTask;
         }
 
-        private BattleData _env;
-
-        public void SetEnvironmentData(BattleData data)
+        public async UniTask RemoveBuff(BattleBuffEnum buff)
         {
-            _env = data;
+            buffList.Remove(buff);
+            await UniTask.CompletedTask;
         }
+
+        public async UniTask BeforeRounding()
+        {
+            await UniTask.CompletedTask;
+        }
+
+        public async UniTask AddBuff(BattleBuffEnum buff)
+        {
+            if (buff == BattleBuffEnum.抽两张牌)
+            {
+                await DrawSkills(2);
+            }
+
+            if (Global.Table.BattleBuffTable.Get(buff).NotSave)
+                return;
+
+            if (buffList.Contains(buff) && !Global.Table.BattleBuffTable.Get(buff).CanStack)
+                return;
+            buffList.Add(buff);
+        }
+
 
         public void ExitBattle()
         {

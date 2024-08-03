@@ -17,6 +17,8 @@ namespace Game.GamePlay
         public TrainerData trainerData { get; }
         public HuluData currentBattleData { get; }
 
+        public List<BattleBuffEnum> buffList { get; }
+
         public HashSet<ActiveSkillData> handZone { get; }
 
         public HuluData Get(int idx)
@@ -58,10 +60,12 @@ namespace Game.GamePlay
 
 
         void ExitBattle();
-        void SetEnvironmentData(BattleData data);
         UniTask ConsumeCard(ActiveSkillData data);
 
         UniTask OnEnemyTrainerDiscardCard(List<ActiveSkillData> arg, IBattleTrainer trainer);
+        UniTask RemoveBuff(BattleBuffEnum buff);
+        UniTask BeforeRounding();
+        UniTask AddBuff(BattleBuffEnum buff);
     }
 
     public interface IBattleFlow

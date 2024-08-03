@@ -25,11 +25,17 @@ namespace Game
             }
         }
 
-        public static async UniTask PostprocessHuluDataWhenAfterUseSkill(IBattleTrainer atkTrainer,
+        public static async UniTask EffectWhenSkillHitted(IBattleTrainer atkTrainer,
             IBattleTrainer defTrainer,
             ActiveSkillConfig skill,
             int damagePoint, BattleData data)
         {
+
+            if (skill.UserDiscardCount != 0)
+            {
+                await atkTrainer.RandomDiscard(skill.UserDiscardCount);
+            }
+            
             var atk = atkTrainer.currentBattleData;
             float defDiscardCardRate =
                 GameMath.CalDefDiscardCardRate(atkTrainer, defTrainer, skill);
@@ -69,7 +75,6 @@ namespace Game
             {
                 int heal = (int)(damagePoint * 0.3f);
                 await atk.DecreaseHealth(heal);
-                return;
             }
         }
 
@@ -193,13 +198,13 @@ namespace Game
         {
             float speed = userHulu.currentSpeed;
 
-            if (data.GetBuff(user).buffList.Contains(BattleBuffEnum.顺风))
+            if (user.buffList.Contains(BattleBuffEnum.顺风))
             {
                 Debug.Log($"{userHulu}顺风+10");
                 speed += 10;
             }
 
-            if (data.GetBuff(user).buffList.Contains(BattleBuffEnum.逆风))
+            if (user.buffList.Contains(BattleBuffEnum.逆风))
             {
                 Debug.Log($"{userHulu}逆风-10");
                 speed -= 10;

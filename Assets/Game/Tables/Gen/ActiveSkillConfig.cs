@@ -46,6 +46,7 @@ public sealed partial class ActiveSkillConfig : Luban.BeanBase
         { if(!_buf["increase_self_speed_point_after_use"].IsNumber) { throw new SerializationException(); }  IncreaseSelfSpeedPointAfterUse = _buf["increase_self_speed_point_after_use"]; }
         { if(!_buf["def_discard_card_rate"].IsNumber) { throw new SerializationException(); }  DefDiscardCardRate = _buf["def_discard_card_rate"]; }
         { if(!_buf["def_discard_count"].IsNumber) { throw new SerializationException(); }  DefDiscardCount = _buf["def_discard_count"]; }
+        { if(!_buf["user_discard_count"].IsNumber) { throw new SerializationException(); }  UserDiscardCount = _buf["user_discard_count"]; }
         { if(!_buf["full_hp_increase_base_value_rate"].IsNumber) { throw new SerializationException(); }  FullHpIncreaseBaseValueRate = _buf["full_hp_increase_base_value_rate"]; }
         { if(!_buf["percentage_damage_by_self"].IsNumber) { throw new SerializationException(); }  PercentageDamageBySelf = _buf["percentage_damage_by_self"]; }
         { if(!_buf["change_element_after_use"].IsNumber) { throw new SerializationException(); }  ChangeElementAfterUse = (ElementEnum)_buf["change_element_after_use"].AsInt; }
@@ -174,6 +175,10 @@ public sealed partial class ActiveSkillConfig : Luban.BeanBase
     /// </summary>
     public readonly int DefDiscardCount;
     /// <summary>
+    /// 使用方弃牌数量
+    /// </summary>
+    public readonly int UserDiscardCount;
+    /// <summary>
     /// 满血时baseValue加成
     /// </summary>
     public readonly float FullHpIncreaseBaseValueRate;
@@ -228,6 +233,7 @@ public sealed partial class ActiveSkillConfig : Luban.BeanBase
         
         
         
+        
     }
 
     public override string ToString()
@@ -262,6 +268,7 @@ public sealed partial class ActiveSkillConfig : Luban.BeanBase
         + "increaseSelfSpeedPointAfterUse:" + IncreaseSelfSpeedPointAfterUse + ","
         + "defDiscardCardRate:" + DefDiscardCardRate + ","
         + "defDiscardCount:" + DefDiscardCount + ","
+        + "userDiscardCount:" + UserDiscardCount + ","
         + "fullHpIncreaseBaseValueRate:" + FullHpIncreaseBaseValueRate + ","
         + "percentageDamageBySelf:" + PercentageDamageBySelf + ","
         + "changeElementAfterUse:" + ChangeElementAfterUse + ","
