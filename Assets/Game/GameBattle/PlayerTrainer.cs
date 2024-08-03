@@ -40,7 +40,9 @@ namespace Game.GamePlay
             return UniTask.CompletedTask;
         };
 
-        [field: NonSerialized] public List<BattleBuffEnum> buffList { get; set; } = new List<BattleBuffEnum>();
+        private List<BattleBuffEnum> buffList = new List<BattleBuffEnum>();
+
+
         public List<ActiveSkillEnum> deck = new();
 
         // Draw zone, hand zone, discard zone
@@ -68,6 +70,7 @@ namespace Game.GamePlay
             {
                 return new EndRoundOperation();
             }
+
             // Debug.Log("开始计算操作");
             await OnStartCalOperation(); // 通知UI开始计算操作
             await UniTask.WaitUntil(() => _operation != null); // 等待一个操作
@@ -143,6 +146,11 @@ namespace Game.GamePlay
             consumedZone.Add(data);
             Debug.Log($"移动弃牌区到消耗区{data}");
             await UniTask.CompletedTask;
+        }
+
+        public bool ContainsBuff(BattleBuffEnum buff)
+        {
+            return buffList.Contains(buff);
         }
 
         public async UniTask RandomDiscardCardFromHand(int i)

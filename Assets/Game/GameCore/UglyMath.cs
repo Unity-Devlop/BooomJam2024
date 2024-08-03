@@ -173,46 +173,47 @@ namespace Game
             return res;
         }
 
-        public static float PostprocessRunTimeSpeed(IBattleTrainer user, HuluData userHulu,
+        public static float PostprocessRunTimeSpeed(IBattleTrainer user,
             BattleData data)
         {
-            float speed = userHulu.currentSpeed;
+            var pokemon = user.currentBattleData;
+            float speed = pokemon.currentSpeed;
 
-            if (user.buffList.Contains(BattleBuffEnum.顺风))
+            if (user.ContainsBuff(BattleBuffEnum.顺风))
             {
-                Debug.Log($"{userHulu}顺风+10");
+                Debug.Log($"{pokemon}顺风+10");
                 speed += 10;
             }
 
-            if (user.buffList.Contains(BattleBuffEnum.逆风))
+            if (user.ContainsBuff(BattleBuffEnum.逆风))
             {
-                Debug.Log($"{userHulu}逆风-10");
+                Debug.Log($"{pokemon}逆风-10");
                 speed -= 10;
             }
 
             switch (data.id)
             {
                 case BattleEnvironmentEnum.草地:
-                    if (userHulu.id == HuluEnum.推土牛 && userHulu.passiveSkillConfig.Id == PassiveSkillEnum.轰隆冲击)
+                    if (pokemon.id == HuluEnum.推土牛 && pokemon.passiveSkillConfig.Id == PassiveSkillEnum.轰隆冲击)
                     {
                         Debug.Log("轰隆冲击");
-                        speed = userHulu.currentSpeed * 2f;
+                        speed = pokemon.currentSpeed * 2f;
                     }
 
                     break;
                 case BattleEnvironmentEnum.沙漠:
                     break;
                 case BattleEnvironmentEnum.海洋:
-                    if (userHulu.elementEnum == ElementEnum.水)
+                    if (pokemon.elementEnum == ElementEnum.水)
                     {
-                        speed = userHulu.currentSpeed * 1.05f;
+                        speed = pokemon.currentSpeed * 1.05f;
                     }
 
                     break;
                 case BattleEnvironmentEnum.火山:
                     break;
                 case BattleEnvironmentEnum.雪地:
-                    speed = userHulu.currentSpeed * 0.9f;
+                    speed = pokemon.currentSpeed * 0.9f;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -254,8 +255,8 @@ namespace Game
                     Debug.Log("胆小鬼触发！");
                     Global.Event.Send(new BattleTipEvent($"{hulu}胆小鬼"));
                     await UniTask.Delay(TimeSpan.FromSeconds(1));
-                    hulu.RemoveBuff(BattleBuffEnum.胆小鬼);
-                    hulu.Add(BattleBuffEnum.胆小鬼归来);
+                    await hulu.RemoveBuff(BattleBuffEnum.胆小鬼);
+                    await hulu.AddBuff(BattleBuffEnum.胆小鬼归来);
                     return operation;
                 }
             }
@@ -292,17 +293,17 @@ namespace Game
             // Debug.Log($"{next}进入战场 times:{next.enterTimes}");
             if (next.id == HuluEnum.电电鼠 && next.passiveSkillConfig.Id == PassiveSkillEnum.胆小鬼 && next.enterTimes == 1)
             {
-                next.Add(BattleBuffEnum.胆小鬼);
+                await next.AddBuff(BattleBuffEnum.胆小鬼);
             }
 
             if (next.id == HuluEnum.斯托姆 && next.passiveSkillConfig.Id == PassiveSkillEnum.狂风不灭 && next.enterTimes == 1)
             {
-                next.Add(BattleBuffEnum.狂风不灭);
+                await next.AddBuff(BattleBuffEnum.狂风不灭);
             }
 
             if (next.ContainsBuff(BattleBuffEnum.胆小鬼归来))
             {
-                next.RemoveBuff(BattleBuffEnum.胆小鬼归来);
+                await next.RemoveBuff(BattleBuffEnum.胆小鬼归来);
                 Debug.Log("胆小鬼归来");
                 Global.Event.Send(new BattleTipEvent($"{next}胆小鬼归来"));
                 next.hp = (int)(next.hp * 1.5f);

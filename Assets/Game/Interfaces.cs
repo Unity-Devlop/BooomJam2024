@@ -16,8 +16,7 @@ namespace Game.GamePlay
         public bool canFight { get; }
         public TrainerData trainerData { get; }
         public HuluData currentBattleData { get; }
-
-        public List<BattleBuffEnum> buffList { get; }
+        
 
         public HashSet<ActiveSkillData> handZone { get; }
 
@@ -67,6 +66,7 @@ namespace Game.GamePlay
         UniTask BeforeRounding();
         UniTask AddBuff(BattleBuffEnum buff);
         UniTask MoveDiscardCardToConsumeZone(ActiveSkillData data);
+        bool ContainsBuff(BattleBuffEnum buff);
     }
 
     public interface IBattleFlow

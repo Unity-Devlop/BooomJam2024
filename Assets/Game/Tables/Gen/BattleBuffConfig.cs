@@ -25,6 +25,7 @@ public sealed partial class BattleBuffConfig : Luban.BeanBase
         { if(!_buf["is_trainer_buff"].IsBoolean) { throw new SerializationException(); }  IsTrainerBuff = _buf["is_trainer_buff"]; }
         { if(!_buf["trigger_rate"].IsNumber) { throw new SerializationException(); }  TriggerRate = _buf["trigger_rate"]; }
         { if(!_buf["damage_for_current_pokemon"].IsNumber) { throw new SerializationException(); }  DamageForCurrentPokemon = _buf["damage_for_current_pokemon"]; }
+        { if(!_buf["max_stack"].IsNumber) { throw new SerializationException(); }  MaxStack = _buf["max_stack"]; }
     }
 
     public static BattleBuffConfig DeserializeBattleBuffConfig(JSONNode _buf)
@@ -58,12 +59,17 @@ public sealed partial class BattleBuffConfig : Luban.BeanBase
     /// </summary>
     public readonly float TriggerRate;
     public readonly int DamageForCurrentPokemon;
+    /// <summary>
+    /// 最多叠加数量
+    /// </summary>
+    public readonly int MaxStack;
    
     public const int __ID__ = 1259790445;
     public override int GetTypeId() => __ID__;
 
     public  void ResolveRef(Tables tables)
     {
+        
         
         
         
@@ -85,6 +91,7 @@ public sealed partial class BattleBuffConfig : Luban.BeanBase
         + "isTrainerBuff:" + IsTrainerBuff + ","
         + "triggerRate:" + TriggerRate + ","
         + "damageForCurrentPokemon:" + DamageForCurrentPokemon + ","
+        + "maxStack:" + MaxStack + ","
         + "}";
     }
 }

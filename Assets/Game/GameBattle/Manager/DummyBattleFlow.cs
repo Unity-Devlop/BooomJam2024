@@ -116,12 +116,11 @@ namespace Game.GamePlay
 
                 await GameMath.ProcessPokemonBeforeRounding(_self);
                 await GameMath.ProcessPokemonBeforeRounding(_enemy);
-                
+
                 selfOper = await GameMath.ProcessOperationBeforeRounding(_self, selfOper);
                 enemyOper = await GameMath.ProcessOperationBeforeRounding(_enemy, enemyOper);
 
 
-                
                 // 有人不能战斗了
                 if (!selfPos.CanFight() || !enemyPos.CanFight())
                 {
@@ -437,7 +436,7 @@ namespace Game.GamePlay
             Assert.IsTrue(defTrainer.currentBattleData == defPosition.currentData);
             var config = operation.data.config;
 
-            if (userTrainer.buffList.Contains(BattleBuffEnum.结束回合))
+            if (userTrainer.ContainsBuff(BattleBuffEnum.结束回合))
             {
                 if (userTrainer == _self)
                 {
@@ -756,6 +755,16 @@ namespace Game.GamePlay
                 for (int i = 0; i < notFullHpAddBuffConfig.Cnt; i++)
                 {
                     await userTrainer.AddBuff(notFullHpAddBuffConfig.Buff);
+                }
+            }
+
+            var WhenSppedLessThanBuff = config.WhenSppedLessThanBuff;
+            if (WhenSppedLessThanBuff.Buff != BattleBuffEnum.None && WhenSppedLessThanBuff.Compare != -1)
+            {
+                float speed = UglyMath.PostprocessRunTimeSpeed(userTrainer, _envData);
+                if (speed < WhenSppedLessThanBuff.Compare)
+                {
+                    await userTrainer.AddBuff(WhenSppedLessThanBuff.Buff);
                 }
             }
 

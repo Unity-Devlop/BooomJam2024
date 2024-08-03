@@ -119,8 +119,8 @@ namespace Game
                 return (l, r);
             }
 
-            int rRuntimeSpeed = (int)UglyMath.PostprocessRunTimeSpeed(rT, r, data);
-            int lRuntimeSpeed = (int)UglyMath.PostprocessRunTimeSpeed(lt, l, data);
+            int rRuntimeSpeed = (int)UglyMath.PostprocessRunTimeSpeed(rT, data);
+            int lRuntimeSpeed = (int)UglyMath.PostprocessRunTimeSpeed(lt, data);
 
             if (rRuntimeSpeed > lRuntimeSpeed)
             {
@@ -180,12 +180,24 @@ namespace Game
             Debug.Log($"处理前的基础伤害{baseValue} ");
             baseValue = UglyMath.PostprocessBattleBaseValue(baseValue, atk, def, config);
 
-            Debug.Log($"基础伤害{baseValue} 适应度{def.currentAdap}");
-            float finalValue = baseValue * (1 - Mathf.Clamp(def.currentAdap, 0, 100) / 100f);
+            int adap = GameMath.CalRunTimeAdap(def, data);
+            Debug.Log($"基础伤害{baseValue} 适应度{adap}");
+            float finalValue = baseValue * (1 - Mathf.Clamp(adap, 0, 100) / 100f);
 
             finalValue = UglyMath.PostprocessBattleFinalValue(finalValue, atk, def, config);
 
             return (int)finalValue;
+        }
+
+        private static int CalRunTimeAdap(HuluData def, BattleData data)
+        {
+            int baseAdap = def.currentAdap;
+            if (def.ContainsBuff(BattleBuffEnum.加十点适应力))
+            {
+                baseAdap += 10 * def.BuffCount(BattleBuffEnum.加十点适应力);
+            }
+
+            return baseAdap;
         }
 
 
@@ -257,7 +269,7 @@ namespace Game
         public static async UniTask<IBattleOperation> ProcessOperationBeforeRounding(IBattleTrainer trainer,
             IBattleOperation operation)
         {
-            if (operation is EndRoundOperation && trainer.buffList.Contains(BattleBuffEnum.回合结束后额外获得一个回合))
+            if (operation is EndRoundOperation && trainer.ContainsBuff(BattleBuffEnum.回合结束后额外获得一个回合))
             {
                 Debug.Log("回合结束后额外获得一个回合");
                 await trainer.RemoveBuff(BattleBuffEnum.回合结束后额外获得一个回合);
@@ -271,7 +283,7 @@ namespace Game
 
         public static async UniTask ProcessTrainerAfterUseCardFromHandZone(IBattleTrainer userTrainer)
         {
-            if (userTrainer.buffList.Contains(BattleBuffEnum.出牌时有40概率受到50点伤害))
+            if (userTrainer.ContainsBuff(BattleBuffEnum.出牌时有40概率受到50点伤害))
             {
                 var buffConfig = Global.Table.BattleBuffTable.Get(BattleBuffEnum.出牌时有40概率受到50点伤害);
                 if (Random.value < buffConfig.TriggerRate)
@@ -283,7 +295,7 @@ namespace Game
 
         public static async UniTask ProcessPokemonBeforeRounding(IBattleTrainer trainer)
         {
-            if (trainer.buffList.Contains(BattleBuffEnum.没有手牌时当前宝可梦生命值归0) && trainer.handZone.Count <= 0)
+            if (trainer.ContainsBuff(BattleBuffEnum.没有手牌时当前宝可梦生命值归0) && trainer.handZone.Count <= 0)
             {
                 Debug.Log($"{trainer}没有手牌!当前宝可梦生命值归0");
                 Global.Event.Send(new BattleTipEvent("没有手牌!当前宝可梦生命值归0"));
