@@ -58,8 +58,12 @@ namespace Game
             _systemLocator.Register<GameFlow>(GetComponent<GameFlow>());
             _systemLocator.Register<AudioSystem>(GetComponent<AudioSystem>());
             _systemLocator.Register<DataSystem>(GetComponent<DataSystem>());
+            _systemLocator.Register<ResourceSystem>(GetComponent<ResourceSystem>());
             // 初始化UI资源加载器
             UIRoot.Singleton.UIDatabase.Loader = new AddressablesUILoader();
+            
+            // 质量变成Ultra
+            QualitySettings.SetQualityLevel(5);
         }
 
         protected override void OnDispose()
@@ -91,7 +95,7 @@ namespace Game
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void LogInfo(string message)
         {
-            Debug.Log($"[Info] {message}");
+            Debug.Log($"[Info] {message}".Color(Color.white));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

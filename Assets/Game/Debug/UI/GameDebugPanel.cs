@@ -10,11 +10,18 @@ namespace Game
     {
         [SerializeField] private Button rollToStartButton;
         [SerializeField] private Button debugToStartButton;
+        [SerializeField] private Button frameButton;
 
         private void Awake()
         {
             rollToStartButton.onClick.AddListener(OnRollToStartButtonClick);
             debugToStartButton.onClick.AddListener(OnDebugToStartButtonClick);
+            frameButton.onClick.AddListener(OnFrameButtonClick);
+        }
+
+        private void OnFrameButtonClick()
+        {
+            Application.targetFrameRate = 600;
         }
 
         private void OnDebugToStartButtonClick()
