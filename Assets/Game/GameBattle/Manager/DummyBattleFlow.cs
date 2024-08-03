@@ -141,7 +141,6 @@ namespace Game.GamePlay
 
 
                 Debug.Log($"Self Oper: {selfOper},Enemy Oper: {enemyOper}");
-                
 
 
                 if (selfOper is ActiveSkillBattleOperation selfAtk && enemyOper is ActiveSkillBattleOperation enemyAtk)
@@ -155,7 +154,7 @@ namespace Game.GamePlay
                         // 放了技能后 回合自动结束
                         continue;
                     }
-                    
+
                     await ExecuteSkill(_self, _enemy, selfPos, enemyPos, selfAtk);
                     await ExecuteSkill(_enemy, _self, enemyPos, selfPos, enemyAtk);
 
@@ -581,6 +580,19 @@ namespace Game.GamePlay
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
             #region 通用效果
+
+            if (config.UserDiscardCountAnyway != 0)
+            {
+                Debug.Log($"{userTrainer} 弃牌生效 {config.UserDiscardCountAnyway}");
+                await userTrainer.RandomDiscard(config.UserDiscardCountAnyway);
+            }
+
+            if (config.DefDiscardCountAnyway != 0)
+            {
+                Global.Event.Send(new BattleTipEvent($"{config} 弃牌生效 {defTrainer}弃{config.DefDiscardCountAnyway} 张"));
+                await defTrainer.RandomDiscard(config.DefDiscardCountAnyway);
+            }
+
 
             if (config.IncreaseHealthPercentAfterUse != 0)
             {

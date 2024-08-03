@@ -30,19 +30,14 @@ namespace Game
             ActiveSkillConfig skill,
             int damagePoint, BattleData data)
         {
-
-            if (skill.UserDiscardCount != 0)
-            {
-                await atkTrainer.RandomDiscard(skill.UserDiscardCount);
-            }
-            
             var atk = atkTrainer.currentBattleData;
-            float defDiscardCardRate =
-                GameMath.CalDefDiscardCardRate(atkTrainer, defTrainer, skill);
-            if (Random.value < defDiscardCardRate)
+          
+            float defDiscardCardRateWhenHitted =
+                GameMath.CalDefDiscardCardRateWhenHitted(atkTrainer, defTrainer, skill);
+            if (Random.value < defDiscardCardRateWhenHitted)
             {
-                Global.Event.Send(new BattleTipEvent($"{skill} 弃牌生效 {defTrainer}弃{skill.DefDiscardCount} 张"));
-                await defTrainer.RandomDiscard(skill.DefDiscardCount);
+                Global.Event.Send(new BattleTipEvent($"{skill} 弃牌生效 {defTrainer}弃{skill.DefDiscardCountWhenHitted} 张"));
+                await defTrainer.RandomDiscard(skill.DefDiscardCountWhenHitted);
             }
 
             if (skill.IncreaseSelfSpeedPointAfterUse != 0)

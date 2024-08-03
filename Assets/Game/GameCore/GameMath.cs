@@ -241,14 +241,14 @@ namespace Game
             return times;
         }
 
-        public static float CalDefDiscardCardRate(IBattleTrainer atkTrainer, IBattleTrainer defTrainer,
+        public static float CalDefDiscardCardRateWhenHitted(IBattleTrainer atkTrainer, IBattleTrainer defTrainer,
             ActiveSkillConfig skill)
         {
-            float discardRate = skill.DefDiscardCardRate;
-            if (atkTrainer.currentBattleData.ContainsBuff(BattleBuffEnum.下一次技能让对方弃牌概率变成1))
+            float discardRate = skill.DefDiscardCardRateWhenHitted;
+            if (atkTrainer.currentBattleData.ContainsBuff(BattleBuffEnum.下一次技能让对方受伤时弃牌概率变成1))
             {
                 discardRate = 1;
-                atkTrainer.currentBattleData.RemoveBuff(BattleBuffEnum.下一次技能让对方弃牌概率变成1);
+                atkTrainer.currentBattleData.RemoveBuff(BattleBuffEnum.下一次技能让对方受伤时弃牌概率变成1);
             }
 
             return discardRate;

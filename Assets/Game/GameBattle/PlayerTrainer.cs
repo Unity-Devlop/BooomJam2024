@@ -92,10 +92,34 @@ namespace Game.GamePlay
             await Discard(data);
         }
 
+
+        private async UniTask Discard(ActiveSkillData data)
+        {
+            // Assert.IsTrue((data.config.Type2 & CardTypeEnum.Normal) != 0);
+            Assert.IsTrue(handZone.Contains(data));
+            Assert.IsFalse(discardZone.Contains(data));
+            Assert.IsFalse(consumedZone.Contains(data));
+            Assert.IsFalse(drawZone.Contains(data));
+            handZone.Remove(data);
+            List<ActiveSkillData> list = new List<ActiveSkillData>(1) { data };
+            await OnDiscardCard(list, this);
+
+            if ((data.config.Type2 & CardTypeEnum.消耗) != 0)
+            {
+                await ConsumeCard(data);
+            }
+            else
+            {
+                discardZone.Add(data);
+            }
+        }
+
         public async UniTask ConsumeCard(ActiveSkillData data)
         {
             Assert.IsTrue((data.config.Type2 & CardTypeEnum.消耗) != 0);
-            // Assert.IsTrue(handZone.Contains(data));
+            Assert.IsFalse(handZone.Contains(data));
+            Assert.IsFalse(discardZone.Contains(data));
+            Assert.IsFalse(drawZone.Contains(data));
             Assert.IsFalse(consumedZone.Contains(data));
 
             handZone.Remove(data);
@@ -103,24 +127,6 @@ namespace Game.GamePlay
             List<ActiveSkillData> list = ListPool<ActiveSkillData>.Get();
             list.Add(data);
             await OnConsumedCard(list);
-        }
-
-
-        private async UniTask Discard(ActiveSkillData data)
-        {
-            Assert.IsTrue((data.config.Type2 & CardTypeEnum.Normal) != 0);
-            Assert.IsTrue(handZone.Contains(data));
-            Assert.IsFalse(discardZone.Contains(data));
-            handZone.Remove(data);
-            discardZone.Add(data);
-            List<ActiveSkillData> list = ListPool<ActiveSkillData>.Get();
-            list.Add(data);
-            await OnDiscardCard(list, this);
-
-            if ((data.config.Type2 & CardTypeEnum.消耗) != 0)
-            {
-                await ConsumeCard(data);
-            }
         }
 
         public async UniTask RandomDiscard(int i)
@@ -133,12 +139,7 @@ namespace Game.GamePlay
                 await Discard(discard);
             }
 
-            await UniTask.Delay(TimeSpan.FromSeconds(1));
-        }
-
-        public int GetHandZoneCount()
-        {
-            return handZone.Count;
+            await UniTask.Delay(TimeSpan.FromSeconds(0.2f));
         }
 
         public async UniTask DiscardAllHandCards()

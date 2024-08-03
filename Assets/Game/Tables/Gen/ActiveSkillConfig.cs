@@ -44,9 +44,10 @@ public sealed partial class ActiveSkillConfig : Luban.BeanBase
         { if(!_buf["increase_health_point_after_use"].IsNumber) { throw new SerializationException(); }  IncreaseHealthPointAfterUse = _buf["increase_health_point_after_use"]; }
         { if(!_buf["increase_health_percent_after_use"].IsNumber) { throw new SerializationException(); }  IncreaseHealthPercentAfterUse = _buf["increase_health_percent_after_use"]; }
         { if(!_buf["increase_self_speed_point_after_use"].IsNumber) { throw new SerializationException(); }  IncreaseSelfSpeedPointAfterUse = _buf["increase_self_speed_point_after_use"]; }
-        { if(!_buf["def_discard_card_rate"].IsNumber) { throw new SerializationException(); }  DefDiscardCardRate = _buf["def_discard_card_rate"]; }
-        { if(!_buf["def_discard_count"].IsNumber) { throw new SerializationException(); }  DefDiscardCount = _buf["def_discard_count"]; }
-        { if(!_buf["user_discard_count"].IsNumber) { throw new SerializationException(); }  UserDiscardCount = _buf["user_discard_count"]; }
+        { if(!_buf["def_discard_card_rate_when_hitted"].IsNumber) { throw new SerializationException(); }  DefDiscardCardRateWhenHitted = _buf["def_discard_card_rate_when_hitted"]; }
+        { if(!_buf["def_discard_count_when_hitted"].IsNumber) { throw new SerializationException(); }  DefDiscardCountWhenHitted = _buf["def_discard_count_when_hitted"]; }
+        { if(!_buf["def_discard_count_anyway"].IsNumber) { throw new SerializationException(); }  DefDiscardCountAnyway = _buf["def_discard_count_anyway"]; }
+        { if(!_buf["user_discard_count_anyway"].IsNumber) { throw new SerializationException(); }  UserDiscardCountAnyway = _buf["user_discard_count_anyway"]; }
         { if(!_buf["full_hp_increase_base_value_rate"].IsNumber) { throw new SerializationException(); }  FullHpIncreaseBaseValueRate = _buf["full_hp_increase_base_value_rate"]; }
         { if(!_buf["percentage_damage_by_self"].IsNumber) { throw new SerializationException(); }  PercentageDamageBySelf = _buf["percentage_damage_by_self"]; }
         { if(!_buf["change_element_after_use"].IsNumber) { throw new SerializationException(); }  ChangeElementAfterUse = (ElementEnum)_buf["change_element_after_use"].AsInt; }
@@ -167,17 +168,21 @@ public sealed partial class ActiveSkillConfig : Luban.BeanBase
     /// </summary>
     public readonly int IncreaseSelfSpeedPointAfterUse;
     /// <summary>
-    /// 受伤方弃牌概率
+    /// 被命中后弃牌率
     /// </summary>
-    public readonly float DefDiscardCardRate;
+    public readonly float DefDiscardCardRateWhenHitted;
     /// <summary>
-    /// 受伤方弃牌数量
+    /// 被命中后弃牌数量
     /// </summary>
-    public readonly int DefDiscardCount;
+    public readonly int DefDiscardCountWhenHitted;
+    /// <summary>
+    /// 防御方弃牌数量
+    /// </summary>
+    public readonly int DefDiscardCountAnyway;
     /// <summary>
     /// 使用方弃牌数量
     /// </summary>
-    public readonly int UserDiscardCount;
+    public readonly int UserDiscardCountAnyway;
     /// <summary>
     /// 满血时baseValue加成
     /// </summary>
@@ -234,6 +239,7 @@ public sealed partial class ActiveSkillConfig : Luban.BeanBase
         
         
         
+        
     }
 
     public override string ToString()
@@ -266,9 +272,10 @@ public sealed partial class ActiveSkillConfig : Luban.BeanBase
         + "increaseHealthPointAfterUse:" + IncreaseHealthPointAfterUse + ","
         + "increaseHealthPercentAfterUse:" + IncreaseHealthPercentAfterUse + ","
         + "increaseSelfSpeedPointAfterUse:" + IncreaseSelfSpeedPointAfterUse + ","
-        + "defDiscardCardRate:" + DefDiscardCardRate + ","
-        + "defDiscardCount:" + DefDiscardCount + ","
-        + "userDiscardCount:" + UserDiscardCount + ","
+        + "defDiscardCardRateWhenHitted:" + DefDiscardCardRateWhenHitted + ","
+        + "defDiscardCountWhenHitted:" + DefDiscardCountWhenHitted + ","
+        + "defDiscardCountAnyway:" + DefDiscardCountAnyway + ","
+        + "userDiscardCountAnyway:" + UserDiscardCountAnyway + ","
         + "fullHpIncreaseBaseValueRate:" + FullHpIncreaseBaseValueRate + ","
         + "percentageDamageBySelf:" + PercentageDamageBySelf + ","
         + "changeElementAfterUse:" + ChangeElementAfterUse + ","
