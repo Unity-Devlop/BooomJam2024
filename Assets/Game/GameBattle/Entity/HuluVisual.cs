@@ -18,10 +18,22 @@ namespace Game.GamePlay
 
         private ICommand _unbindCmd;
 
-        public void Bind(HuluData data)
+        public async void Bind(HuluData data)
         {
             _data = data;
             _unbindCmd = _data.bind.Listen(OnData);
+
+            SkeletonDataAsset dataAsset = await Global.Get<ResourceSystem>().LoadPokemonSpine(data.id);
+            if (dataAsset != null)
+            {
+                skeletonAnimation.skeletonDataAsset = dataAsset;
+            }
+            else
+            {
+                Global.LogWarning($"加载PokemonSpine:{data.name}失败,使用默认Spine资源");
+            }
+
+            ToIdle();
             OnDataDirect(data);
         }
 
@@ -67,6 +79,11 @@ namespace Game.GamePlay
                 skeletonAnimation.AnimationState.SetAnimation(0, Consts.Animation.BattlePokemonAttackAnim, false);
             // 等待动画播放完毕
             await UniTask.WaitUntil(() => trackEntry.IsComplete);
+            ToIdle();
+        }
+
+        private void ToIdle()
+        {
             skeletonAnimation.AnimationState.SetAnimation(0, Consts.Animation.BattlePokemonIdleAnim, true);
         }
     }

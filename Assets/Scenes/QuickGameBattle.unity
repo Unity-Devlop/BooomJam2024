@@ -771,70 +771,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1724306331 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3520603750414525640, guid: a6128334ecd2c064783315dfc7a14d30, type: 3}
-  m_PrefabInstance: {fileID: 5693553877426807870}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1724306342
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1724306331}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 928e8be507ca4abdb3fc43f199180ec9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  data:
-    trainerSkills:
-    - id: 0
-    - id: 0
-    - id: 0
-    - id: 0
-    - id: 0
-    - id: 0
-    - id: 0
-    datas:
-    - id: 0
-      elementEnum: 0
-      hp: 0
-      currentHp: 0
-      atk: 0
-      currentAtk: 0
-      def: 0
-      currentDef: 0
-      speed: 0
-      currentSpeed: 0
-      adap: 0
-      currentAdap: 0
-      ownedSkills:
-      - id: 0
-      - id: 0
-      - id: 0
-      - id: 0
-      - id: 0
-      - id: 0
-    - id: 0
-      elementEnum: 0
-      hp: 0
-      currentHp: 0
-      atk: 0
-      currentAtk: 0
-      def: 0
-      currentDef: 0
-      speed: 0
-      currentSpeed: 0
-      adap: 0
-      currentAdap: 0
-      ownedSkills:
-      - id: 0
-      - id: 0
-      - id: 0
-      - id: 0
-      - id: 0
 --- !u!1001 &2017411396
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1040,10 +976,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3520603750414525640, guid: a6128334ecd2c064783315dfc7a14d30, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1724306342}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a6128334ecd2c064783315dfc7a14d30, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
