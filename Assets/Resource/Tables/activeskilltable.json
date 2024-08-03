@@ -2360,7 +2360,7 @@
   {
     "id": 50,
     "element": 0,
-    "desc": "给对方手牌中的三张牌“下毒”。对方使用或弃置被下毒的牌时，敌方选手受到100点伤害，此伤害无视防御力和适应力。",
+    "desc": "本回合中，对方使用牌时，敌方选手有40%的概率受到50点伤害，此伤害无视防御力和适应力。",
     "type": 1,
     "damage_point": 0,
     "priority": 0,
@@ -2372,8 +2372,8 @@
       "cnt": 0,
       "buff": 0
     },
-    "def_trainer_buff_after_use_count": 0,
-    "def_trainer_buff_after_use": 0,
+    "def_trainer_buff_after_use_count": 1,
+    "def_trainer_buff_after_use": 28,
     "self_trainer_buff_after_use_count": 0,
     "self_trainer_buff_after_use": 0,
     "self_battle_buff_count_after_use": 0,

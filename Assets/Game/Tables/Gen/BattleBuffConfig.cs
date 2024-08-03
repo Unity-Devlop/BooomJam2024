@@ -23,6 +23,8 @@ public sealed partial class BattleBuffConfig : Luban.BeanBase
         { if(!_buf["can_stack"].IsBoolean) { throw new SerializationException(); }  CanStack = _buf["can_stack"]; }
         { if(!_buf["not_save"].IsBoolean) { throw new SerializationException(); }  NotSave = _buf["not_save"]; }
         { if(!_buf["is_trainer_buff"].IsBoolean) { throw new SerializationException(); }  IsTrainerBuff = _buf["is_trainer_buff"]; }
+        { if(!_buf["trigger_rate"].IsNumber) { throw new SerializationException(); }  TriggerRate = _buf["trigger_rate"]; }
+        { if(!_buf["damage_for_current_pokemon"].IsNumber) { throw new SerializationException(); }  DamageForCurrentPokemon = _buf["damage_for_current_pokemon"]; }
     }
 
     public static BattleBuffConfig DeserializeBattleBuffConfig(JSONNode _buf)
@@ -47,13 +49,23 @@ public sealed partial class BattleBuffConfig : Luban.BeanBase
     /// 不保存，添加时就执行，不会记录
     /// </summary>
     public readonly bool NotSave;
+    /// <summary>
+    /// 是给训练家的BUFF么
+    /// </summary>
     public readonly bool IsTrainerBuff;
+    /// <summary>
+    /// 触发概率
+    /// </summary>
+    public readonly float TriggerRate;
+    public readonly int DamageForCurrentPokemon;
    
     public const int __ID__ = 1259790445;
     public override int GetTypeId() => __ID__;
 
     public  void ResolveRef(Tables tables)
     {
+        
+        
         
         
         
@@ -71,6 +83,8 @@ public sealed partial class BattleBuffConfig : Luban.BeanBase
         + "canStack:" + CanStack + ","
         + "notSave:" + NotSave + ","
         + "isTrainerBuff:" + IsTrainerBuff + ","
+        + "triggerRate:" + TriggerRate + ","
+        + "damageForCurrentPokemon:" + DamageForCurrentPokemon + ","
         + "}";
     }
 }

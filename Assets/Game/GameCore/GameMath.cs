@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using cfg;
 using Cysharp.Threading.Tasks;
 using Game.GamePlay;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Pool;
+using Random = UnityEngine.Random;
 
 namespace Game
 {
@@ -265,6 +267,18 @@ namespace Game
             }
 
             return operation;
+        }
+
+        public static async UniTask ProcessTrainerAfterUseCardFromHandZone(IBattleTrainer userTrainer, BattleData envData)
+        {
+            if (envData.GetBuff(userTrainer).buffList.Contains(BattleBuffEnum.出牌时有40概率受到50点伤害))
+            {
+                var buffConfig = Global.Table.BattleBuffTable.Get(BattleBuffEnum.出牌时有40概率受到50点伤害);
+                if (Random.value < buffConfig.TriggerRate)
+                {
+                    await userTrainer.currentBattleData.DecreaseHealth(buffConfig.DamageForCurrentPokemon);
+                }
+            }
         }
     }
 }
