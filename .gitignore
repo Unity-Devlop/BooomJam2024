@@ -101,3 +101,5 @@ Audio/.cache/**
 
 
 ~*.xlsx
+.~*.xlsx
+.DS_Store

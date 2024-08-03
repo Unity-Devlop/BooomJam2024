@@ -79,5 +79,51 @@ namespace Game
             TextAsset asset = Addressables.LoadAssetAsync<TextAsset>(path).WaitForCompletion();
             return JSON.Parse(asset.text);
         }
+
+        #region Logger
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void LogColor(string message, Color color)
+        {
+            Debug.Log($"<color=#{ColorUtility.ToHtmlStringRGB(color)}>{message}</color>");
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void LogInfo(string message)
+        {
+            Debug.Log($"[Info] {message}");
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void LogInfo(string message, Object context)
+        {
+            Debug.Log($"[Info] {message}", context);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void LogWarning(string message)
+        {
+            Debug.LogWarning($"[Warning] {message}");
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void LogWarning(string message, Object context)
+        {
+            Debug.LogWarning($"[Warning] {message}", context);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void LogError(string message)
+        {
+            Debug.LogError($"[Error] {message}");
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void LogError(string message, Object context)
+        {
+            Debug.LogError($"[Error] {message}", context);
+        }
+
+        #endregion
     }
 }

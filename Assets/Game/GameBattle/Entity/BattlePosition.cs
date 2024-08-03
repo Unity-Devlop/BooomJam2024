@@ -1,8 +1,6 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using cfg;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
-using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Game.GamePlay
@@ -14,15 +12,15 @@ namespace Game.GamePlay
         public HuluData next { get; private set; } // 准备上场的数据
 
         public Hulu visual;
+        public Transform atkPos;
 
         public async UniTask ExecuteEnter()
         {
+            visual.gameObject.SetActive(false);
+            await UniTask.DelayFrame(6);
             // 执行入场逻辑
-            Debug.LogWarning($"{currentData}入场");
-            bool flag = false;
-            var t = visual.transform.DOShakePosition(0.5f, 1, 50);
-            t.onComplete += () => flag = true;
-            await UniTask.WaitUntil(() => flag);
+            Debug.LogWarning($"{gameObject.name}-{currentData}入场");
+            visual.gameObject.SetActive(true);
         }
 
         public void SetNext(HuluData data)
@@ -36,18 +34,32 @@ namespace Game.GamePlay
             next = null;
             visual.UnBind();
             visual.Bind(currentData);
+            await UniTask.CompletedTask;
         }
 
         public async UniTask ExecuteSkill(ActiveSkillBattleOperation operation)
         {
+            if (operation.data.config.Type == ActiveSkillTypeEnum.指挥)
+            {
+                Debug.LogWarning($"{this}-{currentData}使用指挥技能:{operation.data}");
+                return;
+            }
+
             bool flag = false;
-            var t = visual.transform.DOShakePosition(0.5f, 1, 50);
-            t.onComplete += () => flag = true;
+
+            Vector3 origin = visual.transform.position;
+            var t = visual.transform.DOMove(atkPos.position, 0.5f).SetEase(Ease.OutBack);
+            t.onComplete += () =>
+            {
+                visual.transform.position = origin;
+                flag = true;
+            };
             await UniTask.WaitUntil(() => flag);
         }
 
-        public async UniTask ClearRoundData()
+        public async UniTask RoundEnd()
         {
+            await UniTask.CompletedTask;
         }
 
         public bool CanFight()
@@ -57,7 +69,7 @@ namespace Game.GamePlay
 
         public override string ToString()
         {
-            return gameObject.name;
+            return $"{gameObject.name}-{currentData}";
         }
     }
 }

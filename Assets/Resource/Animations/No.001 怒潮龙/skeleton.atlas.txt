@@ -1,0 +1,48 @@
+
+skeleton.png
+size: 504,467
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Beard_Left
+  rotate: true
+  xy: 2, 4
+  size: 160, 196
+  orig: 400, 400
+  offset: 126, 180
+  index: -1
+Beard_Right
+  rotate: false
+  xy: 371, 238
+  size: 131, 227
+  orig: 400, 400
+  offset: 12, 173
+  index: -1
+Body
+  rotate: true
+  xy: 2, 232
+  size: 233, 367
+  orig: 400, 400
+  offset: 93, 27
+  index: -1
+Head
+  rotate: false
+  xy: 309, 2
+  size: 192, 228
+  orig: 400, 400
+  offset: 18, 143
+  index: -1
+Shadow
+  rotate: false
+  xy: 2, 166
+  size: 305, 64
+  orig: 400, 400
+  offset: 48, 20
+  index: -1
+Tail
+  rotate: true
+  xy: 200, 85
+  size: 79, 107
+  orig: 400, 400
+  offset: 289, 86
+  index: -1

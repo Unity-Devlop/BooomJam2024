@@ -52,6 +52,7 @@ namespace Game
                 _target.PointerDownEvent -= PointerDown;
                 _target.PointerUpEvent -= PointerUp;
                 _target.SelectEvent -= Select;
+                _target.HoverEvent -= Hover;
             }
 
             _target = card;
@@ -62,6 +63,7 @@ namespace Game
             card.PointerDownEvent += PointerDown;
             card.PointerUpEvent += PointerUp;
             card.SelectEvent += Select;
+            card.HoverEvent += Hover;
 
             nameText.text = card.data.config.Id.ToString();
             if (card.data.config.Type == ActiveSkillTypeEnum.指挥)
@@ -72,6 +74,11 @@ namespace Game
             {
                 icon.color = Color.cyan;
             }
+        }
+
+        private void Hover(Card card, bool hovering)
+        {
+            
         }
 
         private void Select(Card card, bool state)

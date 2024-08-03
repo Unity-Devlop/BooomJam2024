@@ -13,26 +13,27 @@ namespace cfg
 { 
     public enum BattleEnvironmentEnum
     {
+        None = 0,
         /// <summary>
         /// 草属性选手的回合结束时恢复最大生命的2%。
         /// </summary>
-        草地 = 0,
+        草地 = 1,
         /// <summary>
         /// 每回合双方选手各损失最大生命值的2%。
         /// </summary>
-        沙漠 = 1,
+        沙漠 = 2,
         /// <summary>
         /// 水属性选手的速度增加5%。
         /// </summary>
-        海洋 = 2,
+        海洋 = 3,
         /// <summary>
         /// 火属性选手的攻击力增加10%。
         /// </summary>
-        火山 = 3,
+        火山 = 4,
         /// <summary>
         /// 双方选手的速度减少10%。
         /// </summary>
-        雪地 = 4,
+        雪地 = 5,
     }
 
 } 

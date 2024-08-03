@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using Game.GamePlay;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityToolkit;
@@ -14,12 +15,29 @@ namespace Game
         [SerializeField] private CardHorizontalContainer selfCardContainer;
         [SerializeField] private Button endRoundButton;
         [SerializeField] private LeftTeamHuluView leftTeamHuluView;
-
         private IBattleTrainer _trainer;
+        public TextMeshProUGUI tipText;
 
         private void Awake()
         {
             endRoundButton.onClick.AddListener(OnEndRoundButtonClick);
+        }
+
+        public override void OnOpened()
+        {
+            base.OnOpened();
+            Global.Event.Listen<BattleTipEvent>(OnBattleTip);
+        }
+
+        private void OnBattleTip(BattleTipEvent obj)
+        {
+            tipText.text = obj.tip;
+        }
+
+        public override void OnClosed()
+        {
+            base.OnClosed();
+            Global.Event.UnListen<BattleTipEvent>(OnBattleTip);
         }
 
         private void OnEndRoundButtonClick()
@@ -30,32 +48,38 @@ namespace Game
         public void Bind(IBattleTrainer battleTrainer)
         {
             _trainer = battleTrainer;
-            _trainer.OnDrawCard += DrawCard;
-            _trainer.OnDiscardCard += DiscardCard;
+            _trainer.OnDrawCard += DrawCardToHand;
+            _trainer.OnDiscardCardFromHand += DiscardCard;
+            _trainer.OnConsumedCard += OnConsumedCard;
+            _trainer.OnDestroyCard += DestroyCard;
             _trainer.OnStartCalOperation += StartCalOperation;
             _trainer.OnEndCalOperation += EndCalOperation;
-            _trainer.OnUseCard += UseCard;
+            _trainer.OnUseCardFromHand += UseHandHandCard;
+            _trainer.OnDiscardToDraw += DiscardToDraw;
 
             selfCardContainer.Bind(battleTrainer);
             leftTeamHuluView.Bind(battleTrainer);
         }
 
+
+
+
         public void UnBind()
         {
-            _trainer.OnDrawCard -= DrawCard;
-            _trainer.OnDiscardCard -= DiscardCard;
+            _trainer.OnDrawCard -= DrawCardToHand;
+            _trainer.OnDiscardCardFromHand -= DiscardCard;
+            _trainer.OnConsumedCard -= OnConsumedCard;
+            _trainer.OnDestroyCard -= DestroyCard;
             _trainer.OnStartCalOperation -= StartCalOperation;
             _trainer.OnEndCalOperation -= EndCalOperation;
-            _trainer.OnUseCard -= UseCard;
+            _trainer.OnUseCardFromHand -= UseHandHandCard;
+            _trainer.OnDiscardToDraw -= DiscardToDraw;
+
+
             selfCardContainer.UnBind();
             leftTeamHuluView.UnBind();
         }
 
-
-        private async UniTask UseCard(ActiveSkillData arg)
-        {
-            await selfCardContainer.Use(arg);
-        }
 
         private async UniTask EndCalOperation()
         {
@@ -69,16 +93,35 @@ namespace Game
             var switchOper = leftTeamHuluView.StartCalOperation();
             await UniTask.WhenAny(cardOper, switchOper);
         }
-        
 
-        private UniTask DiscardCard(List<ActiveSkillData> arg)
+        private async UniTask UseHandHandCard(ActiveSkillData arg)
         {
-            return UniTask.CompletedTask;
+            await selfCardContainer.UseFromHand(arg);
         }
 
-        private async UniTask DrawCard(List<ActiveSkillData> obj)
+        private async UniTask DestroyCard(List<ActiveSkillData> arg)
         {
-            await selfCardContainer.Spawn(obj);
+            await selfCardContainer.DestroyCard(arg);
+        }
+
+        private async UniTask DiscardCard(List<ActiveSkillData> arg, IBattleTrainer trainer)
+        {
+            await selfCardContainer.Discard(arg);
+        }
+        
+        private async UniTask OnConsumedCard(List<ActiveSkillData> arg)
+        {
+            await selfCardContainer.ConsumedCard(arg);
+        }
+
+        private async UniTask DrawCardToHand(List<ActiveSkillData> obj)
+        {
+            await selfCardContainer.DrawCardToHand(obj);
+        }
+
+        private async UniTask DiscardToDraw(List<ActiveSkillData> discard, List<ActiveSkillData> darw)
+        {
+            await selfCardContainer.DiscardToDraw(discard, darw);
         }
     }
 }

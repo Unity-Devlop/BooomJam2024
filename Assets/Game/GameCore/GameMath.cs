@@ -1,9 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using cfg;
+using Cysharp.Threading.Tasks;
+using Game.GamePlay;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.Pool;
+using Random = UnityEngine.Random;
 
 namespace Game
 {
@@ -16,16 +21,22 @@ namespace Game
         /// <param name="def"></param>
         /// <returns></returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float CalDamageElementFit(ElementEnum atk, ElementEnum def)
-        {
-            var fit = Global.Table.ElementFitTable.Get(atk).Fit;
-            return fit.GetValueOrDefault(def, 1);
-        }
-
-        public static string CalEleFitText(ElementEnum atk, ElementEnum def)
+        public static async UniTask<float> CalDamageElementFit(HuluData user, ElementEnum atk, ElementEnum def)
         {
             var fit = Global.Table.ElementFitTable.Get(atk).Fit;
             float value = fit.GetValueOrDefault(def, 1);
+            if (user.ContainsBuff(BattleBuffEnum.技能效果不好时变成一点五倍) && Mathf.Approximately(value, 0.5f))
+            {
+                await user.RemoveBuff(BattleBuffEnum.技能效果不好时变成一点五倍);
+                value = 1.5f;
+            }
+
+            return value;
+        }
+
+        public static async UniTask<string> CalElementFitText(HuluData user, ElementEnum atk, ElementEnum def)
+        {
+            float value = await CalDamageElementFit(user, atk, def);
 
             switch (value)
             {
@@ -61,23 +72,55 @@ namespace Game
             return (r, l);
         }
 
-        public static (HuluData, HuluData) WhoFirst(HuluData r, HuluData l, ActiveSkillData rs, ActiveSkillData ls,
-            BattleEnvironmentData environmentData)
+        public static (HuluData, HuluData) WhoFirst(IBattleTrainer rT, IBattleTrainer lt, HuluData r, HuluData l,
+            ActiveSkillData rs, ActiveSkillData ls,
+            BattleData data)
         {
             Assert.IsTrue(rs.config.Type != ActiveSkillTypeEnum.指挥);
             Assert.IsTrue(ls.config.Type != ActiveSkillTypeEnum.指挥);
-            if (rs.config.Priority > ls.config.Priority)
+
+            if (r.ContainsBuff(BattleBuffEnum.轮滑技巧) && l.ContainsBuff(BattleBuffEnum.轮滑技巧))
+            {
+                Debug.Log($"{r} {l} 都有滑轮技巧");
+                r.RemoveBuff(BattleBuffEnum.轮滑技巧);
+                l.RemoveBuff(BattleBuffEnum.轮滑技巧);
+
+                if (UnityEngine.Random.value > 0.5f)
+                {
+                    return (l, r);
+                }
+
+                return (r, l);
+            }
+
+            if (r.ContainsBuff(BattleBuffEnum.轮滑技巧))
+            {
+                r.RemoveBuff(BattleBuffEnum.轮滑技巧);
+                Debug.Log($"{r} 有滑轮技巧");
+                return (r, l);
+            }
+
+            if (l.ContainsBuff(BattleBuffEnum.轮滑技巧))
+            {
+                l.RemoveBuff(BattleBuffEnum.轮滑技巧);
+                Debug.Log($"{l} 有滑轮技巧");
+                return (l, r);
+            }
+
+            int rPriority = UglyMath.PostprocessPriority(r, rs);
+            int lPriority = UglyMath.PostprocessPriority(l, ls);
+            if (rPriority > lPriority)
             {
                 return (r, l);
             }
 
-            if (rs.config.Priority < ls.config.Priority)
+            if (rPriority < lPriority)
             {
                 return (l, r);
             }
 
-            int rRuntimeSpeed = (int)CalRunTimeSpeed(r, environmentData);
-            int lRuntimeSpeed = (int)CalRunTimeSpeed(l, environmentData);
+            int rRuntimeSpeed = (int)UglyMath.PostprocessRunTimeSpeed(rT, data);
+            int lRuntimeSpeed = (int)UglyMath.PostprocessRunTimeSpeed(lt, data);
 
             if (rRuntimeSpeed > lRuntimeSpeed)
             {
@@ -97,33 +140,6 @@ namespace Game
             return (r, l);
         }
 
-        private static float CalRunTimeSpeed(HuluData p0, BattleEnvironmentData environmentData)
-        {
-            switch (environmentData.id)
-            {
-                case BattleEnvironmentEnum.草地:
-                    break;
-                case BattleEnvironmentEnum.沙漠:
-                    break;
-                case BattleEnvironmentEnum.海洋:
-                    if (p0.config.Elements == ElementEnum.水)
-                    {
-                        return p0.currentSpeed * 1.05f;
-                    }
-
-                    break;
-                case BattleEnvironmentEnum.火山:
-                    break;
-                case BattleEnvironmentEnum.雪地:
-                    return p0.currentSpeed * 0.9f;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-
-            return p0.currentSpeed;
-        }
-
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float CalSelfElementFit(HuluConfig huluConfig, ActiveSkillConfig skillConfig)
         {
@@ -142,26 +158,149 @@ namespace Game
         // 选手技能最终造成的伤害DmgF = 选手每次技能能造成的伤害Dmg * （1 - 被攻击的敌方选手的适应力Prop / 100）【即适应力百分比，比如适应力为20，那最后得到的数值就是20%，参与计算时的伤害就会变成原本伤害的80%】。
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int CalDamage(HuluData atk, HuluData def, ActiveSkillEnum skill,
-            BattleEnvironmentData environmentData)
+        public static async UniTask<int> CalDamage(HuluData atk, HuluData def, ActiveSkillEnum skill,
+            BattleData data)
         {
             ActiveSkillConfig config = Global.Table.ActiveSkillTable.Get(skill);
-            Assert.IsTrue(config.Type == ActiveSkillTypeEnum.伤害技能);
-            float baseValue = (atk.currentAtk + config.DamagePoint - def.currentDef) *
-                              CalSelfElementFit(atk.config, config) *
-                              CalDamageElementFit(atk.config.Elements, def.config.Elements);
+            Assert.IsTrue(config.DamagePoint != 0);
 
-            float finalValue = baseValue * (1 - Mathf.Clamp(def.currentAdap, 0, 100) / 100f);
+            Assert.IsTrue(config.Type == ActiveSkillTypeEnum.伤害技能);
+            int damagePoint = UglyMath.PostprocessDamagePoint(config, data);
+            int atkPoint = await UglyMath.PostprocessAtkPoint(atk, config, data);
+            Debug.Log(
+                $"攻击力{atkPoint},伤害{damagePoint},防御力{def.currentDef}" +
+                $" 本系威力加成{CalSelfElementFit(atk.config, config)} \n" +
+                $"属性克制{CalDamageElementFit(atk, config.Element, def.config.Elements)}\n");
+            float baseValue = damagePoint * atkPoint / (float)def.currentDef
+                              *
+                              CalSelfElementFit(atk.config, config) // 本系威力加成
+                              *
+                              await CalDamageElementFit(atk, config.Element, def.config.Elements // 属性克制
+                              );
+            Debug.Log($"处理前的基础伤害{baseValue} ");
+            baseValue = await UglyMath.PostprocessBattleBaseValue(baseValue, atk, def, config);
+
+            int adap = GameMath.CalRunTimeAdap(def, data);
+            Debug.Log($"处理后的基础伤害{baseValue} 适应度{adap}");
+            float finalValue = baseValue * (1 - Mathf.Clamp(adap, 0, 100) / 100f);
+
+            finalValue = UglyMath.PostprocessBattleFinalValue(finalValue, atk, def, config);
 
             return (int)finalValue;
         }
 
+        public static int CalRunTimeAdap(HuluData def, BattleData data)
+        {
+            int baseAdap = def.currentAdap;
+            if (def.ContainsBuff(BattleBuffEnum.加十点适应力))
+            {
+                baseAdap += 10 * def.BuffCount(BattleBuffEnum.加十点适应力);
+            }
+
+            return baseAdap;
+        }
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool CalHit(HuluData atk, HuluData def, ActiveSkillEnum dataID,
-            BattleEnvironmentData environmentData)
+            BattleData data)
         {
             ActiveSkillConfig config = Global.Table.ActiveSkillTable.Get(dataID);
             return UnityEngine.Random.value <= config.HitRate;
+        }
+
+        public static void ProcessBuffWhenRoundEnd(List<BattleBuffEnum> buffList)
+        {
+            HashSet<BattleBuffEnum> contains = HashSetPool<BattleBuffEnum>.Get();
+            foreach (var buffEnum in buffList)
+            {
+                contains.Add(buffEnum);
+            }
+
+            foreach (var buffEnum in contains)
+            {
+                var buffConfig = Global.Table.BattleBuffTable.Get(buffEnum);
+                int removeCnt = buffConfig.RemoveCountWhenRoundEnd;
+                if (removeCnt == -1)
+                {
+                    buffList.RemoveAll(x => x == buffEnum);
+                    continue;
+                }
+
+                for (int i = 0; i < removeCnt; i++)
+                {
+                    buffList.Remove(buffEnum);
+                }
+            }
+
+            HashSetPool<BattleBuffEnum>.Release(contains);
+        }
+
+        public static int CalAtkTimes(HuluData user, ActiveSkillConfig skillCfg)
+        {
+            int times = 0;
+            if (user.ContainsBuff(BattleBuffEnum.连续技能必定打最多次))
+            {
+                times = skillCfg.MulAttackTimes[1];
+                user.RemoveBuff(BattleBuffEnum.连续技能必定打最多次);
+            }
+            else
+            {
+                times = UnityEngine.Random.Range(skillCfg.MulAttackTimes[0],
+                    skillCfg.MulAttackTimes[1]);
+            }
+
+            return times;
+        }
+
+        public static float CalDefDiscardCardRateWhenHitted(IBattleTrainer atkTrainer, IBattleTrainer defTrainer,
+            ActiveSkillConfig skill)
+        {
+            float discardRate = skill.DefDiscardCardRateWhenHitted;
+            if (atkTrainer.currentBattleData.ContainsBuff(BattleBuffEnum.下一次技能让对方受伤时弃牌概率变成1))
+            {
+                discardRate = 1;
+                atkTrainer.currentBattleData.RemoveBuff(BattleBuffEnum.下一次技能让对方受伤时弃牌概率变成1);
+            }
+
+            return discardRate;
+        }
+
+        public static async UniTask<IBattleOperation> ProcessOperationBeforeRounding(IBattleTrainer trainer,
+            IBattleOperation operation)
+        {
+            if (operation is EndRoundOperation && trainer.ContainsBuff(BattleBuffEnum.回合结束后额外获得一个回合))
+            {
+                Debug.Log("回合结束后额外获得一个回合");
+                await trainer.RemoveBuff(BattleBuffEnum.回合结束后额外获得一个回合);
+                Global.Table.BattleBuffTable.Get(BattleBuffEnum.回合结束后额外获得一个回合);
+                await UniTask.Delay(TimeSpan.FromSeconds(0.2f));
+                return null;
+            }
+
+            return operation;
+        }
+
+        public static async UniTask ProcessTrainerAfterUseCardFromHandZone(IBattleTrainer userTrainer)
+        {
+            if (userTrainer.ContainsBuff(BattleBuffEnum.出牌时有40概率受到50点伤害))
+            {
+                var buffConfig = Global.Table.BattleBuffTable.Get(BattleBuffEnum.出牌时有40概率受到50点伤害);
+                if (Random.value < buffConfig.TriggerRate)
+                {
+                    await userTrainer.currentBattleData.DecreaseHealth(buffConfig.DamageForCurrentPokemon);
+                }
+            }
+        }
+
+        public static async UniTask ProcessPokemonBeforeRounding(IBattleTrainer trainer)
+        {
+            if (trainer.ContainsBuff(BattleBuffEnum.没有手牌时当前宝可梦生命值归0) && trainer.handZone.Count <= 0)
+            {
+                Debug.Log($"{trainer}没有手牌!当前宝可梦生命值归0");
+                Global.Event.Send(new BattleTipEvent("没有手牌!当前宝可梦生命值归0"));
+                await trainer.currentBattleData.DecreaseHealth(trainer.currentBattleData.currentHp);
+            }
         }
     }
 }

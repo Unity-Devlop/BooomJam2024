@@ -10,6 +10,7 @@ using Game.GamePlay;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.Serialization;
 using UnityToolkit;
 
 namespace Game
@@ -18,7 +19,10 @@ namespace Game
     {
         public int childCnt = 8;
 
-        [SerializeField] private List<Card> cardList;
+        [SerializeField] private List<Card> handZoneCardList; // 手牌区域
+        // private List<ActiveSkillData> _cemeteryZoneCardList; // 墓地区域
+        // private List<ActiveSkillData> _discardZoneCardList; // 弃牌区域
+        // private List<ActiveSkillData> _drawZoneCardList; // 抽牌区域
 
         //把卡牌拖到这个区域内 -> 出牌
         [SerializeField] private RectTransform outsideArea;
@@ -45,45 +49,122 @@ namespace Game
             cardSlotPool.Initialize();
             cardVisualPool.Initialize();
 
-            cardList = new List<Card>();
+            handZoneCardList = new List<Card>();
+
+            // _discardZoneCardList = new List<ActiveSkillData>();
+            // _drawZoneCardList = new List<ActiveSkillData>();
+            // _cemeteryZoneCardList = new List<ActiveSkillData>();
         }
 
 
-        public async UniTask Spawn(List<ActiveSkillData> dataList, float interval = 0.1f)
+        public async UniTask DrawCardToHand(List<ActiveSkillData> dataList, float interval = 0.1f)
         {
             for (int i = 0; i < dataList.Count; i++)
             {
                 ActiveSkillData data = dataList[i];
-                PushCard(data, i.ToString());
+                SpawnOneToHand(data, i.ToString());
                 await UniTask.Delay(TimeSpan.FromSeconds(interval));
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Card PushCard(ActiveSkillData data, string name = "")
+        public Card SpawnOneToHand(ActiveSkillData data, string name = "")
         {
-            Card card = SpawnOne(name);
-            cardList.Add(card);
+            Card card = SpawnOneCardObj(name);
+            handZoneCardList.Add(card);
             card.Init(this, data);
             // Debug.Log($"Push Card: HashCode: {data.GetHashCode()}, data: {data}");
             return card;
         }
 
-        public async UniTask Use(ActiveSkillData data)
+        public async UniTask UseFromHand(ActiveSkillData data)
         {
-            var card = cardList.Find(card => card.data == data);
-
-            Assert.IsNotNull(card.data);
-
-            cardSlotPool.Release(card.transform.parent.gameObject);
-            cardPool.Release(card.gameObject);
-            // Debug.Log($"消耗牌{card.data}");
-            // 移除数据
-            cardList.Remove(card);
+            // var card = handZoneCardList.Find(card => card.data == data);
+            //
+            // Assert.IsNotNull(card.data);
+            //
+            // cardSlotPool.Release(card.transform.parent.gameObject);
+            // cardPool.Release(card.gameObject);
+            // // Debug.Log($"消耗牌{card.data}");
+            // // 移除数据
+            // handZoneCardList.Remove(card);
+            Debug.Log($"从手牌区使用{data}");
             await UniTask.CompletedTask;
         }
 
-        private Card SpawnOne(string objName = "")
+
+        public async UniTask DestroyCard(List<ActiveSkillData> activeSkillDatas)
+        {
+            foreach (var skillData in activeSkillDatas)
+            {
+                // TODO 性能问题
+                var card = handZoneCardList.Find(card => card.data == skillData);
+                if (card == null)
+                {
+                    // _drawZoneCardList.Remove(skillData);
+                    // _discardZoneCardList.Remove(skillData);
+                    // _cemeteryZoneCardList.Remove(skillData);
+                    Debug.LogWarning($"移除的牌不在手牌里: {skillData}");
+                    continue;
+                }
+
+
+                cardSlotPool.Release(card.transform.parent.gameObject);
+                cardPool.Release(card.gameObject);
+                handZoneCardList.Remove(card);
+                await UniTask.DelayFrame(1);
+            }
+        }
+
+        public async UniTask DiscardToDraw(List<ActiveSkillData> discard, List<ActiveSkillData> draw)
+        {
+            // _discardZoneCardList.Clear();
+            // _discardZoneCardList.AddRange(discard);
+            // _drawZoneCardList.Clear();
+            // _drawZoneCardList.AddRange(draw);
+            await UniTask.CompletedTask;
+        }
+
+        public async UniTask ConsumedCard(List<ActiveSkillData> activeSkillDatas)
+        {
+            foreach (var skillData in activeSkillDatas)
+            {
+                // TODO 暂时不做消耗牌的表现 直接移除
+                var card = handZoneCardList.Find(card => card.data == skillData);
+                if (card == null)
+                {
+                    Debug.LogWarning($"消耗的牌不在手牌里: {skillData} 可能是打出了消耗牌");
+                    continue;
+                }
+                cardSlotPool.Release(card.transform.parent.gameObject);
+                cardPool.Release(card.gameObject);
+                handZoneCardList.Remove(card);
+                // await UniTask.DelayFrame(1);
+            }
+            await UniTask.CompletedTask;
+        }
+
+        public async UniTask Discard(List<ActiveSkillData> activeSkillDatas)
+        {
+            await DiscardFromHandZone(activeSkillDatas);
+            // _drawZoneCardList.AddRange(activeSkillDatas);
+        }
+
+        public async UniTask DiscardFromHandZone(List<ActiveSkillData> activeSkillDatas)
+        {
+            foreach (var skillData in activeSkillDatas)
+            {
+                // TODO 暂时不做弃牌的表现 直接移除
+                var card = handZoneCardList.Find(card => card.data == skillData); // TODO 性能问题 
+                Assert.IsNotNull(card);
+                cardSlotPool.Release(card.transform.parent.gameObject);
+                cardPool.Release(card.gameObject);
+                handZoneCardList.Remove(card);
+                await UniTask.DelayFrame(1);
+            }
+        }
+
+        private Card SpawnOneCardObj(string objName = "")
         {
             CardSlot slot = cardSlotPool.Get().GetComponent<CardSlot>();
             slot.transform.SetParent(transform);
@@ -127,7 +208,7 @@ namespace Game
                     new Vector2(screenPoint.x, screenPoint.y), UIRoot.Singleton.UICamera)
                 && _calCts is { IsCancellationRequested: false })
             {
-                // 释放对象
+                Global.Get<AudioSystem>().Play(FMODName.Event.SFX_ui_出牌);
                 _trainer.PushOperation(new ActiveSkillBattleOperation()
                 {
                     data = selectedCard.data

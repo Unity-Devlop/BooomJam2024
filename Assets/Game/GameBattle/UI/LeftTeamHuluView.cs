@@ -25,7 +25,7 @@ namespace Game
         private void OnHuluIconClick(int idx)
         {
             if (_calCts is { IsCancellationRequested: false } && _trainer.trainerData.datas[idx] !=
-                _trainer.currentBattleData)
+                _trainer.currentBattleData && !_trainer.trainerData.datas[idx].HealthIsZero())
             {
                 _trainer.PushOperation(new ChangeHuluOperation()
                 {
