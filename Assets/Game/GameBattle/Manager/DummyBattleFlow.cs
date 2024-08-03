@@ -134,14 +134,12 @@ namespace Game.GamePlay
                 if (selfOper is not EndRoundOperation)
                 {
                     _self.ClearOperation();
-                    Debug.Log($"{_self}操作");
                     selfOper = await _self.CalOperation();
                 }
 
                 if (enemyOper is not EndRoundOperation)
                 {
                     _enemy.ClearOperation();
-                    Debug.Log($"{_enemy}操作");
                     enemyOper = await _enemy.CalOperation();
                 }
 

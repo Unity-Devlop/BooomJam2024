@@ -10,14 +10,13 @@ namespace Game
 {
     public static class UglyMath
     {
-
         public static async UniTask EffectWhenSkillHitted(IBattleTrainer atkTrainer,
             IBattleTrainer defTrainer,
             ActiveSkillConfig skill,
             int damagePoint, BattleData data)
         {
             var atk = atkTrainer.currentBattleData;
-          
+
             float defDiscardCardRateWhenHitted =
                 GameMath.CalDefDiscardCardRateWhenHitted(atkTrainer, defTrainer, skill);
             if (Random.value < defDiscardCardRateWhenHitted)
@@ -225,7 +224,7 @@ namespace Game
         public static async UniTask<IBattleOperation> CalNewOperWhenPokemonHealthChange(IBattleTrainer defTrainer)
         {
             var hulu = defTrainer.currentBattleData;
-            
+
             IBattleOperation operation;
             if (hulu.id == HuluEnum.电电鼠 && hulu.passiveSkillConfig.Id == PassiveSkillEnum.胆小鬼 &&
                 hulu.ContainsBuff(BattleBuffEnum.胆小鬼) && hulu.currentHp < hulu.hp / 2 && hulu.currentHp > 0)
@@ -265,7 +264,6 @@ namespace Game
         }
 
 
-
         public static async UniTask PostprocessHuluDataBeforeUseSkill(HuluData atk, ActiveSkillConfig skill)
         {
             if (atk.id == HuluEnum.小闪光 && atk.passiveSkillConfig.Id == PassiveSkillEnum.集合体 && atk.skillTimes == 0)
@@ -295,7 +293,11 @@ namespace Game
             if (next.id == HuluEnum.电电鼠 && next.passiveSkillConfig.Id == PassiveSkillEnum.胆小鬼 && next.enterTimes == 1)
             {
                 next.Add(BattleBuffEnum.胆小鬼);
-                return;
+            }
+
+            if (next.id == HuluEnum.斯托姆 && next.passiveSkillConfig.Id == PassiveSkillEnum.狂风不灭 && next.enterTimes == 1)
+            {
+                next.Add(BattleBuffEnum.狂风不灭);
             }
 
             if (next.ContainsBuff(BattleBuffEnum.胆小鬼归来))
@@ -314,9 +316,9 @@ namespace Game
                 next.currentDef = (int)(next.currentDef * 1.5f);
                 next.currentSpeed = (int)(next.currentSpeed * 1.5f);
                 next.currentAdap = (int)(next.currentAdap * 1.5f);
-                await next.bind.Invoke();
-                return;
             }
+
+            await next.bind.Invoke();
         }
 
         public static int PostprocessDamagePoint(ActiveSkillConfig config, BattleData data)

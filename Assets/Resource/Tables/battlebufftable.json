@@ -288,5 +288,15 @@
     "is_trainer_buff": true,
     "trigger_rate": 1,
     "damage_for_current_pokemon": 0
+  },
+  {
+    "id": 30,
+    "desc": "",
+    "remove_count_when_round_end": 0,
+    "can_stack": false,
+    "not_save": false,
+    "is_trainer_buff": false,
+    "trigger_rate": 1,
+    "damage_for_current_pokemon": 0
   }
 ]

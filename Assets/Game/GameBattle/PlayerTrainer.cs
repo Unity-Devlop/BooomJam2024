@@ -61,6 +61,7 @@ namespace Game.GamePlay
 
         public virtual async UniTask<IBattleOperation> CalOperation()
         {
+            Debug.Log($"{this} 开始思考操作");
             Assert.IsNull(_operation);
 
             if (handZone.Count == 0)

@@ -16,6 +16,7 @@ namespace Game.GamePlay
 
         public Hulu visual;
         public Transform atkPos;
+
         public async UniTask ExecuteEnter()
         {
             visual.gameObject.SetActive(false);
@@ -42,9 +43,10 @@ namespace Game.GamePlay
         {
             if (operation.data.config.Type == ActiveSkillTypeEnum.指挥)
             {
-                Debug.LogWarning($"{currentData}使用指挥技能:{operation.data}");
+                Debug.LogWarning($"{this}-{currentData}使用指挥技能:{operation.data}");
                 return;
             }
+
             bool flag = false;
 
             Vector3 origin = visual.transform.position;
@@ -59,7 +61,6 @@ namespace Game.GamePlay
 
         public async UniTask RoundEnd()
         {
-            
         }
 
         public bool CanFight()
