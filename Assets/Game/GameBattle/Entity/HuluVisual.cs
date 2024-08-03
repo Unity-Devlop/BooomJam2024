@@ -1,17 +1,16 @@
 ﻿using System;
-using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
-using Sirenix.OdinInspector;
+using Spine.Unity;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Assertions;
 using UnityToolkit;
 
 namespace Game.GamePlay
 {
     public class HuluVisual : MonoBehaviour
     {
-        [ReadOnly, ShowInInspector] private HuluData _data;
+        private HuluData _data;
+        [SerializeField] private SkeletonAnimation skeletonAnimation;
         [SerializeField] private TMP_Text hpText;
         [SerializeField] private TMP_Text nameText;
         [SerializeField] private TMP_Text elementText;
@@ -64,6 +63,11 @@ namespace Game.GamePlay
 
         public async UniTask ExecuteSkill(ActiveSkillData skill)
         {
+            var trackEntry =
+                skeletonAnimation.AnimationState.SetAnimation(0, Consts.Animation.BattlePokemonAttackAnim, false);
+            // 等待动画播放完毕
+            await UniTask.WaitUntil(() => trackEntry.IsComplete);
+            skeletonAnimation.AnimationState.SetAnimation(0, Consts.Animation.BattlePokemonIdleAnim, true);
         }
     }
 }

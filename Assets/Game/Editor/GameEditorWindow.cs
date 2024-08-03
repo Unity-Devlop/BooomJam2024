@@ -1,7 +1,5 @@
 ﻿#if UNITY_EDITOR
 using System.IO;
-using Game.Game;
-using Game.GamePlay;
 using Newtonsoft.Json;
 using Sirenix.OdinInspector.Editor;
 using Sirenix.Utilities;

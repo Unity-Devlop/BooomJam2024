@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Game.Game
+namespace Game
 {
     public static class Consts
     {
@@ -8,5 +8,11 @@ namespace Game.Game
 
         public static readonly string LocalPlayerDataPath = $"{Application.persistentDataPath}/LocalPlayerData.json";
         public const int MaxHandCard = 8;
+
+        public static class Animation
+        {
+            public const string BattlePokemonAttackAnim = "Attack";
+            public const string BattlePokemonIdleAnim = "Idle";
+        }
     }
 }
