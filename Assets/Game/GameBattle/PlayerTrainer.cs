@@ -89,6 +89,7 @@ namespace Game.GamePlay
         /// <param name="data"></param>
         public async UniTask UseCardFromHand(ActiveSkillData data)
         {
+            Assert.IsFalse(data.id == ActiveSkillEnum.None);
             Assert.IsNotNull(data);
             // Debug.Log(
             // $"handZone:{handZone.Contains(data)},drawZone:{drawZone.Contains(data)},discardZone:{discardZone.Contains(data)}");
@@ -108,6 +109,7 @@ namespace Game.GamePlay
 
         private async UniTask DiscardCardFromHand(ActiveSkillData data)
         {
+            Assert.IsFalse(data.id == ActiveSkillEnum.None);
             // Assert.IsTrue((data.config.Type2 & CardTypeEnum.Normal) != 0);
             Assert.IsTrue(handZone.Contains(data));
             Assert.IsFalse(discardZone.Contains(data));
@@ -122,6 +124,7 @@ namespace Game.GamePlay
 
         public async UniTask ConsumeCardFromHand(ActiveSkillData data)
         {
+            Assert.IsFalse(data.id == ActiveSkillEnum.None);
             if ((data.config.Type2 & CardTypeEnum.消耗) == 0)
             {
                 Debug.LogWarning($"尝试消耗非消耗牌{data}");
@@ -141,6 +144,7 @@ namespace Game.GamePlay
 
         public async UniTask MoveDiscardCardToConsumeZone(ActiveSkillData data)
         {
+            Assert.IsFalse(data.id == ActiveSkillEnum.None);
             Assert.IsTrue(discardZone.Contains(data));
             Assert.IsFalse(consumedZone.Contains(data));
             discardZone.Remove(data);
@@ -307,6 +311,7 @@ namespace Game.GamePlay
                     continue;
                 }
 
+                Assert.IsFalse(ownedSkill.id == ActiveSkillEnum.None);
                 deck.Add(ownedSkill.id);
             }
 
@@ -317,7 +322,7 @@ namespace Game.GamePlay
                     Debug.Log($"墓地区域有{skill} 不再加入卡组");
                     continue;
                 }
-
+                Assert.IsFalse(skill.id == ActiveSkillEnum.None);
                 deck.Add(skill.id);
             }
 

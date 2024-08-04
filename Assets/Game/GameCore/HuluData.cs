@@ -134,6 +134,7 @@ namespace Game
 
         public void RemoveOwnedSkill(ActiveSkillEnum id)
         {
+            Assert.IsFalse(id == ActiveSkillEnum.None);
             int index = -1;
             for (int i = 0; i < ownedSkills.Count; ++i)
             {
@@ -149,6 +150,7 @@ namespace Game
 
         public void AddOwnedSkill(ActiveSkillEnum id)
         {
+            Assert.IsFalse(id == ActiveSkillEnum.None);
             ActiveSkillData data = new ActiveSkillData();
             data.id = id;
             ownedSkills.Add(data);
@@ -156,6 +158,8 @@ namespace Game
 
         public void ReplaceOwnedSkill(ActiveSkillEnum ori, ActiveSkillEnum target)
         {
+            Assert.IsFalse(ori == ActiveSkillEnum.None);
+            Assert.IsFalse(target == ActiveSkillEnum.None);
             int index = -1;
             for (int i = 0; i < ownedSkills.Count; ++i)
             {
