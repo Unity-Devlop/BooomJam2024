@@ -39,6 +39,10 @@ namespace Game
             {
                 Global.LogWarning($"找不到{@enum}的Spine资源:{address}");
             }
+            catch (Exception e)
+            {
+                Global.LogError($"加载{@enum}的Spine资源失败:{address}");
+            }
 
             if (spine != null)
             {
