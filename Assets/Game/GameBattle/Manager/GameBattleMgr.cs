@@ -23,7 +23,6 @@ namespace Game.GamePlay
 
         protected override void OnInit()
         {
-            UIRoot.Singleton.OpenPanel<GameDebugPanel>();
             // Init Battle Controller
             battleFlow = GetComponent<DummyBattleFlow>();
         }
@@ -33,64 +32,20 @@ namespace Game.GamePlay
             battleFlow.Dispose();
         }
 
-        [Button]
-        public void DebugStart()
-        {
-            BattleData data = new BattleData();
-            data.id = BattleEnvironmentEnum.草地;
-            StartBattle(playerBattleTrainer.trainerData, robotBattleTrainer.trainerData, data).Forget();
-        }
-
-        public async void RollToStart()
-        {
-            HuluEnum[] huluValues = (HuluEnum[])Enum.GetValues(typeof(HuluEnum));
-            huluValues.Shuffle();
-
-            TrainerData playerTrainerData = new TrainerData();
-            playerTrainerData.RollTrainerSkill9();
-            for (int i = 0; i < 3; i++)
-            {
-                var item = new HuluData();
-                item.id = huluValues[i];
-                item.elementEnum = item.config.Elements;
-                item.Roll9Skills();
-                item.RollAbility();
-                playerTrainerData.datas.Add(item);
-            }
-
-
-            TrainerData aiTrainerData = new TrainerData();
-            aiTrainerData.RollTrainerSkill9();
-            for (int i = 3; i < 6; i++)
-            {
-                var item = new HuluData();
-                item.id = huluValues[i];
-                item.elementEnum = item.config.Elements;
-                item.Roll9Skills();
-                item.RollAbility();
-                aiTrainerData.datas.Add(item);
-            }
-
-            BattleData battleData = GameMath.RandomBattleData();
-
-            StartBattle(playerTrainerData, aiTrainerData, battleData).Forget();
-        }
-
-        public async UniTask StartBattle(TrainerData self, TrainerData enemy, BattleData battleData)
+        public async UniTask StartBattle(TrainerData self, TrainerData enemy, BattleEnvData battleEnvData)
         {
             TrainerData playerTrainerData = self;
             TrainerData aiTrainerData = enemy;
             playerBattleTrainer.Init(playerTrainerData); // 暂时用Inspector配置的数据
             robotBattleTrainer.Init(aiTrainerData);
 
-            battleFlow.Init(playerBattleTrainer, robotBattleTrainer, battleData);
+            battleFlow.Init(playerBattleTrainer, robotBattleTrainer, battleEnvData);
             await battleFlow.Enter();
             OnBattleEnd();
         }
 
         private async void OnBattleEnd()
         {
-            
             Global.Get<GameFlow>().SetParam(Consts.BattleSettlementData, battleFlow.settlementData);
             await Global.Get<GameFlow>().ToGameOutside<BattleSettlementState>();
         }
@@ -106,6 +61,11 @@ namespace Game.GamePlay
         public void StopBGM()
         {
             Global.Get<AudioSystem>().StopSingleton(FMODName.Event.MX_COMBAT_DEMO1, STOP_MODE.ALLOWFADEOUT);
+        }
+
+        public void DebugStartBattle()
+        {
+            StartBattle(playerBattleTrainer.trainerData, robotBattleTrainer.trainerData, GameMath.RandomBattleEnvData());
         }
     }
 }

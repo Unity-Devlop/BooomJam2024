@@ -28,18 +28,18 @@ namespace Game.GamePlay
         private IBattleOperation _enemyOper;
 
         private CancellationTokenSource _cts;
-        private BattleData _envData;
+        private BattleEnvData _envEnvData;
 
 
         [field: SerializeField] public BattleSettlementData settlementData { get; private set; }
 
-        public void Init(IBattleTrainer self, IBattleTrainer enemy, BattleData data)
+        public void Init(IBattleTrainer self, IBattleTrainer enemy, BattleEnvData envData)
         {
             Assert.IsNull(_cts);
             _self = self;
             _enemy = enemy;
 
-            _envData = data;
+            _envEnvData = envData;
 
             selfPos.battleTrainer = self;
             enemyPos.battleTrainer = enemy;
@@ -71,7 +71,7 @@ namespace Game.GamePlay
 
         public async UniTask ChangeBattleEnv(BattleEnvironmentEnum configChangeBattleEnvAfterUse)
         {
-            _envData.id = configChangeBattleEnvAfterUse;
+            _envEnvData.id = configChangeBattleEnvAfterUse;
             await UniTask.CompletedTask;
         }
 
@@ -303,7 +303,7 @@ namespace Game.GamePlay
             await _self.RoundEnd();
             await _enemy.RoundEnd();
 
-            await _envData.RoundEnd();
+            await _envEnvData.RoundEnd();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -314,7 +314,7 @@ namespace Game.GamePlay
 
             _self.OnDiscardCardFromHand -= _enemy.OnEnemyTrainerDiscardCard;
             _enemy.OnDiscardCardFromHand -= _self.OnEnemyTrainerDiscardCard;
-            _envData.Clear();
+            _envEnvData.Clear();
 
             _self.ExitBattle();
             _enemy.ExitBattle();
@@ -414,7 +414,7 @@ namespace Game.GamePlay
         {
             var (faster, slower) = GameMath.WhoFirst(_self, _enemy, selfPos.current, enemyPos.current,
                 selfAtk.data,
-                enemyAtk.data, _envData);
+                enemyAtk.data, _envEnvData);
 
             // 根据顺序结算
             if (faster == selfPos.current)
@@ -603,12 +603,12 @@ namespace Game.GamePlay
 
                     await UglyMath.PostprocessHuluDataBeforeUseSkill(userPosition.current, config);
                     bool hitted = GameMath.CalHit(userPosition.current, defPosition.current, operation.data.id,
-                        _envData);
+                        _envEnvData);
                     if (hitted && UglyMath.PostprocessHitRate(userPosition.current, defPosition.current,
-                            operation.data.id, _envData))
+                            operation.data.id, _envEnvData))
                     {
                         int damage = await GameMath.CalDamage(userPosition.current, defPosition.current,
-                            operation.data.id, _envData);
+                            operation.data.id, _envEnvData);
                         Global.Event.Send<BattleTipEvent>(
                             new BattleTipEvent($"{userPosition}对{defPosition.current}造成{damage}伤害"));
                         Debug.Log(
@@ -648,7 +648,7 @@ namespace Game.GamePlay
                         await UglyMath.EffectWhenSkillHitted(userTrainer,
                             defTrainer,
                             config,
-                            damage, _envData);
+                            damage, _envEnvData);
                     }
                     else
                     {
@@ -830,7 +830,7 @@ namespace Game.GamePlay
             var whenSpeedLessThanBuff = config.WhenSppedLessThanBuff;
             if (whenSpeedLessThanBuff.Buff != BattleBuffEnum.None && whenSpeedLessThanBuff.Compare != -1)
             {
-                float speed = UglyMath.PostprocessRunTimeSpeed(userTrainer, _envData);
+                float speed = UglyMath.PostprocessRunTimeSpeed(userTrainer, _envEnvData);
                 if (speed < whenSpeedLessThanBuff.Compare)
                 {
                     await userTrainer.AddBuff(whenSpeedLessThanBuff.Buff);
@@ -841,7 +841,7 @@ namespace Game.GamePlay
             if (whenAdapGreaterThanBuff.Buff != BattleBuffEnum.None && whenAdapGreaterThanBuff.Compare != -1)
             {
                 float heal = whenAdapGreaterThanBuff.Point;
-                float adap = GameMath.CalRunTimeAdap(userTrainer.currentBattleData, _envData);
+                float adap = GameMath.CalRunTimeAdap(userTrainer.currentBattleData, _envEnvData);
                 if (adap >= whenAdapGreaterThanBuff.Compare)
                 {
                     await userTrainer.AddBuff(whenAdapGreaterThanBuff.Buff);

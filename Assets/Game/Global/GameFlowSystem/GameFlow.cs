@@ -63,9 +63,9 @@ namespace Game
             await UniTask.CompletedTask;
         }
 
-        public async UniTask ToGameBattle(TrainerData self, TrainerData enemy, BattleData battleData)
+        public async UniTask ToGameBattle(TrainerData self, TrainerData enemy, BattleEnvData battleEnvData)
         {
-            _stateMachine.SetParam(Consts.GameBattleData, battleData);
+            _stateMachine.SetParam(Consts.GameBattleData, battleEnvData);
             _stateMachine.SetParam(Consts.EnemyTrainerData, enemy);
             _stateMachine.SetParam(Consts.LocalPlayerTrainerData, self);
             _stateMachine.Change<GameBattleState>();

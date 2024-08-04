@@ -8,6 +8,7 @@ using Game.GamePlay;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Pool;
+using UnityToolkit;
 using Random = UnityEngine.Random;
 
 namespace Game
@@ -74,7 +75,7 @@ namespace Game
 
         public static (HuluData, HuluData) WhoFirst(IBattleTrainer rT, IBattleTrainer lt, HuluData r, HuluData l,
             ActiveSkillData rs, ActiveSkillData ls,
-            BattleData data)
+            BattleEnvData envData)
         {
             Assert.IsTrue(rs.config.Type != ActiveSkillTypeEnum.指挥);
             Assert.IsTrue(ls.config.Type != ActiveSkillTypeEnum.指挥);
@@ -119,8 +120,8 @@ namespace Game
                 return (l, r);
             }
 
-            int rRuntimeSpeed = (int)UglyMath.PostprocessRunTimeSpeed(rT, data);
-            int lRuntimeSpeed = (int)UglyMath.PostprocessRunTimeSpeed(lt, data);
+            int rRuntimeSpeed = (int)UglyMath.PostprocessRunTimeSpeed(rT, envData);
+            int lRuntimeSpeed = (int)UglyMath.PostprocessRunTimeSpeed(lt, envData);
 
             if (rRuntimeSpeed > lRuntimeSpeed)
             {
@@ -159,14 +160,14 @@ namespace Game
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static async UniTask<int> CalDamage(HuluData atk, HuluData def, ActiveSkillEnum skill,
-            BattleData data)
+            BattleEnvData envData)
         {
             ActiveSkillConfig config = Global.Table.ActiveSkillTable.Get(skill);
             Assert.IsTrue(config.DamagePoint != 0);
 
             Assert.IsTrue(config.Type == ActiveSkillTypeEnum.伤害技能);
-            int damagePoint = UglyMath.PostprocessDamagePoint(config, data);
-            int atkPoint = await UglyMath.PostprocessAtkPoint(atk, config, data);
+            int damagePoint = UglyMath.PostprocessDamagePoint(config, envData);
+            int atkPoint = await UglyMath.PostprocessAtkPoint(atk, config, envData);
             Debug.Log(
                 $"攻击力{atkPoint},伤害{damagePoint},防御力{def.currentDef}" +
                 $" 本系威力加成{CalSelfElementFit(atk.config, config)} \n" +
@@ -180,7 +181,7 @@ namespace Game
             Debug.Log($"处理前的基础伤害{baseValue} ");
             baseValue = await UglyMath.PostprocessBattleBaseValue(baseValue, atk, def, config);
 
-            int adap = GameMath.CalRunTimeAdap(def, data);
+            int adap = GameMath.CalRunTimeAdap(def, envData);
             Debug.Log($"处理后的基础伤害{baseValue} 适应度{adap}");
             float finalValue = baseValue * (1 - Mathf.Clamp(adap, 0, 100) / 100f);
 
@@ -189,7 +190,7 @@ namespace Game
             return (int)finalValue;
         }
 
-        public static int CalRunTimeAdap(HuluData def, BattleData data)
+        public static int CalRunTimeAdap(HuluData def, BattleEnvData envData)
         {
             int baseAdap = def.currentAdap;
             if (def.ContainsBuff(BattleBuffEnum.加十点适应力))
@@ -203,7 +204,7 @@ namespace Game
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool CalHit(HuluData atk, HuluData def, ActiveSkillEnum dataID,
-            BattleData data)
+            BattleEnvData envData)
         {
             ActiveSkillConfig config = Global.Table.ActiveSkillTable.Get(dataID);
             return UnityEngine.Random.value <= config.HitRate;
@@ -338,13 +339,47 @@ namespace Game
             return data;
         }
 
-        public static BattleData RandomBattleData()
+        public static BattleEnvData RandomBattleEnvData()
         {
             var list = Global.Table.BattleEnvironmentTable.DataList;
 
             var id = list[Random.Range(0, list.Count)].Id;
 
-            return new BattleData() { id = id };
+            return new BattleEnvData() { id = id };
+        }
+
+        public static void RollBattleData(out TrainerData playerTrainerData, out TrainerData aiTrainerData,
+            out BattleEnvData env)
+        {
+            HuluEnum[] huluValues = (HuluEnum[])Enum.GetValues(typeof(HuluEnum));
+            huluValues.Shuffle();
+
+            playerTrainerData = new TrainerData();
+            playerTrainerData.RollTrainerSkill9();
+            for (int i = 0; i < 3; i++)
+            {
+                var item = new HuluData();
+                item.id = huluValues[i];
+                item.elementEnum = item.config.Elements;
+                item.Roll9Skills();
+                item.RollAbility();
+                playerTrainerData.datas.Add(item);
+            }
+
+
+            aiTrainerData = new TrainerData();
+            aiTrainerData.RollTrainerSkill9();
+            for (int i = 3; i < 6; i++)
+            {
+                var item = new HuluData();
+                item.id = huluValues[i];
+                item.elementEnum = item.config.Elements;
+                item.Roll9Skills();
+                item.RollAbility();
+                aiTrainerData.datas.Add(item);
+            }
+
+            env = GameMath.RandomBattleEnvData();
         }
     }
 }

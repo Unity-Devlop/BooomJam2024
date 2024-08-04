@@ -17,13 +17,13 @@ namespace Game
             // throw new System.NotImplementedException();
             // BattleData battleData = stateMachine.GetParam<BattleData>(nameof(BattleData));
             await owner.ToGameBattleScene();
-            BattleData battleData = stateMachine.GetParam<BattleData>(Consts.GameBattleData);
+            BattleEnvData battleEnvData = stateMachine.GetParam<BattleEnvData>(Consts.GameBattleData);
             stateMachine.RemoveParam(Consts.GameBattleData);
             TrainerData trainerData = stateMachine.GetParam<TrainerData>(Consts.LocalPlayerTrainerData);
             stateMachine.RemoveParam(Consts.LocalPlayerTrainerData);
             TrainerData robotData = stateMachine.GetParam<TrainerData>(Consts.EnemyTrainerData);
             stateMachine.RemoveParam(Consts.EnemyTrainerData);
-            GameBattleMgr.Singleton.StartBattle(trainerData, robotData, battleData).Forget();
+            GameBattleMgr.Singleton.StartBattle(trainerData, robotData, battleEnvData).Forget();
 
         }
 
