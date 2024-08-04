@@ -1,26 +1,24 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using UnityToolkit;
 
 namespace Game
 {
-    public class DailyTrainState : PlayOutsideState
+    public class DailyTrainState : IState<GamePlayOutsideMgr>
     {
-        public override void OnEnter()
+        public void OnInit(GamePlayOutsideMgr owner, IStateMachine<GamePlayOutsideMgr> stateMachine)
         {
-            base.OnEnter();
+        }
+
+        public void OnEnter(GamePlayOutsideMgr owner, IStateMachine<GamePlayOutsideMgr> stateMachine)
+        {
             UIRoot.Singleton.OpenPanel<DailyTrainPanel>();
         }
 
-        public override void OnStay()
+        public void OnUpdate(GamePlayOutsideMgr owner, IStateMachine<GamePlayOutsideMgr> stateMachine)
         {
-            base.OnStay();
         }
 
-        public override void OnExit()
+        public void OnExit(GamePlayOutsideMgr owner, IStateMachine<GamePlayOutsideMgr> stateMachine)
         {
-            base.OnExit();
             UIRoot.Singleton.ClosePanel<DailyTrainPanel>();
         }
     }

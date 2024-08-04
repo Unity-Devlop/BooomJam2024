@@ -29,17 +29,17 @@ namespace Game
 
         [SerializeField] private PokemonUIShow show;
         [SerializeField] private PokemonHUD hud;
-        
+
         public override void OnLoaded()
         {
             base.OnLoaded();
             Register();
             valueUIItems = ValueList.GetComponentsInChildren<ValueUIItem>();
             rolePortraitUIItems = new RolePortraitUIItem[huluIds.Count];
-            for(int i=0;i<huluIds.Count;++i)
+            for (int i = 0; i < huluIds.Count; ++i)
             {
                 var huluData = Global.Table.HuluTable.Get(huluIds[i]);
-                var go = Instantiate(rolePortraitUIItem,roleList.transform);
+                var go = Instantiate(rolePortraitUIItem, roleList.transform);
                 rolePortraitUIItems[i] = go.GetComponent<RolePortraitUIItem>();
                 rolePortraitUIItems[i].roleName.text = huluData.Id.ToString();
                 rolePortraitUIItems[i].index = i;
@@ -81,10 +81,10 @@ namespace Game
             data.RollAbility();
             show.UnBind();
             show.Bind(data);
-            
+
             hud.UnBind();
             hud.Bind(data);
-            
+
             valueUIItems[0].valueNum.text = config.BaseHp.ToString();
             valueUIItems[0].slider.value = (float)config.BaseHp / config.MaxHp;
             valueUIItems[1].valueNum.text = config.BaseAtk.ToString();
@@ -95,7 +95,7 @@ namespace Game
             valueUIItems[3].slider.value = (float)config.BaseSpeed / config.MaxSpeed;
             valueUIItems[4].valueNum.text = config.BaseAdap.ToString();
             valueUIItems[4].slider.value = (float)config.BaseAdap / config.MaxAdap;
-            if(chosenHulu.Contains(config.Id))
+            if (chosenHulu.Contains(config.Id))
             {
                 chooseBtnText.text = "取消选择";
             }
@@ -126,6 +126,7 @@ namespace Game
                     chooseBtnText.text = "取消选择";
                 }
             }
+
             if (chosenHulu.Count >= 4) nextBtn.gameObject.SetActive(true);
             else nextBtn.gameObject.SetActive(false);
         }
@@ -133,7 +134,7 @@ namespace Game
         public void Continue()
         {
             var playerData = Global.Get<DataSystem>().Get<PlayerData>();
-            for(int i=0;i<huluIds.Count; ++i)
+            for (int i = 0; i < huluIds.Count; ++i)
             {
                 if (chosenHulu.Contains(huluIds[i]))
                 {
@@ -146,12 +147,12 @@ namespace Game
                         asd.id = activeSkills[i][j];
                         h.ownedSkills.Add(asd);
                     }
+
                     playerData.trainerData.datas.Add(h);
-                 }
+                }
             }
-            var e = new ChangeStateEvent();
-            e.poState = POState.DailyTrainState;
-            TypeEventSystem.Global.Send<ChangeStateEvent>(e);
+
+            GamePlayOutsideMgr.Singleton.machine.Change<DailyTrainState>();
         }
 
         private List<ActiveSkillEnum> GetRandomSkill(ActiveSkillEnum[] array)
@@ -165,6 +166,7 @@ namespace Game
                 array[r] = array[i];
                 array[i] = temp;
             }
+
             return new List<ActiveSkillEnum>() { array[0], array[1], array[2] };
         }
     }

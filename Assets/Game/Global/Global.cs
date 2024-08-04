@@ -1,9 +1,11 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using cfg;
 using Cysharp.Threading.Tasks;
 using SimpleJSON;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.Pool;
 using UnityToolkit;
 
 namespace Game
@@ -64,13 +66,15 @@ namespace Game
             // 初始化UI资源加载器
             UIRoot.Singleton.UIDatabase.Loader = new AddressablesUILoader();
 
+            List<UniTask> systemInitTasks = ListPool<UniTask>.Get();
             foreach (var system in _systemLocator.systems)
             {
                 if (system is IAsyncOnInit asyncOnInit)
                 {
-                    await UniTask.WaitUntil(() => asyncOnInit.initialized);
+                    systemInitTasks.Add(UniTask.WaitUntil(() => asyncOnInit.initialized));
                 }
             }
+            await UniTask.WhenAll(systemInitTasks);
             // 质量变成Ultra
             QualitySettings.SetQualityLevel(5);
             initialized = true;

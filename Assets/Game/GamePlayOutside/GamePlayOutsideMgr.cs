@@ -1,34 +1,26 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityToolkit;
 
 namespace Game
 {
-    public enum POState
-    {
-        FirstSettingState,
-        FirstChooseState,
-        DailyTrainState,
-        SpecialTrainState,
-    }
 
     public class GamePlayOutsideMgr : MonoSingleton<GamePlayOutsideMgr>
     {
-        private Dictionary<POState, PlayOutsideState> states = new Dictionary<POState, PlayOutsideState>();
-        private PlayOutsideState curState;
-
+        public StateMachine<GamePlayOutsideMgr> machine { get; private set; }
         public DateSystem dateSystem;
 
         protected override void OnInit()
         {
             base.OnInit();
             Global.Get<DataSystem>().Add(new PlayerData());
-            dateSystem = new DateSystem(2024,8,1,1);//暂时写死，后续改为读表
-            states.Add(POState.FirstSettingState,new FirstSettingState());
-            states.Add(POState.FirstChooseState, new FirstChooseState());
-            states.Add(POState.DailyTrainState, new DailyTrainState());
-            states.Add(POState.SpecialTrainState, new SpecialTrainState());
-            curState = states[POState.FirstSettingState];
-            curState.OnEnter();
+            dateSystem = new DateSystem(2024, 8, 1, 1); //暂时写死，后续改为读表
+            machine = new StateMachine<GamePlayOutsideMgr>(this);
+            machine.Add(new FirstSettingState());
+            machine.Add(new FirstChooseState());
+            machine.Add(new DailyTrainState());
+            machine.Add(new SpecialTrainState());
+            machine.Run<FirstSettingState>();
             Register();
         }
 
@@ -40,29 +32,16 @@ namespace Game
 
         private void Update()
         {
-            curState.OnStay();
+            machine.OnUpdate();
         }
-
-        private void ChangeState(ChangeStateEvent e)
-        {
-            if (curState != null) curState.OnExit();
-            curState = states[e.poState];
-            curState.OnEnter();
-        }
+        
 
         private void Register()
         {
-            TypeEventSystem.Global.Listen<ChangeStateEvent>(ChangeState);
         }
-
+        
         private void UnRegister()
         {
-            TypeEventSystem.Global.UnListen<ChangeStateEvent>(ChangeState);
         }
-    }
-
-    public class ChangeStateEvent
-    {
-        public POState poState;
     }
 }

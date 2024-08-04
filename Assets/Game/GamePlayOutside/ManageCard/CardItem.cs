@@ -16,13 +16,13 @@ namespace Game
 
         public override void OnSelect(BaseEventData eventData)
         {
-            Global.Get<AudioSystem>().PlayOneShot(FMODName.Event.SFX_ui_Ñ¡ÔñÅÆ);
+            Global.Get<AudioSystem>().PlayOneShot(FMODName.Event.SFX_ui_é€‰æ‹©ç‰Œ);
             transform.localPosition += transform.up * selectionOffset;
         }
 
         public override void OnDeselect(BaseEventData eventData)
         {
-            Global.Get<AudioSystem>().PlayOneShot(FMODName.Event.SFX_ui_Ñ¡ÔñÅÆ);
+            Global.Get<AudioSystem>().PlayOneShot(FMODName.Event.SFX_ui_é€‰æ‹©ç‰Œ);
             transform.localPosition -= transform.up * selectionOffset;
         }
 

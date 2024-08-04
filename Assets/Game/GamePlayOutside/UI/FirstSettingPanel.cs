@@ -68,15 +68,14 @@ namespace Game
         {
             var playerData = Global.Get<DataSystem>().Get<PlayerData>();
             playerData.name = inputField.text;
-            for(int i = 0; i < styleToSkills[curStyle].skills.Count;++i)
+            for (int i = 0; i < styleToSkills[curStyle].skills.Count; ++i)
             {
                 var temp = new ActiveSkillData();
                 temp.id = styleToSkills[curStyle].skills[i];
-                 playerData.trainerData.trainerSkills.Add(temp);
+                playerData.trainerData.trainerSkills.Add(temp);
             }
-            var e = new ChangeStateEvent();
-            e.poState = POState.FirstChooseState;
-            TypeEventSystem.Global.Send<ChangeStateEvent>(e);
+
+            GamePlayOutsideMgr.Singleton.machine.Change<FirstChooseState>();
         }
     }
 }
