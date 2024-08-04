@@ -75,6 +75,12 @@ namespace Game
             return card;
         }
 
+        public void AddCardItem(CardItem cardItem, ActiveSkillData data)
+        {
+            handZoneCardList.Add(cardItem);
+            cardItem.Init(cardVisualPool, visualRoot, data);
+        }
+
         public async UniTask UseFromHand(ActiveSkillData data)
         {
             // var card = handZoneCardList.Find(card => card.data == data);
