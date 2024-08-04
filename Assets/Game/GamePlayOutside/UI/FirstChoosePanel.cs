@@ -21,7 +21,6 @@ namespace Game
         public List<HuluEnum> huluIds = new List<HuluEnum>();
 
         private RolePortraitUIItem[] rolePortraitUIItems;
-        private SkillUIItem[] skillUIItems;
         private ValueUIItem[] valueUIItems;
         private List<List<ActiveSkillEnum>> activeSkills = new List<List<ActiveSkillEnum>>();
         private List<HuluEnum> chosenHulu = new List<HuluEnum>();
@@ -29,11 +28,12 @@ namespace Game
 
 
         [SerializeField] private PokemonUIShow show;
+        [SerializeField] private PokemonHUD hud;
+        
         public override void OnLoaded()
         {
             base.OnLoaded();
             Register();
-            skillUIItems = skillList.GetComponentsInChildren<SkillUIItem>();
             valueUIItems = ValueList.GetComponentsInChildren<ValueUIItem>();
             rolePortraitUIItems = new RolePortraitUIItem[huluIds.Count];
             for(int i=0;i<huluIds.Count;++i)
@@ -82,12 +82,9 @@ namespace Game
             show.UnBind();
             show.Bind(data);
             
-            for (int i=0;i<skillUIItems.Length;++i)
-            {
-                var skill = activeSkills[curHulu][i];
-                skillUIItems[i].skillName.text = skill.ToString();
-                skillUIItems[i].SkillDescription.text = Global.Table.ActiveSkillTable.Get(skill).Desc;
-            }
+            hud.UnBind();
+            hud.Bind(data);
+            
             valueUIItems[0].valueNum.text = config.BaseHp.ToString();
             valueUIItems[0].slider.value = (float)config.BaseHp / config.MaxHp;
             valueUIItems[1].valueNum.text = config.BaseAtk.ToString();

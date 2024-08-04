@@ -530,7 +530,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01aee369f6cb4cd9873bef9272d2d972, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  childCnt: 3
   handZoneCardList: []
   outsideArea: {fileID: 6202452832118864171}
   tweenCardReturn: 1
