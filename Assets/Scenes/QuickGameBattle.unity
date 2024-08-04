@@ -315,8 +315,8 @@ MonoBehaviour:
         - id: 2
     buffList: 
     deck: 
-  data:
-    id: 1
+  envData:
+    id: 0
 --- !u!4 &169709044
 Transform:
   m_ObjectHideFlags: 0

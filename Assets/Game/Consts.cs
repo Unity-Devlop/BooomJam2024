@@ -8,6 +8,10 @@ namespace Game
 
         public static readonly string LocalPlayerDataPath = $"{Application.persistentDataPath}/LocalPlayerData.json";
         public const int MaxHandCard = 8;
+        public const string GameBattleData = "BattleData";
+        public const string LocalPlayerTrainerData = "LocalPlayerTrainerData";
+        public const string RobotTrainerData = "RobotTrainerData";
+
 
         public static class Animation
         {

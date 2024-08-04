@@ -17,8 +17,6 @@ namespace Game
 {
     public class CardHorizontalContainer : MonoBehaviour
     {
-        public int childCnt = 8;
-
         [SerializeField] private List<Card> handZoneCardList; // 手牌区域
         // private List<ActiveSkillData> _cemeteryZoneCardList; // 墓地区域
         // private List<ActiveSkillData> _discardZoneCardList; // 弃牌区域

@@ -1,4 +1,5 @@
 ﻿using Cysharp.Threading.Tasks;
+using Game.GamePlay;
 using UnityToolkit;
 
 namespace Game
@@ -16,7 +17,11 @@ namespace Game
             // throw new System.NotImplementedException();
             // BattleData battleData = stateMachine.GetParam<BattleData>(nameof(BattleData));
             await owner.ToGameBattleScene();
-            
+            BattleData battleData = stateMachine.GetParam<BattleData>(Consts.GameBattleData);
+            TrainerData trainerData = stateMachine.GetParam<TrainerData>(Consts.LocalPlayerTrainerData);
+            TrainerData robotData = stateMachine.GetParam<TrainerData>(Consts.RobotTrainerData);
+            GameBattleMgr.Singleton.StartBattle(trainerData, robotData, battleData).Forget();
+
         }
 
         public void OnUpdate(GameFlow owner, IStateMachine<GameFlow> stateMachine)

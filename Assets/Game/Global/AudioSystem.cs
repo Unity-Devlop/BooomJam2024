@@ -9,14 +9,13 @@ using UnityToolkit;
 
 namespace Game
 {
-    public class AudioSystem : MonoBehaviour, ISystem, IOnInit
+    public class AudioSystem : MonoBehaviour, ISystem, IAsyncOnInit
     {
         private Dictionary<string, EventInstance> _cache;
         [SerializeField] private AssetReference bank;
 
         [SerializeField] private AssetReference bankString;
-        // public bool initialized { get; private set; }
-        // public UniTask initTask { get; private set; }
+        public bool initialized { get; private set; }
 
         public async void OnInit()
         {
@@ -36,6 +35,7 @@ namespace Game
 
             RuntimeManager.LoadBank(bankAsset, false);
             RuntimeManager.LoadBank(bankStringAsset, false);
+            initialized = true;
         }
 
 
