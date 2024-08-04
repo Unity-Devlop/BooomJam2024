@@ -16,7 +16,6 @@ namespace Game.GamePlay
     [Serializable]
     public class PlayerBattleTrainer : IBattleTrainer
     {
-        public bool canFight => trainerData.canFight;
         [field: SerializeField] public TrainerData trainerData { get; private set; }
         [field: NonSerialized] public HuluData currentBattleData { get; private set; }
 

@@ -109,7 +109,9 @@ namespace Game.GamePlay
                 // 有人不能战斗了
                 if (!selfPos.current.CanFight() || !enemyPos.current.CanFight())
                 {
-                    Debug.Log($"有人不能战斗了");
+                    Global.LogInfo(
+                        $"{selfPos.current}-CanFight:{selfPos.current.CanFight()}\n{enemyPos.current}-CanFight:{enemyPos.current.CanFight()}");
+                    Global.LogInfo("有人不能战斗了 回合结束");
                     break;
                 }
 
@@ -174,6 +176,7 @@ namespace Game.GamePlay
                     {
                         Global.LogInfo($"{enemyPos.current}已经死亡 不再放技能");
                     }
+
                     continue; // 这里双方技能都结算了 所以直接跳到下一回合
                 }
 
@@ -238,14 +241,31 @@ namespace Game.GamePlay
 
         public async UniTask AfterRound()
         {
-            if (!selfPos.current.CanFight() && _self.trainerData.FindFirstCanFight(out HuluData selfNext))
+            if (!selfPos.current.CanFight())
             {
-                selfPos.SetNext(selfNext);
+                if (_self.trainerData.FindFirstCanFight(out HuluData selfNext))
+                {
+                    Global.LogInfo($"{selfPos.current}战斗不能，自动切换到{selfNext}");
+                    selfPos.SetNext(selfNext);
+                }
+                else
+                {
+                    throw new NotImplementedException();
+                }
             }
 
-            if (!enemyPos.current.CanFight() && _enemy.trainerData.FindFirstCanFight(out HuluData enemyNext))
+            if (!enemyPos.current.CanFight())
             {
-                enemyPos.SetNext(enemyNext);
+                if (_enemy.trainerData.FindFirstCanFight(out HuluData enemyNext))
+                {
+                    Global.LogInfo($"{enemyPos.current}战斗不能，自动切换到{enemyNext}");
+                    enemyPos.SetNext(enemyNext);
+                }
+
+                else
+                {
+                    throw new NotImplementedException();
+                }
             }
 
             // 如果有一方G了 则进行自动替换逻辑
@@ -255,14 +275,14 @@ namespace Game.GamePlay
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public async UniTask RoundEnd()
         {
+            await selfPos.RoundEnd();
             await selfPos.current.RoundEnd();
+
+            await enemyPos.RoundEnd();
             await enemyPos.current.RoundEnd();
-            
+
             await _self.RoundEnd();
             await _enemy.RoundEnd();
-
-            await selfPos.RoundEnd();
-            await enemyPos.RoundEnd();
 
             await _envData.RoundEnd();
         }
@@ -295,35 +315,35 @@ namespace Game.GamePlay
             _cts = null;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool TryGetRoundWinner(out IBattleTrainer battleTrainer)
-        {
-            if (!_self.currentBattleData.CanFight())
-            {
-                battleTrainer = _enemy;
-                return true;
-            }
-
-            if (!_enemy.currentBattleData.CanFight())
-            {
-                battleTrainer = _self;
-                return true;
-            }
-
-            battleTrainer = null;
-            return false;
-        }
+        // [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        // public bool TryGetRoundWinner(out IBattleTrainer battleTrainer)
+        // {
+        //     if (!_self.currentBattleData.CanFight())
+        //     {
+        //         battleTrainer = _enemy;
+        //         return true;
+        //     }
+        //
+        //     if (!_enemy.currentBattleData.CanFight())
+        //     {
+        //         battleTrainer = _self;
+        //         return true;
+        //     }
+        //
+        //     battleTrainer = null;
+        //     return false;
+        // }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool TryGetFinalWinner(out IBattleTrainer battleTrainer)
         {
-            if (_self.canFight && !_enemy.canFight)
+            if (_self.trainerData.canFight && !_enemy.trainerData.canFight)
             {
                 battleTrainer = _self;
                 return true;
             }
 
-            if (!_self.canFight && _enemy.canFight)
+            if (!_self.trainerData.canFight && _enemy.trainerData.canFight)
             {
                 battleTrainer = _enemy;
                 return true;

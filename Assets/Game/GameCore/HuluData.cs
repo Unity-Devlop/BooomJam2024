@@ -365,7 +365,7 @@ namespace Game
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool CanFight()
         {
-            return hp > 0;
+            return currentHp > 0;
         }
     }
 }

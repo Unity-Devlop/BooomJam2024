@@ -23,7 +23,7 @@ namespace Game
                 {
                     if (!data.CanFight())
                     {
-                        // Debug.LogWarning($"{data}已经死亡");
+                        Global.LogWarning($"{data}战斗不能");
                         deadCnt++;
                     }
                 }
@@ -91,6 +91,7 @@ namespace Game
             {
                 if (huluData.CanFight())
                 {
+                    Global.LogInfo($"{huluData}可以战斗");
                     data = huluData;
                     return true;
                 }
