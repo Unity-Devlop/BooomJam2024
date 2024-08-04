@@ -345,25 +345,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0219a18974ca09c43a692ac98fa9dfbc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_DragRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 3.4028235e+38
-    height: 25
-  m_IconRect:
-    serializedVersion: 2
-    x: 10
-    y: 10
-    width: 60
-    height: 60
-  m_WindowRect:
-    serializedVersion: 2
-    x: 10
-    y: 10
-    width: 640
-    height: 480
-  m_WindowScale: 1
   m_Skin: {fileID: 0}
   m_ActiveWindow: 0
   m_ShowFullWindow: 0
