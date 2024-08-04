@@ -48,6 +48,7 @@ namespace Game
 
         [field: SerializeField] public Camera mainCamera { get; private set; }
 
+        public bool initialized { get; private set; }
 
         protected override async void OnInit()
         {
@@ -72,6 +73,7 @@ namespace Game
             }
             // 质量变成Ultra
             QualitySettings.SetQualityLevel(5);
+            initialized = true;
         }
 
         protected override void OnDispose()

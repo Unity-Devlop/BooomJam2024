@@ -20,6 +20,7 @@ public sealed partial class HuluConfig : Luban.BeanBase
         { if(!_buf["id"].IsNumber) { throw new SerializationException(); }  Id = (HuluEnum)_buf["id"].AsInt; }
         { if(!_buf["name"].IsString) { throw new SerializationException(); }  Name = _buf["name"]; }
         { if(!_buf["passive_skill"].IsNumber) { throw new SerializationException(); }  PassiveSkill = (PassiveSkillEnum)_buf["passive_skill"].AsInt; }
+        { if(!_buf["desc"].IsString) { throw new SerializationException(); }  Desc = _buf["desc"]; }
         { if(!_buf["elements"].IsNumber) { throw new SerializationException(); }  Elements = (ElementEnum)_buf["elements"].AsInt; }
         { if(!_buf["base_hp"].IsNumber) { throw new SerializationException(); }  BaseHp = _buf["base_hp"]; }
         { if(!_buf["max_hp"].IsNumber) { throw new SerializationException(); }  MaxHp = _buf["max_hp"]; }
@@ -51,6 +52,10 @@ public sealed partial class HuluConfig : Luban.BeanBase
     /// 被动技能ID
     /// </summary>
     public readonly PassiveSkillEnum PassiveSkill;
+    /// <summary>
+    /// 描述
+    /// </summary>
+    public readonly string Desc;
     /// <summary>
     /// 属性
     /// </summary>
@@ -120,6 +125,7 @@ public sealed partial class HuluConfig : Luban.BeanBase
         
         
         
+        
     }
 
     public override string ToString()
@@ -128,6 +134,7 @@ public sealed partial class HuluConfig : Luban.BeanBase
         + "id:" + Id + ","
         + "name:" + Name + ","
         + "passiveSkill:" + PassiveSkill + ","
+        + "desc:" + Desc + ","
         + "elements:" + Elements + ","
         + "baseHp:" + BaseHp + ","
         + "maxHp:" + MaxHp + ","
