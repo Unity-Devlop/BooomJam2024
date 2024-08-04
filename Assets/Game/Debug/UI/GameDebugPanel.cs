@@ -29,10 +29,10 @@ namespace Game
         private void OnDebuggerButtonClick()
         {
             DebuggerComponent component =
-                Global.Singleton.GetComponentInChildren<DebuggerComponent>();
+                Global.Singleton.GetComponentInChildren<DebuggerComponent>(true);
             if (component != null)
             {
-                component.gameObject.SetActive(!component.gameObject.activeSelf);
+                component.gameObject.SetActive(!component.gameObject.activeInHierarchy);
             }
         }
 
