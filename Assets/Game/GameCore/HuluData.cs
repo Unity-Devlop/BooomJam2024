@@ -269,12 +269,7 @@ namespace Game
             Debug.Log($"{this}当前速度{currentSpeed}");
             await bind.Invoke();
         }
-
-
-        public bool HealthIsZero()
-        {
-            return currentHp <= 0;
-        }
+        
 
         public override string ToString()
         {
@@ -365,6 +360,12 @@ namespace Game
             }
 
             return cnt;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool CanFight()
+        {
+            return hp > 0;
         }
     }
 }

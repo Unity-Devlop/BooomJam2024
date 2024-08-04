@@ -60,12 +60,6 @@ namespace Game.GamePlay
             Debug.LogWarning($"{gameObject.name}-回合结束");
             await UniTask.CompletedTask;
         }
-
-        public bool CanFight()
-        {
-            return !current.HealthIsZero();
-        }
-
         public override string ToString()
         {
             return $"{gameObject.name}-{current}";

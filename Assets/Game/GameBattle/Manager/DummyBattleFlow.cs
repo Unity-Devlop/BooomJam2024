@@ -107,7 +107,7 @@ namespace Game.GamePlay
                 await UniTask.DelayFrame(1);
 
                 // 有人不能战斗了
-                if (!selfPos.CanFight() || !enemyPos.CanFight())
+                if (!selfPos.current.CanFight() || !enemyPos.current.CanFight())
                 {
                     Debug.Log($"有人不能战斗了");
                     break;
@@ -121,7 +121,7 @@ namespace Game.GamePlay
 
 
                 // 有人不能战斗了
-                if (!selfPos.CanFight() || !enemyPos.CanFight())
+                if (!selfPos.current.CanFight() || !enemyPos.current.CanFight())
                 {
                     Debug.Log($"有人不能战斗了");
                     break;
@@ -166,8 +166,14 @@ namespace Game.GamePlay
                     }
 
                     await ExecuteSkill(_self, _enemy, selfPos, enemyPos, selfAtk);
-                    await ExecuteSkill(_enemy, _self, enemyPos, selfPos, enemyAtk);
-
+                    if (_enemy.currentBattleData.CanFight())
+                    {
+                        await ExecuteSkill(_enemy, _self, enemyPos, selfPos, enemyAtk);
+                    }
+                    else
+                    {
+                        Global.LogInfo($"{enemyPos.current}已经死亡 不再放技能");
+                    }
                     continue; // 这里双方技能都结算了 所以直接跳到下一回合
                 }
 
@@ -232,12 +238,12 @@ namespace Game.GamePlay
 
         public async UniTask AfterRound()
         {
-            if (!selfPos.CanFight() && _self.trainerData.FindFirstCanFight(out HuluData selfNext))
+            if (!selfPos.current.CanFight() && _self.trainerData.FindFirstCanFight(out HuluData selfNext))
             {
                 selfPos.SetNext(selfNext);
             }
 
-            if (!enemyPos.CanFight() && _enemy.trainerData.FindFirstCanFight(out HuluData enemyNext))
+            if (!enemyPos.current.CanFight() && _enemy.trainerData.FindFirstCanFight(out HuluData enemyNext))
             {
                 enemyPos.SetNext(enemyNext);
             }
@@ -292,13 +298,13 @@ namespace Game.GamePlay
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool TryGetRoundWinner(out IBattleTrainer battleTrainer)
         {
-            if (_self.currentBattleData.HealthIsZero())
+            if (!_self.currentBattleData.CanFight())
             {
                 battleTrainer = _enemy;
                 return true;
             }
 
-            if (_enemy.currentBattleData.HealthIsZero())
+            if (!_enemy.currentBattleData.CanFight())
             {
                 battleTrainer = _self;
                 return true;
@@ -373,7 +379,7 @@ namespace Game.GamePlay
             if (faster == selfPos.current)
             {
                 await ExecuteSkill(_self, _enemy, selfPos, enemyPos, selfAtk);
-                if (!enemyPos.CanFight())
+                if (!enemyPos.current.CanFight())
                 {
                     return;
                 }
@@ -390,7 +396,7 @@ namespace Game.GamePlay
             else
             {
                 await ExecuteSkill(_enemy, _self, enemyPos, selfPos, enemyAtk);
-                if (!selfPos.CanFight())
+                if (!selfPos.current.CanFight())
                 {
                     return;
                 }
@@ -434,7 +440,7 @@ namespace Game.GamePlay
         {
             Assert.IsTrue(iOperation is ActiveSkillBattleOperation);
             var operation = (ActiveSkillBattleOperation)iOperation;
-            Assert.IsTrue(userPosition.CanFight());
+            Assert.IsTrue(userPosition.current.CanFight());
             Assert.IsTrue(userTrainer.currentBattleData == userPosition.current);
             Assert.IsTrue(defTrainer.currentBattleData == defPosition.current);
             var config = operation.data.config;
@@ -538,15 +544,15 @@ namespace Game.GamePlay
                 Debug.Log($"{userPosition}:Attack Times:{times}");
                 for (int i = 0; i < times; i++)
                 {
-                    if (userTrainer.currentBattleData.HealthIsZero())
+                    if (!userTrainer.currentBattleData.CanFight())
                     {
-                        Debug.Log($"{userPosition.current}已经死亡 不再计算伤害");
+                        Debug.Log($"{userPosition.current}战斗不能 不再计算伤害");
                         break;
                     }
 
-                    if (defPosition.current.HealthIsZero())
+                    if (!defPosition.current.CanFight())
                     {
-                        Debug.Log($"{defPosition.current}已经死亡 不再计算伤害");
+                        Debug.Log($"{defPosition.current}战斗不能 不再计算伤害");
                         break;
                     }
 
