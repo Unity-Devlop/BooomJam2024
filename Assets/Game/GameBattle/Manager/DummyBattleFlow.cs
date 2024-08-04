@@ -14,11 +14,11 @@ namespace Game.GamePlay
 {
     public class DummyBattleFlow : MonoBehaviour, IBattleFlow
     {
-        [ReadOnly, NonSerialized, ShowInInspector]
-        private IBattleTrainer _self;
+        [ReadOnly, ShowInInspector]
+        public IBattleTrainer self { get; private set; }
 
-        [ReadOnly, NonSerialized, ShowInInspector]
-        private IBattleTrainer _enemy;
+        [ReadOnly, ShowInInspector]
+        public IBattleTrainer enemy { get; private set; }
 
         [HorizontalGroup("1")] public BattlePosition selfPos;
 
@@ -36,8 +36,8 @@ namespace Game.GamePlay
         public void Init(IBattleTrainer self, IBattleTrainer enemy, BattleEnvData envData)
         {
             Assert.IsNull(_cts);
-            _self = self;
-            _enemy = enemy;
+            this.self = self;
+            this.enemy = enemy;
 
             _envEnvData = envData;
 
@@ -81,15 +81,13 @@ namespace Game.GamePlay
             // Roll Initial Cards
 
             // Open Battle Panel
-            GameBattlePanel gameBattlePanel = UIRoot.Singleton.OpenPanel<GameBattlePanel>();
-            gameBattlePanel.Bind(_self);
             _cts = new CancellationTokenSource();
 
             selfPos.SetNext(selfPos.battleTrainer.Get(0));
             enemyPos.SetNext(enemyPos.battleTrainer.Get(0));
 
-            _self.OnDiscardCardFromHand += _enemy.OnEnemyTrainerDiscardCard;
-            _enemy.OnDiscardCardFromHand += _self.OnEnemyTrainerDiscardCard;
+            self.OnDiscardCardFromHand += enemy.OnEnemyTrainerDiscardCard;
+            enemy.OnDiscardCardFromHand += self.OnEnemyTrainerDiscardCard;
 
 
             GameBattleMgr.Singleton.PlayBGM();
@@ -101,16 +99,16 @@ namespace Game.GamePlay
             // throw new System.NotImplementedException();
             // 执行入场逻辑
             await EnterBattleCheck();
-            await _self.BeforeRounding();
-            await _enemy.BeforeRounding();
+            await self.BeforeRounding();
+            await enemy.BeforeRounding();
         }
 
         public async UniTask BeforeRound()
         {
             // throw new System.NotImplementedException();
             // 各自抽卡
-            await _self.DrawSkills(1);
-            await _enemy.DrawSkills(1);
+            await self.DrawSkills(1);
+            await enemy.DrawSkills(1);
         }
 
 
@@ -134,11 +132,11 @@ namespace Game.GamePlay
                     break;
                 }
 
-                await GameMath.ProcessPokemonBeforeRounding(_self);
-                await GameMath.ProcessPokemonBeforeRounding(_enemy);
+                await GameMath.ProcessPokemonBeforeRounding(self);
+                await GameMath.ProcessPokemonBeforeRounding(enemy);
 
-                _selfOper = await GameMath.ProcessOperationBeforeRounding(_self, _selfOper);
-                _enemyOper = await GameMath.ProcessOperationBeforeRounding(_enemy, _enemyOper);
+                _selfOper = await GameMath.ProcessOperationBeforeRounding(self, _selfOper);
+                _enemyOper = await GameMath.ProcessOperationBeforeRounding(enemy, _enemyOper);
 
 
                 // 有人不能战斗了
@@ -152,14 +150,14 @@ namespace Game.GamePlay
                 // 等待双方操作
                 if (_selfOper is not EndRoundOperation)
                 {
-                    _self.ClearOperation();
-                    _selfOper = await _self.CalOperation();
+                    self.ClearOperation();
+                    _selfOper = await self.CalOperation();
                 }
 
                 if (_enemyOper is not EndRoundOperation)
                 {
-                    _enemy.ClearOperation();
-                    _enemyOper = await _enemy.CalOperation();
+                    enemy.ClearOperation();
+                    _enemyOper = await enemy.CalOperation();
                 }
 
                 // 双方都结束回合 则进入下一阶段
@@ -186,10 +184,10 @@ namespace Game.GamePlay
                         continue;
                     }
 
-                    await ExecuteSkill(_self, _enemy, selfPos, enemyPos, selfAtk);
-                    if (_enemy.currentBattleData.CanFight())
+                    await ExecuteSkill(self, enemy, selfPos, enemyPos, selfAtk);
+                    if (enemy.currentBattleData.CanFight())
                     {
-                        await ExecuteSkill(_enemy, _self, enemyPos, selfPos, enemyAtk);
+                        await ExecuteSkill(enemy, self, enemyPos, selfPos, enemyAtk);
                     }
                     else
                     {
@@ -201,13 +199,13 @@ namespace Game.GamePlay
 
                 if (_selfOper is EndRoundOperation && _enemyOper is ActiveSkillBattleOperation enemyAtk1)
                 {
-                    await ExecuteSkill(_enemy, _self, enemyPos, selfPos, enemyAtk1);
+                    await ExecuteSkill(enemy, self, enemyPos, selfPos, enemyAtk1);
                     continue;
                 }
 
                 if (_selfOper is ActiveSkillBattleOperation selfAtk1 && _enemyOper is EndRoundOperation)
                 {
-                    await ExecuteSkill(_self, _enemy, selfPos, enemyPos, selfAtk1);
+                    await ExecuteSkill(self, enemy, selfPos, enemyPos, selfAtk1);
                     continue;
                 }
 
@@ -215,39 +213,39 @@ namespace Game.GamePlay
                 // TODO 如果同时切换 或许有先后问题 但是和AI玩不用管 自己先切换
                 if (_selfOper is ChangeHuluOperation selfChange1 && _enemyOper is ChangeHuluOperation enemyChange1)
                 {
-                    await ExecuteSwitch(_self, selfPos, selfChange1.next);
+                    await ExecuteSwitch(self, selfPos, selfChange1.next);
                     ModifyOperAfterChangeHulu(ref _selfOper);
-                    await ExecuteSwitch(_enemy, enemyPos, enemyChange1.next);
+                    await ExecuteSwitch(enemy, enemyPos, enemyChange1.next);
                     ModifyOperAfterChangeHulu(ref _enemyOper);
                     continue;
                 }
 
                 if (_selfOper is ChangeHuluOperation selfChange2 && _enemyOper is ActiveSkillBattleOperation enemyAtk2)
                 {
-                    await ExecuteSwitch(_self, selfPos, selfChange2.next);
+                    await ExecuteSwitch(self, selfPos, selfChange2.next);
                     ModifyOperAfterChangeHulu(ref _selfOper);
-                    await ExecuteSkill(_enemy, _self, enemyPos, selfPos, enemyAtk2);
+                    await ExecuteSkill(enemy, self, enemyPos, selfPos, enemyAtk2);
                     continue;
                 }
 
                 if (_selfOper is ActiveSkillBattleOperation selfAtk3 && _enemyOper is ChangeHuluOperation enemyChange2)
                 {
-                    await ExecuteSwitch(_enemy, enemyPos, enemyChange2.next);
+                    await ExecuteSwitch(enemy, enemyPos, enemyChange2.next);
                     ModifyOperAfterChangeHulu(ref _enemyOper);
-                    await ExecuteSkill(_self, _enemy, selfPos, enemyPos, selfAtk3);
+                    await ExecuteSkill(self, enemy, selfPos, enemyPos, selfAtk3);
                     continue;
                 }
 
                 if (_selfOper is ChangeHuluOperation selfChange && _enemyOper is EndRoundOperation)
                 {
-                    await ExecuteSwitch(_self, selfPos, selfChange.next);
+                    await ExecuteSwitch(self, selfPos, selfChange.next);
                     ModifyOperAfterChangeHulu(ref _selfOper);
                     continue;
                 }
 
                 if (_selfOper is EndRoundOperation && _enemyOper is ChangeHuluOperation enemyChange)
                 {
-                    await ExecuteSwitch(_enemy, enemyPos, enemyChange.next);
+                    await ExecuteSwitch(enemy, enemyPos, enemyChange.next);
                     ModifyOperAfterChangeHulu(ref _enemyOper);
                     continue;
                 }
@@ -262,7 +260,7 @@ namespace Game.GamePlay
         {
             if (!selfPos.current.CanFight())
             {
-                if (_self.trainerData.FindFirstCanFight(out HuluData selfNext))
+                if (self.trainerData.FindFirstCanFight(out HuluData selfNext))
                 {
                     Global.LogInfo($"{selfPos.current}战斗不能，自动切换到{selfNext}");
                     selfPos.SetNext(selfNext);
@@ -275,7 +273,7 @@ namespace Game.GamePlay
 
             if (!enemyPos.current.CanFight())
             {
-                if (_enemy.trainerData.FindFirstCanFight(out HuluData enemyNext))
+                if (enemy.trainerData.FindFirstCanFight(out HuluData enemyNext))
                 {
                     Global.LogInfo($"{enemyPos.current}战斗不能，自动切换到{enemyNext}");
                     enemyPos.SetNext(enemyNext);
@@ -300,8 +298,8 @@ namespace Game.GamePlay
             await enemyPos.RoundEnd();
             await enemyPos.current.RoundEnd();
 
-            await _self.RoundEnd();
-            await _enemy.RoundEnd();
+            await self.RoundEnd();
+            await enemy.RoundEnd();
 
             await _envEnvData.RoundEnd();
         }
@@ -312,18 +310,14 @@ namespace Game.GamePlay
             settlementData.winner = winner.trainerData;
 
 
-            _self.OnDiscardCardFromHand -= _enemy.OnEnemyTrainerDiscardCard;
-            _enemy.OnDiscardCardFromHand -= _self.OnEnemyTrainerDiscardCard;
+            self.OnDiscardCardFromHand -= enemy.OnEnemyTrainerDiscardCard;
+            enemy.OnDiscardCardFromHand -= self.OnEnemyTrainerDiscardCard;
             _envEnvData.Clear();
 
-            _self.ExitBattle();
-            _enemy.ExitBattle();
+            self.ExitBattle();
+            enemy.ExitBattle();
 
             GameBattleMgr.Singleton.StopBGM();
-            if (UIRoot.Singleton.GetOpenedPanel(out GameBattlePanel battlePanel))
-            {
-                battlePanel.UnBind();
-            }
 
             return UniTask.CompletedTask;
         }
@@ -358,15 +352,15 @@ namespace Game.GamePlay
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool TryGetFinalWinner(out IBattleTrainer battleTrainer)
         {
-            if (_self.trainerData.canFight && !_enemy.trainerData.canFight)
+            if (self.trainerData.canFight && !enemy.trainerData.canFight)
             {
-                battleTrainer = _self;
+                battleTrainer = self;
                 return true;
             }
 
-            if (!_self.trainerData.canFight && _enemy.trainerData.canFight)
+            if (!self.trainerData.canFight && enemy.trainerData.canFight)
             {
-                battleTrainer = _enemy;
+                battleTrainer = enemy;
                 return true;
             }
 
@@ -400,56 +394,56 @@ namespace Game.GamePlay
         {
             if (selfPos.next != null)
             {
-                await ExecuteEnter(_self, selfPos, selfPos.next);
+                await ExecuteEnter(self, selfPos, selfPos.next);
             }
 
             if (enemyPos.next != null)
             {
-                await ExecuteEnter(_enemy, enemyPos, enemyPos.next);
+                await ExecuteEnter(enemy, enemyPos, enemyPos.next);
             }
         }
 
 
         private async UniTask BothPokemonSkill(ActiveSkillBattleOperation selfAtk, ActiveSkillBattleOperation enemyAtk)
         {
-            var (faster, slower) = GameMath.WhoFirst(_self, _enemy, selfPos.current, enemyPos.current,
+            var (faster, slower) = GameMath.WhoFirst(self, enemy, selfPos.current, enemyPos.current,
                 selfAtk.data,
                 enemyAtk.data, _envEnvData);
 
             // 根据顺序结算
             if (faster == selfPos.current)
             {
-                await ExecuteSkill(_self, _enemy, selfPos, enemyPos, selfAtk);
+                await ExecuteSkill(self, enemy, selfPos, enemyPos, selfAtk);
                 if (!enemyPos.current.CanFight())
                 {
                     return;
                 }
 
-                if (slower != _enemy.currentBattleData)
+                if (slower != enemy.currentBattleData)
                 {
                     Debug.Log("走了退场逻辑 不再放技能");
                     return;
                 }
 
                 // 如果打死了对方 则不用再打了
-                await ExecuteSkill(_enemy, _self, enemyPos, selfPos, enemyAtk);
+                await ExecuteSkill(enemy, self, enemyPos, selfPos, enemyAtk);
             }
             else
             {
-                await ExecuteSkill(_enemy, _self, enemyPos, selfPos, enemyAtk);
+                await ExecuteSkill(enemy, self, enemyPos, selfPos, enemyAtk);
                 if (!selfPos.current.CanFight())
                 {
                     return;
                 }
 
-                if (slower != _self.currentBattleData)
+                if (slower != self.currentBattleData)
                 {
                     Debug.Log("走了退场逻辑 不再放技能");
                     return;
                 }
 
                 // 如果打死了对方 则不用再打了
-                await ExecuteSkill(_self, _enemy, selfPos, enemyPos, selfAtk);
+                await ExecuteSkill(self, enemy, selfPos, enemyPos, selfAtk);
             }
         }
 
@@ -488,7 +482,7 @@ namespace Game.GamePlay
 
             if (userTrainer.ContainsBuff(BattleBuffEnum.结束回合))
             {
-                if (userTrainer == _self)
+                if (userTrainer == self)
                 {
                     ModifyOperAfterUseSkill(ref _selfOper);
                 }
@@ -502,7 +496,7 @@ namespace Game.GamePlay
 
             if (!userTrainer.handZone.Contains(operation.data))
             {
-                if (userTrainer == _self)
+                if (userTrainer == self)
                 {
                     ModifyOperAfterUseSkill(ref _selfOper);
                 }
@@ -896,7 +890,7 @@ namespace Game.GamePlay
 
             #endregion
 
-            if (userTrainer == _self)
+            if (userTrainer == self)
             {
                 ModifyOperAfterUseSkill(ref _selfOper);
             }

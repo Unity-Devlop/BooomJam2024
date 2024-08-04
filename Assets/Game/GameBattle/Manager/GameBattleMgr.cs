@@ -32,7 +32,7 @@ namespace Game.GamePlay
             battleFlow.Dispose();
         }
 
-        public async UniTask StartBattle(TrainerData self, TrainerData enemy, BattleEnvData battleEnvData)
+        public void StartBattle(TrainerData self, TrainerData enemy, BattleEnvData battleEnvData)
         {
             TrainerData playerTrainerData = self;
             TrainerData aiTrainerData = enemy;
@@ -40,12 +40,20 @@ namespace Game.GamePlay
             robotBattleTrainer.Init(aiTrainerData);
 
             battleFlow.Init(playerBattleTrainer, robotBattleTrainer, battleEnvData);
-            await battleFlow.Enter();
-            OnBattleEnd();
+
+            
+            GameBattlePanel gameBattlePanel = UIRoot.Singleton.OpenPanel<GameBattlePanel>();
+            gameBattlePanel.Bind(battleFlow.self);
+            battleFlow.Enter().ContinueWith(OnBattleEnd).Forget();
         }
+
 
         private async void OnBattleEnd()
         {
+            if (UIRoot.Singleton.GetOpenedPanel(out GameBattlePanel battlePanel))
+            {
+                battlePanel.UnBind();
+            }
             Global.Get<GameFlow>().SetParam(Consts.BattleSettlementData, battleFlow.settlementData);
             await Global.Get<GameFlow>().ToGameOutside<BattleSettlementState>();
         }
@@ -65,7 +73,8 @@ namespace Game.GamePlay
 
         public void DebugStartBattle()
         {
-            StartBattle(playerBattleTrainer.trainerData, robotBattleTrainer.trainerData, GameMath.RandomBattleEnvData());
+            StartBattle(playerBattleTrainer.trainerData, robotBattleTrainer.trainerData,
+                GameMath.RandomBattleEnvData());
         }
     }
 }

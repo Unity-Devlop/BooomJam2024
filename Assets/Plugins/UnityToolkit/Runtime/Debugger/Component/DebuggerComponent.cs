@@ -39,7 +39,7 @@ namespace UnityToolkit.Debugger
 
         private static readonly TextEditor s_TextEditor = new TextEditor();
         private IDebuggerManager m_DebuggerManager = null;
-        private Rect m_DragRect = new Rect(0f, 0f, float.MaxValue, float.MaxValue);
+        private Rect m_DragRect = new Rect(0f, 0f, float.MaxValue, 30f);
         private Rect m_IconRect = DefaultIconRect;
         private Rect m_WindowRect = DefaultWindowRect;
         private float m_WindowScale = DefaultWindowScale;
