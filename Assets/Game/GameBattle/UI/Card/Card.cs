@@ -38,28 +38,32 @@ namespace Game
 
         // components
         private CardVisual _visual;
-        private CardHorizontalContainer _container;
+        private EasyGameObjectPool _cardVisualPool;
+        private Transform _visualRoot;
         public Image img { get; private set; }
         private Canvas _canvas;
 
 
         public ActiveSkillData data;
 
-        public void Init(CardHorizontalContainer container, ActiveSkillData data)
+        public void Init(EasyGameObjectPool cardVisualPool, Transform visualRoot, ActiveSkillData data)
         {
             this.data = data;
+            _cardVisualPool = cardVisualPool;
+            _visualRoot = visualRoot;
+            this._cardVisualPool = cardVisualPool;
+            this._visualRoot = visualRoot;
             // Debug.Log($"Init Card: HashCode: {this.data.GetHashCode()}, data: {data}");
             img = GetComponent<Image>();
             _canvas = GetComponentInParent<Canvas>();
-            _container = container;
             if (_visual != null)
             {
-                _container.cardVisualPool.Release(_visual.gameObject);
+                cardVisualPool.Release(_visual.gameObject);
                 _visual = null;
             }
 
-            _visual = _container.cardVisualPool.Get().GetComponent<CardVisual>();
-            _visual.transform.SetParent(_container.visualRoot);
+            _visual = cardVisualPool.Get().GetComponent<CardVisual>();
+            _visual.transform.SetParent(visualRoot);
             _visual.transform.localScale = Vector3.one;
             _visual.transform.localPosition = Vector3.zero;
             _visual.Initialize(this);
@@ -84,7 +88,7 @@ namespace Game
 
             if (_visual != null)
             {
-                _container.cardVisualPool.Release(_visual.gameObject);
+                _cardVisualPool.Release(_visual.gameObject);
             }
 
             _visual = null;
@@ -149,7 +153,7 @@ namespace Game
             base.OnPointerEnter(eventData);
             PointerEnterEvent.Invoke(this);
             isHovering = true;
-            
+
             Global.Event.Send<OnCardHover>(new OnCardHover(this, isHovering));
             HoverEvent.Invoke(this, isHovering);
             Global.Get<AudioSystem>().PlayOneShot(FMODName.Event.SFX_ui_进入卡牌);

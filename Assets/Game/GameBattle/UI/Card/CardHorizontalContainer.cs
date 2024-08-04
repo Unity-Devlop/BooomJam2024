@@ -72,7 +72,7 @@ namespace Game
         {
             Card card = SpawnOneCardObj(name);
             handZoneCardList.Add(card);
-            card.Init(this, data);
+            card.Init(cardVisualPool, visualRoot, data);
             // Debug.Log($"Push Card: HashCode: {data.GetHashCode()}, data: {data}");
             return card;
         }
@@ -136,11 +136,13 @@ namespace Game
                     Debug.LogWarning($"消耗的牌不在手牌里: {skillData} 可能是打出了消耗牌");
                     continue;
                 }
+
                 cardSlotPool.Release(card.transform.parent.gameObject);
                 cardPool.Release(card.gameObject);
                 handZoneCardList.Remove(card);
                 // await UniTask.DelayFrame(1);
             }
+
             await UniTask.CompletedTask;
         }
 
