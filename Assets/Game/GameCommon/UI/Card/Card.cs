@@ -154,7 +154,7 @@ namespace Game
             PointerEnterEvent.Invoke(this);
             isHovering = true;
 
-            Global.Event.Send<OnCardHover>(new OnCardHover(this, isHovering));
+            Global.Event.Send<OnBattleCardHover>(new OnBattleCardHover(this, isHovering));
             HoverEvent.Invoke(this, isHovering);
             Global.Get<AudioSystem>().PlayOneShot(FMODName.Event.SFX_ui_进入卡牌);
         }
@@ -165,7 +165,7 @@ namespace Game
             PointerExitEvent.Invoke(this);
             isHovering = false;
 
-            Global.Event.Send<OnCardHover>(new OnCardHover(this, isHovering));
+            Global.Event.Send<OnBattleCardHover>(new OnBattleCardHover(this, isHovering));
             HoverEvent.Invoke(this, isHovering);
         }
 

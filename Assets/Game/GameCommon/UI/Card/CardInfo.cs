@@ -12,15 +12,15 @@ namespace Game
 
         private void OnEnable()
         {
-            Global.Event.Listen<OnCardHover>(OnCardHover);
+            Global.Event.Listen<OnBattleCardHover>(OnCardHover);
         }
 
         private void OnDisable()
         {
-            Global.Event.UnListen<OnCardHover>(OnCardHover);
+            Global.Event.UnListen<OnBattleCardHover>(OnCardHover);
         }
 
-        private void OnCardHover(OnCardHover obj)
+        private void OnCardHover(OnBattleCardHover obj)
         {
             if (obj.card.data.id == ActiveSkillEnum.None)
             {

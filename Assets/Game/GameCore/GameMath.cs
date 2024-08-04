@@ -337,5 +337,14 @@ namespace Game
             data.RollTargetSkills(skillCnt);
             return data;
         }
+
+        public static BattleData RandomBattleData()
+        {
+            var list = Global.Table.BattleEnvironmentTable.DataList;
+
+            var id = list[Random.Range(0, list.Count)].Id;
+
+            return new BattleData() { id = id };
+        }
     }
 }

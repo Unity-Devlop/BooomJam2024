@@ -30,6 +30,9 @@ namespace Game.GamePlay
         private CancellationTokenSource _cts;
         private BattleData _envData;
 
+
+        [field: SerializeField] public BattleSettlementData settlementData { get; private set; }
+
         public void Init(IBattleTrainer self, IBattleTrainer enemy, BattleData data)
         {
             Assert.IsNull(_cts);
@@ -40,11 +43,27 @@ namespace Game.GamePlay
 
             selfPos.battleTrainer = self;
             enemyPos.battleTrainer = enemy;
+            settlementData = new BattleSettlementData(self.trainerData, enemy.trainerData);
+
+            Global.Event.Listen<OnBattleApplyDamage>(OnBattleApplyDamage);
+            Global.Event.Listen<OnDefeatPokemon>(OnDefeatPokemon);
+        }
+
+        private void OnDefeatPokemon(OnDefeatPokemon obj)
+        {
+            settlementData.AddDefeatCount(obj.attacker.trainerData, obj.attacker.currentBattleData, 1);
+        }
+
+        private void OnBattleApplyDamage(OnBattleApplyDamage obj)
+        {
+            settlementData.AddDamageCount(obj.attacker.trainerData, obj.attacker.currentBattleData, obj.damage);
         }
 
 
         public void Dispose()
         {
+            Global.Event.UnListen<OnBattleApplyDamage>(OnBattleApplyDamage);
+            Global.Event.UnListen<OnDefeatPokemon>(OnDefeatPokemon);
             _cts?.Cancel();
             _cts = null;
             UIRoot.Singleton.ClosePanel<GameBattlePanel>();
@@ -289,8 +308,11 @@ namespace Game.GamePlay
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public UniTask Exit()
+        public UniTask Exit(IBattleTrainer winner)
         {
+            settlementData.winner = winner.trainerData;
+
+
             _self.OnDiscardCardFromHand -= _enemy.OnEnemyTrainerDiscardCard;
             _enemy.OnDiscardCardFromHand -= _self.OnEnemyTrainerDiscardCard;
             _envData.Clear();
@@ -299,7 +321,6 @@ namespace Game.GamePlay
             _enemy.ExitBattle();
 
             GameBattleMgr.Singleton.StopBGM();
-            Debug.Log("Exit");
             if (UIRoot.Singleton.GetOpenedPanel(out GameBattlePanel battlePanel))
             {
                 battlePanel.UnBind();
@@ -593,7 +614,26 @@ namespace Game.GamePlay
                             new BattleTipEvent($"{userPosition}对{defPosition.current}造成{damage}伤害"));
                         Debug.Log(
                             $"计算技能伤害,pos:{userPosition},{userPosition.current}对{defPosition.current}使用{operation.data.id} 造成{damage}伤害");
+
+                        Global.Event.Send<OnBattleApplyDamage>(
+                            new OnBattleApplyDamage(
+                                userTrainer,
+                                defTrainer,
+                                userTrainer.currentBattleData,
+                                defTrainer.currentBattleData,
+                                damage));
+
                         await defPosition.current.DecreaseHealth(damage);
+
+                        if (!defPosition.current.CanFight())
+                        {
+                            Global.Event.Send<OnDefeatPokemon>(
+                                new OnDefeatPokemon(
+                                    userTrainer,
+                                    defTrainer,
+                                    userTrainer.currentBattleData,
+                                    defTrainer.currentBattleData));
+                        }
 
                         IBattleOperation newOper =
                             await UglyMath.CalNewOperWhenPokemonHealthChange(defTrainer);

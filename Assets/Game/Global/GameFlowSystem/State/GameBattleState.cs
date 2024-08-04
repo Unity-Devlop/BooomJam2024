@@ -18,8 +18,11 @@ namespace Game
             // BattleData battleData = stateMachine.GetParam<BattleData>(nameof(BattleData));
             await owner.ToGameBattleScene();
             BattleData battleData = stateMachine.GetParam<BattleData>(Consts.GameBattleData);
+            stateMachine.RemoveParam(Consts.GameBattleData);
             TrainerData trainerData = stateMachine.GetParam<TrainerData>(Consts.LocalPlayerTrainerData);
+            stateMachine.RemoveParam(Consts.LocalPlayerTrainerData);
             TrainerData robotData = stateMachine.GetParam<TrainerData>(Consts.EnemyTrainerData);
+            stateMachine.RemoveParam(Consts.EnemyTrainerData);
             GameBattleMgr.Singleton.StartBattle(trainerData, robotData, battleData).Forget();
 
         }
