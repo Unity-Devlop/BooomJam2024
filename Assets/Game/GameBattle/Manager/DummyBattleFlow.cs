@@ -94,7 +94,6 @@ namespace Game.GamePlay
 
             GameBattleMgr.Singleton.PlayBGM();
             await IBattleFlow.RoundFlow(this, _cts.Token);
-            Global.Get<GameFlow>().ToGameOutside<BattleSettlementState>();
         }
 
         public async UniTask RoundStart()

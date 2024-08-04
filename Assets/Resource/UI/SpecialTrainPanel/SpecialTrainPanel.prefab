@@ -513,7 +513,6 @@ MonoBehaviour:
   sortingOrder: 0
   show: {fileID: 1525168083421923572}
   roleList: {fileID: 835701314592972448}
-  roleShowPassiveSkill: {fileID: 0}
   skillList: {fileID: 8930528756992947176}
   ValueList: {fileID: 4777271618781173197}
   confirmBtn: {fileID: 6839939916477811132}
