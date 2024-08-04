@@ -68,6 +68,7 @@ namespace Game.GamePlay
         UniTask MoveDiscardCardToConsumeZone(ActiveSkillData data);
         bool ContainsBuff(BattleBuffEnum buff);
         int GetConsumeCardInHandCount(ActiveSkillTypeEnum target);
+        UniTask RoundEnd();
     }
 
     public interface IBattleFlow

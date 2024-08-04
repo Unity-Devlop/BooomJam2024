@@ -135,14 +135,15 @@ namespace Game
         public void RemoveOwnedSkill(ActiveSkillEnum id)
         {
             int index = -1;
-            for(int i=0;i<ownedSkills.Count;++i)
+            for (int i = 0; i < ownedSkills.Count; ++i)
             {
-                if (ownedSkills[i].id==id)
+                if (ownedSkills[i].id == id)
                 {
                     index = i;
                     break;
                 }
             }
+
             if (index >= 0) ownedSkills.RemoveAt(index);
         }
 
@@ -287,8 +288,10 @@ namespace Game
 
         public async UniTask RoundEnd()
         {
+            Global.LogInfo($"{this}回合结束");
             if (healP0intBy回满血然后回合结束受到等量伤害 > 0)
             {
+                Global.LogInfo($"{this}回合结束受到等量伤害:{healP0intBy回满血然后回合结束受到等量伤害}");
                 await DecreaseHealth(healP0intBy回满血然后回合结束受到等量伤害);
             }
 

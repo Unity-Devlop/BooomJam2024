@@ -44,13 +44,13 @@ namespace Game
         }
 
 
-        [Button]
+        [Button, HorizontalGroup("TrainerDebug")]
         private void AddToPreset()
         {
             TrainerPresetTable.Instance.Add(this);
         }
 
-        [Button]
+        [Button, HorizontalGroup("TrainerDebug")]
         public void RollTrainerSkill9()
         {
             if (trainerSkills == null)
@@ -69,6 +69,21 @@ namespace Game
             }
         }
 
+#if UNITY_EDITOR
+
+        [Button, HorizontalGroup("TrainerDebug")]
+        public void All9One(ActiveSkillEnum @enum)
+        {
+            trainerSkills.Clear();
+            for (int i = 0; i < 9; i++)
+            {
+                trainerSkills.Add(new ActiveSkillData()
+                {
+                    id = @enum
+                });
+            }
+        }
+#endif
 
         public bool FindFirstCanFight(out HuluData data)
         {

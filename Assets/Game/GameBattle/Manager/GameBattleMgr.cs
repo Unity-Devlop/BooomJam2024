@@ -15,7 +15,10 @@ namespace Game.GamePlay
     {
         public DummyBattleFlow battleFlow { get; private set; }
 
+        // [HorizontalGroup("TrainerGroup")] 
         public PlayerBattleTrainer playerBattleTrainer;
+
+        // [HorizontalGroup("TrainerGroup")] 
         public DummyRobot robotBattleTrainer;
 
         [FormerlySerializedAs("environmentData")]
@@ -54,11 +57,12 @@ namespace Game.GamePlay
             playerTrainerData.RollTrainerSkill9();
             for (int i = 0; i < 3; i++)
             {
-                var data = new HuluData();
-                data.id = huluValues[i];
-                data.Roll9Skills();
-                data.RollAbility();
-                playerTrainerData.datas.Add(data);
+                var item = new HuluData();
+                item.id = huluValues[i];
+                item.elementEnum = item.config.Elements;
+                item.Roll9Skills();
+                item.RollAbility();
+                playerTrainerData.datas.Add(item);
             }
 
             playerBattleTrainer.Init(playerTrainerData);
@@ -68,11 +72,12 @@ namespace Game.GamePlay
             aiTrainerData.RollTrainerSkill9();
             for (int i = 3; i < 6; i++)
             {
-                var data = new HuluData();
-                data.id = huluValues[i];
-                data.Roll9Skills();
-                data.RollAbility();
-                aiTrainerData.datas.Add(data);
+                var item = new HuluData();
+                item.id = huluValues[i];
+                item.elementEnum = item.config.Elements;
+                item.Roll9Skills();
+                item.RollAbility();
+                aiTrainerData.datas.Add(item);
             }
 
             robotBattleTrainer.Init(aiTrainerData);

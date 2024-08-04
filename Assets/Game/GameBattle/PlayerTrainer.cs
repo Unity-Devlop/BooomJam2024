@@ -169,6 +169,13 @@ namespace Game.GamePlay
             return cnt;
         }
 
+        public async UniTask RoundEnd()
+        {
+            Global.LogInfo($"{this} 回合结束");
+            GameMath.ProcessBuffWhenRoundEnd(buffList);
+            await UniTask.CompletedTask;
+        }
+
         public async UniTask RandomDiscardCardFromHand(int i)
         {
             Debug.Log($"随机弃牌{i}张");
@@ -500,7 +507,7 @@ namespace Game.GamePlay
             var buffConfig = Global.Table.BattleBuffTable.Get(buff);
 
             Assert.IsTrue(buffConfig.IsTrainerBuff);
-            
+
             Debug.Log($"{this} 获得buff {buff}");
             if (buff == BattleBuffEnum.抽两张牌)
             {
@@ -509,7 +516,7 @@ namespace Game.GamePlay
 
             if (Global.Table.BattleBuffTable.Get(buff).NotSave)
                 return;
-         
+
             if (buffList.Contains(buff) && !buffConfig.CanStack)
                 return;
             int cnt = buffList.Count((x) => x == buff);
@@ -526,7 +533,6 @@ namespace Game.GamePlay
 
         public void ExitBattle()
         {
-            GameMath.ProcessBuffWhenRoundEnd(buffList);
         }
     }
 }

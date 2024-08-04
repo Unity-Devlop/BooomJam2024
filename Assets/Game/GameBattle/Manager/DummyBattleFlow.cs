@@ -251,6 +251,9 @@ namespace Game.GamePlay
         {
             await selfPos.current.RoundEnd();
             await enemyPos.current.RoundEnd();
+            
+            await _self.RoundEnd();
+            await _enemy.RoundEnd();
 
             await selfPos.RoundEnd();
             await enemyPos.RoundEnd();

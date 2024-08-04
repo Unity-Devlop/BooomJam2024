@@ -1,4 +1,5 @@
 using System;
+using cfg;
 using Game.GamePlay;
 using TMPro;
 using UnityEngine;
@@ -21,6 +22,11 @@ namespace Game
 
         private void OnCardHover(OnCardHover obj)
         {
+            if (obj.card.data.id == ActiveSkillEnum.None)
+            {
+                Global.LogWarning($"{this}卡牌ID为None");
+                return;
+            }
             if (obj.hovering)
             {
                 string content = $"{obj.card.data.config.Type2}\t{obj.card.data.config.Desc}";

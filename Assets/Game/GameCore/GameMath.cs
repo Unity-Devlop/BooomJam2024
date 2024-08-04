@@ -223,12 +223,14 @@ namespace Game
                 int removeCnt = buffConfig.RemoveCountWhenRoundEnd;
                 if (removeCnt == -1)
                 {
+                    Global.LogInfo($"移除所有{buffEnum}");
                     buffList.RemoveAll(x => x == buffEnum);
                     continue;
                 }
 
                 for (int i = 0; i < removeCnt; i++)
                 {
+                    Global.LogInfo($"移除{buffEnum}");
                     buffList.Remove(buffEnum);
                 }
             }
