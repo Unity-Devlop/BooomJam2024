@@ -10,12 +10,6 @@ namespace Game
 {
     public class PokemonSelectItem : Selectable, IPointerClickHandler
     {
-        public enum State
-        {
-            Empty,
-            ContainsItem,
-        }
-
         public event Action<int> OnClickEvent = delegate { };
         private int _index;
 
@@ -36,32 +30,18 @@ namespace Game
         {
             nameText.text = data.name;
             // icon.sprite = arg.icon;
-            bg.color = Color.white;
-            SetState(State.ContainsItem);
             return UniTask.CompletedTask;
         }
 
         public void UnBind()
         {
-            SetState(State.Empty);
             _unbind?.Execute();
             _unbind = null;
         }
 
-        public void SetState(State state)
+        public void SetState(Color color)
         {
-            switch (state)
-            {
-                case State.Empty:
-                    // TODO 置灰
-                    bg.color = Color.gray;
-                    break;
-                case State.ContainsItem:
-                    bg.color = Color.white;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(state), state, null);
-            }
+            bg.color = color;
         }
 
         public void OnPointerClick(PointerEventData eventData)

@@ -115,12 +115,14 @@ namespace Game
             {
                 _chooseHulus.Remove(chooseTar);
                 chooseBtnText.text = "选择";
+                selectItem.SetState(Color.white);
             }
             else
             {
                 if (_chooseHulus.Count < 4)
                 {
                     _chooseHulus.Add(chooseTar);
+                    selectItem.SetState(Color.green);
                     chooseBtnText.text = "取消选择";
                 }
             }

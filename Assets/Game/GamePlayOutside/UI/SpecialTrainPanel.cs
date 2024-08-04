@@ -24,10 +24,9 @@ namespace Game
 
     public class SpecialTrainPanel : UIPanel
     {
+        [SerializeField] private PokemonUIShow show;
+
         public GameObject roleList;
-        public Image roleShowImg;
-        public Text roleShowName;
-        public Text roleShowPassiveSkill;
         public GameObject skillList;
         public GameObject ValueList;
         public Button confirmBtn;
@@ -110,8 +109,8 @@ namespace Game
         {
             var list = playerData.trainerData.datas;
             var huluData = list[curHulu];
-            roleShowName.text = huluData.id.ToString();
-            roleShowPassiveSkill.text = Global.Table.PassiveSkillTable.Get(huluData.passiveSkillConfig.Id).Desc;
+            show.UnBind();
+            show.Bind(huluData);
             for (int i = 0; i < skillUIItems.Length; ++i)
             {
                 var skill = huluData.ownedSkills[i];
@@ -147,14 +146,14 @@ namespace Game
            /* if (chosenHulu.Contains(huluIds[curHulu]))
             {
                 chosenHulu.Remove(huluIds[curHulu]);
-                chooseBtnText.text = "Ñ¡Ôñ";
+                chooseBtnText.text = "Ñ¡ï¿½ï¿½";
             }
             else
             {
                 if (chosenHulu.Count < 4)
                 {
                     chosenHulu.Add(huluIds[curHulu]);
-                    chooseBtnText.text = "È¡ÏûÑ¡Ôñ";
+                    chooseBtnText.text = "È¡ï¿½ï¿½Ñ¡ï¿½ï¿½";
                 }
             }
             if (chosenHulu.Count >= 4) nextBtn.gameObject.SetActive(true);
