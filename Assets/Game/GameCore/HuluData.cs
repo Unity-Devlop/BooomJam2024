@@ -22,9 +22,14 @@ namespace Game
         [HorizontalGroup("1"), Button]
         public void Roll9Skills()
         {
+            RollTargetSkills(9);
+        }
+
+        public void RollTargetSkills(int skillCnt)
+        {
             if (ownedSkills == null)
                 ownedSkills = new List<ActiveSkillData>(9);
-            for (int i = 0; i < 9; i++)
+            for (int i = 0; i < skillCnt; i++)
             {
                 ownedSkills.Add(new ActiveSkillData()
                 {
@@ -273,7 +278,7 @@ namespace Game
             Debug.Log($"{this}当前速度{currentSpeed}");
             await bind.Invoke();
         }
-        
+
 
         public override string ToString()
         {
@@ -365,7 +370,7 @@ namespace Game
 
             return cnt;
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool CanFight()
         {

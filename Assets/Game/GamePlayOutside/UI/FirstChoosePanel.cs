@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityToolkit;
@@ -11,20 +12,21 @@ namespace Game
 {
     public class FirstChoosePanel : UIPanel
     {
-        public GameObject roleList;
-        public GameObject skillList;
         public GameObject ValueList;
         public Button chooseBtn;
-        public Text chooseBtnText;
+        public TextMeshProUGUI chooseBtnText;
         public Button nextBtn;
-        public GameObject rolePortraitUIItem;
-        public List<HuluEnum> huluIds = new List<HuluEnum>();
 
-        private RolePortraitUIItem[] rolePortraitUIItems;
+        [SerializeField] private RectTransform selectContainer;
+        private PokemonSelectItem[] _selectItems;
+
         private ValueUIItem[] valueUIItems;
-        private List<List<ActiveSkillEnum>> activeSkills = new List<List<ActiveSkillEnum>>();
-        private List<HuluEnum> chosenHulu = new List<HuluEnum>();
-        private int curHulu = 0;
+
+
+        private List<HuluData> _firstGeneratedPokemons = new List<HuluData>();
+        private List<HuluData> _chooseHulus = new List<HuluData>();
+
+        private int _curSelectedHulu = 0;
 
 
         [SerializeField] private PokemonUIShow show;
@@ -35,67 +37,78 @@ namespace Game
             base.OnLoaded();
             Register();
             valueUIItems = ValueList.GetComponentsInChildren<ValueUIItem>();
-            rolePortraitUIItems = new RolePortraitUIItem[huluIds.Count];
-            for (int i = 0; i < huluIds.Count; ++i)
+            _selectItems = selectContainer.GetComponentsInChildren<PokemonSelectItem>();
+
+            foreach (var selectItem in _selectItems)
             {
-                var huluData = Global.Table.HuluTable.Get(huluIds[i]);
-                var go = Instantiate(rolePortraitUIItem, roleList.transform);
-                rolePortraitUIItems[i] = go.GetComponent<RolePortraitUIItem>();
-                rolePortraitUIItems[i].roleName.text = huluData.Id.ToString();
-                rolePortraitUIItems[i].index = i;
-                activeSkills.Add(GetRandomSkill(huluData.SkillPool));
+                selectItem.OnClickEvent += OnSelectItemClick;
             }
+        }
+
+        private void OnSelectItemClick(int index)
+        {
+            _curSelectedHulu = index;
+            ShowUI(index);
         }
 
         public override void OnDispose()
         {
             UnRegister();
+            foreach (var selectItem in _selectItems)
+            {
+                selectItem.OnClickEvent -= OnSelectItemClick;
+            }
+
             base.OnDispose();
         }
 
         public override void OnOpened()
         {
             base.OnOpened();
-            ShowUI();
+            _chooseHulus.Clear();
+            _firstGeneratedPokemons = GameMath.RandomGeneratedFirstPokemon(_selectItems.Length);
+            _curSelectedHulu = 0;
+            for (int i = 0; i < _selectItems.Length; i++)
+            {
+                _selectItems[i].UnBind();
+                _selectItems[i].Bind(_firstGeneratedPokemons[i], i);
+            }
+
+            ShowUI(0);
         }
 
         private void Register()
         {
-            Global.Event.Listen<ClickHuluEvent>(ClickHulu);
             chooseBtn.onClick.AddListener(Choose);
             nextBtn.onClick.AddListener(Continue);
         }
 
         private void UnRegister()
         {
-            Global.Event.UnListen<ClickHuluEvent>(ClickHulu);
             chooseBtn.onClick.RemoveListener(Choose);
             nextBtn.onClick.RemoveListener(Continue);
         }
 
-        private void ShowUI()
+        private void ShowUI(int target)
         {
-            var config = Global.Table.HuluTable.Get(huluIds[curHulu]);
-            HuluData data = new HuluData(huluIds[curHulu]);
-            data.Roll9Skills();
-            data.RollAbility();
+            HuluData data = _firstGeneratedPokemons[target];
             show.UnBind();
             show.Bind(data);
 
             hud.UnBind();
             hud.Bind(data);
 
-            valueUIItems[0].valueNum.text = config.BaseHp.ToString();
-            valueUIItems[0].slider.value = (float)config.BaseHp / config.MaxHp;
-            valueUIItems[1].valueNum.text = config.BaseAtk.ToString();
-            valueUIItems[1].slider.value = (float)config.BaseAtk / config.MaxAtk;
-            valueUIItems[2].valueNum.text = config.BaseDef.ToString();
-            valueUIItems[2].slider.value = (float)config.BaseDef / config.MaxDef;
-            valueUIItems[3].valueNum.text = config.BaseSpeed.ToString();
-            valueUIItems[3].slider.value = (float)config.BaseSpeed / config.MaxSpeed;
-            valueUIItems[4].valueNum.text = config.BaseAdap.ToString();
-            valueUIItems[4].slider.value = (float)config.BaseAdap / config.MaxAdap;
-            if (chosenHulu.Contains(config.Id))
+            valueUIItems[0].valueNum.text = data.config.BaseHp.ToString();
+            valueUIItems[0].slider.value = (float)data.config.BaseHp / data.config.MaxHp;
+            valueUIItems[1].valueNum.text = data.config.BaseAtk.ToString();
+            valueUIItems[1].slider.value = (float)data.config.BaseAtk / data.config.MaxAtk;
+            valueUIItems[2].valueNum.text = data.config.BaseDef.ToString();
+            valueUIItems[2].slider.value = (float)data.config.BaseDef / data.config.MaxDef;
+            valueUIItems[3].valueNum.text = data.config.BaseSpeed.ToString();
+            valueUIItems[3].slider.value = (float)data.config.BaseSpeed / data.config.MaxSpeed;
+            valueUIItems[4].valueNum.text = data.config.BaseAdap.ToString();
+            valueUIItems[4].slider.value = (float)data.config.BaseAdap / data.config.MaxAdap;
+            if (_chooseHulus.Contains(data))
             {
                 chooseBtnText.text = "取消选择";
             }
@@ -105,69 +118,35 @@ namespace Game
             }
         }
 
-        public void ClickHulu(ClickHuluEvent e)
-        {
-            curHulu = e.index;
-            ShowUI();
-        }
-
         public void Choose()
         {
-            if (chosenHulu.Contains(huluIds[curHulu]))
+            if (_chooseHulus.Contains(_firstGeneratedPokemons[_curSelectedHulu]))
             {
-                chosenHulu.Remove(huluIds[curHulu]);
+                _chooseHulus.Remove(_firstGeneratedPokemons[_curSelectedHulu]);
                 chooseBtnText.text = "选择";
             }
             else
             {
-                if (chosenHulu.Count < 4)
+                if (_chooseHulus.Count < 4)
                 {
-                    chosenHulu.Add(huluIds[curHulu]);
+                    _chooseHulus.Add(_firstGeneratedPokemons[_curSelectedHulu]);
                     chooseBtnText.text = "取消选择";
                 }
             }
 
-            if (chosenHulu.Count >= 4) nextBtn.gameObject.SetActive(true);
+            if (_chooseHulus.Count >= 4) nextBtn.gameObject.SetActive(true);
             else nextBtn.gameObject.SetActive(false);
         }
 
         public void Continue()
         {
             var playerData = Global.Get<DataSystem>().Get<PlayerData>();
-            for (int i = 0; i < huluIds.Count; ++i)
+            foreach (var chooseHulu in _chooseHulus)
             {
-                if (chosenHulu.Contains(huluIds[i]))
-                {
-                    //添加hulu
-                    HuluData h = new HuluData(huluIds[i]);
-                    h.id = huluIds[i];
-                    for (int j = 0; j < activeSkills[i].Count; ++j)
-                    {
-                        ActiveSkillData asd = new ActiveSkillData();
-                        asd.id = activeSkills[i][j];
-                        h.ownedSkills.Add(asd);
-                    }
-
-                    playerData.trainerData.datas.Add(h);
-                }
+                playerData.trainerData.datas.Add(chooseHulu);
             }
 
             GamePlayOutsideMgr.Singleton.machine.Change<DailyTrainState>();
-        }
-
-        private List<ActiveSkillEnum> GetRandomSkill(ActiveSkillEnum[] array)
-        {
-            System.Random _random = new System.Random();
-            int n = array.Length;
-            for (int i = 0; i < n; i++)
-            {
-                int r = i + _random.Next(n - i);
-                ActiveSkillEnum temp = array[r];
-                array[r] = array[i];
-                array[i] = temp;
-            }
-
-            return new List<ActiveSkillEnum>() { array[0], array[1], array[2] };
         }
     }
 

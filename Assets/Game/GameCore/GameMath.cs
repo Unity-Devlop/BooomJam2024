@@ -304,5 +304,34 @@ namespace Game
                 await trainer.currentBattleData.DecreaseHealth(trainer.currentBattleData.currentHp);
             }
         }
+
+        public static List<HuluData> RandomGeneratedFirstPokemon(int cnt)
+        {
+            List<HuluData> result = new List<HuluData>(cnt);
+
+            float rate = (float)cnt / Global.Table.HuluTable.DataList.Count;
+            int current = 0;
+            foreach (var config in Global.Table.HuluTable.DataList)
+            {
+                if (current >= cnt) break;
+                if (Random.value < rate)
+                {
+                    result.Add(RandomFirstPokemonData(config.Id));
+                    current++;
+                }
+            }
+
+            return result;
+        }
+
+        private static HuluData RandomFirstPokemonData(HuluEnum id)
+        {
+            // TODO 生成初始宝可梦
+            HuluData data = new HuluData(id);
+            data.RollAbility();
+            int skillCnt = Random.Range(6, 9);
+            data.RollTargetSkills(skillCnt);
+            return data;
+        }
     }
 }
