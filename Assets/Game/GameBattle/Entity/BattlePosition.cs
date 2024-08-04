@@ -7,12 +7,6 @@ namespace Game.GamePlay
 {
     public class BattlePosition : MonoBehaviour
     {
-        public enum Direction
-        {
-            Left,
-            Right
-        }
-
         public IBattleTrainer battleTrainer;
         public HuluData current { get; private set; } // 当前上场的数据
         public HuluData next { get; private set; } // 准备上场的数据
@@ -39,7 +33,7 @@ namespace Game.GamePlay
             current = next;
             next = null;
             visual.UnBind();
-            visual.Bind(current);
+            visual.Bind(current, direction);
             await UniTask.CompletedTask;
         }
 

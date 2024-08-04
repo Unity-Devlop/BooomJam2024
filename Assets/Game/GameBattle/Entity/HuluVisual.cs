@@ -18,25 +18,52 @@ namespace Game.GamePlay
 
         private ICommand _unbindCmd;
 
-        public async void Bind(HuluData data)
+        private void Awake()
+        {
+            skeletonAnimation.gameObject.SetActive(false);
+        }
+
+        public async void Bind(HuluData data,Direction direction)
         {
             _data = data;
             _unbindCmd = _data.bind.Listen(OnData);
+
+            switch (direction)
+            {
+                case Direction.Left:
+                    skeletonAnimation.transform.localScale = new Vector3(1, 1, 1);
+                    break;
+                case Direction.Right:
+                    skeletonAnimation.transform.localScale = new Vector3(-1, 1, 1);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(direction), direction, null);
+            }
+            
 
             SkeletonDataAsset dataAsset = await Global.Get<ResourceSystem>().LoadPokemonSpine(data.id);
             if (dataAsset != null)
             {
                 skeletonAnimation.skeletonDataAsset = dataAsset;
+                skeletonAnimation.Initialize(true);
             }
             else
             {
                 Global.LogWarning($"加载PokemonSpine:{data.name}失败,使用默认Spine资源");
             }
+            skeletonAnimation.gameObject.SetActive(true);
 
             ToIdle();
             OnDataDirect(data);
         }
 
+        public void UnBind()
+        {
+            skeletonAnimation.gameObject.SetActive(false);
+            if (_unbindCmd == null) return;
+            _unbindCmd.Execute();
+            _data = null;
+        }
         private void OnDataDirect(HuluData obj)
         {
             nameText.text = obj.name;
@@ -66,12 +93,7 @@ namespace Game.GamePlay
             OnDataDirect(obj);
         }
 
-        public void UnBind()
-        {
-            if (_unbindCmd == null) return;
-            _unbindCmd.Execute();
-            _data = null;
-        }
+
 
         public async UniTask ExecuteSkill(ActiveSkillData skill)
         {
