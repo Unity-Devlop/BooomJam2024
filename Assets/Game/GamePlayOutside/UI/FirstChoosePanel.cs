@@ -75,14 +75,14 @@ namespace Game
 
         private void Register()
         {
-            chooseBtn.onClick.AddListener(Choose);
-            nextBtn.onClick.AddListener(Continue);
+            chooseBtn.onClick.AddListener(OnChooseBtnClick);
+            nextBtn.onClick.AddListener(OnContinueBtnClick);
         }
 
         private void UnRegister()
         {
-            chooseBtn.onClick.RemoveListener(Choose);
-            nextBtn.onClick.RemoveListener(Continue);
+            chooseBtn.onClick.RemoveListener(OnChooseBtnClick);
+            nextBtn.onClick.RemoveListener(OnContinueBtnClick);
         }
 
         private void ShowUI(int target)
@@ -105,27 +105,37 @@ namespace Game
             }
         }
 
-        public void Choose()
+        public void OnChooseBtnClick()
         {
-            if (_chooseHulus.Contains(_firstGeneratedPokemons[_curSelectedHulu]))
+            var chooseTar = _firstGeneratedPokemons[_curSelectedHulu];
+            
+            PokemonSelectItem selectItem = _selectItems[_curSelectedHulu];
+            
+            if (_chooseHulus.Contains(chooseTar))
             {
-                _chooseHulus.Remove(_firstGeneratedPokemons[_curSelectedHulu]);
+                _chooseHulus.Remove(chooseTar);
                 chooseBtnText.text = "选择";
             }
             else
             {
                 if (_chooseHulus.Count < 4)
                 {
-                    _chooseHulus.Add(_firstGeneratedPokemons[_curSelectedHulu]);
+                    _chooseHulus.Add(chooseTar);
                     chooseBtnText.text = "取消选择";
                 }
             }
 
-            if (_chooseHulus.Count >= 4) nextBtn.gameObject.SetActive(true);
-            else nextBtn.gameObject.SetActive(false);
+            if (_chooseHulus.Count >= 4)
+            {
+                nextBtn.gameObject.SetActive(true);
+            }
+            else
+            {
+                nextBtn.gameObject.SetActive(false);
+            }
         }
 
-        public void Continue()
+        public void OnContinueBtnClick()
         {
             var playerData = Global.Get<DataSystem>().Get<PlayerData>();
             foreach (var chooseHulu in _chooseHulus)
