@@ -48,7 +48,7 @@ namespace Game
             gameObject.transform.SetParent(trainTable.transform);
             image.raycastTarget = false;
             image.transform.SetAsLastSibling();
-            DailyTrainTable.Instance.RemoveGrid(rectTransform.anchoredPosition,false);
+            DailyTrainTable.Singleton.RemoveGrid(rectTransform.anchoredPosition,false);
         }
 
         public void OnDrag(PointerEventData eventData)
@@ -63,10 +63,10 @@ namespace Game
             {
                 if(target.tag == "PlasticGrid")
                 {
-                    DailyTrainTable.Instance.RemoveGrid(target.GetComponent<RectTransform>().anchoredPosition,true);
-                    if (!DailyTrainTable.Instance.AddTrainGrid(this)) ResetPos();
+                    DailyTrainTable.Singleton.RemoveGrid(target.GetComponent<RectTransform>().anchoredPosition,true);
+                    if (!DailyTrainTable.Singleton.AddTrainGrid(this)) ResetPos();
                 }
-                else if(target.tag!= "DailyTrainTable"||!DailyTrainTable.Instance.AddTrainGrid(this)) ResetPos();
+                else if(target.tag!= "DailyTrainTable"||!DailyTrainTable.Singleton.AddTrainGrid(this)) ResetPos();
             }
             else ResetPos();
             image.raycastTarget = true;

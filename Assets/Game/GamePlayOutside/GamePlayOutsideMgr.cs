@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using FMOD.Studio;
 using UnityToolkit;
 
 namespace Game
@@ -12,7 +13,6 @@ namespace Game
 
         protected override void OnInit()
         {
-            base.OnInit();
             Global.Get<DataSystem>().Add(new PlayerData());
             dateSystem = new DateSystem(2024, 8, 1, 1); //暂时写死，后续改为读表
             
@@ -24,13 +24,17 @@ namespace Game
             machine.Add(new BattleSettlementState());
             
             machine.Run<FirstSettingState>();
+            
             Register();
+            
+            PlayBGM();
         }
 
         protected override void OnDispose()
         {
             UnRegister();
-            base.OnDispose();
+            
+            StopBGM();
         }
 
         private void Update()
@@ -45,6 +49,16 @@ namespace Game
         
         private void UnRegister()
         {
+        }
+        
+        public void PlayBGM()
+        {
+            Global.Get<AudioSystem>().PlaySingleton(FMODName.Event.MX_NORMAL_DEMO1);
+        }
+
+        public void StopBGM()
+        {
+            Global.Get<AudioSystem>().StopSingleton(FMODName.Event.MX_NORMAL_DEMO1, STOP_MODE.ALLOWFADEOUT);
         }
     }
 }

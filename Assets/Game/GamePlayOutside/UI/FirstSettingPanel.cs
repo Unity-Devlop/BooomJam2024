@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityToolkit;
@@ -8,8 +9,8 @@ namespace Game
 {
     public class FirstSettingPanel : UIPanel
     {
-        public InputField inputField;
-        public Text styleText;
+        public TMP_InputField inputField;
+        public TextMeshProUGUI styleText;
         public Button leftBtn;
         public Button rightBtn;
         public Button confirmBtn;
