@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace UnityToolkit
 {
@@ -26,6 +27,7 @@ namespace UnityToolkit
         public void Add<T>(T state) where T : IState<TOwner>;
         public void Add<T>() where T : IState<TOwner>, new() => Add(new T());
         public void OnUpdate();
+        void RemoveParam(string key);
     }
 
     public class StateMachine<TOwner> : IStateMachine<TOwner>
@@ -68,6 +70,19 @@ namespace UnityToolkit
             return false;
         }
 
+        public bool Change(Type type)
+        {
+            if (_states.TryGetValue(TypeId.StableId(type), out var state))
+            {
+                currentState.OnExit(owner, this);
+                currentState = state;
+                currentState.OnEnter(owner, this);
+                return true;
+            }
+
+            return false;
+        }
+
         public void Add<T>(T state) where T : IState<TOwner>
         {
             _states.Add(TypeId<T>.stableId, state);
@@ -85,6 +100,11 @@ namespace UnityToolkit
         {
             if (!running) return;
             currentState.OnUpdate(owner, this);
+        }
+
+        public void RemoveParam(string key)
+        {
+            _blackboard.Remove(key);
         }
     }
 }

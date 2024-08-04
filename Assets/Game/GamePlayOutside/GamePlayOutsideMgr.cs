@@ -15,11 +15,14 @@ namespace Game
             base.OnInit();
             Global.Get<DataSystem>().Add(new PlayerData());
             dateSystem = new DateSystem(2024, 8, 1, 1); //暂时写死，后续改为读表
+            
             machine = new StateMachine<GamePlayOutsideMgr>(this);
             machine.Add(new FirstSettingState());
             machine.Add(new FirstChooseState());
             machine.Add(new DailyTrainState());
             machine.Add(new SpecialTrainState());
+            machine.Add(new BattleSettlementState());
+            
             machine.Run<FirstSettingState>();
             Register();
         }

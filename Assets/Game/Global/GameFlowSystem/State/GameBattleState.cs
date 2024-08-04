@@ -19,7 +19,7 @@ namespace Game
             await owner.ToGameBattleScene();
             BattleData battleData = stateMachine.GetParam<BattleData>(Consts.GameBattleData);
             TrainerData trainerData = stateMachine.GetParam<TrainerData>(Consts.LocalPlayerTrainerData);
-            TrainerData robotData = stateMachine.GetParam<TrainerData>(Consts.RobotTrainerData);
+            TrainerData robotData = stateMachine.GetParam<TrainerData>(Consts.EnemyTrainerData);
             GameBattleMgr.Singleton.StartBattle(trainerData, robotData, battleData).Forget();
 
         }
