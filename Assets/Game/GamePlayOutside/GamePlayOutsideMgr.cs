@@ -13,7 +13,7 @@ namespace Game
 
         protected override void OnInit()
         {
-            Global.Get<DataSystem>().Add(new PlayerData());
+            Global.Get<DataSystem>().Get<PlayerData>();
             dateSystem = new DateSystem(2024, 8, 1, 1); //暂时写死，后续改为读表
             
             machine = new StateMachine<GamePlayOutsideMgr>(this);

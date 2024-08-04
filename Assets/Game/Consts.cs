@@ -7,6 +7,7 @@ namespace Game
         public const float PointerUpClickTime = .2f;
 
         public static readonly string LocalPlayerDataPath = $"{Application.persistentDataPath}/LocalPlayerData.json";
+        public static readonly string LocalGameDataPath = $"{Application.persistentDataPath}/LocalGameData.json";
         public const int MaxHandCard = 8;
         public const string GameBattleData = "BattleData";
         public const string LocalPlayerTrainerData = "LocalPlayerTrainerData";
