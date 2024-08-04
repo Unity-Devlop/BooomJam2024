@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace UnityToolkit
 {
@@ -19,13 +20,14 @@ namespace UnityToolkit
         public bool running { get; }
         public TOwner owner { get; }
         public IState<TOwner> currentState { get; }
-        public void SetParm<T>(string key, T value);
+        public void SetParam<T>(string key, T value);
         public T GetParam<T>(string key);
         public bool Change<T>() where T : IState<TOwner>;
         public void Run<T>() where T : IState<TOwner>;
         public void Add<T>(T state) where T : IState<TOwner>;
         public void Add<T>() where T : IState<TOwner>, new() => Add(new T());
         public void OnUpdate();
+        void RemoveParam(string key);
     }
 
     public class StateMachine<TOwner> : IStateMachine<TOwner>
@@ -44,20 +46,38 @@ namespace UnityToolkit
             currentState = default;
         }
 
-        public void SetParm<T>(string key, T value)
+        public void SetParam<T>(string key, T value)
         {
             _blackboard[key] = value;
         }
 
         public T GetParam<T>(string key)
         {
-            return (T)_blackboard[key];
+            if (_blackboard.TryGetValue(key, out var value))
+            {
+                return (T)value;
+            }
+
+            return default;
         }
 
         public bool Change<T>() where T : IState<TOwner>
         {
             var typeId = TypeId<T>.stableId;
             if (_states.TryGetValue(typeId, out var state))
+            {
+                currentState.OnExit(owner, this);
+                currentState = state;
+                currentState.OnEnter(owner, this);
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool Change(Type type)
+        {
+            if (_states.TryGetValue(TypeId.StableId(type), out var state))
             {
                 currentState.OnExit(owner, this);
                 currentState = state;
@@ -85,6 +105,11 @@ namespace UnityToolkit
         {
             if (!running) return;
             currentState.OnUpdate(owner, this);
+        }
+
+        public void RemoveParam(string key)
+        {
+            _blackboard.Remove(key);
         }
     }
 }

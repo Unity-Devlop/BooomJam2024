@@ -27,12 +27,12 @@ namespace Game
         {
             return gameBattleScene.LoadSceneAsync();
         }
-        
+
         public AsyncOperationHandle<SceneInstance> ToGameOutsideScene()
         {
             return gameOutsideScene.LoadSceneAsync();
         }
-        
+
 
         public void OnInit()
         {
@@ -62,26 +62,36 @@ namespace Game
             await UniTask.CompletedTask;
         }
 
-        public async UniTask ToGameBattle()
+        public async UniTask ToGameBattle(TrainerData self, TrainerData enemy,BattleData battleData)
         {
+            _stateMachine.SetParam(Consts.GameBattleData, battleData);
+            _stateMachine.SetParam(Consts.EnemyTrainerData,enemy);
+            _stateMachine.SetParam(Consts.LocalPlayerTrainerData,self);
             _stateMachine.Change<GameBattleState>();
             await UniTask.CompletedTask;
         }
-
-        public async UniTask ToGameOutside()
+        
+        public async UniTask ToGameOutside<TOutsideState>() where TOutsideState : IState<GamePlayOutsideMgr>
         {
+            Type outsideStateType = typeof(TOutsideState);
+            _stateMachine.SetParam(Consts.GamePlayOutsideStateType, outsideStateType);
             _stateMachine.Change<GameOutsideState>();
             await UniTask.CompletedTask;
         }
 
-        public T GetParam<T>(string battleDataName)
-        {
-            return _stateMachine.GetParam<T>(battleDataName);
-        }
-
-        public void SetParam<T>(string battleDataName, T data)
-        {
-            _stateMachine.SetParm(battleDataName, data);
-        }
+        // public T GetParam<T>(string battleDataName)
+        // {
+        //     return _stateMachine.GetParam<T>(battleDataName);
+        // }
+        //
+        // public void SetParam<T>(string battleDataName, T data)
+        // {
+        //     _stateMachine.SetParm(battleDataName, data);
+        // }
+        //
+        // public void RemoveParam(string key)
+        // {
+        //     _stateMachine.RemoveParam(key);
+        // }
     }
 }

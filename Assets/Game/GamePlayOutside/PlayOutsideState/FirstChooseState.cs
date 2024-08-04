@@ -5,22 +5,23 @@ using UnityToolkit;
 
 namespace Game
 {
-    public class FirstChooseState : PlayOutsideState
+    public class FirstChooseState : IState<GamePlayOutsideMgr>
     {
-        public override void OnEnter()
+        public void OnInit(GamePlayOutsideMgr owner, IStateMachine<GamePlayOutsideMgr> stateMachine)
         {
-            base.OnEnter();
+        }
+
+        public void OnEnter(GamePlayOutsideMgr owner, IStateMachine<GamePlayOutsideMgr> stateMachine)
+        {
             UIRoot.Singleton.OpenPanel<FirstChoosePanel>();
         }
 
-        public override void OnStay()
+        public void OnUpdate(GamePlayOutsideMgr owner, IStateMachine<GamePlayOutsideMgr> stateMachine)
         {
-            base.OnStay();
         }
 
-        public override void OnExit()
+        public void OnExit(GamePlayOutsideMgr owner, IStateMachine<GamePlayOutsideMgr> stateMachine)
         {
-            base.OnExit();
             UIRoot.Singleton.ClosePanel<FirstChoosePanel>();
         }
     }

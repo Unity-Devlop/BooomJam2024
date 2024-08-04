@@ -7,10 +7,9 @@ namespace Game.GameEntry
 {
     public class GameEntry : MonoBehaviour
     {
-        public AssetReference homeScene;
-
-        private void Start()
+        private async void Start()
         {
+            await UniTask.WaitUntil(() => Global.Singleton.initialized);
             Global.Get<GameFlow>().Run<GameHomeState>();
         }
     }

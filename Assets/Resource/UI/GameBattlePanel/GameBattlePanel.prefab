@@ -217,7 +217,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01aee369f6cb4cd9873bef9272d2d972, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  childCnt: 8
   handZoneCardList: []
   outsideArea: {fileID: 7632034146367919622}
   tweenCardReturn: 1
@@ -237,7 +236,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a6bf1c69902fa24c9719048604c6209, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab: {fileID: 5524010559499139683, guid: e794b45361f3c1448b58b105c43329ba, type: 3}
+  prefab: {fileID: 7514891231925844117, guid: 412f604aba315f0409ff8543110b4358, type: 3}
   hidden: {fileID: 8489667147195821521}
   initSize: 10
   maxSize: 100

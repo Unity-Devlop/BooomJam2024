@@ -1,8 +1,8 @@
-using UnityToolkit;
+﻿using UnityToolkit;
 
 namespace Game
 {
-    public class DailyTrainState : IState<GamePlayOutsideMgr>
+    public class BattleSettlementState : IState<GamePlayOutsideMgr>
     {
         public void OnInit(GamePlayOutsideMgr owner, IStateMachine<GamePlayOutsideMgr> stateMachine)
         {
@@ -10,7 +10,9 @@ namespace Game
 
         public void OnEnter(GamePlayOutsideMgr owner, IStateMachine<GamePlayOutsideMgr> stateMachine)
         {
-            UIRoot.Singleton.OpenPanel<DailyTrainPanel>();
+            
+            BattleSettlementData data = stateMachine.GetParam<BattleSettlementData>(Consts.BattleSettlementData);
+            // TODO Do something with data
         }
 
         public void OnUpdate(GamePlayOutsideMgr owner, IStateMachine<GamePlayOutsideMgr> stateMachine)
@@ -19,7 +21,6 @@ namespace Game
 
         public void OnExit(GamePlayOutsideMgr owner, IStateMachine<GamePlayOutsideMgr> stateMachine)
         {
-            UIRoot.Singleton.ClosePanel<DailyTrainPanel>();
         }
     }
 }

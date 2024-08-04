@@ -10,7 +10,9 @@ namespace Game
         public const int MaxHandCard = 8;
         public const string GameBattleData = "BattleData";
         public const string LocalPlayerTrainerData = "LocalPlayerTrainerData";
-        public const string RobotTrainerData = "RobotTrainerData";
+        public const string EnemyTrainerData = "EnemyTrainerData";
+        public const string GamePlayOutsideStateType = "GamePlayOutsideStateType";
+        public const string BattleSettlementData = "BattleSettlementData";
 
 
         public static class Animation

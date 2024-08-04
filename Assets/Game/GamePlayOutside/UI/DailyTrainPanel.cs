@@ -61,9 +61,7 @@ namespace Game
         {
             var list = playerData.trainerData.datas;
             DailyTrainTable.Instance.Train(list);
-            var e = new ChangeStateEvent();
-            e.poState = POState.SpecialTrainState;
-            TypeEventSystem.Global.Send<ChangeStateEvent>(e);
+            GamePlayOutsideMgr.Singleton.machine.Change<SpecialTrainState>();
         }
     }
 }
