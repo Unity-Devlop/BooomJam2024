@@ -17,6 +17,7 @@ namespace Game
         [SerializeField] private RectTransform huluNameRoot;
         private TextMeshProUGUI[] _nameTextList;
 
+        [field: SerializeField] public DailyTrainTable table { get; private set; }
         private PlayerData _playerData;
 
         private void Awake()
@@ -82,9 +83,10 @@ namespace Game
             }
         }
 
+
         private void Confirm()
         {
-            DailyTrainTable.Singleton.Train(_playerData.trainerData.datas);
+            table.Train(_playerData.trainerData.datas);
             GamePlayOutsideMgr.Singleton.machine.Change<SpecialTrainState>();
         }
     }

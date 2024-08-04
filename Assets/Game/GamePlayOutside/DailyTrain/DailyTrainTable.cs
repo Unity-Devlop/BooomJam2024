@@ -19,7 +19,7 @@ namespace Game
         }
     }
 
-    public class DailyTrainTable : MonoSingleton<DailyTrainTable>
+    public class DailyTrainTable : MonoBehaviour
     {
         private int tableWidth = 4;
         private int tableHeight;
@@ -29,7 +29,7 @@ namespace Game
         private ArrayPos[,] grids;
         private Dictionary<ArrayPos, PlasticGrid> posToGrid = new Dictionary<ArrayPos, PlasticGrid>();
 
-        protected override void OnInit()
+        private void Awake()
         {
             tableHeight = Global.Get<DataSystem>().Get<PlayerData>().trainerData.datas.Count;
             InitGrids();

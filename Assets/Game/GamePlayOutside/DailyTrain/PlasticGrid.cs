@@ -16,14 +16,12 @@ namespace Game
         private Canvas canvas;
 
         public RectTransform _RectTransform => rectTransform;
-        [HideInInspector]
-        public int width;
-        [HideInInspector]
-        public int heigth;
+        [HideInInspector] public int width;
+        [HideInInspector] public int heigth;
         public List<int> realSize = new List<int>();
         public TrainContent trainContent;
         public GameObject courseTable;
-        public GameObject trainTable;
+        public DailyTrainTable trainTable;
 
         private void Awake()
         {
@@ -48,7 +46,7 @@ namespace Game
             gameObject.transform.SetParent(trainTable.transform);
             image.raycastTarget = false;
             image.transform.SetAsLastSibling();
-            DailyTrainTable.Singleton.RemoveGrid(rectTransform.anchoredPosition,false);
+            trainTable.RemoveGrid(rectTransform.anchoredPosition, false);
         }
 
         public void OnDrag(PointerEventData eventData)
@@ -59,16 +57,20 @@ namespace Game
         public void OnEndDrag(PointerEventData eventData)
         {
             var target = eventData.pointerCurrentRaycast.gameObject;
-            if(target!=null)
+            if (target != null)
             {
-                if(target.tag == "PlasticGrid")
+                if (target.CompareTag("PlasticGrid"))
                 {
-                    DailyTrainTable.Singleton.RemoveGrid(target.GetComponent<RectTransform>().anchoredPosition,true);
-                    if (!DailyTrainTable.Singleton.AddTrainGrid(this)) ResetPos();
+                    trainTable.RemoveGrid(target.GetComponent<RectTransform>().anchoredPosition, true);
+                    if (!trainTable.AddTrainGrid(this)) ResetPos();
                 }
-                else if(target.tag!= "DailyTrainTable"||!DailyTrainTable.Singleton.AddTrainGrid(this)) ResetPos();
+                else if (!target.CompareTag("DailyTrainTable") || !trainTable.AddTrainGrid(this))
+                {
+                    ResetPos();
+                }
             }
             else ResetPos();
+
             image.raycastTarget = true;
         }
 
