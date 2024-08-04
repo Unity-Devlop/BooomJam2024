@@ -20,7 +20,7 @@ namespace UnityToolkit
         public bool running { get; }
         public TOwner owner { get; }
         public IState<TOwner> currentState { get; }
-        public void SetParm<T>(string key, T value);
+        public void SetParam<T>(string key, T value);
         public T GetParam<T>(string key);
         public bool Change<T>() where T : IState<TOwner>;
         public void Run<T>() where T : IState<TOwner>;
@@ -46,14 +46,19 @@ namespace UnityToolkit
             currentState = default;
         }
 
-        public void SetParm<T>(string key, T value)
+        public void SetParam<T>(string key, T value)
         {
             _blackboard[key] = value;
         }
 
         public T GetParam<T>(string key)
         {
-            return (T)_blackboard[key];
+            if (_blackboard.TryGetValue(key, out var value))
+            {
+                return (T)value;
+            }
+
+            return default;
         }
 
         public bool Change<T>() where T : IState<TOwner>

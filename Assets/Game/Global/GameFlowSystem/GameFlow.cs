@@ -64,9 +64,9 @@ namespace Game
 
         public async UniTask ToGameBattle(TrainerData self, TrainerData enemy,BattleData battleData)
         {
-            _stateMachine.SetParm(Consts.GameBattleData, battleData);
-            _stateMachine.SetParm(Consts.EnemyTrainerData,enemy);
-            _stateMachine.SetParm(Consts.LocalPlayerTrainerData,self);
+            _stateMachine.SetParam(Consts.GameBattleData, battleData);
+            _stateMachine.SetParam(Consts.EnemyTrainerData,enemy);
+            _stateMachine.SetParam(Consts.LocalPlayerTrainerData,self);
             _stateMachine.Change<GameBattleState>();
             await UniTask.CompletedTask;
         }
@@ -74,7 +74,7 @@ namespace Game
         public async UniTask ToGameOutside<TOutsideState>() where TOutsideState : IState<GamePlayOutsideMgr>
         {
             Type outsideStateType = typeof(TOutsideState);
-            _stateMachine.SetParm(Consts.GamePlayOutsideStateType, outsideStateType);
+            _stateMachine.SetParam(Consts.GamePlayOutsideStateType, outsideStateType);
             _stateMachine.Change<GameOutsideState>();
             await UniTask.CompletedTask;
         }
