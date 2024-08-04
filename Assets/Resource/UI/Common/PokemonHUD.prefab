@@ -2031,6 +2031,7 @@ MonoBehaviour:
   BG: {fileID: 2836029566910917676}
   ownedCardList: {fileID: 8226142020884563969}
   fixedCardPool: {fileID: 4377334518326757476}
+  valueUIRoot: {fileID: 5150311503155626297}
 --- !u!114 &4377334518326757476
 MonoBehaviour:
   m_ObjectHideFlags: 0

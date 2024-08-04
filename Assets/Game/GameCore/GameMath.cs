@@ -307,17 +307,21 @@ namespace Game
 
         public static List<HuluData> RandomGeneratedFirstPokemon(int cnt)
         {
+            Assert.IsTrue(Global.Table.HuluTable.DataList.Count >= cnt);
             List<HuluData> result = new List<HuluData>(cnt);
 
             float rate = (float)cnt / Global.Table.HuluTable.DataList.Count;
             int current = 0;
-            foreach (var config in Global.Table.HuluTable.DataList)
+            while (current < cnt)
             {
-                if (current >= cnt) break;
-                if (Random.value < rate)
+                foreach (var config in Global.Table.HuluTable.DataList)
                 {
-                    result.Add(RandomFirstPokemonData(config.Id));
-                    current++;
+                    if (current >= cnt) break;
+                    if (Random.value < rate)
+                    {
+                        result.Add(RandomFirstPokemonData(config.Id));
+                        current++;
+                    }
                 }
             }
 

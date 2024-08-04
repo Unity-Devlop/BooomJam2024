@@ -12,15 +12,12 @@ namespace Game
 {
     public class FirstChoosePanel : UIPanel
     {
-        public GameObject ValueList;
         public Button chooseBtn;
         public TextMeshProUGUI chooseBtnText;
         public Button nextBtn;
 
         [SerializeField] private RectTransform selectContainer;
         private PokemonSelectItem[] _selectItems;
-
-        private ValueUIItem[] valueUIItems;
 
 
         private List<HuluData> _firstGeneratedPokemons = new List<HuluData>();
@@ -36,7 +33,6 @@ namespace Game
         {
             base.OnLoaded();
             Register();
-            valueUIItems = ValueList.GetComponentsInChildren<ValueUIItem>();
             _selectItems = selectContainer.GetComponentsInChildren<PokemonSelectItem>();
 
             foreach (var selectItem in _selectItems)
@@ -98,16 +94,7 @@ namespace Game
             hud.UnBind();
             hud.Bind(data);
 
-            valueUIItems[0].valueNum.text = data.config.BaseHp.ToString();
-            valueUIItems[0].slider.value = (float)data.config.BaseHp / data.config.MaxHp;
-            valueUIItems[1].valueNum.text = data.config.BaseAtk.ToString();
-            valueUIItems[1].slider.value = (float)data.config.BaseAtk / data.config.MaxAtk;
-            valueUIItems[2].valueNum.text = data.config.BaseDef.ToString();
-            valueUIItems[2].slider.value = (float)data.config.BaseDef / data.config.MaxDef;
-            valueUIItems[3].valueNum.text = data.config.BaseSpeed.ToString();
-            valueUIItems[3].slider.value = (float)data.config.BaseSpeed / data.config.MaxSpeed;
-            valueUIItems[4].valueNum.text = data.config.BaseAdap.ToString();
-            valueUIItems[4].slider.value = (float)data.config.BaseAdap / data.config.MaxAdap;
+
             if (_chooseHulus.Contains(data))
             {
                 chooseBtnText.text = "取消选择";
