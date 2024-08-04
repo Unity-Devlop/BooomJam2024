@@ -327,6 +327,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: UIRoot
       objectReference: {fileID: 0}
+    - target: {fileID: 1547202334553803194, guid: 3cf20c1bd6093864c8772dcb517814e8, type: 3}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 4019040913884909650, guid: 3cf20c1bd6093864c8772dcb517814e8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
