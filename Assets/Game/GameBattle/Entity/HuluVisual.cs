@@ -1,4 +1,5 @@
 ﻿using System;
+using cfg;
 using Cysharp.Threading.Tasks;
 using Spine.Unity;
 using TMPro;
@@ -23,7 +24,7 @@ namespace Game.GamePlay
             skeletonAnimation.gameObject.SetActive(false);
         }
 
-        public async void Bind(HuluData data,Direction direction)
+        public async void Bind(HuluData data, Direction direction)
         {
             _data = data;
             _unbindCmd = _data.bind.Listen(OnData);
@@ -31,15 +32,31 @@ namespace Game.GamePlay
             switch (direction)
             {
                 case Direction.Left:
-                    skeletonAnimation.transform.localScale = new Vector3(1, 1, 1);
+                    if (data.id == HuluEnum.怒潮龙)
+                    {
+                        skeletonAnimation.transform.localScale = new Vector3(-1, 1, 1);
+                    }
+                    else
+                    {
+                        skeletonAnimation.transform.localScale = new Vector3(1, 1, 1);
+                    }
+
                     break;
                 case Direction.Right:
-                    skeletonAnimation.transform.localScale = new Vector3(-1, 1, 1);
+                    if (data.id == HuluEnum.怒潮龙)
+                    {
+                        skeletonAnimation.transform.localScale = new Vector3(1, 1, 1);
+                    }
+                    else
+                    {
+                        skeletonAnimation.transform.localScale = new Vector3(-1, 1, 1);
+                    }
+
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(direction), direction, null);
             }
-            
+
 
             SkeletonDataAsset dataAsset = await Global.Get<ResourceSystem>().LoadPokemonSpine(data.id);
             if (dataAsset != null)
@@ -51,6 +68,7 @@ namespace Game.GamePlay
             {
                 Global.LogWarning($"加载PokemonSpine:{data.name}失败,使用默认Spine资源");
             }
+
             skeletonAnimation.gameObject.SetActive(true);
 
             ToIdle();
@@ -64,6 +82,7 @@ namespace Game.GamePlay
             _unbindCmd.Execute();
             _data = null;
         }
+
         private void OnDataDirect(HuluData obj)
         {
             nameText.text = obj.name;
@@ -92,7 +111,6 @@ namespace Game.GamePlay
 
             OnDataDirect(obj);
         }
-
 
 
         public async UniTask ExecuteSkill(ActiveSkillData skill)
