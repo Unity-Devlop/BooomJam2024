@@ -25,6 +25,7 @@ namespace Game
         public GameObject selectCard;
         public GameObject deleteCard;
         public Button selectConfirm;
+        public CardHorizontalContainer container;
 
         private CardItem[] selectCardItems;
         private CardItem[] deleteCardItems;
@@ -58,6 +59,9 @@ namespace Game
             {
                 selectCardItems[i].titleTxt.text = table.Get(activeSkillEnums[i]).Id.ToString();
                 selectCardItems[i].descriptionTxt.text = table.Get(activeSkillEnums[i]).Desc;
+                var data = new ActiveSkillData();
+                data.id = activeSkillEnums[i];
+                container.AddCardItem(selectCardItems[i], data);
             }
             action = callback;
             selection = new Selection(id, ori);
