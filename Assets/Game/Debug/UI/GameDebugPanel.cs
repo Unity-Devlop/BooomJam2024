@@ -26,7 +26,7 @@ namespace Game
 
         private void OnDebugToStartButtonClick()
         {
-            GameBattleMgr.Singleton.DefaultStart();
+            GameBattleMgr.Singleton.DebugStart();
             CloseSelf();
         }
 

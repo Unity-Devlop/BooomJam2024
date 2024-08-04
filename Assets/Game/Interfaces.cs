@@ -13,10 +13,9 @@ namespace Game.GamePlay
 
     public interface IBattleTrainer
     {
-        public bool canFight { get; }
         public TrainerData trainerData { get; }
         public HuluData currentBattleData { get; }
-        
+
 
         public HashSet<ActiveSkillData> handZone { get; }
 
@@ -81,7 +80,7 @@ namespace Game.GamePlay
         public UniTask RoundEnd();
         public UniTask Exit();
         public void Cancel();
-        public bool TryGetRoundWinner(out IBattleTrainer battleTrainer);
+        // public bool TryGetRoundWinner(out IBattleTrainer battleTrainer);
 
         public bool TryGetFinalWinner(out IBattleTrainer battleTrainer);
 
@@ -91,7 +90,18 @@ namespace Game.GamePlay
             while (!token.IsCancellationRequested)
             {
                 await flow.RoundStart(); // 回合开始
+
+                if (flow.TryGetFinalWinner(out winner))
+                {
+                    break;
+                }
+
                 await flow.BeforeRound(); // 回合开始前
+                if (flow.TryGetFinalWinner(out winner))
+                {
+                    break;
+                }
+
                 await flow.Rounding(); // 回合进行
                 if (flow.TryGetFinalWinner(out winner))
                 {
@@ -105,6 +115,10 @@ namespace Game.GamePlay
                 }
 
                 await flow.RoundEnd();
+                if (flow.TryGetFinalWinner(out winner))
+                {
+                    break;
+                }
 
                 await UniTask.DelayFrame(1, cancellationToken: token);
             }

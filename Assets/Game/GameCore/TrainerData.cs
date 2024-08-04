@@ -18,22 +18,22 @@ namespace Game
         {
             get
             {
-                int cnt = 0;
+                int deadCnt = 0;
                 foreach (var data in datas)
                 {
-                    if (data.HealthIsZero())
+                    if (!data.CanFight())
                     {
-                        // Debug.LogWarning($"{data}已经死亡");
-                        cnt++;
+                        Global.LogWarning($"{data}战斗不能");
+                        deadCnt++;
                     }
                 }
 
-                if (cnt == datas.Count)
+                if (deadCnt == datas.Count)
                 {
-                    return true;
+                    return false;
                 }
 
-                return false;
+                return true;
             }
         }
 
@@ -89,8 +89,9 @@ namespace Game
         {
             foreach (var huluData in datas)
             {
-                if (!huluData.HealthIsZero())
+                if (huluData.CanFight())
                 {
+                    Global.LogInfo($"{huluData}可以战斗");
                     data = huluData;
                     return true;
                 }
@@ -105,7 +106,7 @@ namespace Game
             List<HuluData> list = new List<HuluData>();
             foreach (var huluData in datas)
             {
-                if (huluData != expect && !huluData.HealthIsZero())
+                if (huluData != expect && huluData.CanFight())
                 {
                     list.Add(huluData);
                 }

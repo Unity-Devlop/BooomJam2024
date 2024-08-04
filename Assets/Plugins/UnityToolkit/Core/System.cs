@@ -31,6 +31,11 @@ namespace UnityToolkit
         void OnInit();
     }
 
+    public interface IAsyncOnInit : IOnInit
+    {
+        bool initialized { get; }
+    }
+
     public class SystemLocator : ISystemLocator
     {
         protected Dictionary<int, ISystem> _systems;

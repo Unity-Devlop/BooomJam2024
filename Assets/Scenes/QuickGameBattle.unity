@@ -156,28 +156,28 @@ MonoBehaviour:
   playerBattleTrainer:
     <trainerData>k__BackingField:
       trainerSkills:
-      - id: 37
-      - id: 37
-      - id: 37
-      - id: 37
-      - id: 37
-      - id: 37
-      - id: 37
-      - id: 37
-      - id: 37
+      - id: 63
+      - id: 63
+      - id: 63
+      - id: 63
+      - id: 63
+      - id: 63
+      - id: 63
+      - id: 63
+      - id: 63
       datas:
       - id: 1
-        elementEnum: 5
-        hp: 202
-        currentHp: 202
-        atk: 106
-        currentAtk: 106
-        def: 25
-        currentDef: 25
-        speed: 200
-        currentSpeed: 200
-        adap: 40
-        currentAdap: 40
+        elementEnum: 2
+        hp: 296
+        currentHp: 296
+        atk: 103
+        currentAtk: 103
+        def: 24
+        currentDef: 24
+        speed: 161
+        currentSpeed: 161
+        adap: 0
+        currentAdap: 0
         ownedSkills:
         - id: 21
         - id: 21
@@ -189,17 +189,17 @@ MonoBehaviour:
         - id: 21
         - id: 19
       - id: 2
-        elementEnum: 4
-        hp: 188
-        currentHp: 188
-        atk: 89
-        currentAtk: 89
-        def: 31
-        currentDef: 31
-        speed: 105
-        currentSpeed: 105
-        adap: 14
-        currentAdap: 14
+        elementEnum: 3
+        hp: 356
+        currentHp: 356
+        atk: 75
+        currentAtk: 75
+        def: 77
+        currentDef: 77
+        speed: 32
+        currentSpeed: 32
+        adap: 9
+        currentAdap: 9
         ownedSkills:
         - id: 12
         - id: 22
@@ -212,26 +212,26 @@ MonoBehaviour:
         - id: 26
       - id: 0
         elementEnum: 1
-        hp: 366
-        currentHp: 366
-        atk: 74
-        currentAtk: 74
-        def: 77
-        currentDef: 77
-        speed: 126
-        currentSpeed: 126
-        adap: 13
-        currentAdap: 13
+        hp: 371
+        currentHp: 371
+        atk: 70
+        currentAtk: 70
+        def: 72
+        currentDef: 72
+        speed: 155
+        currentSpeed: 155
+        adap: 24
+        currentAdap: 24
         ownedSkills:
-        - id: 0
-        - id: 19
-        - id: 0
-        - id: 24
-        - id: 24
+        - id: 1
+        - id: 20
+        - id: 26
+        - id: 26
         - id: 2
-        - id: 0
-        - id: 0
-        - id: 2
+        - id: 26
+        - id: 26
+        - id: 26
+        - id: 3
     buffList: 
     deck: 
   robotBattleTrainer:
@@ -248,17 +248,17 @@ MonoBehaviour:
       - id: 36
       datas:
       - id: 1
-        elementEnum: 5
-        hp: 202
-        currentHp: 202
-        atk: 106
-        currentAtk: 106
-        def: 25
-        currentDef: 25
-        speed: 200
-        currentSpeed: 200
-        adap: 40
-        currentAdap: 40
+        elementEnum: 2
+        hp: 294
+        currentHp: 294
+        atk: 137
+        currentAtk: 137
+        def: 45
+        currentDef: 45
+        speed: 165
+        currentSpeed: 165
+        adap: 9
+        currentAdap: 9
         ownedSkills:
         - id: 21
         - id: 21
@@ -270,17 +270,17 @@ MonoBehaviour:
         - id: 21
         - id: 19
       - id: 2
-        elementEnum: 4
-        hp: 188
-        currentHp: 188
-        atk: 89
-        currentAtk: 89
-        def: 31
-        currentDef: 31
-        speed: 105
-        currentSpeed: 105
-        adap: 14
-        currentAdap: 14
+        elementEnum: 3
+        hp: 441
+        currentHp: 441
+        atk: 76
+        currentAtk: 76
+        def: 68
+        currentDef: 68
+        speed: 32
+        currentSpeed: 32
+        adap: 27
+        currentAdap: 27
         ownedSkills:
         - id: 12
         - id: 22
@@ -293,16 +293,16 @@ MonoBehaviour:
         - id: 26
       - id: 0
         elementEnum: 1
-        hp: 366
-        currentHp: 366
-        atk: 74
-        currentAtk: 74
+        hp: 385
+        currentHp: 385
+        atk: 66
+        currentAtk: 66
         def: 77
         currentDef: 77
-        speed: 126
-        currentSpeed: 126
-        adap: 13
-        currentAdap: 13
+        speed: 148
+        currentSpeed: 148
+        adap: 25
+        currentAdap: 25
         ownedSkills:
         - id: 0
         - id: 19
@@ -315,8 +315,8 @@ MonoBehaviour:
         - id: 2
     buffList: 
     deck: 
-  data:
-    id: 1
+  envData:
+    id: 0
 --- !u!4 &169709044
 Transform:
   m_ObjectHideFlags: 0
@@ -477,81 +477,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1686895944
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1686895946}
-  - component: {fileID: 1686895945}
-  m_Layer: 0
-  m_Name: Debugger
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1686895945
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1686895944}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0219a18974ca09c43a692ac98fa9dfbc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Skin: {fileID: 0}
-  m_ActiveWindow: 0
-  m_ShowFullWindow: 0
-  m_ConsoleWindow:
-    m_LockScroll: 0
-    m_MaxLine: 100
-    m_InfoFilter: 1
-    m_WarningFilter: 1
-    m_ErrorFilter: 1
-    m_FatalFilter: 1
-    m_saveLog: 0
-    m_InfoColor:
-      serializedVersion: 2
-      rgba: 4294967295
-    m_WarningColor:
-      serializedVersion: 2
-      rgba: 4278512639
-    m_ErrorColor:
-      serializedVersion: 2
-      rgba: 4278190335
-    m_FatalColor:
-      serializedVersion: 2
-      rgba: 4281545650
-    searchImage: {fileID: 0}
-    barImage: {fileID: 0}
-    barActiveImage: {fileID: 0}
-    searchContent:
-      m_Text: 
-      m_Image: {fileID: 0}
-      m_Tooltip: 
-    size: {x: 32, y: 32}
---- !u!4 &1686895946
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1686895944}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.8648261, y: 0.4091808, z: 6.6818323}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1811448150
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -564,6 +489,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RightBattlePosition
       objectReference: {fileID: 0}
+    - target: {fileID: 783643361376220853, guid: 2bef472760ac4ea4381e70c622ce028b, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 841821c27e2e4aa4ea67ef3841719ea9, type: 2}
     - target: {fileID: 2764561121062805327, guid: 2bef472760ac4ea4381e70c622ce028b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 5
@@ -606,7 +535,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2767343493385392864, guid: 2bef472760ac4ea4381e70c622ce028b, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 3421859226213545486, guid: 2bef472760ac4ea4381e70c622ce028b, type: 3}
       propertyPath: direction
@@ -616,6 +545,10 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 6447213090257804099, guid: 2bef472760ac4ea4381e70c622ce028b, type: 3}
+      propertyPath: skeletonDataAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 3c546ec980482324881721ea7da8bf17, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -718,6 +651,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: LeftBattlePositon
       objectReference: {fileID: 0}
+    - target: {fileID: 783643361376220853, guid: 2bef472760ac4ea4381e70c622ce028b, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 841821c27e2e4aa4ea67ef3841719ea9, type: 2}
     - target: {fileID: 2764561121062805327, guid: 2bef472760ac4ea4381e70c622ce028b, type: 3}
       propertyPath: m_LocalPosition.x
       value: -5
@@ -760,12 +697,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2767343493385392864, guid: 2bef472760ac4ea4381e70c622ce028b, type: 3}
       propertyPath: m_LocalScale.x
-      value: -1
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3709667436990923525, guid: 2bef472760ac4ea4381e70c622ce028b, type: 3}
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 6447213090257804099, guid: 2bef472760ac4ea4381e70c622ce028b, type: 3}
+      propertyPath: skeletonDataAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 3c546ec980482324881721ea7da8bf17, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -837,4 +778,3 @@ SceneRoots:
   - {fileID: 1172980663}
   - {fileID: 169709044}
   - {fileID: 2017411396}
-  - {fileID: 1686895946}

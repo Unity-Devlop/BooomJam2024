@@ -1,5 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 using cfg;
+using Cysharp.Threading.Tasks;
 using SimpleJSON;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -48,7 +49,7 @@ namespace Game
         [field: SerializeField] public Camera mainCamera { get; private set; }
 
 
-        protected override void OnInit()
+        protected override async void OnInit()
         {
             _table = new Tables(Loader);
 
@@ -61,7 +62,14 @@ namespace Game
             _systemLocator.Register<ResourceSystem>(GetComponent<ResourceSystem>());
             // 初始化UI资源加载器
             UIRoot.Singleton.UIDatabase.Loader = new AddressablesUILoader();
-            
+
+            foreach (var system in _systemLocator.systems)
+            {
+                if (system is IAsyncOnInit asyncOnInit)
+                {
+                    await UniTask.WaitUntil(() => asyncOnInit.initialized);
+                }
+            }
             // 质量变成Ultra
             QualitySettings.SetQualityLevel(5);
         }
