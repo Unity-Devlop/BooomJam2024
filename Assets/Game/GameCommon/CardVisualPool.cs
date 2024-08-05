@@ -1,3 +1,4 @@
+using System;
 using cfg;
 using UnityEngine;
 using UnityToolkit;
@@ -8,14 +9,14 @@ namespace Game
     {
         [SerializeField] SerializableDictionary<ActiveSkillTypeEnum, EasyGameObjectPool> _poolDict;
 
-        public CardVisual Get(ActiveSkillTypeEnum type)
+        public CardVisual Get(ActiveSkillEnum id)
         {
-            return _poolDict[type].Get().GetComponent<CardVisual>();
+            throw new NotImplementedException();
         }
 
         public void Release(ActiveSkillTypeEnum type, CardVisual visual)
         {
-            _poolDict[type].Release(visual.gameObject);
+            throw new NotImplementedException();
         }
     }
 }

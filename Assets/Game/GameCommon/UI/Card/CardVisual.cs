@@ -35,6 +35,7 @@ namespace Game
 
         [SerializeField] private TextMeshProUGUI nameText;
         [SerializeField] private Image icon;
+        public ActiveSkillEnum id { get; private set; }
 
         private void Awake()
         {
@@ -56,6 +57,7 @@ namespace Game
             }
 
             _target = card;
+            id = card.data.id;
             card.PointerEnterEvent += PointerEnter;
             card.PointerExitEvent += PointerExit;
             card.BeginDragEvent += BeginDrag;
@@ -78,7 +80,6 @@ namespace Game
 
         private void Hover(Card card, bool hovering)
         {
-            
         }
 
         private void Select(Card card, bool state)
