@@ -1,4 +1,5 @@
 ﻿using System;
+using cfg;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
@@ -62,7 +63,15 @@ namespace Game
                 _visual = null;
             }
 
-            _visual = cardVisualPool.Get(data.config.Type);
+            if (data.id == ActiveSkillEnum.保时捷的赞助)
+            {
+                _visual = cardVisualPool.GetSpecial(data.id);
+            }
+            else
+            {
+                _visual = cardVisualPool.Get(data.config.Type);
+            }
+
             _visual.transform.localScale = Vector3.one;
             _visual.transform.localPosition = Vector3.zero;
             _visual.Initialize(this);
@@ -133,7 +142,6 @@ namespace Game
             // Debug.Log("OnBeginDrag, isDragging: " + isDragging);
             _canvas.GetComponent<GraphicRaycaster>().enabled = false;
             img.raycastTarget = false;
-
         }
 
         public async void OnEndDrag(PointerEventData eventData)

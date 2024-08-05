@@ -156,15 +156,15 @@ MonoBehaviour:
   playerBattleTrainer:
     <trainerData>k__BackingField:
       trainerSkills:
-      - id: 63
-      - id: 63
-      - id: 63
-      - id: 63
-      - id: 63
-      - id: 63
-      - id: 63
-      - id: 63
-      - id: 63
+      - id: 64
+      - id: 64
+      - id: 64
+      - id: 64
+      - id: 64
+      - id: 64
+      - id: 64
+      - id: 64
+      - id: 64
       datas:
       - id: 1
         elementEnum: 2
@@ -179,15 +179,16 @@ MonoBehaviour:
         adap: 0
         currentAdap: 0
         ownedSkills:
-        - id: 21
-        - id: 21
-        - id: 14
-        - id: 19
-        - id: 21
-        - id: 14
-        - id: 21
-        - id: 21
-        - id: 19
+        - id: 26
+        - id: 26
+        - id: 26
+        - id: 26
+        - id: 26
+        - id: 26
+        - id: 26
+        - id: 26
+        - id: 26
+        - id: 26
       - id: 2
         elementEnum: 3
         hp: 356
@@ -315,8 +316,6 @@ MonoBehaviour:
         - id: 2
     buffList: 
     deck: 
-  envData:
-    id: 0
 --- !u!4 &169709044
 Transform:
   m_ObjectHideFlags: 0

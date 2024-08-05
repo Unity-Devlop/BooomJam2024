@@ -362,6 +362,8 @@ MonoBehaviour:
   rotationSpeed: 20
   background: {fileID: 7684059296519420696}
   nameText: {fileID: 3920789286841687216}
+  descText: {fileID: 4495725704665687901}
+  nameEngText: {fileID: 1887239841369550881}
 --- !u!1 &2891574717286003007
 GameObject:
   m_ObjectHideFlags: 0

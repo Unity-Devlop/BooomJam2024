@@ -171,10 +171,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3352325788255697724, guid: a6128334ecd2c064783315dfc7a14d30, type: 3}
-      propertyPath: DefaultWindowRect.x
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 3520603750414525640, guid: a6128334ecd2c064783315dfc7a14d30, type: 3}
       propertyPath: m_Name
       value: Global
@@ -321,10 +317,6 @@ PrefabInstance:
     - target: {fileID: 312056314403603457, guid: 3cf20c1bd6093864c8772dcb517814e8, type: 3}
       propertyPath: m_Name
       value: UIRoot
-      objectReference: {fileID: 0}
-    - target: {fileID: 1547202334553803194, guid: 3cf20c1bd6093864c8772dcb517814e8, type: 3}
-      propertyPath: m_AdditionalShaderChannelsFlag
-      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 4019040913884909650, guid: 3cf20c1bd6093864c8772dcb517814e8, type: 3}
       propertyPath: m_LocalPosition.x
