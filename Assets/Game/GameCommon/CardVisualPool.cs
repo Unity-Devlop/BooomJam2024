@@ -11,21 +11,36 @@ namespace Game
         [SerializeField] private GameObject commandCardPrefab;
         [SerializeField] private GameObject damageSkillCardPrefab;
         [SerializeField] private GameObject buffSkillCardPrefab;
+        [SerializeField] private GameObject specialCardPrefab;
 
 
         private EasyGameObjectPool _commandCardPool;
         private EasyGameObjectPool _damageSkillCardPool;
         private EasyGameObjectPool _buffSkillCardPool;
+        private EasyGameObjectPool _specialCardPool;
 
         private void Awake()
         {
             _commandCardPool = gameObject.AddComponent<EasyGameObjectPool>();
             _damageSkillCardPool = gameObject.AddComponent<EasyGameObjectPool>();
             _buffSkillCardPool = gameObject.AddComponent<EasyGameObjectPool>();
-
+            _specialCardPool = gameObject.AddComponent<EasyGameObjectPool>();
+            
             _commandCardPool.Initialize(transform, commandCardPrefab);
             _damageSkillCardPool.Initialize(transform, damageSkillCardPrefab);
             _buffSkillCardPool.Initialize(transform, buffSkillCardPrefab);
+            _specialCardPool.Initialize(transform, specialCardPrefab);
+        }
+
+        public CardVisual GetSpecial(ActiveSkillEnum id)
+        {
+            Assert.IsTrue(id == ActiveSkillEnum.保时捷的赞助);
+            EasyGameObjectPool pool = _specialCardPool;
+            Assert.IsNotNull(pool);
+            GameObject go = pool.Get();
+            CardVisual visual = go.GetComponent<CardVisual>();
+            visual.transform.SetParent(transform);
+            return visual;
         }
 
         public CardVisual Get(ActiveSkillTypeEnum id)
@@ -37,7 +52,6 @@ namespace Game
             visual.transform.SetParent(transform);
             return visual;
         }
-
         public void Release(CardVisual visual)
         {
             EasyGameObjectPool pool = Id2Pool(visual.id);

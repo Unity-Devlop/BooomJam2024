@@ -18,6 +18,7 @@ public sealed partial class ActiveSkillConfig : Luban.BeanBase
     public ActiveSkillConfig(JSONNode _buf) 
     {
         { if(!_buf["id"].IsNumber) { throw new SerializationException(); }  Id = (ActiveSkillEnum)_buf["id"].AsInt; }
+        { if(!_buf["eng_name"].IsString) { throw new SerializationException(); }  EngName = _buf["eng_name"]; }
         { if(!_buf["element"].IsNumber) { throw new SerializationException(); }  Element = (ElementEnum)_buf["element"].AsInt; }
         { if(!_buf["desc"].IsString) { throw new SerializationException(); }  Desc = _buf["desc"]; }
         { if(!_buf["special_icon_path"].IsString) { throw new SerializationException(); }  SpecialIconPath = _buf["special_icon_path"]; }
@@ -67,6 +68,7 @@ public sealed partial class ActiveSkillConfig : Luban.BeanBase
     /// id
     /// </summary>
     public readonly ActiveSkillEnum Id;
+    public readonly string EngName;
     /// <summary>
     /// 属性
     /// </summary>
@@ -241,6 +243,7 @@ public sealed partial class ActiveSkillConfig : Luban.BeanBase
         
         
         
+        
         DarwTargetCardConfigAfterUse?.ResolveRef(tables);
         
         
@@ -267,6 +270,7 @@ public sealed partial class ActiveSkillConfig : Luban.BeanBase
     {
         return "{ "
         + "id:" + Id + ","
+        + "engName:" + EngName + ","
         + "element:" + Element + ","
         + "desc:" + Desc + ","
         + "specialIconPath:" + SpecialIconPath + ","

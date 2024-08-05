@@ -1,6 +1,7 @@
 [
   {
     "id": 1,
+    "eng_name": "",
     "element": 1,
     "desc": "操控着惊涛骇浪拍击对手。",
     "special_icon_path": "",
@@ -67,6 +68,7 @@
   },
   {
     "id": 2,
+    "eng_name": "",
     "element": 1,
     "desc": "技能优先度：1。快速地吐出水柱喷向对手。",
     "special_icon_path": "",
@@ -133,6 +135,7 @@
   },
   {
     "id": 3,
+    "eng_name": "",
     "element": 1,
     "desc": "技能优先度：2。控制周围的水流涌向对手。",
     "special_icon_path": "",
@@ -199,6 +202,7 @@
   },
   {
     "id": 4,
+    "eng_name": "",
     "element": 1,
     "desc": "吞下对手，然后再将其吐出来。有40%的几率会使对手弃置2张牌。",
     "special_icon_path": "",
@@ -265,6 +269,7 @@
   },
   {
     "id": 5,
+    "eng_name": "",
     "element": 2,
     "desc": "喷射出高温的火柱袭击敌人。",
     "special_icon_path": "",
@@ -331,6 +336,7 @@
   },
   {
     "id": 6,
+    "eng_name": "",
     "element": 2,
     "desc": "凝聚全身的火焰快速地冲向对手。将自己的速度提高10点。",
     "special_icon_path": "",
@@ -397,6 +403,7 @@
   },
   {
     "id": 7,
+    "eng_name": "",
     "element": 2,
     "desc": "从地面中爆发出灼热的岩浆袭击对手。",
     "special_icon_path": "",
@@ -463,6 +470,7 @@
   },
   {
     "id": 8,
+    "eng_name": "",
     "element": 2,
     "desc": "从体内吐出火焰席卷敌人。满血时会造成1.5倍伤害。",
     "special_icon_path": "",
@@ -529,6 +537,7 @@
   },
   {
     "id": 9,
+    "eng_name": "",
     "element": 3,
     "desc": "恢复最大生命值的20%。",
     "special_icon_path": "UI/CardAtlas/icon/skillcard_grass_value_ghzy.png",
@@ -595,6 +604,7 @@
   },
   {
     "id": 10,
+    "eng_name": "",
     "element": 3,
     "desc": "舞动长长的鞭子击打对手。",
     "special_icon_path": "",
@@ -661,6 +671,7 @@
   },
   {
     "id": 11,
+    "eng_name": "",
     "element": 3,
     "desc": "将自己的根伸入地下，然后突然袭击敌人。将自己的速度降低10点。",
     "special_icon_path": "",
@@ -727,6 +738,7 @@
   },
   {
     "id": 12,
+    "eng_name": "",
     "element": 3,
     "desc": "不管不顾地向前冲击，自己也会受到造成的伤害的50%的伤害。处于草地战场时，招式威力增加30点。",
     "special_icon_path": "",
@@ -793,6 +805,7 @@
   },
   {
     "id": 13,
+    "eng_name": "",
     "element": 4,
     "desc": "将自己身体里的电流释放出去。使用后自己会变成普通属性。",
     "special_icon_path": "",
@@ -859,6 +872,7 @@
   },
   {
     "id": 14,
+    "eng_name": "",
     "element": 4,
     "desc": "身体上布满电流，猛然向敌人扑过去。用自己的防御力代替攻击力进行伤害计算。",
     "special_icon_path": "",
@@ -925,6 +939,7 @@
   },
   {
     "id": 15,
+    "eng_name": "",
     "element": 4,
     "desc": "引动雷电共同攻击。有40%的几率不会造成伤害。",
     "special_icon_path": "",
@@ -991,6 +1006,7 @@
   },
   {
     "id": 16,
+    "eng_name": "",
     "element": 4,
     "desc": "技能优先度：3。如同闪电一样迅速攻击。",
     "special_icon_path": "",
@@ -1057,6 +1073,7 @@
   },
   {
     "id": 17,
+    "eng_name": "",
     "element": 4,
     "desc": "将电流像音乐一样有节奏地发射出来。可能会造成1~3次伤害。",
     "special_icon_path": "",
@@ -1126,6 +1143,7 @@
   },
   {
     "id": 18,
+    "eng_name": "",
     "element": 4,
     "desc": "闪电如同飞盘一样发射出去。将自己的速度提高10点。",
     "special_icon_path": "",
@@ -1192,6 +1210,7 @@
   },
   {
     "id": 19,
+    "eng_name": "",
     "element": 5,
     "desc": "用自己尖锐的喙敲击敌人的脑袋。有20%的几率造成1.5倍伤害。",
     "special_icon_path": "",
@@ -1258,6 +1277,7 @@
   },
   {
     "id": 20,
+    "eng_name": "",
     "element": 5,
     "desc": "利用气旋形成猛烈地风暴席卷敌人。",
     "special_icon_path": "",
@@ -1324,6 +1344,7 @@
   },
   {
     "id": 21,
+    "eng_name": "",
     "element": 5,
     "desc": "挂起猛烈的风。接下来3回合中，将己方选手的速度提高10点，敌方选手的速度降低10点。",
     "special_icon_path": "UI/CardAtlas/icon/skillcard_wind_value_qf.png",
@@ -1390,6 +1411,7 @@
   },
   {
     "id": 22,
+    "eng_name": "",
     "element": 5,
     "desc": "空气中的气流与身体产生共鸣，进而引发强劲的风。将自己的速度降低20点。",
     "special_icon_path": "",
@@ -1456,6 +1478,7 @@
   },
   {
     "id": 23,
+    "eng_name": "",
     "element": 6,
     "desc": "伸出锋利的毒牙撕咬对手。",
     "special_icon_path": "",
@@ -1522,6 +1545,7 @@
   },
   {
     "id": 24,
+    "eng_name": "",
     "element": 6,
     "desc": "将自己的身体滚成一个球，一边喷洒毒液一边保护自己。将自己的防御力增加10点。",
     "special_icon_path": "",
@@ -1588,6 +1612,7 @@
   },
   {
     "id": 25,
+    "eng_name": "",
     "element": 7,
     "desc": "利用身体优势撞向对手。",
     "special_icon_path": "",
@@ -1654,6 +1679,7 @@
   },
   {
     "id": 26,
+    "eng_name": "",
     "element": 7,
     "desc": "技能优先度：5。在自己面前张开屏障保护自己，本回合不会受到伤害。",
     "special_icon_path": "UI/CardAtlas/icon/skillcard_normal_value_sh.png",
@@ -1720,6 +1746,7 @@
   },
   {
     "id": 27,
+    "eng_name": "",
     "element": 7,
     "desc": "技能优先度：1。迅速地攻向敌人。",
     "special_icon_path": "",
@@ -1786,6 +1813,7 @@
   },
   {
     "id": 28,
+    "eng_name": "",
     "element": 7,
     "desc": "挥舞爪子快速进攻。可能会造成0~5次伤害。",
     "special_icon_path": "",
@@ -1855,6 +1883,7 @@
   },
   {
     "id": 29,
+    "eng_name": "",
     "element": 0,
     "desc": "己方选手下一次使用技能造成伤害变为1.5倍。",
     "special_icon_path": "",
@@ -1921,6 +1950,7 @@
   },
   {
     "id": 30,
+    "eng_name": "",
     "element": 0,
     "desc": "己方选手下一次被技能攻击时有60%的几率不会受到伤害。",
     "special_icon_path": "",
@@ -1987,6 +2017,7 @@
   },
   {
     "id": 31,
+    "eng_name": "",
     "element": 0,
     "desc": "己方选手本回合中不会被击败，最小生命值为1。",
     "special_icon_path": "",
@@ -2053,6 +2084,7 @@
   },
   {
     "id": 32,
+    "eng_name": "",
     "element": 0,
     "desc": "消耗。己方选手恢复100点生命值。",
     "special_icon_path": "",
@@ -2119,6 +2151,7 @@
   },
   {
     "id": 33,
+    "eng_name": "",
     "element": 0,
     "desc": "己方选手下一次使用技能必定优先攻击。",
     "special_icon_path": "",
@@ -2185,6 +2218,7 @@
   },
   {
     "id": 34,
+    "eng_name": "",
     "element": 0,
     "desc": "弃置所有手牌，然后抽取等量手牌。",
     "special_icon_path": "",
@@ -2251,6 +2285,7 @@
   },
   {
     "id": 35,
+    "eng_name": "",
     "element": 0,
     "desc": "消耗。抽三张牌。",
     "special_icon_path": "",
@@ -2317,6 +2352,7 @@
   },
   {
     "id": 36,
+    "eng_name": "",
     "element": 0,
     "desc": "己方选手本回合中受到的伤害变为0.5倍。",
     "special_icon_path": "",
@@ -2383,6 +2419,7 @@
   },
   {
     "id": 37,
+    "eng_name": "",
     "element": 0,
     "desc": "消耗。本回合中双方玩家都不能使用牌，己方选手恢复50点生命值。",
     "special_icon_path": "",
@@ -2449,6 +2486,7 @@
   },
   {
     "id": 38,
+    "eng_name": "",
     "element": 0,
     "desc": "己方选手恢复若干点生命，直到满血；己方回合结束时，受到等量伤害。从牌组中抽取一张“水流喷射”；如果牌组中没有“水流喷射”，你抽一张牌。",
     "special_icon_path": "",
@@ -2515,6 +2553,7 @@
   },
   {
     "id": 39,
+    "eng_name": "",
     "element": 0,
     "desc": "消耗。本回合中，己方选手不会受到己方卡牌造成伤害。",
     "special_icon_path": "",
@@ -2581,6 +2620,7 @@
   },
   {
     "id": 40,
+    "eng_name": "",
     "element": 0,
     "desc": "如果己方选手处于满血状态，己方选手下一次使用技能造成伤害变为2倍；否则你抽两张牌。",
     "special_icon_path": "",
@@ -2647,6 +2687,7 @@
   },
   {
     "id": 41,
+    "eng_name": "",
     "element": 0,
     "desc": "消耗手牌中的所有技能牌。每消耗一张技能牌，己方选手下一次造成的伤害便增加80点。",
     "special_icon_path": "",
@@ -2713,6 +2754,7 @@
   },
   {
     "id": 42,
+    "eng_name": "",
     "element": 0,
     "desc": "从牌组中抽取一张“大地之力”；如果牌组中的技能牌数量不大于4张，向你的牌组中添加一张“大地之力”。",
     "special_icon_path": "",
@@ -2779,6 +2821,7 @@
   },
   {
     "id": 43,
+    "eng_name": "",
     "element": 0,
     "desc": "如果己方选手的适应力不小于50点，己方选手下一次使用技能造成的伤害变为2倍；否则恢复50点生命值。",
     "special_icon_path": "",
@@ -2845,6 +2888,7 @@
   },
   {
     "id": 44,
+    "eng_name": "",
     "element": 0,
     "desc": "消耗。如果己方选手的速度小于20，己方选手的适应力增加10点，最多可以叠加到20点，并且不计入己方选手的最大适应力。然后结束当前回合。",
     "special_icon_path": "",
@@ -2911,6 +2955,7 @@
   },
   {
     "id": 45,
+    "eng_name": "",
     "element": 0,
     "desc": "消耗。从牌组中抽取一张“迅雷”，己方选手下一次使用技能造成的伤害变为X倍，X为该技能的技能优先级。",
     "special_icon_path": "",
@@ -2977,6 +3022,7 @@
   },
   {
     "id": 46,
+    "eng_name": "",
     "element": 0,
     "desc": "回合结束后额外获得一个回合",
     "special_icon_path": "",
@@ -3043,6 +3089,7 @@
   },
   {
     "id": 47,
+    "eng_name": "",
     "element": 0,
     "desc": "从牌组中抽取一张“喙啄”。本回合中，己方选手使用“喙啄”时，对手弃置一张手牌。",
     "special_icon_path": "",
@@ -3109,6 +3156,7 @@
   },
   {
     "id": 48,
+    "eng_name": "",
     "element": 0,
     "desc": "消耗。双方玩家各弃置两张手牌，然后若对手的手牌数量不大于0，直接击败敌方选手。然后结束当前回合。",
     "special_icon_path": "",
@@ -3175,6 +3223,7 @@
   },
   {
     "id": 49,
+    "eng_name": "",
     "element": 0,
     "desc": "己方选手下一次受到伤害时，敌方选手也会受到等量伤害。",
     "special_icon_path": "",
@@ -3241,6 +3290,7 @@
   },
   {
     "id": 50,
+    "eng_name": "",
     "element": 0,
     "desc": "本回合中，对方使用牌时，敌方选手有40%的概率受到50点伤害，此伤害无视防御力和适应力。",
     "special_icon_path": "",
@@ -3307,6 +3357,7 @@
   },
   {
     "id": 51,
+    "eng_name": "",
     "element": 0,
     "desc": "从牌组中抽取一张“吞吐”。己方选手下一次使用技能的追加效果几率改为100%。",
     "special_icon_path": "",
@@ -3373,6 +3424,7 @@
   },
   {
     "id": 52,
+    "eng_name": "",
     "element": 0,
     "desc": "本回合中，消耗对手弃置的牌。",
     "special_icon_path": "",
@@ -3439,6 +3491,7 @@
   },
   {
     "id": 53,
+    "eng_name": "",
     "element": 0,
     "desc": "从牌组中抽取一张“吐火”。己方选手下一次使用技能效果不好时，将伤害倍率改为1.5。",
     "special_icon_path": "",
@@ -3505,6 +3558,7 @@
   },
   {
     "id": 54,
+    "eng_name": "",
     "element": 0,
     "desc": "从牌组中抽取一张“轰隆隆隆隆”。己方选手下一次使用技能时，用该选手的速度代替攻击力进行伤害计算。",
     "special_icon_path": "",
@@ -3571,6 +3625,7 @@
   },
   {
     "id": 55,
+    "eng_name": "",
     "element": 0,
     "desc": "从牌组中抽取一张“咚咚锵”。己方选手下一次使用技能时，必定会造成最多次伤害。",
     "special_icon_path": "",
@@ -3637,6 +3692,7 @@
   },
   {
     "id": 56,
+    "eng_name": "",
     "element": 0,
     "desc": "本回合中，对手弃置手牌时，你抽取等量的牌。",
     "special_icon_path": "",
@@ -3703,6 +3759,7 @@
   },
   {
     "id": 57,
+    "eng_name": "",
     "element": 0,
     "desc": "本回合中，己方选手下一次使用风属性技能时，该选手的速度提高20点。",
     "special_icon_path": "",
@@ -3769,6 +3826,7 @@
   },
   {
     "id": 58,
+    "eng_name": "",
     "element": 0,
     "desc": "消耗。本回合中，己方选手属性发生变化时，会保留原本的属性。",
     "special_icon_path": "",
@@ -3835,6 +3893,7 @@
   },
   {
     "id": 59,
+    "eng_name": "",
     "element": 0,
     "desc": "消耗。从你的牌库中抽取两张指挥牌。",
     "special_icon_path": "",
@@ -3901,6 +3960,7 @@
   },
   {
     "id": 60,
+    "eng_name": "",
     "element": 0,
     "desc": "消耗。将本局对战的战场改为草地。",
     "special_icon_path": "",
@@ -3967,6 +4027,7 @@
   },
   {
     "id": 61,
+    "eng_name": "",
     "element": 0,
     "desc": "消耗。将本局对战的战场改为沙漠。",
     "special_icon_path": "",
@@ -4033,6 +4094,7 @@
   },
   {
     "id": 62,
+    "eng_name": "",
     "element": 0,
     "desc": "消耗。将本局对战的战场改为海洋。",
     "special_icon_path": "",
@@ -4099,6 +4161,7 @@
   },
   {
     "id": 63,
+    "eng_name": "",
     "element": 0,
     "desc": "消耗。选择一名其他己方选手，更换当前选手下场，并更换该选手上场。",
     "special_icon_path": "",
@@ -4165,6 +4228,7 @@
   },
   {
     "id": 64,
+    "eng_name": "",
     "element": 0,
     "desc": "感谢保时捷对本次比赛的大力支持！抽牌直到你的手牌数量达到上限。【特殊：此牌不计入指挥牌上限，不能被交换，并且在牌组中只有一张。】",
     "special_icon_path": "",

@@ -1,7 +1,9 @@
 ﻿using System;
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 using UnityToolkit;
 
@@ -25,7 +27,6 @@ namespace Game
         // States
         public bool isDragging { get; private set; }
 
-        public bool wasDragged { get; private set; }
 
         public bool isHovering { get; private set; }
 
@@ -34,7 +35,9 @@ namespace Game
         // Config
         public Vector3 offset;
         public float moveSpeedLimit = 20f;
+
         public float selectionOffset = 50;
+        public float biggerScale = 2f;
 
         // components
         private CardVisual _visual;
@@ -122,6 +125,7 @@ namespace Game
 
         public virtual void OnBeginDrag(PointerEventData eventData)
         {
+            transform.DOScale(Vector3.one * biggerScale, 0.1f);
             BeginDragEvent(this);
             Vector2 mousePosition = UIRoot.Singleton.UICamera.ScreenToWorldPoint(eventData.position);
             offset = mousePosition - (Vector2)transform.position;
@@ -130,18 +134,18 @@ namespace Game
             _canvas.GetComponent<GraphicRaycaster>().enabled = false;
             img.raycastTarget = false;
 
-            wasDragged = true;
         }
 
         public async void OnEndDrag(PointerEventData eventData)
         {
+            transform.DOKill();
+            transform.localScale = Vector3.one;
             EndDragEvent.Invoke(this);
             isDragging = false;
             // Debug.Log("OnEndDrag, isDragging: " + isDragging);
             _canvas.GetComponent<GraphicRaycaster>().enabled = true;
             img.raycastTarget = true;
             await UniTask.Yield();
-            wasDragged = false;
         }
 
         public override void OnPointerEnter(PointerEventData eventData)
@@ -152,6 +156,7 @@ namespace Game
 
             Global.Event.Send<OnBattleCardHover>(new OnBattleCardHover(this, isHovering));
             HoverEvent.Invoke(this, isHovering);
+            transform.DOScale(Vector3.one * biggerScale, 0.1f);
             Global.Get<AudioSystem>().PlayOneShot(FMODName.Event.SFX_ui_进入卡牌);
         }
 
@@ -163,6 +168,11 @@ namespace Game
 
             Global.Event.Send<OnBattleCardHover>(new OnBattleCardHover(this, isHovering));
             HoverEvent.Invoke(this, isHovering);
+            if (!selected && !isDragging)
+            {
+                transform.DOKill();
+                transform.localScale = Vector3.one;
+            }
         }
 
 
@@ -182,6 +192,7 @@ namespace Game
             selected = true;
             transform.localPosition += (_visual.transform.up * selectionOffset);
             SelectEvent.Invoke(this, selected);
+            transform.DOScale(Vector3.one * biggerScale, 0.1f);
         }
 
         public override void OnDeselect(BaseEventData eventData)
@@ -191,6 +202,8 @@ namespace Game
 
             transform.localPosition = Vector3.zero;
             SelectEvent.Invoke(this, selected);
+            transform.DOKill();
+            transform.localScale = Vector3.one;
         }
 
         public override void OnPointerUp(PointerEventData eventData)
@@ -203,6 +216,7 @@ namespace Game
 
         public void OnDrag(PointerEventData eventData)
         {
+            transform.localScale = Vector3.one * biggerScale;
         }
 
         public void ShowInfo()

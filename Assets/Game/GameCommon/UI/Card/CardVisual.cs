@@ -19,6 +19,9 @@ namespace Game
         [Header("Follow Parameters")] [SerializeField]
         private float followSpeed = 30;
 
+        [Header("Scale Parameters")] [SerializeField]
+        private float scaleSpeed = 20;
+
         [Header("Rotation Parameters")] [SerializeField]
         private float rotationAmount = 20;
 
@@ -68,16 +71,18 @@ namespace Game
             card.PointerUpEvent += PointerUp;
             card.SelectEvent += Select;
             card.HoverEvent += Hover;
-            
+
             nameText.text = card.data.config.Id.ToString();
         }
 
         protected virtual void Hover(Card card, bool hovering)
         {
+            _canvas.overrideSorting = hovering;
         }
 
         protected virtual void Select(Card card, bool state)
         {
+            _canvas.overrideSorting = state;
             // DOTween.Kill(2, true);
             // float dir = state ? 1 : 0;
             // shakeParent.DOPunchPosition(shakeParent.up * selectPunchAmount * dir, scaleTransition, 10, 1);
@@ -142,11 +147,23 @@ namespace Game
                 return;
             }
 
+            if (_target.isDragging)
+            {
+                _canvas.overrideSorting = true;
+            }
+
             gameObject.SetActive(_target.gameObject.activeInHierarchy);
+            SmoothScale();
             HandPositioning();
             SmoothFollow();
             FollowRotation();
             CardTilt();
+        }
+
+        private void SmoothScale()
+        {
+            Vector3 targetScale = _target.transform.localScale;
+            transform.localScale = Vector3.Lerp(transform.localScale, targetScale, scaleSpeed * Time.deltaTime);
         }
 
         public virtual void Dispose()

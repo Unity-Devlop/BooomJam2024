@@ -48,7 +48,7 @@ namespace Game
 
             if (spine != null)
             {
-                pokemonSpineCache.Add(@enum, spine);
+                pokemonSpineCache.TryAdd(@enum, spine);
             }
 
             return spine;
@@ -83,7 +83,7 @@ namespace Game
 
             if (sprite != null)
             {
-                skillCardImageCache.Add(id, sprite);
+                skillCardImageCache.TryAdd(id, sprite);
             }
 
             return sprite;
@@ -123,7 +123,7 @@ namespace Game
 
             if (sprite != null)
             {
-                specialSkillIconCache.Add(id, sprite);
+                specialSkillIconCache.TryAdd(id, sprite);
             }
 
             return sprite;
@@ -156,7 +156,7 @@ namespace Game
 
             if (sprite != null)
             {
-                skillCardDescBgCache.Add(configElement, sprite);
+                skillCardDescBgCache.TryAdd(configElement, sprite);
             }
 
             return sprite;
@@ -191,7 +191,7 @@ namespace Game
 
             if (sprite != null)
             {
-                skillElementBgCache.Add(configElement, sprite);
+                skillElementBgCache.TryAdd(configElement, sprite);
             }
 
             return sprite;
@@ -225,7 +225,7 @@ namespace Game
 
             if (sprite != null)
             {
-                skillBgCache.Add(elementEnum, sprite);
+                skillBgCache.TryAdd(elementEnum, sprite);
             }
 
             return sprite;
