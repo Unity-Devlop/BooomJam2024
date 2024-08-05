@@ -20,6 +20,7 @@ public sealed partial class ActiveSkillConfig : Luban.BeanBase
         { if(!_buf["id"].IsNumber) { throw new SerializationException(); }  Id = (ActiveSkillEnum)_buf["id"].AsInt; }
         { if(!_buf["element"].IsNumber) { throw new SerializationException(); }  Element = (ElementEnum)_buf["element"].AsInt; }
         { if(!_buf["desc"].IsString) { throw new SerializationException(); }  Desc = _buf["desc"]; }
+        { if(!_buf["special_icon_path"].IsString) { throw new SerializationException(); }  SpecialIconPath = _buf["special_icon_path"]; }
         { if(!_buf["type"].IsNumber) { throw new SerializationException(); }  Type = (ActiveSkillTypeEnum)_buf["type"].AsInt; }
         { if(!_buf["damage_point"].IsNumber) { throw new SerializationException(); }  DamagePoint = _buf["damage_point"]; }
         { if(!_buf["priority"].IsNumber) { throw new SerializationException(); }  Priority = _buf["priority"]; }
@@ -74,6 +75,7 @@ public sealed partial class ActiveSkillConfig : Luban.BeanBase
     /// 描述
     /// </summary>
     public readonly string Desc;
+    public readonly string SpecialIconPath;
     /// <summary>
     /// 类型（指挥/技能）
     /// </summary>
@@ -238,6 +240,7 @@ public sealed partial class ActiveSkillConfig : Luban.BeanBase
         
         
         
+        
         DarwTargetCardConfigAfterUse?.ResolveRef(tables);
         
         
@@ -266,6 +269,7 @@ public sealed partial class ActiveSkillConfig : Luban.BeanBase
         + "id:" + Id + ","
         + "element:" + Element + ","
         + "desc:" + Desc + ","
+        + "specialIconPath:" + SpecialIconPath + ","
         + "type:" + Type + ","
         + "damagePoint:" + DamagePoint + ","
         + "priority:" + Priority + ","

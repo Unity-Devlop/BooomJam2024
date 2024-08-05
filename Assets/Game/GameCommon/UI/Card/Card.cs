@@ -38,14 +38,14 @@ namespace Game
 
         // components
         private CardVisual _visual;
-        private EasyGameObjectPool _cardVisualPool;
+        private CardVisualPool _cardVisualPool;
         public Image img { get; private set; }
         private Canvas _canvas;
 
 
         public ActiveSkillData data;
 
-        public void Init(EasyGameObjectPool cardVisualPool, RectTransform visualRoot, ActiveSkillData data)
+        public void Init(CardVisualPool cardVisualPool, ActiveSkillData data)
         {
             this.data = data;
             _cardVisualPool = cardVisualPool;
@@ -55,12 +55,11 @@ namespace Game
             _canvas = GetComponentInParent<Canvas>();
             if (_visual != null)
             {
-                cardVisualPool.Release(_visual.gameObject);
+                cardVisualPool.Release(_visual);
                 _visual = null;
             }
 
-            _visual = cardVisualPool.Get().GetComponent<CardVisual>();
-            _visual.transform.SetParent(visualRoot);
+            _visual = cardVisualPool.Get(data.config.Type);
             _visual.transform.localScale = Vector3.one;
             _visual.transform.localPosition = Vector3.zero;
             _visual.Initialize(this);
@@ -85,7 +84,7 @@ namespace Game
 
             if (_visual != null)
             {
-                _cardVisualPool.Release(_visual.gameObject);
+                _cardVisualPool.Release(_visual);
             }
 
             _visual = null;

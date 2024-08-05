@@ -14,7 +14,9 @@
         3,
         0.5
       ]
-    ]
+    ],
+    "text": "",
+    "ui_path_translate": "water"
   },
   {
     "id": 2,
@@ -31,7 +33,9 @@
         3,
         2
       ]
-    ]
+    ],
+    "text": "",
+    "ui_path_translate": "fire"
   },
   {
     "id": 3,
@@ -56,7 +60,9 @@
         6,
         0.5
       ]
-    ]
+    ],
+    "text": "",
+    "ui_path_translate": "grass"
   },
   {
     "id": 4,
@@ -73,7 +79,9 @@
         5,
         2
       ]
-    ]
+    ],
+    "text": "Lighting",
+    "ui_path_translate": "electric"
   },
   {
     "id": 5,
@@ -86,7 +94,9 @@
         4,
         0.5
       ]
-    ]
+    ],
+    "text": "",
+    "ui_path_translate": "wind"
   },
   {
     "id": 6,
@@ -99,10 +109,14 @@
         6,
         2
       ]
-    ]
+    ],
+    "text": "",
+    "ui_path_translate": "poison"
   },
   {
     "id": 7,
-    "fit": []
+    "fit": [],
+    "text": "",
+    "ui_path_translate": "normal"
   }
 ]

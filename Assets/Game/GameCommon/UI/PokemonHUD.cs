@@ -16,6 +16,7 @@ namespace Game
         [SerializeField] private RectTransform valueUIRoot;
         private ValueUIItem[] _valueUIItems;
         HuluData _data;
+        [SerializeField] private CardVisualPool cardVisualPool;
 
         private void Awake()
         {
@@ -42,7 +43,8 @@ namespace Game
         {
             ActiveSkillData skillData = _data.ownedSkills[idx];
             FixedCard card = transform1.GetComponentInChildren<FixedCard>();
-            card.Init(skillData);
+            card.UnBind();
+            card.Bind(skillData, cardVisualPool);
         }
 
 

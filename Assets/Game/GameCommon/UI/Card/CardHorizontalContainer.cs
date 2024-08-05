@@ -31,10 +31,8 @@ namespace Game
         [ReadOnly] public Card hoveringCard { get; private set; }
         [ReadOnly] public Card selectedCard { get; private set; }
 
-
-        [field: SerializeField] public RectTransform visualRoot { get; private set; }
         [field: SerializeField] public EasyGameObjectPool cardSlotPool { get; private set; }
-        [field: SerializeField] public EasyGameObjectPool cardVisualPool { get; private set; }
+        [field: SerializeField] public CardVisualPool cardVisualPool { get; private set; }
         [field: SerializeField] public EasyGameObjectPool cardPool { get; private set; }
 
         private Tweener _endDragTween;
@@ -70,7 +68,7 @@ namespace Game
         {
             Card card = SpawnOneCardObj(name);
             handZoneCardList.Add(card);
-            card.Init(cardVisualPool, visualRoot, data);
+            card.Init(cardVisualPool, data);
             // Debug.Log($"Push Card: HashCode: {data.GetHashCode()}, data: {data}");
             return card;
         }
@@ -78,7 +76,7 @@ namespace Game
         public void AddCardItem(CardItem cardItem, ActiveSkillData data)
         {
             handZoneCardList.Add(cardItem);
-            cardItem.Init(cardVisualPool, visualRoot, data);
+            cardItem.Init(cardVisualPool, data);
         }
 
         public async UniTask UseFromHand(ActiveSkillData data)

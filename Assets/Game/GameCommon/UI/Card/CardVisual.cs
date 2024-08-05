@@ -33,16 +33,17 @@ namespace Game
         private Canvas _canvas;
         // private Canvas _shadowCanvas;
 
-        [SerializeField] private TextMeshProUGUI nameText;
-        [SerializeField] private Image icon;
-        public ActiveSkillEnum id { get; private set; }
+        [SerializeField] protected Image background;
+        [SerializeField] protected TextMeshProUGUI nameText;
+
+        public ActiveSkillTypeEnum id { get; private set; }
 
         private void Awake()
         {
             _canvas = GetComponentInParent<Canvas>();
         }
 
-        public void Initialize(Card card)
+        public virtual async void Initialize(Card card)
         {
             if (_target != null)
             {
@@ -57,7 +58,8 @@ namespace Game
             }
 
             _target = card;
-            id = card.data.id;
+            id = card.data.config.Type;
+            gameObject.name = card.data.id.ToString();
             card.PointerEnterEvent += PointerEnter;
             card.PointerExitEvent += PointerExit;
             card.BeginDragEvent += BeginDrag;
@@ -66,23 +68,15 @@ namespace Game
             card.PointerUpEvent += PointerUp;
             card.SelectEvent += Select;
             card.HoverEvent += Hover;
-
+            
             nameText.text = card.data.config.Id.ToString();
-            if (card.data.config.Type == ActiveSkillTypeEnum.指挥)
-            {
-                icon.color = Color.yellow;
-            }
-            else
-            {
-                icon.color = Color.cyan;
-            }
         }
 
-        private void Hover(Card card, bool hovering)
+        protected virtual void Hover(Card card, bool hovering)
         {
         }
 
-        private void Select(Card card, bool state)
+        protected virtual void Select(Card card, bool state)
         {
             // DOTween.Kill(2, true);
             // float dir = state ? 1 : 0;
@@ -93,7 +87,7 @@ namespace Game
             //     transform.DOScale(scaleOnHover, scaleTransition).SetEase(scaleEase);
         }
 
-        private void BeginDrag(Card card)
+        protected virtual void BeginDrag(Card card)
         {
             // if (scaleAnimations)
             // transform.DOScale(scaleOnSelect, scaleTransition).SetEase(scaleEase);
@@ -101,13 +95,13 @@ namespace Game
             _canvas.overrideSorting = true;
         }
 
-        private void EndDrag(Card card)
+        protected virtual void EndDrag(Card card)
         {
             _canvas.overrideSorting = false;
             // transform.DOScale(1, scaleTransition).SetEase(scaleEase);
         }
 
-        private void PointerEnter(Card card)
+        protected virtual void PointerEnter(Card card)
         {
             // if (scaleAnimations)
             //     transform.DOScale(scaleOnHover, scaleTransition).SetEase(scaleEase);
@@ -116,13 +110,13 @@ namespace Game
             // shakeParent.DOPunchRotation(Vector3.forward * hoverPunchAngle, hoverTransition, 20, 1).SetId(2);
         }
 
-        private void PointerExit(Card card)
+        protected virtual void PointerExit(Card card)
         {
             // if (!card.wasDragged)
             // transform.DOScale(1, scaleTransition).SetEase(scaleEase);
         }
 
-        private void PointerUp(Card card, bool longPress)
+        protected virtual void PointerUp(Card card, bool longPress)
         {
             // if (scaleAnimations)
             // transform.DOScale(longPress ? scaleOnHover : scaleOnSelect, scaleTransition).SetEase(scaleEase);
@@ -132,7 +126,7 @@ namespace Game
             // _shadowCanvas.overrideSorting = true;
         }
 
-        private void PointerDown(Card card)
+        protected virtual void PointerDown(Card card)
         {
             // if (scaleAnimations)
             // transform.DOScale(scaleOnSelect, scaleTransition).SetEase(scaleEase);
@@ -141,7 +135,7 @@ namespace Game
             // _shadowCanvas.overrideSorting = false;
         }
 
-        private void Update()
+        protected virtual void Update()
         {
             if (_target == null)
             {
@@ -155,32 +149,32 @@ namespace Game
             CardTilt();
         }
 
-        public void Dispose()
+        public virtual void Dispose()
         {
         }
 
         /// <summary>
         /// 随时间自动旋转
         /// </summary>
-        private void HandPositioning()
+        protected virtual void HandPositioning()
         {
         }
 
-        private void SmoothFollow()
-        {
-            Vector3 verticalOffset = (Vector3.up * (_target.isDragging ? 0 : _curveYOffset));
-            transform.position = Vector3.Lerp(transform.position, _target.transform.position + verticalOffset,
-                followSpeed * Time.deltaTime);
-        }
-
-        private void FollowRotation()
+        protected virtual void SmoothFollow()
         {
             Vector3 verticalOffset = (Vector3.up * (_target.isDragging ? 0 : _curveYOffset));
             transform.position = Vector3.Lerp(transform.position, _target.transform.position + verticalOffset,
                 followSpeed * Time.deltaTime);
         }
 
-        private void CardTilt()
+        protected virtual void FollowRotation()
+        {
+            Vector3 verticalOffset = (Vector3.up * (_target.isDragging ? 0 : _curveYOffset));
+            transform.position = Vector3.Lerp(transform.position, _target.transform.position + verticalOffset,
+                followSpeed * Time.deltaTime);
+        }
+
+        protected virtual void CardTilt()
         {
         }
     }

@@ -3,9 +3,13 @@ using UnityEngine.UI;
 
 namespace Game
 {
-    public class FixedCard : Selectable
+    public class FixedCard : MonoBehaviour
     {
-        public void Init(ActiveSkillData skillData)
+        public void UnBind()
+        {
+        }
+
+        public void Bind(ActiveSkillData skillData,CardVisualPool pool)
         {
             
         }
