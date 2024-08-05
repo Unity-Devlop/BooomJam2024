@@ -39,7 +39,6 @@ namespace Game
         // components
         private CardVisual _visual;
         private EasyGameObjectPool _cardVisualPool;
-        private Transform _visualRoot;
         public Image img { get; private set; }
         private Canvas _canvas;
 
@@ -50,9 +49,7 @@ namespace Game
         {
             this.data = data;
             _cardVisualPool = cardVisualPool;
-            _visualRoot = visualRoot;
             this._cardVisualPool = cardVisualPool;
-            this._visualRoot = visualRoot;
             // Debug.Log($"Init Card: HashCode: {this.data.GetHashCode()}, data: {data}");
             img = GetComponent<Image>();
             _canvas = GetComponentInParent<Canvas>();
