@@ -46,7 +46,7 @@ namespace Game
 
         public ActiveSkillData data;
 
-        public void Init(EasyGameObjectPool cardVisualPool, Transform visualRoot, ActiveSkillData data)
+        public void Init(EasyGameObjectPool cardVisualPool, RectTransform visualRoot, ActiveSkillData data)
         {
             this.data = data;
             _cardVisualPool = cardVisualPool;
