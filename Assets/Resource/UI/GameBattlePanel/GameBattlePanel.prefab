@@ -153,12 +153,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 0
-    m_Right: 0
-    m_Top: 0
-    m_Bottom: 0
+    m_Left: 10
+    m_Right: 10
+    m_Top: 10
+    m_Bottom: 10
   m_ChildAlignment: 4
-  m_Spacing: 0
+  m_Spacing: 10
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 1
@@ -207,6 +207,10 @@ MonoBehaviour:
   <cardSlotPool>k__BackingField: {fileID: 2251692799095270213}
   <cardVisualPool>k__BackingField: {fileID: 2884888780711308005}
   <cardPool>k__BackingField: {fileID: 6938266213314039194}
+  autoSizing: 1
+  standardWidth: 150
+  standardHeight: 200
+  standardCount: 8
 --- !u!114 &6938266213314039194
 MonoBehaviour:
   m_ObjectHideFlags: 0

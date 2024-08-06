@@ -52,6 +52,27 @@ namespace Game
             // _cemeteryZoneCardList = new List<ActiveSkillData>();
         }
 
+        [SerializeField] private bool autoSizing = true;
+        [SerializeField] public float standardWidth = 100;
+        [SerializeField] public float standardHeight = 150;
+        [SerializeField] public int standardCount = 8;
+
+        private void Update()
+        {
+            if (!autoSizing) return;
+            // 根据手牌的数量 动态调整自己的大小
+            float maxWidth = standardWidth * standardCount;
+            float width = standardWidth * handZoneCardList.Count;
+            if (width < maxWidth)
+            {
+                rectTransform.sizeDelta = new Vector2(width, standardHeight);
+            }
+            else
+            {
+                rectTransform.sizeDelta = new Vector2(maxWidth, standardHeight);
+            }
+        }
+
 
         public async UniTask DrawCardToHand(List<ActiveSkillData> dataList, float interval = 0.1f)
         {
@@ -222,10 +243,13 @@ namespace Game
             {
                 Vector3 selectPos = new Vector3(0, card.selectionOffset, 0);
                 Vector3 zeroPos = Vector3.zero;
+
+                Vector3 targetPos = zeroPos;
+
                 _endDragTween = card.transform
-                    .DOLocalMove(card.selected ? selectPos : zeroPos, tweenCardReturn ? .15f : 0)
+                    .DOLocalMove(targetPos, tweenCardReturn ? .15f : 0)
                     .SetEase(Ease.OutBack)
-                    .OnComplete(() => { card.transform.localPosition = card.selected ? selectPos : zeroPos; });
+                    .OnComplete(() => { card.transform.localPosition = targetPos; });
             }
 
 

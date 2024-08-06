@@ -49,7 +49,7 @@ namespace Game
 
         public ActiveSkillData data;
 
-        public void Init(CardVisualPool cardVisualPool, ActiveSkillData data)
+        public async void Init(CardVisualPool cardVisualPool, ActiveSkillData data)
         {
             this.data = data;
             _cardVisualPool = cardVisualPool;
@@ -75,6 +75,8 @@ namespace Game
             _visual.transform.localScale = Vector3.one;
             _visual.transform.localPosition = Vector3.zero;
             _visual.Initialize(this);
+
+            img.sprite = await Global.Get<ResourceSystem>().LoadCardBg(data.id);
         }
 
         public void OnGet()
@@ -117,6 +119,15 @@ namespace Game
                     Vector2.Distance(transform.position, targetPosition) / Time.deltaTime);
                 transform.Translate(velocity * Time.deltaTime);
             }
+
+            if (isDragging || isHovering)
+            {
+                transform.localScale = Vector3.one * biggerScale;
+            }
+            else
+            {
+                transform.localScale = Vector3.one;
+            }
         }
 
         private void ClampPosition()
@@ -134,6 +145,7 @@ namespace Game
 
         public virtual void OnBeginDrag(PointerEventData eventData)
         {
+            Debug.Log("OnBeginDrag");
             transform.DOScale(Vector3.one * biggerScale, 0.1f);
             BeginDragEvent(this);
             Vector2 mousePosition = UIRoot.Singleton.UICamera.ScreenToWorldPoint(eventData.position);
@@ -144,10 +156,12 @@ namespace Game
             img.raycastTarget = false;
         }
 
-        public async void OnEndDrag(PointerEventData eventData)
+        public virtual void OnDrag(PointerEventData eventData)
         {
-            transform.DOKill();
-            transform.localScale = Vector3.one;
+        }
+
+        public virtual async void OnEndDrag(PointerEventData eventData)
+        {
             EndDragEvent.Invoke(this);
             isDragging = false;
             // Debug.Log("OnEndDrag, isDragging: " + isDragging);
@@ -164,7 +178,6 @@ namespace Game
 
             Global.Event.Send<OnBattleCardHover>(new OnBattleCardHover(this, isHovering));
             HoverEvent.Invoke(this, isHovering);
-            transform.DOScale(Vector3.one * biggerScale, 0.1f);
             Global.Get<AudioSystem>().PlayOneShot(FMODName.Event.SFX_ui_进入卡牌);
         }
 
@@ -173,14 +186,8 @@ namespace Game
             base.OnPointerExit(eventData);
             PointerExitEvent.Invoke(this);
             isHovering = false;
-
             Global.Event.Send<OnBattleCardHover>(new OnBattleCardHover(this, isHovering));
             HoverEvent.Invoke(this, isHovering);
-            if (!selected && !isDragging)
-            {
-                transform.DOKill();
-                transform.localScale = Vector3.one;
-            }
         }
 
 
@@ -193,27 +200,6 @@ namespace Game
             PointerDownEvent.Invoke(this);
         }
 
-        public override void OnSelect(BaseEventData eventData)
-        {
-            base.OnSelect(eventData);
-            Global.Get<AudioSystem>().PlayOneShot(FMODName.Event.SFX_ui_选择牌);
-            selected = true;
-            transform.localPosition += (_visual.transform.up * selectionOffset);
-            SelectEvent.Invoke(this, selected);
-            transform.DOScale(Vector3.one * biggerScale, 0.1f);
-        }
-
-        public override void OnDeselect(BaseEventData eventData)
-        {
-            base.OnDeselect(eventData);
-            selected = false;
-
-            transform.localPosition = Vector3.zero;
-            SelectEvent.Invoke(this, selected);
-            transform.DOKill();
-            transform.localScale = Vector3.one;
-        }
-
         public override void OnPointerUp(PointerEventData eventData)
         {
             base.OnPointerUp(eventData);
@@ -222,14 +208,21 @@ namespace Game
             PointerUpEvent.Invoke(this, selected);
         }
 
-        public void OnDrag(PointerEventData eventData)
+        public override void OnSelect(BaseEventData eventData)
         {
-            transform.localScale = Vector3.one * biggerScale;
+            base.OnSelect(eventData);
+            Global.Get<AudioSystem>().PlayOneShot(FMODName.Event.SFX_ui_选择牌);
+            selected = true;
+            SelectEvent.Invoke(this, selected);
         }
 
-        public void ShowInfo()
+        public override void OnDeselect(BaseEventData eventData)
         {
-            // TODO Hover and not drag
+            base.OnDeselect(eventData);
+            selected = false;
+
+            SelectEvent.Invoke(this, selected);
+            transform.DOKill();
         }
     }
 }
