@@ -181,15 +181,29 @@ namespace Game
         protected virtual void HandPositioning()
         {
             _curveYOffset = (curve.positioning.Evaluate(_target.NormalizedPosition()) * curve.positioningInfluence) *
-                            _target.SlotSiblingAmount();
-            _curveYOffset = _target.SlotSiblingAmount() < 5 ? 0 : _curveYOffset;
+                            _target.SlotAmount();
+            _curveYOffset = _target.SlotAmount() < 5 ? 0 : _curveYOffset;
             _curveRotationOffset = curve.rotation.Evaluate(_target.NormalizedPosition());
         }
 
         protected virtual void SmoothFollow()
         {
             Vector3 verticalOffset = (Vector3.up * (_target.isDragging ? 0 : _curveYOffset));
-            transform.position = Vector3.Lerp(transform.position, _target.transform.position + verticalOffset,
+            Vector3 target = _target.transform.position + verticalOffset;
+
+            // 加上扇形的偏移
+            // 0 -> _savedIndex -> _target.SlotAmount() -> [0-90度]
+
+            float percent = _target.SlotIndex() / (float)_target.SlotAmount();
+            float angle = percent * 90 - 45;
+            float x = Mathf.Sin(angle * Mathf.Deg2Rad);
+            x = curve.positioning.Evaluate(percent) * curve.positioningInfluence * x;
+            float y = Mathf.Cos(angle * Mathf.Deg2Rad);
+            y = curve.positioning.Evaluate(percent) * curve.positioningInfluence * y;
+            target += new Vector3(x, y, 0);
+
+
+            transform.position = Vector3.Lerp(transform.position, target,
                 followSpeed * Time.deltaTime);
         }
 
@@ -234,7 +248,7 @@ namespace Game
 
             float tiltZ = _target.isDragging
                 ? tiltContainer.eulerAngles.z
-                : (_curveRotationOffset * (curve.rotationInfluence * _target.SlotSiblingAmount()));
+                : (_curveRotationOffset * (curve.rotationInfluence * _target.SlotAmount()));
 
             float lerpX = Mathf.LerpAngle(tiltContainer.eulerAngles.x, tiltX + (sine * autoTiltAmount),
                 tiltSpeed * Time.deltaTime);

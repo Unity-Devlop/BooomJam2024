@@ -9,5 +9,6 @@ namespace Game
         public float positioningInfluence = .1f;
         public AnimationCurve rotation;
         public float rotationInfluence = 10f;
+        
     }
 }

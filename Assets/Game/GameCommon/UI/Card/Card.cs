@@ -231,7 +231,7 @@ namespace Game
         }
 
 
-        public int SlotSiblingAmount()
+        public int SlotAmount()
         {
             if (transform.parent.TryGetComponent(out CardSlot slot))
             {
@@ -255,7 +255,7 @@ namespace Game
         {
             if(transform.TryGetComponent(out CardSlot slot))
             {
-                return Remap(SlotIndex(), 0, SlotSiblingAmount(), 0, 1);
+                return Remap(SlotIndex(), 0, SlotAmount(), 0, 1);
             }
 
             return 0;
