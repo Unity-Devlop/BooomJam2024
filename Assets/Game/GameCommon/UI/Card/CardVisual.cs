@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
+using UnityToolkit;
 
 namespace Game
 {
@@ -39,6 +40,7 @@ namespace Game
         [SerializeField] protected Image background;
         [SerializeField] protected TextMeshProUGUI nameText;
 
+        [SerializeField] private Transform tiltContainer;
         public ActiveSkillTypeEnum id { get; private set; }
 
         private void Awake()
@@ -170,11 +172,18 @@ namespace Game
         {
         }
 
+        [SerializeField] private CardVisualParameters curve;
+
+
         /// <summary>
         /// 随时间自动旋转
         /// </summary>
         protected virtual void HandPositioning()
         {
+            _curveYOffset = (curve.positioning.Evaluate(_target.NormalizedPosition()) * curve.positioningInfluence) *
+                            _target.SlotSiblingAmount();
+            _curveYOffset = _target.SlotSiblingAmount() < 5 ? 0 : _curveYOffset;
+            _curveRotationOffset = curve.rotation.Evaluate(_target.NormalizedPosition());
         }
 
         protected virtual void SmoothFollow()
@@ -184,15 +193,46 @@ namespace Game
                 followSpeed * Time.deltaTime);
         }
 
+        private Vector3 _followRotationMovementDelta;
+        private Vector3 _rotationDelta;
+        [SerializeField] private float followRotationSpeed = 25;
+        [SerializeField] private Vector2 rotationLimits = new Vector2(-60, 60);
+
         protected virtual void FollowRotation()
         {
-            Vector3 verticalOffset = (Vector3.up * (_target.isDragging ? 0 : _curveYOffset));
-            transform.position = Vector3.Lerp(transform.position, _target.transform.position + verticalOffset,
-                followSpeed * Time.deltaTime);
+            Vector3 movement = (transform.position - _target.transform.position);
+            _followRotationMovementDelta = Vector3.Lerp(_followRotationMovementDelta, movement,
+                followRotationSpeed * Time.deltaTime);
+            Vector3 movementRotation = (_target.isDragging ? _followRotationMovementDelta : movement) * rotationAmount;
+            _rotationDelta = Vector3.Lerp(_rotationDelta, movementRotation, rotationSpeed * Time.deltaTime);
+            transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y,
+                Mathf.Clamp(_rotationDelta.x, rotationLimits.x, rotationLimits.y));
         }
+
+        [SerializeField] private float autoTiltAmount = 30;
+        [SerializeField] private float manualTiltAmount = 20;
+        [SerializeField] private float tiltSpeed = 20;
 
         protected virtual void CardTilt()
         {
+            int index = _target.SlotIndex();
+            float sine = Mathf.Sin(Time.time + index) * (_target.isHovering ? .2f : 1);
+            float cosine = Mathf.Cos(Time.time + index) * (_target.isHovering ? .2f : 1);
+
+            Vector3 offset = transform.position - UIRoot.Singleton.UICamera.ScreenToWorldPoint(Input.mousePosition);
+            float tiltX = _target.isHovering ? ((offset.y * -1) * manualTiltAmount) : 0;
+            float tiltY = _target.isHovering ? ((offset.x) * manualTiltAmount) : 0;
+            float tiltZ = _target.isDragging
+                ? tiltContainer.eulerAngles.z
+                : (_curveRotationOffset * (curve.rotationInfluence * _target.SlotSiblingAmount()));
+
+            float lerpX = Mathf.LerpAngle(tiltContainer.eulerAngles.x, tiltX + (sine * autoTiltAmount),
+                tiltSpeed * Time.deltaTime);
+            float lerpY = Mathf.LerpAngle(tiltContainer.eulerAngles.y, tiltY + (cosine * autoTiltAmount),
+                tiltSpeed * Time.deltaTime);
+            float lerpZ = Mathf.LerpAngle(tiltContainer.eulerAngles.z, tiltZ, tiltSpeed / 2 * Time.deltaTime);
+
+            tiltContainer.eulerAngles = new Vector3(lerpX, lerpY, lerpZ);
         }
     }
 }

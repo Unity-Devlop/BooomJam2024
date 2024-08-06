@@ -362,6 +362,13 @@ MonoBehaviour:
   rotationSpeed: 20
   background: {fileID: 7684059296519420696}
   nameText: {fileID: 3920789286841687216}
+  tiltContainer: {fileID: 5223863912539565267}
+  curve: {fileID: 11400000, guid: b5bf20800698a574b8ae4fa776d77f54, type: 2}
+  followRotationSpeed: 25
+  rotationLimits: {x: -60, y: 60}
+  autoTiltAmount: 15
+  manualTiltAmount: 20
+  tiltSpeed: 40
   descText: {fileID: 4495725704665687901}
   nameEngText: {fileID: 1887239841369550881}
 --- !u!1 &2891574717286003007

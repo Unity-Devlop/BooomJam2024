@@ -109,7 +109,6 @@ namespace Game
         private void Update()
         {
             if (!Application.isPlaying) return;
-            ClampPosition(); // 限制位置 不能超出屏幕
             if (isDragging)
             {
                 Vector3 mousePosition = Input.mousePosition;
@@ -118,6 +117,12 @@ namespace Game
                 Vector2 velocity = direction * Mathf.Min(moveSpeedLimit,
                     Vector2.Distance(transform.position, targetPosition) / Time.deltaTime);
                 transform.Translate(velocity * Time.deltaTime);
+                ClampPosition(); // 限制位置 不能超出屏幕
+            }
+            else
+            {
+                RectTransform rectTransform = transform as RectTransform;
+                rectTransform.anchoredPosition = Vector2.zero;
             }
 
             if (isDragging || isHovering)
@@ -223,6 +228,42 @@ namespace Game
 
             SelectEvent.Invoke(this, selected);
             transform.DOKill();
+        }
+
+
+        public int SlotSiblingAmount()
+        {
+            if (transform.parent.TryGetComponent(out CardSlot slot))
+            {
+                return slot.transform.parent.childCount - 1;
+            }
+
+            return 0;
+        }
+
+        public int SlotIndex()
+        {
+            if (transform.parent.TryGetComponent(out CardSlot slot))
+            {
+                return slot.transform.GetSiblingIndex();
+            }
+
+            return 0;
+        }
+
+        public float NormalizedPosition()
+        {
+            if(transform.TryGetComponent(out CardSlot slot))
+            {
+                return Remap(SlotIndex(), 0, SlotSiblingAmount(), 0, 1);
+            }
+
+            return 0;
+        }
+
+        private static float Remap(float value, float from1, float to1, float from2, float to2)
+        {
+            return (value - from1) / (to1 - from1) * (to2 - from2) + from2;
         }
     }
 }
