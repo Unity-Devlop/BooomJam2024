@@ -192,18 +192,16 @@ namespace Game
             Vector3 target = _target.transform.position + verticalOffset;
 
             // // 加上扇形的偏移
-            // // 0 -> _savedIndex -> _target.SlotAmount() -> [0-90度]
-            //
-            float percent = _target.SlotIndex() / (float)_target.SlotAmount();
-            float angle = percent * 90 - 45;
-            float x = Mathf.Sin(angle * Mathf.Deg2Rad);
-            x = curve.positioning.Evaluate(percent) * curve.positioningInfluence * x;
-            float y = Mathf.Cos(angle * Mathf.Deg2Rad);
-            y = curve.positioning.Evaluate(percent) * curve.positioningInfluence * y;
             int amount = _target.SlotAmount();
             if (amount != 0)
             {
-                target += new Vector3(x, y, 0) / (float)_target.SlotAmount() *curve.positioningRadius;
+                float percent = _target.SlotIndex() / (float)amount;
+                float angle = percent * 90 - 45;
+                float x = Mathf.Sin(angle * Mathf.Deg2Rad);
+                x = curve.positioning.Evaluate(percent) * curve.positioningInfluence * x;
+                float y = Mathf.Cos(angle * Mathf.Deg2Rad);
+                y = curve.positioning.Evaluate(percent) * curve.positioningInfluence * y;
+                target += new Vector3(x, y, 0) / amount * curve.positioningRadius;
             }
             else
             {
