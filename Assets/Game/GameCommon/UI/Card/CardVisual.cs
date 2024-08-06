@@ -213,15 +213,25 @@ namespace Game
         [SerializeField] private float manualTiltAmount = 20;
         [SerializeField] private float tiltSpeed = 20;
 
+        private int _savedIndex;
+
         protected virtual void CardTilt()
         {
-            int index = _target.SlotIndex();
-            float sine = Mathf.Sin(Time.time + index) * (_target.isHovering ? .2f : 1);
-            float cosine = Mathf.Cos(Time.time + index) * (_target.isHovering ? .2f : 1);
+            _savedIndex = _target.isDragging ? _savedIndex : _target.SlotIndex();
+            float sine = Mathf.Sin(Time.time + _savedIndex) * (_target.isHovering ? .2f : 1);
+            float cosine = Mathf.Cos(Time.time + _savedIndex) * (_target.isHovering ? .2f : 1);
 
-            Vector3 offset = transform.position - UIRoot.Singleton.UICamera.ScreenToWorldPoint(Input.mousePosition);
-            float tiltX = _target.isHovering ? ((offset.y * -1) * manualTiltAmount) : 0;
-            float tiltY = _target.isHovering ? ((offset.x) * manualTiltAmount) : 0;
+            Vector3 offset = transform.position - Global.Singleton.mainCamera.ScreenToWorldPoint(Input.mousePosition);
+            float tiltX = _target.isHovering ? offset.y * -1 * manualTiltAmount : 0;
+            float tiltY = _target.isHovering ? offset.x * manualTiltAmount : 0;
+
+            if (offset.y < 0)
+            {
+                tiltX = -tiltX;
+                // tiltY = -tiltY;
+            }
+
+
             float tiltZ = _target.isDragging
                 ? tiltContainer.eulerAngles.z
                 : (_curveRotationOffset * (curve.rotationInfluence * _target.SlotSiblingAmount()));
