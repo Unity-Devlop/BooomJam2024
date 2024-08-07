@@ -511,7 +511,10 @@ MonoBehaviour:
   rotationSpeed: 20
   background: {fileID: 7684059296519420696}
   nameText: {fileID: 3920789286841687216}
+  shakeContainer: {fileID: 5725302188615300497}
   tiltContainer: {fileID: 5223863912539565267}
+  hoverPunchAngle: 15
+  hoverTransition: 0.15
   curve: {fileID: 11400000, guid: b5bf20800698a574b8ae4fa776d77f54, type: 2}
   followRotationSpeed: 25
   rotationLimits: {x: -60, y: 60}

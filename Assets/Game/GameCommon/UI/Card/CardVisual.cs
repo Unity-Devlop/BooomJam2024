@@ -40,6 +40,7 @@ namespace Game
         [SerializeField] protected Image background;
         [SerializeField] protected TextMeshProUGUI nameText;
 
+        [SerializeField] private RectTransform shakeContainer;
         [SerializeField] private Transform tiltContainer;
         public ActiveSkillTypeEnum id { get; private set; }
 
@@ -107,9 +108,13 @@ namespace Game
             _canvas.overrideSorting = false;
             // transform.DOScale(1, scaleTransition).SetEase(scaleEase);
         }
-
+        [Header("Hober Parameters")]
+        [SerializeField] private float hoverPunchAngle = 5;
+        [SerializeField] private float hoverTransition = .15f;
         protected virtual void PointerEnter(Card card)
         {
+            DOTween.Kill(2, true);
+            shakeContainer.DOPunchRotation(Vector3.forward * hoverPunchAngle, hoverTransition, 20, 1).SetId(2);
             // if (scaleAnimations)
             //     transform.DOScale(scaleOnHover, scaleTransition).SetEase(scaleEase);
             //
