@@ -280,6 +280,12 @@ namespace Game
                 await UniTask.Delay(TimeSpan.FromSeconds(0.2f));
                 return null;
             }
+            
+            if(trainer.ContainsBuff(BattleBuffEnum.结束回合))
+            {
+                await trainer.RemoveBuff(BattleBuffEnum.结束回合);
+                return new EndRoundOperation();
+            }
 
             return operation;
         }

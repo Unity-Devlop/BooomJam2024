@@ -120,6 +120,6 @@ MonoBehaviour:
   offset: {x: 0, y: 0, z: 0}
   moveSpeedLimit: 100
   selectionOffset: 50
-  biggerScale: 2
+  biggerScale: 1.8
   data:
     id: 0

@@ -15,7 +15,7 @@ using UnityToolkit;
 
 namespace Game
 {
-    public class CardHorizontalContainer : MonoBehaviour
+    public class BattleCardContainer : MonoBehaviour
     {
         [SerializeField] private List<Card> handZoneCardList; // 手牌区域
         // private List<ActiveSkillData> _cemeteryZoneCardList; // 墓地区域
@@ -56,6 +56,10 @@ namespace Game
         [SerializeField] public float standardWidth = 100;
         [SerializeField] public float standardHeight = 150;
         [SerializeField] public int standardCount = 8;
+
+
+        [SerializeField] private RectTransform usePlacePos;
+        [SerializeField] private RectTransform discardPos;
 
         private void Update()
         {
@@ -102,8 +106,23 @@ namespace Game
 
         public async UniTask UseFromHand(ActiveSkillData data)
         {
-            // var card = handZoneCardList.Find(card => card.data == data);
-            //
+            var card = handZoneCardList.Find(card => card.data == data);
+            if (card == null)
+            {
+                Debug.LogError($"使用的牌:{data}不在UI的手牌内?");
+                return;
+            }
+
+            card.canReset = false;
+            card.transform.DOMove(usePlacePos.position, 0.2f);
+            card.transform.DOScale(card.biggerScale, 0.2f);
+            // TODO  打磨这里的使用牌表现
+            // Debug.Log($"移动牌到使用位置{data}");
+            await UniTask.Delay(TimeSpan.FromSeconds(0.2f));
+            // Debug.Log($"移动完成{data}");
+            card.canReset = true;
+
+
             // Assert.IsNotNull(card.data);
             //
             // cardSlotPool.Release(card.transform.parent.gameObject);
@@ -179,9 +198,15 @@ namespace Game
         {
             foreach (var skillData in activeSkillDatas)
             {
-                // TODO 暂时不做弃牌的表现 直接移除
                 var card = handZoneCardList.Find(card => card.data == skillData); // TODO 性能问题 
                 Assert.IsNotNull(card);
+                // TODO 打磨这里的弃牌表现   
+                Debug.LogWarning($"打磨这里的弃牌表现{skillData}");
+                card.canReset = false;
+                card.transform.DOMove(discardPos.position, 0.5f);
+                card.transform.DOScale(Vector3.zero, 0.5f);
+                await UniTask.Delay(TimeSpan.FromSeconds(0.5f));
+                card.canReset = true;
                 cardSlotPool.Release(card.transform.parent.gameObject);
                 cardPool.Release(card.gameObject);
                 handZoneCardList.Remove(card);
@@ -227,7 +252,6 @@ namespace Game
             }
 
             // 判断结束拖拽的位置是不是出牌区
-
             Vector3 screenPoint = UIRoot.Singleton.UICamera.WorldToScreenPoint(selectedCard.transform.position);
             if (RectTransformUtility.RectangleContainsScreenPoint(outsideArea,
                     new Vector2(screenPoint.x, screenPoint.y), UIRoot.Singleton.UICamera)
@@ -241,7 +265,7 @@ namespace Game
             }
             else
             {
-                Vector3 selectPos = new Vector3(0, card.selectionOffset, 0);
+                // Vector3 selectPos = new Vector3(0, card.selectionOffset, 0);
                 Vector3 zeroPos = Vector3.zero;
 
                 Vector3 targetPos = zeroPos;

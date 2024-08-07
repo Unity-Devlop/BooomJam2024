@@ -170,15 +170,15 @@ MonoBehaviour:
   playerBattleTrainer:
     <trainerData>k__BackingField:
       trainerSkills:
-      - id: 63
-      - id: 63
-      - id: 63
-      - id: 63
-      - id: 63
-      - id: 63
-      - id: 63
-      - id: 63
-      - id: 63
+      - id: 44
+      - id: 44
+      - id: 44
+      - id: 44
+      - id: 44
+      - id: 44
+      - id: 44
+      - id: 44
+      - id: 44
       datas:
       - id: 1
         elementEnum: 2

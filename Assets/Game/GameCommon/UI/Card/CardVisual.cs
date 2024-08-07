@@ -11,11 +11,19 @@ namespace Game
 {
     public class CardVisual : MonoBehaviour
     {
+        public enum ShaderType
+        {
+            Regular,
+            Polychrome,
+            Negative
+        }
         private Card _target;
 
 
         private float _curveYOffset;
         private float _curveRotationOffset;
+        
+        public ShaderType shaderType;
 
         [Header("Follow Parameters")] [SerializeField]
         private float followSpeed = 30;

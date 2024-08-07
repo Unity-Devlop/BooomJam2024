@@ -156,15 +156,15 @@ MonoBehaviour:
   playerBattleTrainer:
     <trainerData>k__BackingField:
       trainerSkills:
-      - id: 64
-      - id: 64
-      - id: 64
-      - id: 64
-      - id: 64
-      - id: 64
-      - id: 64
-      - id: 64
-      - id: 64
+      - id: 44
+      - id: 44
+      - id: 44
+      - id: 44
+      - id: 44
+      - id: 44
+      - id: 44
+      - id: 44
+      - id: 44
       datas:
       - id: 1
         elementEnum: 2
@@ -806,6 +806,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1226420214553832421, guid: a6128334ecd2c064783315dfc7a14d30, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2933750779971022593, guid: a6128334ecd2c064783315dfc7a14d30, type: 3}
+      propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3520603750414525640, guid: a6128334ecd2c064783315dfc7a14d30, type: 3}

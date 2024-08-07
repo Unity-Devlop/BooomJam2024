@@ -33,6 +33,11 @@ namespace Game
 
         public bool selected { get; private set; }
 
+        /// <summary>
+        /// 是否可以自己回到原来的位置
+        /// </summary>
+        [NonSerialized] public bool canReset = true;
+
         // Config
         public Vector3 offset;
         public float moveSpeedLimit = 20f;
@@ -86,6 +91,7 @@ namespace Game
 
         public void OnRelease()
         {
+            transform.localScale = Vector3.one;
             gameObject.SetActive(false);
             // Reste Events
             PointerEnterEvent = delegate { };
@@ -119,7 +125,7 @@ namespace Game
                 transform.Translate(velocity * Time.deltaTime);
                 ClampPosition(); // 限制位置 不能超出屏幕
             }
-            else
+            else if (canReset)
             {
                 RectTransform rectTransform = transform as RectTransform;
                 rectTransform.anchoredPosition = Vector2.zero;
@@ -129,7 +135,7 @@ namespace Game
             {
                 transform.localScale = Vector3.one * biggerScale;
             }
-            else
+            else if (canReset)
             {
                 transform.localScale = Vector3.one;
             }
@@ -253,17 +259,12 @@ namespace Game
 
         public float NormalizedPosition()
         {
-            if(transform.TryGetComponent(out CardSlot slot))
+            if (transform.TryGetComponent(out CardSlot slot))
             {
-                return Remap(SlotIndex(), 0, SlotAmount(), 0, 1);
+                return CardMathExtensions.Remap(SlotIndex(), 0, SlotAmount(), 0, 1);
             }
 
             return 0;
-        }
-
-        private static float Remap(float value, float from1, float to1, float from2, float to2)
-        {
-            return (value - from1) / (to1 - from1) * (to2 - from2) + from2;
         }
     }
 }

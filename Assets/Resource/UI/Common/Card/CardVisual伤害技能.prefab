@@ -505,11 +505,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e98afae3a9974b9b851cea86499f6808, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  shaderType: 0
   followSpeed: 30
   scaleSpeed: 20
   rotationAmount: 20
   rotationSpeed: 20
-  background: {fileID: 7684059296519420696}
+  background: {fileID: 5457200686417885260}
   nameText: {fileID: 3920789286841687216}
   shakeContainer: {fileID: 5725302188615300497}
   tiltContainer: {fileID: 5223863912539565267}
@@ -911,7 +912,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2775397909691213504}
   - component: {fileID: 8465280301044693843}
-  - component: {fileID: 7684059296519420696}
+  - component: {fileID: 5457200686417885260}
   m_Layer: 5
   m_Name: BG
   m_TagString: Untagged
@@ -946,7 +947,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5074158570487952448}
   m_CullTransparentMesh: 1
---- !u!114 &7684059296519420696
+--- !u!114 &5457200686417885260
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -955,18 +956,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 5074158570487952448}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Script: {fileID: 11500000, guid: 3372efb7ff8d4c4fa8b4df9377af1fd1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: 8a7bde23d1d7149cdb4d8501aa106f5a, type: 2}
+  m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 0
+  m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 0cb5e040a133842f9a8ca77fece92942, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b2a74eaebcbbbc14a826d5a14931c1f8, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

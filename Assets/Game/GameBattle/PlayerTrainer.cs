@@ -347,8 +347,8 @@ namespace Game.GamePlay
 
             // Debug.Log($"可以抽牌:{need}张");
             HashSet<ActiveSkillData> drawList = HashSetPool<ActiveSkillData>.Get();
-            
-            
+
+
             if (drawZone.Count < need)
             {
                 await Discard2DrawZone();
@@ -517,7 +517,7 @@ namespace Game.GamePlay
         public async UniTask AddBuff(BattleBuffEnum buff)
         {
             var buffConfig = Global.Table.BattleBuffTable.Get(buff);
-
+            Debug.Log($"{this}获得buff{buff}");
             Assert.IsTrue(buffConfig.IsTrainerBuff);
 
             Debug.Log($"{this} 获得buff {buff}");
