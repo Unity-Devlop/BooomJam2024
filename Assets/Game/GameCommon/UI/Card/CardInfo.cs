@@ -29,7 +29,7 @@ namespace Game
             }
             if (obj.hovering)
             {
-                string content = $"{obj.card.data.config.Type2}\t{obj.card.data.config.Desc}";
+                string content = $"{obj.card.data.config.Desc}";
                 infoText.text = content;
             }
             else
