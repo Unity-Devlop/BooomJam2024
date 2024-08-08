@@ -34,7 +34,6 @@ namespace Game.GameHome
             if (Global.Get<DataSystem>().LoadPrevGameData(out GameData data))
             {
                 Global.Get<DataSystem>().Add(data);
-                Global.Get<DataSystem>().Add(data.playerData);
                 // TODO 这里根据数据进行的位置判断
             }
         }
@@ -45,7 +44,6 @@ namespace Game.GameHome
             GameData gameData = new GameData();
             gameData.playerData = new PlayerData(true);
             Global.Get<DataSystem>().Add(gameData);
-            Global.Get<DataSystem>().Add(gameData.playerData);
             await Global.Get<GameFlow>().ToGameOutside<FirstSettingState>();
         }
     }

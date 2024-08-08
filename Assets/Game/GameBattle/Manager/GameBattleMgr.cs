@@ -15,6 +15,8 @@ namespace Game.GamePlay
     {
         public DummyBattleFlow battleFlow { get; private set; }
 
+        [field: SerializeField] public CameraEffect cameraEffect { get; private set; }
+
         // [HorizontalGroup("TrainerGroup")] 
         public PlayerBattleTrainer playerBattleTrainer;
 
@@ -43,7 +45,7 @@ namespace Game.GamePlay
 
             battleFlow.Init(playerBattleTrainer, robotBattleTrainer, battleEnvData);
 
-            
+
             GameBattlePanel gameBattlePanel = UIRoot.Singleton.OpenPanel<GameBattlePanel>();
             gameBattlePanel.Bind(battleFlow.self);
             battleFlow.Enter().ContinueWith(OnBattleEnd).Forget();
@@ -56,6 +58,7 @@ namespace Game.GamePlay
             {
                 battlePanel.UnBind();
             }
+
             Global.Get<GameFlow>().SetParam(Consts.BattleSettlementData, battleFlow.settlementData);
             await Global.Get<GameFlow>().ToGameOutside<BattleSettlementState>();
         }

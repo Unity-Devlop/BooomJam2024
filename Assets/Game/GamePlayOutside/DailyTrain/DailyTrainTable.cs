@@ -31,7 +31,7 @@ namespace Game
 
         private void Awake()
         {
-            tableHeight = Global.Get<DataSystem>().Get<PlayerData>().trainerData.datas.Count;
+            tableHeight = Global.Get<DataSystem>().Get<GameData>().playerData.trainerData.datas.Count;
             InitGrids();
             rectTransform = GetComponent<RectTransform>();
             rectTransform.sizeDelta = new Vector2(tableWidth * gridWidth, tableHeight * gridHeight);

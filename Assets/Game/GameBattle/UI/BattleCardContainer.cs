@@ -78,24 +78,23 @@ namespace Game
         }
 
 
-        public async UniTask DrawCardToHand(List<ActiveSkillData> dataList, float interval = 0.1f)
+        public async UniTask DrawCardToHand(List<ActiveSkillData> dataList, float interval = 0.3f)
         {
             for (int i = 0; i < dataList.Count; i++)
             {
                 ActiveSkillData data = dataList[i];
-                SpawnOneToHand(data, i.ToString());
+                await DrawOneCardToHand(data, i.ToString());
                 await UniTask.Delay(TimeSpan.FromSeconds(interval));
             }
         }
-
+        
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Card SpawnOneToHand(ActiveSkillData data, string name = "")
+        private async UniTask DrawOneCardToHand(ActiveSkillData data, string name = "")
         {
             Card card = SpawnOneCardObj(name);
             handZoneCardList.Add(card);
             card.Init(cardVisualPool, data);
-            // Debug.Log($"Push Card: HashCode: {data.GetHashCode()}, data: {data}");
-            return card;
+            await UniTask.CompletedTask;
         }
 
         public void AddCardItem(CardItem cardItem, ActiveSkillData data)

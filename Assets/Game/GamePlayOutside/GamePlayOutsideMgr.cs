@@ -13,7 +13,7 @@ namespace Game
 
         protected override void OnInit()
         {
-            Global.Get<DataSystem>().Get<PlayerData>();
+            Global.Get<DataSystem>().Get<GameData>();
             dateSystem = new DateSystem(2024, 8, 1, 1); //暂时写死，后续改为读表
             
             machine = new StateMachine<GamePlayOutsideMgr>(this);
@@ -33,7 +33,7 @@ namespace Game
         protected override void OnDispose()
         {
             UnRegister();
-            
+            machine.Stop();
             StopBGM();
         }
 

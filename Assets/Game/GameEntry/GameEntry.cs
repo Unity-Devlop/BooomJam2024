@@ -10,6 +10,8 @@ namespace Game.GameEntry
     {
         private async void Start()
         {
+            Application.runInBackground = true;
+            Application.targetFrameRate = 144;
             await UniTask.WaitUntil(() => Global.Singleton.initialized);
             UIRoot.Singleton.OpenPanel<GameDebugPanel>();
             Global.Get<GameFlow>().Run<GameHomeState>();

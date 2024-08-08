@@ -457,9 +457,9 @@ namespace Game.GamePlay
         private async UniTask ExecuteEnter(IBattleTrainer trainer, BattlePosition position, HuluData next)
         {
             Assert.IsNotNull(next);
+            Global.Event.Send(new BattleTipEvent($"{position}切换到{next}"));
             await position.NextReplaceCurrent();
             await position.ExecuteEnter();
-            Global.Event.Send(new BattleTipEvent($"{position}切换到{next}"));
             await trainer.SwitchPokemon(next);
             next.enterTimes += 1;
             Debug.Log($"{position}登场 times:{next.enterTimes}");

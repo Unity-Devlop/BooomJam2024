@@ -46,7 +46,7 @@ namespace Game
             base.OnLoaded();
             skillUIItems = skillList.GetComponentsInChildren<SkillUIItem>();
             valueUIItems = ValueList.GetComponentsInChildren<ValueUIItem>();
-            playerData = Global.Get<DataSystem>().Get<PlayerData>();
+            playerData = Global.Get<DataSystem>().Get<GameData>().playerData;
             var list = playerData.trainerData.datas;
             rolePortraitUIItems = new RolePortraitUIItem[list.Count];
             for (int i = 0; i < list.Count; ++i)

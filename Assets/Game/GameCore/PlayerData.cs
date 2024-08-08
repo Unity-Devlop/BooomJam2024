@@ -6,7 +6,7 @@ using UnityToolkit;
 namespace Game
 {
     [Serializable]
-    public class PlayerData : IModel
+    public class PlayerData 
     {
         public string name;
 

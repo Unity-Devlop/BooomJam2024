@@ -39,7 +39,7 @@ namespace Game
         {
             selectCardItems = selectCard.GetComponentsInChildren<CardItem>();
             deleteCardItems=deleteCard.GetComponentsInChildren<CardItem>();
-            playerData = Global.Get<DataSystem>().Get<PlayerData>();
+            playerData = Global.Get<DataSystem>().Get<GameData>().playerData;
             Register();
         }
 

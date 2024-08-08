@@ -307,7 +307,7 @@ namespace Game
 
         public async UniTask RoundEnd()
         {
-            Global.LogInfo($"{this}回合结束");
+            // Global.LogInfo($"{this}回合结束");
             if (healP0intBy回满血然后回合结束受到等量伤害 > 0)
             {
                 Global.LogInfo($"{this}回合结束受到等量伤害:{healP0intBy回满血然后回合结束受到等量伤害}");

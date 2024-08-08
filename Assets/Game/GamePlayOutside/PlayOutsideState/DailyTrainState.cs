@@ -11,7 +11,7 @@ namespace Game
         public void OnEnter(GamePlayOutsideMgr owner, IStateMachine<GamePlayOutsideMgr> stateMachine)
         {
             DailyTrainPanel panel = UIRoot.Singleton.OpenPanel<DailyTrainPanel>();
-            panel.Bind(Global.Get<DataSystem>().Get<PlayerData>());
+            panel.Bind(Global.Get<DataSystem>().Get<GameData>().playerData);
         }
 
         public void OnUpdate(GamePlayOutsideMgr owner, IStateMachine<GamePlayOutsideMgr> stateMachine)

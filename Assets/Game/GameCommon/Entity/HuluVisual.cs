@@ -154,8 +154,10 @@ namespace Game.GamePlay
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+
+            GameBattleMgr.Singleton.cameraEffect.Shake(0.2f, 0.05f,1); // 震屏
             // 顿帧
-            Time.timeScale = 0.9f;
+            Time.timeScale = 0.7f;
             transform.DOMove(transform.position + moveDir, 0.1f).SetLoops(2, LoopType.Yoyo);
             await UniTask.Delay(TimeSpan.FromSeconds(0.2f));
             Time.timeScale = 1;
