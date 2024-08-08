@@ -154,8 +154,11 @@ namespace Game.GamePlay
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+            // 顿帧
+            Time.timeScale = 0.9f;
             transform.DOMove(transform.position + moveDir, 0.1f).SetLoops(2, LoopType.Yoyo);
             await UniTask.Delay(TimeSpan.FromSeconds(0.2f));
+            Time.timeScale = 1;
         }
     }
 }
