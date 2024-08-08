@@ -1,4 +1,5 @@
 ﻿using System;
+using IngameDebugConsole;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityToolkit;
@@ -11,6 +12,7 @@ namespace Game.GameHome
         [SerializeField] private Button continueGame;
         [SerializeField] private Button developerButton;
         [SerializeField] private Button exitGame;
+        [SerializeField] private Button devButton;
 
         private void Awake()
         {
@@ -18,6 +20,29 @@ namespace Game.GameHome
             continueGame.onClick.AddListener(ContinueGameClick);
             developerButton.onClick.AddListener(DeveloperButtonClick);
             exitGame.onClick.AddListener(ExitGameClick);
+            devButton.onClick.AddListener(DevButtonClick);
+        }
+
+        private void DevButtonClick()
+        {
+            if (DebugLogManager.Instance == null)
+            {
+                DebugLogManager.Instance.gameObject.SetActive(true);
+            }
+            else
+            {
+                DebugLogManager.Instance.gameObject.SetActive(!DebugLogManager
+                    .Instance.gameObject.activeInHierarchy);
+            }
+
+            if (UIRoot.Singleton.GetOpenedPanel(out GameDebugPanel debugPanel))
+            {
+                UIRoot.Singleton.ClosePanel<GameDebugPanel>();
+            }
+            else
+            {
+                UIRoot.Singleton.OpenPanel<GameDebugPanel>();
+            }
         }
 
         private void ExitGameClick()

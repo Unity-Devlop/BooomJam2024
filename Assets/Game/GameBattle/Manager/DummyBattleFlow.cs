@@ -513,7 +513,7 @@ namespace Game.GamePlay
 
             // 计算伤害
             Global.Event.Send(
-                new BattleTipEvent($"{userPosition}使用[{config.Type}]{operation.data}"));
+                new BattleTipEvent($"{userPosition}使用{operation.data}"));
 
             UglyMath.PostprocessHuluDataWhenUseSkill(userPosition.current, config);
 

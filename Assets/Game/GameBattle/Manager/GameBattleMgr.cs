@@ -27,8 +27,6 @@ namespace Game.GamePlay
         {
             // Init Battle Controller
             battleFlow = GetComponent<DummyBattleFlow>();
-
-            UIRoot.Singleton.OpenPanel<GameDebugPanel>();
         }
 
         protected override void OnDispose()

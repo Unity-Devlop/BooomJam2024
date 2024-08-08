@@ -27,16 +27,18 @@ namespace Game
             debugger.onClick.AddListener(OnDebuggerButtonClick);
         }
 
+
+
         public override void OnLoaded()
         {
             base.OnLoaded();
-            DebugLogConsole.AddCommand("random game", "Random game data", OnRollToStartButtonClick);
+            DebugLogConsole.AddCommand("random-battle", "Start a random battle", OnRollToStartButtonClick);
         }
 
         public override void OnDispose()
         {
             base.OnDispose();
-            DebugLogConsole.RemoveCommand("random game");
+            DebugLogConsole.RemoveCommand("random-battle");
         }
 
         private void OnDebuggerButtonClick()
