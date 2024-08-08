@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Threading.Tasks;
 using cfg;
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using Spine.Unity;
 using TMPro;
 using UnityEngine;
@@ -24,8 +26,11 @@ namespace Game.GamePlay
             skeletonAnimation.gameObject.SetActive(false);
         }
 
+        public Direction dir { get; private set; }
+
         public async void Bind(HuluData data, Direction direction)
         {
+            dir = direction;
             _data = data;
             _unbindCmd = _data.bind.Listen(OnData);
 
@@ -113,7 +118,7 @@ namespace Game.GamePlay
             for (int i = 0; i < cnt; i++)
             {
                 int current = origin + deltaPerFrame * i;
-                hpText.text = $"{current}/{obj.hp}"; 
+                hpText.text = $"{current}/{obj.hp}";
                 await UniTask.Delay(TimeSpan.FromSeconds(1 / 60f));
             }
 
@@ -133,6 +138,24 @@ namespace Game.GamePlay
         private void ToIdle()
         {
             skeletonAnimation.AnimationState.SetAnimation(0, Consts.Animation.BattlePokemonIdleAnim, true);
+        }
+
+        public async UniTask PlayTakeDamageAnimation()
+        {
+            Vector3 moveDir;
+            switch (dir)
+            {
+                case Direction.Left:
+                    moveDir = new Vector3(-0.5f, 0, 0);
+                    break;
+                case Direction.Right:
+                    moveDir = new Vector3(0.5f, 0, 0);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+            transform.DOMove(transform.position + moveDir, 0.1f).SetLoops(2, LoopType.Yoyo);
+            await UniTask.Delay(TimeSpan.FromSeconds(0.2f));
         }
     }
 }

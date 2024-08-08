@@ -126,7 +126,12 @@ namespace Game.GamePlay
                 return;
             }
 
-            Global.LogInfo($"{this}-{current}受到主动技能:{skill}");
+            if ((skill.config.Type & ActiveSkillTypeEnum.伤害技能) != 0)
+            {
+                Global.LogInfo($"{this}-{current}受到主动技能:{skill}");
+                await visual.PlayTakeDamageAnimation();
+                return;
+            }
         }
     }
 }
