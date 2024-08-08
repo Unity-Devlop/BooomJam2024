@@ -218,7 +218,7 @@ namespace Game
             }
             else
             {
-                Debug.LogWarning($"{_target}.SlotAmount is 0");
+                // Debug.LogWarning($"{_target}.SlotAmount is 0");
             }
 
             transform.position = Vector3.Lerp(transform.position, target,

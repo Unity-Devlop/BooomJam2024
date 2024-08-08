@@ -76,6 +76,7 @@ namespace Game.GamePlay
         }
 
         private int showCurrentHp;
+
         public void UnBind()
         {
             skeletonAnimation.gameObject.SetActive(false);
@@ -103,16 +104,17 @@ namespace Game.GamePlay
 
             int origin = showCurrentHp;
             int delta = obj.currentHp - origin; // 这次动画的血量变化
-            
+
             // 10滴血 1/60s
             int cnt = Mathf.Abs(delta) / 10; // 一共多少次
             cnt = Mathf.Clamp(cnt, 1, 60); // 最少1次，最多60次
             int deltaPerFrame = delta / cnt; // 每次多少血
-            
+
             for (int i = 0; i < cnt; i++)
             {
                 int current = origin + deltaPerFrame * i;
-                hpText.text = $"{current}/{obj.hp}";
+                hpText.text = $"{current}/{obj.hp}"; 
+                await UniTask.Delay(TimeSpan.FromSeconds(1 / 60f));
             }
 
             OnDataDirect(obj);

@@ -1,7 +1,10 @@
-﻿using cfg;
+﻿using System;
+using System.Threading.Tasks;
+using cfg;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace Game.GamePlay
 {
@@ -16,24 +19,66 @@ namespace Game.GamePlay
 
         public async UniTask ExecuteEnter()
         {
-            visual.gameObject.SetActive(false);
-            await UniTask.DelayFrame(6);
+            visual.transform.localScale = Vector3.zero;
+            visual.transform.DOScale(Vector3.one, 0.5f);
+            await UniTask.Delay(TimeSpan.FromSeconds(0.5f), cancellationToken: destroyCancellationToken);
             // 执行入场逻辑
-            Debug.LogWarning($"{gameObject.name}-{current}入场");
-            visual.gameObject.SetActive(true);
+            Debug.Log($"{gameObject.name}-{current}入场");
         }
 
-        public void SetNext(HuluData data)
+        public void PrepareNext(HuluData data)
         {
             next = data;
         }
 
-        public async UniTask Prepare2Current()
+        public async UniTask NextReplaceCurrent()
         {
+            if (current != null)
+            {
+                current.OnAttainBuffEvent -= OnAttainBuff;
+                current.OnLoseBuffEvent -= OnLoseBuff;
+                current.OnDamageEvent -= OnDamage;
+                current.OnHealEvent -= OnHeal;
+
+                visual.transform.localScale = Vector3.one;
+                visual.transform.DOScale(Vector3.zero, 0.5f);
+                await UniTask.Delay(TimeSpan.FromSeconds(0.5f), cancellationToken: destroyCancellationToken);
+                Debug.Log($"{gameObject.name}-{current}离场");
+            }
+
             current = next;
             next = null;
+            Assert.IsNotNull(current);
+            current.OnAttainBuffEvent += OnAttainBuff;
+            current.OnLoseBuffEvent += OnLoseBuff;
+            current.OnDamageEvent += OnDamage;
+            current.OnHealEvent += OnHeal;
+
+
             visual.UnBind();
             visual.Bind(current, direction);
+
+
+            await UniTask.CompletedTask;
+        }
+
+        private async UniTask OnHeal()
+        {
+            await UniTask.CompletedTask;
+        }
+
+        private async UniTask OnLoseBuff(BattleBuffEnum arg)
+        {
+            await UniTask.CompletedTask;
+        }
+
+        private async UniTask OnDamage()
+        {
+            await UniTask.CompletedTask;
+        }
+
+        private async UniTask OnAttainBuff(BattleBuffEnum arg)
+        {
             await UniTask.CompletedTask;
         }
 
@@ -60,9 +105,28 @@ namespace Game.GamePlay
             Debug.LogWarning($"{gameObject.name}-回合结束");
             await UniTask.CompletedTask;
         }
+
         public override string ToString()
         {
             return $"{gameObject.name}-{current}";
+        }
+
+        public async UniTask OnTakeSkillFrom(ActiveSkillData skill, IBattleTrainer userTrainer,
+            BattlePosition userPosition, int damage)
+        {
+            if (skill.config.Type == ActiveSkillTypeEnum.指挥)
+            {
+                Global.LogInfo($"{this}-{current}受到指挥技能:{skill}");
+                return;
+            }
+
+            if ((skill.config.Type & ActiveSkillTypeEnum.变化技能) != 0)
+            {
+                Global.LogInfo($"{this}-{current}受到变化技能:{skill}");
+                return;
+            }
+
+            Global.LogInfo($"{this}-{current}受到主动技能:{skill}");
         }
     }
 }

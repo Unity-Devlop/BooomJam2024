@@ -19,7 +19,14 @@ namespace Game.GamePlay
             {
                 return new EndRoundOperation();
             }
+
+            PlayerBattleTrainer playerBattleTrainer = GameBattleMgr.Singleton.playerBattleTrainer;
+            
+            // 如果自己没血了 尽可能找治疗技能 放 或者 放守护技能
+            
             var target = handZone.RandomTakeWithoutRemove();
+            
+            
             IBattleOperation operation = new ActiveSkillBattleOperation()
             {
                 data = target

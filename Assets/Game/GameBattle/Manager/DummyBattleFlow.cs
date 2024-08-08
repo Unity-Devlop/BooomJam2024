@@ -14,11 +14,9 @@ namespace Game.GamePlay
 {
     public class DummyBattleFlow : MonoBehaviour, IBattleFlow
     {
-        [ReadOnly, ShowInInspector]
-        public IBattleTrainer self { get; private set; }
+        [ReadOnly, ShowInInspector] public IBattleTrainer self { get; private set; }
 
-        [ReadOnly, ShowInInspector]
-        public IBattleTrainer enemy { get; private set; }
+        [ReadOnly, ShowInInspector] public IBattleTrainer enemy { get; private set; }
 
         [HorizontalGroup("1")] public BattlePosition selfPos;
 
@@ -83,8 +81,8 @@ namespace Game.GamePlay
             // Open Battle Panel
             _cts = new CancellationTokenSource();
 
-            selfPos.SetNext(selfPos.battleTrainer.Get(0));
-            enemyPos.SetNext(enemyPos.battleTrainer.Get(0));
+            selfPos.PrepareNext(selfPos.battleTrainer.Get(0));
+            enemyPos.PrepareNext(enemyPos.battleTrainer.Get(0));
 
             self.OnDiscardCardFromHand += enemy.OnEnemyTrainerDiscardCard;
             enemy.OnDiscardCardFromHand += self.OnEnemyTrainerDiscardCard;
@@ -263,7 +261,7 @@ namespace Game.GamePlay
                 if (self.trainerData.FindFirstCanFight(out HuluData selfNext))
                 {
                     Global.LogInfo($"{selfPos.current}战斗不能，自动切换到{selfNext}");
-                    selfPos.SetNext(selfNext);
+                    selfPos.PrepareNext(selfNext);
                 }
                 else
                 {
@@ -276,7 +274,7 @@ namespace Game.GamePlay
                 if (enemy.trainerData.FindFirstCanFight(out HuluData enemyNext))
                 {
                     Global.LogInfo($"{enemyPos.current}战斗不能，自动切换到{enemyNext}");
-                    enemyPos.SetNext(enemyNext);
+                    enemyPos.PrepareNext(enemyNext);
                 }
 
                 else
@@ -452,14 +450,14 @@ namespace Game.GamePlay
         private async UniTask ExecuteSwitch(IBattleTrainer trainer, BattlePosition position, int idx)
         {
             HuluData next = trainer.trainerData.datas[idx];
-            position.SetNext(next);
+            position.PrepareNext(next);
             await ExecuteEnter(trainer, position, next);
         }
 
         private async UniTask ExecuteEnter(IBattleTrainer trainer, BattlePosition position, HuluData next)
         {
             Assert.IsNotNull(next);
-            await position.Prepare2Current();
+            await position.NextReplaceCurrent();
             await position.ExecuteEnter();
             Global.Event.Send(new BattleTipEvent($"{position}切换到{next}"));
             await trainer.SwitchPokemon(next);
@@ -515,7 +513,7 @@ namespace Game.GamePlay
 
             // 计算伤害
             Global.Event.Send(
-                new BattleTipEvent($"{userPosition}使用[{config.Type}]{operation}"));
+                new BattleTipEvent($"{userPosition}使用[{config.Type}]{operation.data}"));
 
             UglyMath.PostprocessHuluDataWhenUseSkill(userPosition.current, config);
 
@@ -616,6 +614,7 @@ namespace Game.GamePlay
                                 defTrainer.currentBattleData,
                                 damage));
 
+                        await defPosition.OnTakeSkillFrom(operation.data, userTrainer, userPosition, damage);
                         await defPosition.current.DecreaseHealth(damage);
 
                         if (!defPosition.current.CanFight())
