@@ -1,5 +1,6 @@
 ﻿using System;
 using Game.GamePlay;
+using IngameDebugConsole;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
@@ -24,6 +25,18 @@ namespace Game
             debugToStartButton.onClick.AddListener(OnDebugToStartButtonClick);
             frameButton.onClick.AddListener(OnFrameButtonClick);
             debugger.onClick.AddListener(OnDebuggerButtonClick);
+        }
+
+        public override void OnLoaded()
+        {
+            base.OnLoaded();
+            DebugLogConsole.AddCommand("random game", "Random game data", OnRollToStartButtonClick);
+        }
+
+        public override void OnDispose()
+        {
+            base.OnDispose();
+            DebugLogConsole.RemoveCommand("random game");
         }
 
         private void OnDebuggerButtonClick()
