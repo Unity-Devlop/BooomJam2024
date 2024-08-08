@@ -645,7 +645,11 @@ PrefabInstance:
       value: LeftBattlePositon
       objectReference: {fileID: 0}
     - target: {fileID: 783643361376220853, guid: 2bef472760ac4ea4381e70c622ce028b, type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 783643361376220853, guid: 2bef472760ac4ea4381e70c622ce028b, type: 3}
+      propertyPath: m_Materials.Array.data[1]
       value: 
       objectReference: {fileID: 2100000, guid: 841821c27e2e4aa4ea67ef3841719ea9, type: 2}
     - target: {fileID: 2764561121062805327, guid: 2bef472760ac4ea4381e70c622ce028b, type: 3}
@@ -688,18 +692,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2767343493385392864, guid: 2bef472760ac4ea4381e70c622ce028b, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3709667436990923525, guid: 2bef472760ac4ea4381e70c622ce028b, type: 3}
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 6447213090257804099, guid: 2bef472760ac4ea4381e70c622ce028b, type: 3}
-      propertyPath: skeletonDataAsset
-      value: 
-      objectReference: {fileID: 11400000, guid: 3c546ec980482324881721ea7da8bf17, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
