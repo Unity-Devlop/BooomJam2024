@@ -18,8 +18,10 @@ public sealed partial class ActiveSkillConfig : Luban.BeanBase
     public ActiveSkillConfig(JSONNode _buf) 
     {
         { if(!_buf["id"].IsNumber) { throw new SerializationException(); }  Id = (ActiveSkillEnum)_buf["id"].AsInt; }
+        { if(!_buf["eng_name"].IsString) { throw new SerializationException(); }  EngName = _buf["eng_name"]; }
         { if(!_buf["element"].IsNumber) { throw new SerializationException(); }  Element = (ElementEnum)_buf["element"].AsInt; }
         { if(!_buf["desc"].IsString) { throw new SerializationException(); }  Desc = _buf["desc"]; }
+        { if(!_buf["special_icon_path"].IsString) { throw new SerializationException(); }  SpecialIconPath = _buf["special_icon_path"]; }
         { if(!_buf["type"].IsNumber) { throw new SerializationException(); }  Type = (ActiveSkillTypeEnum)_buf["type"].AsInt; }
         { if(!_buf["damage_point"].IsNumber) { throw new SerializationException(); }  DamagePoint = _buf["damage_point"]; }
         { if(!_buf["priority"].IsNumber) { throw new SerializationException(); }  Priority = _buf["priority"]; }
@@ -66,6 +68,7 @@ public sealed partial class ActiveSkillConfig : Luban.BeanBase
     /// id
     /// </summary>
     public readonly ActiveSkillEnum Id;
+    public readonly string EngName;
     /// <summary>
     /// 属性
     /// </summary>
@@ -74,6 +77,7 @@ public sealed partial class ActiveSkillConfig : Luban.BeanBase
     /// 描述
     /// </summary>
     public readonly string Desc;
+    public readonly string SpecialIconPath;
     /// <summary>
     /// 类型（指挥/技能）
     /// </summary>
@@ -238,6 +242,8 @@ public sealed partial class ActiveSkillConfig : Luban.BeanBase
         
         
         
+        
+        
         DarwTargetCardConfigAfterUse?.ResolveRef(tables);
         
         
@@ -264,8 +270,10 @@ public sealed partial class ActiveSkillConfig : Luban.BeanBase
     {
         return "{ "
         + "id:" + Id + ","
+        + "engName:" + EngName + ","
         + "element:" + Element + ","
         + "desc:" + Desc + ","
+        + "specialIconPath:" + SpecialIconPath + ","
         + "type:" + Type + ","
         + "damagePoint:" + DamagePoint + ","
         + "priority:" + Priority + ","

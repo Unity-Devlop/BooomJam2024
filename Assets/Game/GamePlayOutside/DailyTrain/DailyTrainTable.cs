@@ -11,7 +11,8 @@ namespace Game
     {
         public int x;
         public int y;
-        public ArrayPos(int x,int y)
+
+        public ArrayPos(int x, int y)
         {
             this.x = x;
             this.y = y;
@@ -20,10 +21,7 @@ namespace Game
 
     public class DailyTrainTable : MonoBehaviour
     {
-        private static DailyTrainTable dailyTrainTable = null;
-        public static DailyTrainTable Instance => dailyTrainTable;
-
-        private int tableWidth=4;
+        private int tableWidth = 4;
         private int tableHeight;
         private RectTransform rectTransform;
         private float gridWidth = 100;
@@ -33,11 +31,7 @@ namespace Game
 
         private void Awake()
         {
-            if(dailyTrainTable==null)
-            {
-                dailyTrainTable = this;
-            }
-            tableHeight = Global.Get<DataSystem>().Get<PlayerData>().trainerData.datas.Count;
+            tableHeight = Global.Get<DataSystem>().Get<GameData>().playerData.trainerData.datas.Count;
             InitGrids();
             rectTransform = GetComponent<RectTransform>();
             rectTransform.sizeDelta = new Vector2(tableWidth * gridWidth, tableHeight * gridHeight);
@@ -48,9 +42,9 @@ namespace Game
             if (tableWidth <= 0) tableWidth = 1;
             if (tableHeight <= 0) tableHeight = 1;
             grids = new ArrayPos[tableHeight, tableWidth];
-            for (int i=0;i<tableHeight;++i)
+            for (int i = 0; i < tableHeight; ++i)
             {
-                for(int j = 0; j < tableWidth;++j)
+                for (int j = 0; j < tableWidth; ++j)
                 {
                     grids[i, j].x = -1;
                     grids[i, j].y = -1;
@@ -58,24 +52,25 @@ namespace Game
             }
         }
 
-        public void RemoveGrid(ArrayPos arrayPos,bool isHiden)
+        public void RemoveGrid(ArrayPos arrayPos, bool isHiden)
         {
             int l1 = arrayPos.y + posToGrid[arrayPos].heigth;
-            for(int i=arrayPos.y,k=0;i<l1;++i,++k)
+            for (int i = arrayPos.y, k = 0; i < l1; ++i, ++k)
             {
                 int l2 = arrayPos.x + posToGrid[arrayPos].realSize[k];
-                for (int j=arrayPos.x;j<l2;++j)
+                for (int j = arrayPos.x; j < l2; ++j)
                 {
                     grids[i, j].x = -1;
                     grids[i, j].y = -1;
                 }
             }
-            if(isHiden) posToGrid[arrayPos].ResetPos();
+
+            if (isHiden) posToGrid[arrayPos].ResetPos();
             posToGrid.Remove(arrayPos);
             //Debug.Log($"remove {arrayPos.x} {arrayPos.y}");
         }
 
-        public void RemoveGrid(Vector2 pos,bool isHiden)
+        public void RemoveGrid(Vector2 pos, bool isHiden)
         {
             int posY = (int)Mathf.Ceil(pos.y / gridHeight);
             int posX = (int)Mathf.Floor(pos.x / gridWidth);
@@ -85,7 +80,7 @@ namespace Game
             if (posToGrid.ContainsKey(arrayPos))
             {
                 int l1 = arrayPos.y + posToGrid[arrayPos].heigth;
-                for (int i = arrayPos.y,k=0; i < l1; ++i,++k)
+                for (int i = arrayPos.y, k = 0; i < l1; ++i, ++k)
                 {
                     int l2 = arrayPos.x + posToGrid[arrayPos].realSize[k];
                     for (int j = arrayPos.x; j < l2; ++j)
@@ -94,7 +89,8 @@ namespace Game
                         grids[i, j].y = -1;
                     }
                 }
-                if(isHiden) posToGrid[arrayPos].ResetPos();
+
+                if (isHiden) posToGrid[arrayPos].ResetPos();
                 posToGrid.Remove(arrayPos);
                 //Debug.Log($"remove {arrayPos.x} {arrayPos.y}");
             }
@@ -104,40 +100,43 @@ namespace Game
         {
             Vector2 pos = plasticGrid._RectTransform.anchoredPosition;
             int posY = (int)Mathf.Ceil(pos.y / gridHeight);
-            int posX= (int)Mathf.Floor(pos.x / gridWidth);
+            int posX = (int)Mathf.Floor(pos.x / gridWidth);
             posY = -Mathf.Min(posY, 0);
             posX = Mathf.Max(posX, 0);
             int X = posX + plasticGrid.width;
             int Y = posY + plasticGrid.heigth;
-            if (X<=tableWidth&&Y<=tableHeight)
+            if (X <= tableWidth && Y <= tableHeight)
             {
-                for (int i=posY,k=0;i<Y;++i,++k)
+                for (int i = posY, k = 0; i < Y; ++i, ++k)
                 {
                     X = posX + plasticGrid.realSize[k];
-                    for (int j=posX;j<X;++j)
+                    for (int j = posX; j < X; ++j)
                     {
-                        if (grids[i, j].x != -1 && grids[i, j].y != -1&& posToGrid.ContainsKey(grids[i, j]))
+                        if (grids[i, j].x != -1 && grids[i, j].y != -1 && posToGrid.ContainsKey(grids[i, j]))
                         {
-                            RemoveGrid(grids[i, j],true);
+                            RemoveGrid(grids[i, j], true);
                         }
+
                         grids[i, j].x = posX;
-                        grids[i,j].y=posY;
+                        grids[i, j].y = posY;
                     }
                 }
+
                 posToGrid.Add(new ArrayPos(posX, posY), plasticGrid);
-                plasticGrid._RectTransform.anchoredPosition = new Vector2(posX * gridWidth,-posY * gridHeight);
+                plasticGrid._RectTransform.anchoredPosition = new Vector2(posX * gridWidth, -posY * gridHeight);
                 //Debug.Log($"add {posX} {posY}");
                 return true;
             }
+
             return false;
         }
 
         public void Train(List<HuluData> datas)
         {
-            foreach(var item in posToGrid)
+            foreach (var item in posToGrid)
             {
                 int h = item.Key.y + item.Value.heigth;
-                for (int i=item.Key.y;i<h;++i)
+                for (int i = item.Key.y; i < h; ++i)
                 {
                     item.Value.trainContent.Train(datas[i]);
                 }

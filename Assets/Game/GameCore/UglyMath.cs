@@ -13,7 +13,7 @@ namespace Game
         public static async UniTask EffectWhenSkillHitted(IBattleTrainer atkTrainer,
             IBattleTrainer defTrainer,
             ActiveSkillConfig skill,
-            int damagePoint, BattleData data)
+            int damagePoint, BattleEnvData envData)
         {
             var atk = atkTrainer.currentBattleData;
 
@@ -145,7 +145,7 @@ namespace Game
         }
 
         public static bool PostprocessHitRate(HuluData atk, HuluData def, ActiveSkillEnum atkSkill,
-            BattleData data)
+            BattleEnvData envData)
         {
             bool res = true; // 最终是否能命中
             if (def.ContainsBuff(BattleBuffEnum.守护))
@@ -181,7 +181,7 @@ namespace Game
         }
 
         public static float PostprocessRunTimeSpeed(IBattleTrainer user,
-            BattleData data)
+            BattleEnvData envData)
         {
             var pokemon = user.currentBattleData;
             float speed = pokemon.currentSpeed;
@@ -198,7 +198,7 @@ namespace Game
                 speed -= 10;
             }
 
-            switch (data.id)
+            switch (envData.id)
             {
                 case BattleEnvironmentEnum.草地:
                     if (pokemon.id == HuluEnum.推土牛 && pokemon.passiveSkillConfig.Id == PassiveSkillEnum.轰隆冲击)
@@ -329,9 +329,9 @@ namespace Game
             await next.bind.Invoke();
         }
 
-        public static int PostprocessDamagePoint(ActiveSkillConfig config, BattleData data)
+        public static int PostprocessDamagePoint(ActiveSkillConfig config, BattleEnvData envData)
         {
-            if (data.id == BattleEnvironmentEnum.草地 && config.IncreaseDamagePointWhenGrassEnv != 0)
+            if (envData.id == BattleEnvironmentEnum.草地 && config.IncreaseDamagePointWhenGrassEnv != 0)
             {
                 Global.Event.Send(new BattleTipEvent($"草地增伤:{config.IncreaseDamagePointWhenGrassEnv}"));
                 return config.DamagePoint + config.IncreaseDamagePointWhenGrassEnv;
@@ -341,7 +341,7 @@ namespace Game
         }
 
         public static async UniTask<int> PostprocessAtkPoint(HuluData atk, ActiveSkillConfig config,
-            BattleData data)
+            BattleEnvData envData)
         {
             //TODO 狗策划 边际情况 
             if (atk.ContainsBuff(BattleBuffEnum.用速度代替攻击力进行伤害计算))

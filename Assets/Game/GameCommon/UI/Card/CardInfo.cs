@@ -12,15 +12,15 @@ namespace Game
 
         private void OnEnable()
         {
-            Global.Event.Listen<OnCardHover>(OnCardHover);
+            Global.Event.Listen<OnBattleCardHover>(OnCardHover);
         }
 
         private void OnDisable()
         {
-            Global.Event.UnListen<OnCardHover>(OnCardHover);
+            Global.Event.UnListen<OnBattleCardHover>(OnCardHover);
         }
 
-        private void OnCardHover(OnCardHover obj)
+        private void OnCardHover(OnBattleCardHover obj)
         {
             if (obj.card.data.id == ActiveSkillEnum.None)
             {
@@ -29,7 +29,7 @@ namespace Game
             }
             if (obj.hovering)
             {
-                string content = $"{obj.card.data.config.Type2}\t{obj.card.data.config.Desc}";
+                string content = $"{obj.card.data.config.Desc}";
                 infoText.text = content;
             }
             else

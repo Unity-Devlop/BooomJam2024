@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -62,15 +63,15 @@ namespace Game
             await UniTask.CompletedTask;
         }
 
-        public async UniTask ToGameBattle(TrainerData self, TrainerData enemy,BattleData battleData)
+        public async UniTask ToGameBattle(TrainerData self, TrainerData enemy, BattleEnvData battleEnvData)
         {
-            _stateMachine.SetParam(Consts.GameBattleData, battleData);
-            _stateMachine.SetParam(Consts.EnemyTrainerData,enemy);
-            _stateMachine.SetParam(Consts.LocalPlayerTrainerData,self);
+            _stateMachine.SetParam(Consts.GameBattleData, battleEnvData);
+            _stateMachine.SetParam(Consts.EnemyTrainerData, enemy);
+            _stateMachine.SetParam(Consts.LocalPlayerTrainerData, self);
             _stateMachine.Change<GameBattleState>();
             await UniTask.CompletedTask;
         }
-        
+
         public async UniTask ToGameOutside<TOutsideState>() where TOutsideState : IState<GamePlayOutsideMgr>
         {
             Type outsideStateType = typeof(TOutsideState);
@@ -79,19 +80,22 @@ namespace Game
             await UniTask.CompletedTask;
         }
 
-        // public T GetParam<T>(string battleDataName)
-        // {
-        //     return _stateMachine.GetParam<T>(battleDataName);
-        // }
-        //
-        // public void SetParam<T>(string battleDataName, T data)
-        // {
-        //     _stateMachine.SetParm(battleDataName, data);
-        // }
-        //
-        // public void RemoveParam(string key)
-        // {
-        //     _stateMachine.RemoveParam(key);
-        // }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public T GetParam<T>(string key)
+        {
+            return _stateMachine.GetParam<T>(key);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void SetParam<T>(string key, T data)
+        {
+            _stateMachine.SetParam(key, data);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void RemoveParam(string key)
+        {
+            _stateMachine.RemoveParam(key);
+        }
     }
 }

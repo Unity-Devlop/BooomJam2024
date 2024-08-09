@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityToolkit;
@@ -8,8 +9,8 @@ namespace Game
 {
     public class FirstSettingPanel : UIPanel
     {
-        public InputField inputField;
-        public Text styleText;
+        public TMP_InputField inputField;
+        public TextMeshProUGUI styleText;
         public Button leftBtn;
         public Button rightBtn;
         public Button confirmBtn;
@@ -66,7 +67,7 @@ namespace Game
 
         public void Confirm()
         {
-            var playerData = Global.Get<DataSystem>().Get<PlayerData>();
+            var playerData = Global.Get<DataSystem>().Get<GameData>().playerData;
             playerData.name = inputField.text;
             for (int i = 0; i < styleToSkills[curStyle].skills.Count; ++i)
             {

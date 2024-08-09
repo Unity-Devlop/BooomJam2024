@@ -1,7 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing.Drawing2D;
+using TMPro;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
 using UnityToolkit;
@@ -11,18 +14,21 @@ namespace Game
     public class DailyTrainPanel : UIPanel
     {
         public Button confirmBtn;
-        public List<GameObject> huluNames = new List<GameObject>();
-        private List<Text> names = new List<Text>();
+        [SerializeField] private RectTransform huluNameRoot;
+        private TextMeshProUGUI[] _nameTextList;
 
-        private PlayerData playerData;
-        
+        [field: SerializeField] public DailyTrainTable table { get; private set; }
+        private PlayerData _playerData;
+
+        private void Awake()
+        {
+            _nameTextList = huluNameRoot.GetComponentsInChildren<TextMeshProUGUI>();
+        }
 
         public override void OnLoaded()
         {
             base.OnLoaded();
             Register();
-            playerData = Global.Get<DataSystem>().Get<PlayerData>();
-            for (int i = 0; i < huluNames.Count; ++i) names.Add(huluNames[i].GetComponentInChildren<Text>());
         }
 
         public override void OnDispose()
@@ -34,7 +40,6 @@ namespace Game
         public override void OnOpened()
         {
             base.OnOpened();
-            ShowUI();
         }
 
         private void Register()
@@ -47,20 +52,41 @@ namespace Game
             confirmBtn.onClick.RemoveListener(Confirm);
         }
 
-        private void ShowUI()
+        public void Bind(PlayerData playerData)
         {
-            var list = playerData.trainerData.datas;
-            for(int i=0;i<list.Count;++i)
+            Assert.IsNull(_playerData);
+            _playerData = playerData;
+            _playerData.bind.Listen(OnData);
+            OnData(playerData);
+        }
+
+        private void OnData(PlayerData data)
+        {
+            for (int i = 0; i < data.trainerData.datas.Count; ++i)
             {
-                huluNames[i].gameObject.SetActive(true);
-                names[i].text = Global.Table.HuluTable.Get(list[i].id).Id.ToString();
+                _nameTextList[i].transform.parent.gameObject.SetActive(true);
+                _nameTextList[i].text = Global.Table.HuluTable.Get(data.trainerData.datas[i].id).Id.ToString();
+            }
+
+            for (int i = data.trainerData.datas.Count; i < _nameTextList.Length; ++i)
+            {
+                _nameTextList[i].transform.parent.gameObject.SetActive(false);
             }
         }
 
+        public void UnBind()
+        {
+            if (_playerData != null)
+            {
+                _playerData.bind.UnListen(OnData);
+                _playerData = null;
+            }
+        }
+
+
         private void Confirm()
         {
-            var list = playerData.trainerData.datas;
-            DailyTrainTable.Instance.Train(list);
+            table.Train(_playerData.trainerData.datas);
             GamePlayOutsideMgr.Singleton.machine.Change<SpecialTrainState>();
         }
     }

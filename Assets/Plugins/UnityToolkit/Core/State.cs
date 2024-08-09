@@ -111,5 +111,12 @@ namespace UnityToolkit
         {
             _blackboard.Remove(key);
         }
+
+        public void Stop()
+        {
+            currentState.OnExit(owner, this);
+            currentState = default;
+            running = false;
+        }
     }
 }
