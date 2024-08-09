@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.TextCore.LowLevel;
 using UnityEngine.UI;
 using UnityToolkit;
 
@@ -33,19 +34,20 @@ namespace Game
         public Button confirmBtn;
         public GameObject rolePortraitUIItem;
         public SpecialTrainData trainData;
+        public LoopHorizontalScrollRect skillScroll;
+        public EasyGameObjectPool skillItemPool;
         private PlayerData playerData;
 
         private RolePortraitUIItem[] rolePortraitUIItems;
-        private SkillUIItem[] skillUIItems;
         private ValueUIItem[] valueUIItems;
         private int curHulu = 0;
         private WaitForFixedUpdate wait=new WaitForFixedUpdate();
+        private bool haveTrained = false;
         
 
         public override void OnLoaded()
         {
             base.OnLoaded();
-            skillUIItems = skillList.GetComponentsInChildren<SkillUIItem>();
             valueUIItems = ValueList.GetComponentsInChildren<ValueUIItem>();
             playerData = Global.Get<DataSystem>().Get<PlayerData>();
             var list = playerData.trainerData.datas;
@@ -57,6 +59,9 @@ namespace Game
                 rolePortraitUIItems[i].roleName.text = list[i].id.ToString();
                 rolePortraitUIItems[i].index = i;
             }
+            skillScroll.itemRenderer = ItemRenderer;
+            skillScroll.ItemProvider = ItemProvider;
+            skillScroll.ItemReturn = ItemReturn;
             Register();
         }
 
@@ -69,7 +74,14 @@ namespace Game
         public override void OnOpened()
         {
             base.OnOpened();
+            haveTrained = false;
             ShowUI();
+        }
+
+        public override void OnClosed()
+        {
+            base.OnClosed();
+            haveTrained = false;
         }
 
         private void Register()
@@ -81,12 +93,7 @@ namespace Game
             valueUIItems[2].addBtn.onClick.AddListener(AddDefence);
             valueUIItems[3].addBtn.onClick.AddListener(AddSpeed);
             valueUIItems[4].addBtn.onClick.AddListener(AddAdaptability);
-            var huluData = playerData.trainerData.datas[curHulu];
-            for (int i=0;i<skillUIItems.Length;++i)
-            {
-                int index = i;
-                skillUIItems[i].changeBtn.onClick.AddListener(() => { SwitchCard(huluData.id, skillUIItems[index].id); }) ;
-            }
+            Global.Event.Listen<OperateSkillEvent>(HaveOperateSkill);
         }
 
         private void UnRegister()
@@ -98,12 +105,61 @@ namespace Game
             valueUIItems[2].addBtn.onClick.RemoveListener(AddDefence);
             valueUIItems[3].addBtn.onClick.RemoveListener(AddSpeed);
             valueUIItems[4].addBtn.onClick.RemoveListener(AddAdaptability);
+            Global.Event.UnListen<OperateSkillEvent>(HaveOperateSkill);
+        }
+
+        private void ItemReturn(Transform transform1)
+        {
+            skillItemPool.Release(transform1.gameObject);
+        }
+
+        private GameObject ItemProvider(int idx)
+        {
+            GameObject obj = skillItemPool.Get();
+            obj.name = idx.ToString();
+            return obj;
+        }
+
+        private void ItemRenderer(Transform transform1, int idx)
+        {
             var huluData = playerData.trainerData.datas[curHulu];
-            for (int i = 0; i < skillUIItems.Length; ++i)
+            SkillUIItem item = transform1.GetComponentInChildren<SkillUIItem>();
+            var index=transform1.GetSiblingIndex();
+            if (haveTrained)
             {
-                int index = i;
-                skillUIItems[i].changeBtn.onClick.RemoveListener(() => { SwitchCard(huluData.id, skillUIItems[index].id); });
+                ActiveSkillData skillData = huluData.ownedSkills[index];
+                item.Init(huluData, skillData.id, SkillOperation.Delete);
             }
+            else
+            {
+                if (index >= 3)
+                {
+                    ActiveSkillData skillData = huluData.ownedSkills[index - 3];
+                    item.Init(huluData, skillData.id, SkillOperation.Delete);
+                }
+                else
+                {
+                    var list = huluData.config.SkillPool.Shuffle();
+                    item.Init(huluData, list[0], SkillOperation.Select);
+                }
+            }
+        }
+
+        public void UnBind()
+        {
+            skillScroll.totalCount = 0;
+            skillScroll.RefillCells();
+            skillScroll.RefreshCells();
+        }
+
+
+        public void Bind()
+        {
+            var huluData = playerData.trainerData.datas[curHulu];
+            if (!haveTrained) skillScroll.totalCount = huluData.ownedSkills.Count + 3;
+            else skillScroll.totalCount = huluData.ownedSkills.Count;
+            skillScroll.RefillCells();
+            skillScroll.RefreshCells();
         }
 
         private void ShowUI()
@@ -112,13 +168,8 @@ namespace Game
             var huluData = list[curHulu];
             roleShowName.text = huluData.id.ToString();
             roleShowPassiveSkill.text = Global.Table.PassiveSkillTable.Get(huluData.passiveSkillConfig.Id).Desc;
-            for (int i = 0; i < skillUIItems.Length; ++i)
-            {
-                var skill = huluData.ownedSkills[i];
-                skillUIItems[i].skillName.text = skill.ToString();
-                skillUIItems[i].SkillDescription.text = Global.Table.ActiveSkillTable.Get(skill.id).Desc;
-                skillUIItems[i].id = skill.id;
-            }
+            //UnBind();
+            Bind();
             valueUIItems[0].valueNum.text = huluData.hp.ToString();
             valueUIItems[0].slider.value = (float)huluData.hp / huluData.config.MaxHp;
             valueUIItems[0].addText.text = $"+{trainData.minHealth}~{trainData.maxHealth}";
@@ -144,21 +195,6 @@ namespace Game
 
         public void Choose()
         {
-           /* if (chosenHulu.Contains(huluIds[curHulu]))
-            {
-                chosenHulu.Remove(huluIds[curHulu]);
-                chooseBtnText.text = "选择";
-            }
-            else
-            {
-                if (chosenHulu.Count < 4)
-                {
-                    chosenHulu.Add(huluIds[curHulu]);
-                    chooseBtnText.text = "取消选择";
-                }
-            }
-            if (chosenHulu.Count >= 4) nextBtn.gameObject.SetActive(true);
-            else nextBtn.gameObject.SetActive(false);*/
         }
 
         private void AddHealth()
@@ -213,36 +249,23 @@ namespace Game
             {
                 valueUIItems[i].addBtn.gameObject.SetActive(false);
             }
-            for(int i=0;i<skillUIItems.Length;++i)
-            {
-                skillUIItems[i].changeBtn.gameObject.SetActive(false);
-            }
-            for(int i=0;i<rolePortraitUIItems.Length;++i)
+
+/*            for(int i=0;i<rolePortraitUIItems.Length;++i)
             {
                 rolePortraitUIItems[i].btn.enabled = false;
-            }
+            }*/
         }
 
-        private void SwitchCard(HuluEnum huluId,ActiveSkillEnum skillId)
+        public void HaveOperateSkill(OperateSkillEvent e)
         {
-            var panel = (ManageCardsPanel)UIRoot.Singleton.OpenPanel<ManageCardsPanel>();
-            panel.SelectSkillCard(huluId,skillId,SwitchResult);
-        }
-
-        private void SwitchResult(bool isSwitched, HuluEnum huluId, ActiveSkillEnum removeId,ActiveSkillEnum addId)
-        {
-            if(isSwitched)
-            {
-                playerData.trainerData.datas[curHulu].ReplaceOwnedSkill(removeId, addId);
-
-            }
+            haveTrained = true;
             HideAddBtnAndTxt();
             ShowUI();
         }
 
         public void Confirm()
         {
-
+            CloseSelf();
         }
 
         IEnumerator ValueUp(ValueUp v)

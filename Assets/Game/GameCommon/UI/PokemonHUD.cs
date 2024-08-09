@@ -36,9 +36,8 @@ namespace Game
 
         private void ItemRenderer(Transform transform1, int idx)
         {
-            ActiveSkillData skillData = _data.ownedSkills[idx];
             FixedCard card = transform1.GetComponentInChildren<FixedCard>();
-            card.Init(skillData);
+            card.Init(_data.ownedSkills[idx].id);
         }
 
 

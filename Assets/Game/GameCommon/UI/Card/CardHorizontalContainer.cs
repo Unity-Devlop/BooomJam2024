@@ -37,6 +37,8 @@ namespace Game
         [field: SerializeField] public EasyGameObjectPool cardVisualPool { get; private set; }
         [field: SerializeField] public EasyGameObjectPool cardPool { get; private set; }
 
+        [field: SerializeField] public EasyGameObjectPool cardItemPool { get; private set; }
+
         private Tweener _endDragTween;
 
         private void Awake()
@@ -75,10 +77,13 @@ namespace Game
             return card;
         }
 
-        public void AddCardItem(CardItem cardItem, ActiveSkillData data)
+        public Card SpawnOneCardItem(ActiveSkillData data, string name = "")
         {
-            handZoneCardList.Add(cardItem);
-            cardItem.Init(cardVisualPool, visualRoot, data);
+            CardItem card = SpawnOneCardItemObj(name);
+            handZoneCardList.Add(card);
+            card.Init(cardVisualPool, visualRoot, data);
+            // Debug.Log($"Push Card: HashCode: {data.GetHashCode()}, data: {data}");
+            return card;
         }
 
         public async UniTask UseFromHand(ActiveSkillData data)
@@ -176,6 +181,25 @@ namespace Game
             slot.transform.SetParent(transform);
 
             Card card = cardPool.Get().GetComponent<Card>();
+            card.transform.SetParent(slot.transform);
+            card.transform.localPosition = Vector3.zero;
+
+            card.name = objName;
+            card.PointerEnterEvent += CardPointerEnter;
+            card.PointerExitEvent += CardPointerExit;
+            card.BeginDragEvent += BeginDrag;
+            card.EndDragEvent += EndDrag;
+
+
+            return card;
+        }
+
+        private CardItem SpawnOneCardItemObj(string objName = "")
+        {
+            CardSlot slot = cardSlotPool.Get().GetComponent<CardSlot>();
+            slot.transform.SetParent(transform);
+
+            CardItem card = cardItemPool.Get().GetComponent<CardItem>();
             card.transform.SetParent(slot.transform);
             card.transform.localPosition = Vector3.zero;
 
