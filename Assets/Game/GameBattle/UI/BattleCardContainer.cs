@@ -47,7 +47,7 @@ namespace Game
 
             handZoneCardList = new List<Card>();
 
-            // _discardZoneCardList = new List<ActiveSkillData>();
+            // _discardZoneCardList = new List<ActiveSkillData>(); 
             // _drawZoneCardList = new List<ActiveSkillData>();
             // _cemeteryZoneCardList = new List<ActiveSkillData>();
         }
