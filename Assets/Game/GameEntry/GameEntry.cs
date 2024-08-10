@@ -15,11 +15,8 @@ namespace Game.GameEntry
             Application.targetFrameRate = 144;
             await UniTask.WaitUntil(() => Global.Singleton.initialized);
 
-#if UNITY_EDITOR
-            FindObjectOfType<DebugLogManager>().gameObject.SetActive(true);
-            UIRoot.Singleton.OpenPanel<GameDebugPanel>();
-#endif
-
+            await UniTask.WaitUntil(() => DebugLogManager.Instance != null);
+            DebugLogManager.Instance.gameObject.SetActive(false);
             Global.Get<GameFlow>().Run<GameHomeState>();
         }
     }

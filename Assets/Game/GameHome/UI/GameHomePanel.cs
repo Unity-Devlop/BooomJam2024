@@ -23,26 +23,20 @@ namespace Game.GameHome
             devButton.onClick.AddListener(DevButtonClick);
         }
 
+        public bool debugOn = false;
         private void DevButtonClick()
         {
-            if (DebugLogManager.Instance == null)
+            if (!debugOn)
             {
-                DebugLogManager.Instance.gameObject.SetActive(true);
-            }
-            else
-            {
-                DebugLogManager.Instance.gameObject.SetActive(!DebugLogManager
-                    .Instance.gameObject.activeInHierarchy);
-            }
-
-            if (UIRoot.Singleton.GetOpenedPanel(out GameDebugPanel debugPanel))
-            {
-                UIRoot.Singleton.ClosePanel<GameDebugPanel>();
-            }
-            else
-            {
+                FindObjectOfType<DebugLogManager>(true).gameObject.SetActive(true);
                 UIRoot.Singleton.OpenPanel<GameDebugPanel>();
             }
+            else
+            {
+                FindObjectOfType<DebugLogManager>(true).gameObject.SetActive(false);
+                UIRoot.Singleton.ClosePanel<GameDebugPanel>();
+            }
+            debugOn = !debugOn;
         }
 
         private void ExitGameClick()
