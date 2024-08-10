@@ -88,7 +88,7 @@ namespace Game
 
         public void ChooseHulu(int index)
         {
-            if (playerChosenHulu.Count >= 3) return;
+            if (playerChosenHulu.Count >= 3||playerChosenHulu.Contains(index)) return;
             playerChosenHulu.Add(index);
             playerHuluOrder[index].text = $"{playerChosenHulu.Count}";
             playerHuluOrder[index].gameObject.SetActive(true);
