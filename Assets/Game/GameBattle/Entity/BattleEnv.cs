@@ -30,6 +30,7 @@ namespace Game.GamePlay
             _unbind = battleEnvData.bind.Listen(OnData);
 
             currentBackground = background;
+            Global.LogInfo("BattleEnv", "Init", "LoadBattleBG", battleEnvData.id.ToString());
             currentBackground.sprite = await Global.Get<ResourceSystem>().LoadBattleBG(battleEnvData.id);
         }
 

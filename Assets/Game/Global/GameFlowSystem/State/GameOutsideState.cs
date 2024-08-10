@@ -25,13 +25,13 @@ namespace Game
 
 
             // 将数据写入自己的状态机 并且移除全局状态机的数据
-            if (stateMachine.ContainsParam(Consts.BattleSettlementData))
-            {
-                BattleSettlementData settlementData =
-                    stateMachine.GetParam<BattleSettlementData>(Consts.BattleSettlementData);
-                stateMachine.RemoveParam(Consts.BattleSettlementData);
-                GamePlayOutsideMgr.Singleton.machine.SetParam(Consts.BattleSettlementData, settlementData);
-            }
+            // if (stateMachine.ContainsParam(Consts.BattleSettlementData))
+            // {
+            //     BattleSettlementData settlementData =
+            //         stateMachine.GetParam<BattleSettlementData>(Consts.BattleSettlementData);
+            //     stateMachine.RemoveParam(Consts.BattleSettlementData);
+            //     GamePlayOutsideMgr.Singleton.machine.SetParam(Consts.BattleSettlementData, settlementData);
+            // }
 
             await UniTask.WaitUntil(() => GamePlayOutsideMgr.Singleton != null,
                 cancellationToken: Global.Singleton.destroyCancellationToken);

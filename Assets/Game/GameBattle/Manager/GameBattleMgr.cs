@@ -64,7 +64,7 @@ namespace Game.GamePlay
                 battlePanel.UnBind();
             }
 
-            Global.Get<GameFlow>().SetParam(Consts.BattleSettlementData, battleFlow.settlementData);
+            Global.Get<DataSystem>().Get<GameData>().battleSettlementData = battleFlow.settlementData;
             await Global.Get<GameFlow>().ToGameOutside<BattleSettlementState>();
         }
 
