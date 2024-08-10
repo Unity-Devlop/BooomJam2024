@@ -23,7 +23,7 @@ namespace Game
                 {
                     if (!data.CanFight())
                     {
-                        Global.LogWarning($"{data}战斗不能");
+                        // Global.LogWarning($"{data}战斗不能");
                         deadCnt++;
                     }
                 }
