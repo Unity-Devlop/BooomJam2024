@@ -25,7 +25,7 @@ namespace Game
         public GameObject selectCard;
         public GameObject deleteCard;
         public Button selectConfirm;
-        public BattleCardContainer container;
+        public OutsideCardContainer container;
 
         private CardItem[] selectCardItems;
         private CardItem[] deleteCardItems;

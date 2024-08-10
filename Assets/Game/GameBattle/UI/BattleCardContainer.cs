@@ -99,11 +99,6 @@ namespace Game
             await UniTask.CompletedTask;
         }
 
-        public Card SpawnOneCardItem(ActiveSkillData data, string name = "")
-        {
-            handZoneCardList.Add(cardItem);
-            cardItem.Init(cardVisualPool, visualRoot, data);
-        }
 
         public async UniTask UseFromHand(ActiveSkillData data)
         {
