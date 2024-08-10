@@ -13,6 +13,7 @@ namespace Game
     {
         public enum ShaderType
         {
+            None,
             Regular,
             Polychrome,
             Negative

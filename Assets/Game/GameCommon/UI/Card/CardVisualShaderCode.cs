@@ -25,6 +25,12 @@ namespace Game
 
         private void UpdateCardMaterial()
         {
+            if (_visual.shaderType == CardVisual.ShaderType.None)
+            {
+                material = null;
+                return;
+            }
+
             if (!_materials.ContainsKey(_visual.shaderType))
             {
                 Material newMaterial = new Material(material);
