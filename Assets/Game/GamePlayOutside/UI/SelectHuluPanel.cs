@@ -135,6 +135,7 @@ namespace Game
                     for (int j = 0; j < opponentList[i].hulus.Count;++j)
                     {
                         HuluData data = new HuluData();
+                        data.RollAbility();
                         data.id = opponentList[i].hulus[j];
                         trainer.datas.Add(data);
                     }
