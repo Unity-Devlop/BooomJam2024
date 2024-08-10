@@ -103,3 +103,5 @@ Audio/.cache/**
 ~*.xlsx
 .~*.xlsx
 .DS_Store
+Assets/AddressableAssetsData/link.xml
+Assets/AddressableAssetsData/link.xml.meta

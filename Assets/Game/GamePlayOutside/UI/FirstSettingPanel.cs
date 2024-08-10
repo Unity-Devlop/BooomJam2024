@@ -15,7 +15,7 @@ namespace Game
         public Button leftBtn;
         public Button rightBtn;
         public Button confirmBtn;
-        private static StyleToSkillConfig config => StyleToSkillConfig.Instance;
+        [SerializeField] private StyleToSkillConfig config;
 
         private int curStyle = 0;
 
