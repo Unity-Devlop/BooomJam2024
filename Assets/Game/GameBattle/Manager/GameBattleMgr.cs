@@ -28,10 +28,17 @@ namespace Game.GamePlay
         {
             // Init Battle Controller
             battleFlow = GetComponent<DummyBattleFlow>();
+            Global.Event.Listen<BattleTipEvent>(OnTip);
+        }
+
+        private void OnTip(BattleTipEvent obj)
+        {
+            Global.LogInfo(obj.tip);
         }
 
         protected override void OnDispose()
         {
+            Global.Event.UnListen<BattleTipEvent>(OnTip);
             battleFlow.Dispose();
         }
 

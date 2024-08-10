@@ -306,8 +306,7 @@ namespace Game
         {
             if (trainer.ContainsBuff(BattleBuffEnum.没有手牌时当前宝可梦生命值归0) && trainer.handZone.Count <= 0)
             {
-                Debug.Log($"{trainer}没有手牌!当前宝可梦生命值归0");
-                Global.Event.Send(new BattleTipEvent("没有手牌!当前宝可梦生命值归0"));
+                Global.Event.Send(new BattleTipEvent($"{trainer}没有手牌!当前宝可梦生命值归0"));
                 await trainer.currentBattleData.DecreaseHealth(trainer.currentBattleData.currentHp);
             }
         }

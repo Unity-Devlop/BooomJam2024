@@ -219,7 +219,6 @@ namespace Game
             if (id == HuluEnum.斯托姆 && passiveSkillConfig.Id == PassiveSkillEnum.狂风不灭 &&
                 buffList.Contains(BattleBuffEnum.狂风不灭) && currentHp <= 0)
             {
-                Debug.Log("狂风不灭");
                 Global.Event.Send(new BattleTipEvent($"{this}狂风不灭"));
                 await RemoveBuff(BattleBuffEnum.狂风不灭);
                 await DecreaseHealth(-hp / 2);
@@ -227,7 +226,6 @@ namespace Game
 
             if (id == HuluEnum.枯木妖 && passiveSkillConfig.Id == PassiveSkillEnum.枯木逢春)
             {
-                Debug.Log($"枯木逢春");
                 Global.Event.Send(new BattleTipEvent($"{this}枯木逢春"));
                 int damageHp = hp - currentHp;
                 int cnt = damageHp / 100;
