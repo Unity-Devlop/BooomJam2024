@@ -8,6 +8,14 @@
     "type": 4,
     "damage_point": 90,
     "priority": 0,
+    "not_full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
     "not_full_hp_buff_for_user_pokemon": {
       "cnt": 0,
       "buff": 0
@@ -75,6 +83,14 @@
     "type": 4,
     "damage_point": 50,
     "priority": 1,
+    "not_full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
     "not_full_hp_buff_for_user_pokemon": {
       "cnt": 0,
       "buff": 0
@@ -142,6 +158,14 @@
     "type": 4,
     "damage_point": 60,
     "priority": 2,
+    "not_full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
     "not_full_hp_buff_for_user_pokemon": {
       "cnt": 0,
       "buff": 0
@@ -209,6 +233,14 @@
     "type": 4,
     "damage_point": 40,
     "priority": 0,
+    "not_full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
     "not_full_hp_buff_for_user_pokemon": {
       "cnt": 0,
       "buff": 0
@@ -276,6 +308,14 @@
     "type": 4,
     "damage_point": 90,
     "priority": 0,
+    "not_full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
     "not_full_hp_buff_for_user_pokemon": {
       "cnt": 0,
       "buff": 0
@@ -343,6 +383,14 @@
     "type": 4,
     "damage_point": 60,
     "priority": 0,
+    "not_full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
     "not_full_hp_buff_for_user_pokemon": {
       "cnt": 0,
       "buff": 0
@@ -410,6 +458,14 @@
     "type": 4,
     "damage_point": 110,
     "priority": 0,
+    "not_full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
     "not_full_hp_buff_for_user_pokemon": {
       "cnt": 0,
       "buff": 0
@@ -477,6 +533,14 @@
     "type": 4,
     "damage_point": 80,
     "priority": 0,
+    "not_full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
     "not_full_hp_buff_for_user_pokemon": {
       "cnt": 0,
       "buff": 0
@@ -544,6 +608,14 @@
     "type": 8,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
     "not_full_hp_buff_for_user_pokemon": {
       "cnt": 0,
       "buff": 0
@@ -611,6 +683,14 @@
     "type": 4,
     "damage_point": 70,
     "priority": 0,
+    "not_full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
     "not_full_hp_buff_for_user_pokemon": {
       "cnt": 0,
       "buff": 0
@@ -678,6 +758,14 @@
     "type": 4,
     "damage_point": 100,
     "priority": 0,
+    "not_full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
     "not_full_hp_buff_for_user_pokemon": {
       "cnt": 0,
       "buff": 0
@@ -745,6 +833,14 @@
     "type": 4,
     "damage_point": 90,
     "priority": 0,
+    "not_full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
     "not_full_hp_buff_for_user_pokemon": {
       "cnt": 0,
       "buff": 0
@@ -812,6 +908,14 @@
     "type": 4,
     "damage_point": 110,
     "priority": 0,
+    "not_full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
     "not_full_hp_buff_for_user_pokemon": {
       "cnt": 0,
       "buff": 0
@@ -879,6 +983,14 @@
     "type": 4,
     "damage_point": 60,
     "priority": 0,
+    "not_full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
     "not_full_hp_buff_for_user_pokemon": {
       "cnt": 0,
       "buff": 0
@@ -946,6 +1058,14 @@
     "type": 4,
     "damage_point": 120,
     "priority": 0,
+    "not_full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
     "not_full_hp_buff_for_user_pokemon": {
       "cnt": 0,
       "buff": 0
@@ -1013,6 +1133,14 @@
     "type": 4,
     "damage_point": 50,
     "priority": 3,
+    "not_full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
     "not_full_hp_buff_for_user_pokemon": {
       "cnt": 0,
       "buff": 0
@@ -1080,6 +1208,14 @@
     "type": 4,
     "damage_point": 30,
     "priority": 0,
+    "not_full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
     "not_full_hp_buff_for_user_pokemon": {
       "cnt": 0,
       "buff": 0
@@ -1150,6 +1286,14 @@
     "type": 4,
     "damage_point": 80,
     "priority": 0,
+    "not_full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
     "not_full_hp_buff_for_user_pokemon": {
       "cnt": 0,
       "buff": 0
@@ -1217,6 +1361,14 @@
     "type": 4,
     "damage_point": 60,
     "priority": 0,
+    "not_full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
     "not_full_hp_buff_for_user_pokemon": {
       "cnt": 0,
       "buff": 0
@@ -1284,6 +1436,14 @@
     "type": 4,
     "damage_point": 90,
     "priority": 0,
+    "not_full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
     "not_full_hp_buff_for_user_pokemon": {
       "cnt": 0,
       "buff": 0
@@ -1351,6 +1511,14 @@
     "type": 8,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
     "not_full_hp_buff_for_user_pokemon": {
       "cnt": 0,
       "buff": 0
@@ -1418,6 +1586,14 @@
     "type": 4,
     "damage_point": 110,
     "priority": 0,
+    "not_full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
     "not_full_hp_buff_for_user_pokemon": {
       "cnt": 0,
       "buff": 0
@@ -1485,6 +1661,14 @@
     "type": 4,
     "damage_point": 70,
     "priority": 0,
+    "not_full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
     "not_full_hp_buff_for_user_pokemon": {
       "cnt": 0,
       "buff": 0
@@ -1552,6 +1736,14 @@
     "type": 4,
     "damage_point": 60,
     "priority": 0,
+    "not_full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
     "not_full_hp_buff_for_user_pokemon": {
       "cnt": 0,
       "buff": 0
@@ -1619,6 +1811,14 @@
     "type": 4,
     "damage_point": 60,
     "priority": 0,
+    "not_full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
     "not_full_hp_buff_for_user_pokemon": {
       "cnt": 0,
       "buff": 0
@@ -1686,6 +1886,14 @@
     "type": 8,
     "damage_point": 0,
     "priority": 5,
+    "not_full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
     "not_full_hp_buff_for_user_pokemon": {
       "cnt": 0,
       "buff": 0
@@ -1753,6 +1961,14 @@
     "type": 4,
     "damage_point": 50,
     "priority": 1,
+    "not_full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
     "not_full_hp_buff_for_user_pokemon": {
       "cnt": 0,
       "buff": 0
@@ -1820,6 +2036,14 @@
     "type": 4,
     "damage_point": 20,
     "priority": 0,
+    "not_full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
     "not_full_hp_buff_for_user_pokemon": {
       "cnt": 0,
       "buff": 0
@@ -1890,6 +2114,14 @@
     "type": 2,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
     "not_full_hp_buff_for_user_pokemon": {
       "cnt": 0,
       "buff": 0
@@ -1957,6 +2189,14 @@
     "type": 2,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
     "not_full_hp_buff_for_user_pokemon": {
       "cnt": 0,
       "buff": 0
@@ -2024,6 +2264,14 @@
     "type": 2,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
     "not_full_hp_buff_for_user_pokemon": {
       "cnt": 0,
       "buff": 0
@@ -2091,6 +2339,14 @@
     "type": 2,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
     "not_full_hp_buff_for_user_pokemon": {
       "cnt": 0,
       "buff": 0
@@ -2158,6 +2414,14 @@
     "type": 2,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
     "not_full_hp_buff_for_user_pokemon": {
       "cnt": 0,
       "buff": 0
@@ -2225,6 +2489,14 @@
     "type": 2,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
     "not_full_hp_buff_for_user_pokemon": {
       "cnt": 0,
       "buff": 0
@@ -2292,6 +2564,14 @@
     "type": 2,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
     "not_full_hp_buff_for_user_pokemon": {
       "cnt": 0,
       "buff": 0
@@ -2359,6 +2639,14 @@
     "type": 2,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
     "not_full_hp_buff_for_user_pokemon": {
       "cnt": 0,
       "buff": 0
@@ -2426,6 +2714,14 @@
     "type": 2,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
     "not_full_hp_buff_for_user_pokemon": {
       "cnt": 0,
       "buff": 0
@@ -2493,6 +2789,14 @@
     "type": 2,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
     "not_full_hp_buff_for_user_pokemon": {
       "cnt": 0,
       "buff": 0
@@ -2560,6 +2864,14 @@
     "type": 2,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
     "not_full_hp_buff_for_user_pokemon": {
       "cnt": 0,
       "buff": 0
@@ -2627,9 +2939,17 @@
     "type": 2,
     "damage_point": 0,
     "priority": 0,
-    "not_full_hp_buff_for_user_pokemon": {
+    "not_full_hp_buff_for_user": {
       "cnt": 1,
       "buff": 16
+    },
+    "full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "not_full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
     },
     "full_hp_buff_for_user_pokemon": {
       "cnt": 1,
@@ -2694,6 +3014,14 @@
     "type": 2,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
     "not_full_hp_buff_for_user_pokemon": {
       "cnt": 0,
       "buff": 0
@@ -2761,6 +3089,14 @@
     "type": 2,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
     "not_full_hp_buff_for_user_pokemon": {
       "cnt": 0,
       "buff": 0
@@ -2828,6 +3164,14 @@
     "type": 2,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
     "not_full_hp_buff_for_user_pokemon": {
       "cnt": 0,
       "buff": 0
@@ -2895,6 +3239,14 @@
     "type": 2,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
     "not_full_hp_buff_for_user_pokemon": {
       "cnt": 0,
       "buff": 0
@@ -2962,6 +3314,14 @@
     "type": 2,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
     "not_full_hp_buff_for_user_pokemon": {
       "cnt": 0,
       "buff": 0
@@ -3029,6 +3389,14 @@
     "type": 2,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
     "not_full_hp_buff_for_user_pokemon": {
       "cnt": 0,
       "buff": 0
@@ -3096,6 +3464,14 @@
     "type": 2,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
     "not_full_hp_buff_for_user_pokemon": {
       "cnt": 0,
       "buff": 0
@@ -3163,6 +3539,14 @@
     "type": 2,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
     "not_full_hp_buff_for_user_pokemon": {
       "cnt": 0,
       "buff": 0
@@ -3230,6 +3614,14 @@
     "type": 2,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
     "not_full_hp_buff_for_user_pokemon": {
       "cnt": 0,
       "buff": 0
@@ -3297,6 +3689,14 @@
     "type": 2,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
     "not_full_hp_buff_for_user_pokemon": {
       "cnt": 0,
       "buff": 0
@@ -3364,6 +3764,14 @@
     "type": 2,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
     "not_full_hp_buff_for_user_pokemon": {
       "cnt": 0,
       "buff": 0
@@ -3431,6 +3839,14 @@
     "type": 2,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
     "not_full_hp_buff_for_user_pokemon": {
       "cnt": 0,
       "buff": 0
@@ -3498,6 +3914,14 @@
     "type": 2,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
     "not_full_hp_buff_for_user_pokemon": {
       "cnt": 0,
       "buff": 0
@@ -3565,6 +3989,14 @@
     "type": 2,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
     "not_full_hp_buff_for_user_pokemon": {
       "cnt": 0,
       "buff": 0
@@ -3632,6 +4064,14 @@
     "type": 2,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
     "not_full_hp_buff_for_user_pokemon": {
       "cnt": 0,
       "buff": 0
@@ -3699,6 +4139,14 @@
     "type": 2,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
     "not_full_hp_buff_for_user_pokemon": {
       "cnt": 0,
       "buff": 0
@@ -3766,6 +4214,14 @@
     "type": 2,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
     "not_full_hp_buff_for_user_pokemon": {
       "cnt": 0,
       "buff": 0
@@ -3833,6 +4289,14 @@
     "type": 2,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
     "not_full_hp_buff_for_user_pokemon": {
       "cnt": 0,
       "buff": 0
@@ -3900,6 +4364,14 @@
     "type": 2,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
     "not_full_hp_buff_for_user_pokemon": {
       "cnt": 0,
       "buff": 0
@@ -3967,6 +4439,14 @@
     "type": 2,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
     "not_full_hp_buff_for_user_pokemon": {
       "cnt": 0,
       "buff": 0
@@ -4034,6 +4514,14 @@
     "type": 2,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
     "not_full_hp_buff_for_user_pokemon": {
       "cnt": 0,
       "buff": 0
@@ -4101,6 +4589,14 @@
     "type": 2,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
     "not_full_hp_buff_for_user_pokemon": {
       "cnt": 0,
       "buff": 0
@@ -4168,6 +4664,14 @@
     "type": 2,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
     "not_full_hp_buff_for_user_pokemon": {
       "cnt": 0,
       "buff": 0
@@ -4235,6 +4739,14 @@
     "type": 2,
     "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
     "not_full_hp_buff_for_user_pokemon": {
       "cnt": 0,
       "buff": 0

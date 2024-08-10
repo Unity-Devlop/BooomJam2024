@@ -3,6 +3,7 @@ using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityToolkit;
@@ -16,7 +17,7 @@ namespace Game.GamePlay
 
 
         private SpriteRenderer currentBackground;
-
+        [ReadOnly,ShowInInspector] public BattleEnvData data { get; private set; }
         private ICommand _unbind;
 
         private void Awake()
@@ -28,9 +29,12 @@ namespace Game.GamePlay
         {
             _unbind?.Execute();
             _unbind = battleEnvData.bind.Listen(OnData);
-
+            data = battleEnvData;
+            
             currentBackground = background;
+            Global.LogInfo("BattleEnv", "Init", "LoadBattleBG", battleEnvData.id.ToString());
             currentBackground.sprite = await Global.Get<ResourceSystem>().LoadBattleBG(battleEnvData.id);
+            currentBackground.color = Color.white;
         }
 
         private async UniTask OnData(BattleEnvData obj)

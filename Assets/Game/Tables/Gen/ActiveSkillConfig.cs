@@ -25,6 +25,8 @@ public sealed partial class ActiveSkillConfig : Luban.BeanBase
         { if(!_buf["type"].IsNumber) { throw new SerializationException(); }  Type = (ActiveSkillTypeEnum)_buf["type"].AsInt; }
         { if(!_buf["damage_point"].IsNumber) { throw new SerializationException(); }  DamagePoint = _buf["damage_point"]; }
         { if(!_buf["priority"].IsNumber) { throw new SerializationException(); }  Priority = _buf["priority"]; }
+        { if(!_buf["not_full_hp_buff_for_user"].IsObject) { throw new SerializationException(); }  NotFullHpBuffForUser = AddBuffTuple.DeserializeAddBuffTuple(_buf["not_full_hp_buff_for_user"]);  }
+        { if(!_buf["full_hp_buff_for_user"].IsObject) { throw new SerializationException(); }  FullHpBuffForUser = AddBuffTuple.DeserializeAddBuffTuple(_buf["full_hp_buff_for_user"]);  }
         { if(!_buf["not_full_hp_buff_for_user_pokemon"].IsObject) { throw new SerializationException(); }  NotFullHpBuffForUserPokemon = AddBuffTuple.DeserializeAddBuffTuple(_buf["not_full_hp_buff_for_user_pokemon"]);  }
         { if(!_buf["full_hp_buff_for_user_pokemon"].IsObject) { throw new SerializationException(); }  FullHpBuffForUserPokemon = AddBuffTuple.DeserializeAddBuffTuple(_buf["full_hp_buff_for_user_pokemon"]);  }
         { if(!_buf["def_trainer_buff_after_use_count"].IsNumber) { throw new SerializationException(); }  DefTrainerBuffAfterUseCount = _buf["def_trainer_buff_after_use_count"]; }
@@ -90,6 +92,14 @@ public sealed partial class ActiveSkillConfig : Luban.BeanBase
     /// 优先级
     /// </summary>
     public readonly int Priority;
+    /// <summary>
+    /// 数量
+    /// </summary>
+    public readonly AddBuffTuple NotFullHpBuffForUser;
+    /// <summary>
+    /// 数量
+    /// </summary>
+    public readonly AddBuffTuple FullHpBuffForUser;
     /// <summary>
     /// 数量
     /// </summary>
@@ -244,6 +254,8 @@ public sealed partial class ActiveSkillConfig : Luban.BeanBase
         
         
         
+        
+        
         DarwTargetCardConfigAfterUse?.ResolveRef(tables);
         
         
@@ -277,6 +289,8 @@ public sealed partial class ActiveSkillConfig : Luban.BeanBase
         + "type:" + Type + ","
         + "damagePoint:" + DamagePoint + ","
         + "priority:" + Priority + ","
+        + "notFullHpBuffForUser:" + NotFullHpBuffForUser + ","
+        + "fullHpBuffForUser:" + FullHpBuffForUser + ","
         + "notFullHpBuffForUserPokemon:" + NotFullHpBuffForUserPokemon + ","
         + "fullHpBuffForUserPokemon:" + FullHpBuffForUserPokemon + ","
         + "defTrainerBuffAfterUseCount:" + DefTrainerBuffAfterUseCount + ","

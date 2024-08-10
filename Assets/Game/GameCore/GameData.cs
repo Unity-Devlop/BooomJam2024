@@ -9,5 +9,6 @@ namespace Game
         public PlayerData playerData;
         // TODO 游戏流程的位置信息
         public Type gameOutsideStateType;
+        public BattleSettlementData battleSettlementData;
     }
 }

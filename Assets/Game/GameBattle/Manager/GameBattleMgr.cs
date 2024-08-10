@@ -6,6 +6,7 @@ using FMOD.Studio;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Pool;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using UnityToolkit;
 
@@ -24,11 +25,20 @@ namespace Game.GamePlay
         public DummyRobot robotBattleTrainer;
 
 
-        protected override void OnInit()
+        protected async override void OnInit()
         {
             // Init Battle Controller
             battleFlow = GetComponent<DummyBattleFlow>();
             Global.Event.Listen<BattleTipEvent>(OnTip);
+
+#if UNITY_EDITOR
+
+            await UniTask.WaitUntil(() => Global.Singleton.initialized);
+            if (SceneManager.GetActiveScene().name == "QuickGameBattle")
+            {
+                DebugStartBattle();
+            }
+#endif
         }
 
         private void OnTip(BattleTipEvent obj)
@@ -64,7 +74,7 @@ namespace Game.GamePlay
                 battlePanel.UnBind();
             }
 
-            Global.Get<GameFlow>().SetParam(Consts.BattleSettlementData, battleFlow.settlementData);
+            Global.Get<DataSystem>().Get<GameData>().battleSettlementData = battleFlow.settlementData;
             await Global.Get<GameFlow>().ToGameOutside<BattleSettlementState>();
         }
 

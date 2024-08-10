@@ -10,8 +10,8 @@ namespace Game
 
         public void OnEnter(GamePlayOutsideMgr owner, IStateMachine<GamePlayOutsideMgr> stateMachine)
         {
-            
-            BattleSettlementData data = stateMachine.GetParam<BattleSettlementData>(Consts.BattleSettlementData);
+
+            BattleSettlementData data = Global.Get<DataSystem>().Get<GameData>().battleSettlementData;
             // TODO Do something with data
         }
 

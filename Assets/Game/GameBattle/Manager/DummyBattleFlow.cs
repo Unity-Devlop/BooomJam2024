@@ -26,6 +26,7 @@ namespace Game.GamePlay
         private IBattleOperation _enemyOper;
 
         private CancellationTokenSource _cts;
+        [ReadOnly,ShowInInspector]
         public BattleEnvData envEnvData { get; private set; }
 
         [field: SerializeField] public BattleSettlementData settlementData { get; private set; }
@@ -468,7 +469,7 @@ namespace Game.GamePlay
             await position.ExecuteEnter();
             await trainer.SwitchPokemon(next);
             next.enterTimes += 1;
-            Global.Event.Send(new BattleTipEvent($"{trainer.currentBattleData} 第:{next.enterTimes}登场"));
+            Global.Event.Send(new BattleTipEvent($"{trainer.currentBattleData} 第{next.enterTimes}次登场"));
             Assert.IsTrue(trainer == position.battleTrainer);
             await UglyMath.PostprocessHuluEnterBattle(next);
         }
@@ -796,23 +797,43 @@ namespace Game.GamePlay
                 }
             }
 
-            var fullHpAddBuffConfig = config.FullHpBuffForUserPokemon;
+            var fullHpBuffForUserPokemon = config.FullHpBuffForUserPokemon;
             if (userTrainer.currentBattleData.currentHp >= userTrainer.currentBattleData.hp &&
-                fullHpAddBuffConfig.Buff != BattleBuffEnum.None)
+                fullHpBuffForUserPokemon.Buff != BattleBuffEnum.None)
             {
-                for (int i = 0; i < fullHpAddBuffConfig.Cnt; i++)
+                for (int i = 0; i < fullHpBuffForUserPokemon.Cnt; i++)
                 {
-                    await userTrainer.AddBuff(fullHpAddBuffConfig.Buff);
+                    await userTrainer.currentBattleData.AddBuff(fullHpBuffForUserPokemon.Buff);
                 }
             }
 
-            var notFullHpAddBuffConfig = config.NotFullHpBuffForUserPokemon;
+            var notFullHpBuffForUserPokemon = config.NotFullHpBuffForUserPokemon;
             if (userTrainer.currentBattleData.currentHp < userTrainer.currentBattleData.hp &&
-                notFullHpAddBuffConfig.Buff != BattleBuffEnum.None)
+                notFullHpBuffForUserPokemon.Buff != BattleBuffEnum.None)
             {
-                for (int i = 0; i < notFullHpAddBuffConfig.Cnt; i++)
+                for (int i = 0; i < notFullHpBuffForUserPokemon.Cnt; i++)
                 {
-                    await userTrainer.AddBuff(notFullHpAddBuffConfig.Buff);
+                    await userTrainer.currentBattleData.AddBuff(notFullHpBuffForUserPokemon.Buff);
+                }
+            }
+
+            var fullHpBuffForUser = config.FullHpBuffForUser;
+            if (userTrainer.currentBattleData.currentHp >= userTrainer.currentBattleData.hp &&
+                fullHpBuffForUser.Buff != BattleBuffEnum.None)
+            {
+                for (int i = 0; i < fullHpBuffForUser.Cnt; i++)
+                {
+                    await userTrainer.AddBuff(fullHpBuffForUser.Buff);
+                }
+            }
+
+            var notFullHpBuffForUser = config.NotFullHpBuffForUser;
+            if (userTrainer.currentBattleData.currentHp < userTrainer.currentBattleData.hp &&
+                notFullHpBuffForUser.Buff != BattleBuffEnum.None)
+            {
+                for (int i = 0; i < notFullHpBuffForUser.Cnt; i++)
+                {
+                    await userTrainer.AddBuff(notFullHpBuffForUser.Buff);
                 }
             }
 

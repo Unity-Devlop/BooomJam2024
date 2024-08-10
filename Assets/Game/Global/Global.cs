@@ -74,6 +74,7 @@ namespace Game
                     systemInitTasks.Add(UniTask.WaitUntil(() => asyncOnInit.initialized));
                 }
             }
+
             await UniTask.WhenAll(systemInitTasks);
             // 质量变成Ultra
             QualitySettings.SetQualityLevel(5);
@@ -140,6 +141,12 @@ namespace Game
         public static void LogError(string message, Object context)
         {
             Debug.LogError($"[Error] {message}", context);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void LogInfo(params string[] message)
+        {
+            Debug.Log($"[Info] {string.Join(" ", message)}".Color(Color.white));
         }
 
         #endregion

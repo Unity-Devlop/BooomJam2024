@@ -13,7 +13,7 @@ namespace Game
         public const string LocalPlayerTrainerData = "LocalPlayerTrainerData";
         public const string EnemyTrainerData = "EnemyTrainerData";
         public const string GamePlayOutsideStateType = "GamePlayOutsideStateType";
-        public const string BattleSettlementData = "BattleSettlementData";
+        // public const string BattleSettlementData = "BattleSettlementData";
         public const int BattlePerDefeatedPoint = 100;
         public const int BattleBeDefeatedDecreasePoint = 50;
         public const int BattleWinnerBaseAdmirePoint = 200;
