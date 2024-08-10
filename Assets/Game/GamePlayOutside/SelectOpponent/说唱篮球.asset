@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b57f0329fcd9373449fc93c938a5b3a6, type: 3}
   m_Name: "\u8BF4\u5531\u7BEE\u7403"
   m_EditorClassIdentifier: 
-  id: 4
+  id: 0
   hulus: 000000000000000000000000000000000000000000000000
