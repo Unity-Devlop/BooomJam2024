@@ -346,6 +346,7 @@ MonoBehaviour:
   offset: {x: 0, y: 0, z: 0}
   moveSpeedLimit: 20
   selectionOffset: 50
+  biggerScale: 2
   data:
     id: 0
   cardBtn: {fileID: 4939026614415217524}
@@ -533,10 +534,16 @@ MonoBehaviour:
   handZoneCardList: []
   outsideArea: {fileID: 6202452832118864171}
   tweenCardReturn: 1
-  <visualRoot>k__BackingField: {fileID: 6620837806803268246}
   <cardSlotPool>k__BackingField: {fileID: 5444991415312397328}
-  <cardVisualPool>k__BackingField: {fileID: 6056477637174693240}
+  <cardVisualPool>k__BackingField: {fileID: 0}
   <cardPool>k__BackingField: {fileID: 3877938811243426272}
+  <cardItemPool>k__BackingField: {fileID: 0}
+  autoSizing: 1
+  standardWidth: 100
+  standardHeight: 150
+  standardCount: 8
+  usePlacePos: {fileID: 0}
+  discardPos: {fileID: 0}
 --- !u!114 &6056477637174693240
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1316,6 +1323,7 @@ MonoBehaviour:
   offset: {x: 0, y: 0, z: 0}
   moveSpeedLimit: 20
   selectionOffset: 50
+  biggerScale: 2
   data:
     id: 0
   cardBtn: {fileID: 6720744344787488216}
@@ -1562,7 +1570,7 @@ MonoBehaviour:
   selectCard: {fileID: 652094460733909467}
   deleteCard: {fileID: 872478862230774346}
   selectConfirm: {fileID: 907872166848217902}
-  container: {fileID: 6290799330640116229}
+  container: {fileID: 0}
 --- !u!114 &1741433402304973659
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1747,6 +1755,7 @@ MonoBehaviour:
   offset: {x: 0, y: 0, z: 0}
   moveSpeedLimit: 20
   selectionOffset: 50
+  biggerScale: 2
   data:
     id: 0
   cardBtn: {fileID: 3426713174822009497}

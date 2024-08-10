@@ -453,6 +453,82 @@ MonoBehaviour:
   valueNum: {fileID: 9188246166436727990}
   addBtn: {fileID: 0}
   addText: {fileID: 0}
+--- !u!1 &1614193220853750449
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4460270046243598386}
+  - component: {fileID: 2075548364664837191}
+  - component: {fileID: 4706839227993403825}
+  m_Layer: 5
+  m_Name: CardVisualPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &4460270046243598386
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1614193220853750449}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7048475609108870084}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2075548364664837191
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1614193220853750449}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0736368e087d4ce598dcebd190f14c52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  commandCardPrefab: {fileID: 2119374863299430140, guid: 8755fdbc104aad84bbbbf8589264037c, type: 3}
+  damageSkillCardPrefab: {fileID: 2119374863299430140, guid: 3fd527b8b45c247469b7917c5ada313b, type: 3}
+  buffSkillCardPrefab: {fileID: 5156165821847168793, guid: 83898fce265017b4b942a25f403f5e3c, type: 3}
+  specialCardPrefab: {fileID: 6271700349819790480, guid: 1f1122185d4920d438c0d92a85b2d5ca, type: 3}
+--- !u!223 &4706839227993403825
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1614193220853750449}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_UpdateRectTransformForStandalone: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
 --- !u!1 &1638837314335451958
 GameObject:
   m_ObjectHideFlags: 0
@@ -2030,8 +2106,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BG: {fileID: 2836029566910917676}
   ownedCardList: {fileID: 8226142020884563969}
-  fixedCardPool: {fileID: 4377334518326757476}
+  fixedCardAndSlotPool: {fileID: 4377334518326757476}
   valueUIRoot: {fileID: 5150311503155626297}
+  cardVisualPool: {fileID: 2075548364664837191}
 --- !u!114 &4377334518326757476
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2519,7 +2596,7 @@ GameObject:
   - component: {fileID: 6106501459638838260}
   - component: {fileID: 2580358129002530076}
   m_Layer: 5
-  m_Name: PokemonSkillCardScroolRect
+  m_Name: PokemonSkillLit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2538,6 +2615,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5044286114273047230}
+  - {fileID: 4460270046243598386}
   m_Father: {fileID: 7561576716729833150}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
