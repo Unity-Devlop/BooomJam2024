@@ -170,7 +170,7 @@
     "remove_count_when_round_end": -1,
     "can_stack": false,
     "not_save": true,
-    "is_trainer_buff": false,
+    "is_trainer_buff": true,
     "trigger_rate": 1,
     "damage_for_current_pokemon": 0,
     "max_stack": -1

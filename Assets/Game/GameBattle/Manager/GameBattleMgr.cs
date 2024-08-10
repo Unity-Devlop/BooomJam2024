@@ -23,8 +23,6 @@ namespace Game.GamePlay
         // [HorizontalGroup("TrainerGroup")] 
         public DummyRobot robotBattleTrainer;
 
-        public BattleEnv battleEnv;
-
 
         protected override void OnInit()
         {
@@ -37,14 +35,12 @@ namespace Game.GamePlay
             battleFlow.Dispose();
         }
 
-        public async void StartBattle(TrainerData self, TrainerData enemy, BattleEnvData battleEnvData)
+        public void StartBattle(TrainerData self, TrainerData enemy, BattleEnvData battleEnvData)
         {
             TrainerData playerTrainerData = self;
             TrainerData aiTrainerData = enemy;
             playerBattleTrainer.Init(playerTrainerData); // 暂时用Inspector配置的数据
             robotBattleTrainer.Init(aiTrainerData);
-            await battleEnv.Init(battleEnvData);
-
             battleFlow.Init(playerBattleTrainer, robotBattleTrainer, battleEnvData);
 
 
