@@ -36,6 +36,7 @@ namespace Game
         public LoopHorizontalScrollRect skillScroll;
         public EasyGameObjectPool skillItemPool;
         public PokemonUIShow uIShow;
+        public PokemonHUD pokemonHUD;
        // public Text roleShowName;
         //public Text roleShowPassiveSkill;
         private PlayerData playerData;
@@ -172,6 +173,7 @@ namespace Game
             //roleShowPassiveSkill.text = Global.Table.PassiveSkillTable.Get(huluData.passiveSkillConfig.Id).Desc;
             //UnBind();
             uIShow.Bind(huluData);
+            //pokemonHUD.Bind(huluData);
             Bind();
             valueUIItems[0].valueNum.text = huluData.hp.ToString();
             valueUIItems[0].slider.value = (float)huluData.hp / huluData.config.MaxHp;
