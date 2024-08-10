@@ -16,13 +16,13 @@ namespace Game.Editor
         protected override OdinMenuTree BuildMenuTree()
         {
             _tree = new OdinMenuTree();
-            if (!File.Exists(Consts.LocalPlayerDataPath))
+            if (!File.Exists(Consts.LocalGameDataPath))
             {
-                File.WriteAllText(Consts.LocalPlayerDataPath, JsonConvert.SerializeObject(new PlayerData()));
+                File.WriteAllText(Consts.LocalGameDataPath, JsonConvert.SerializeObject(new GameData()));
             }
 
             // 本地玩家数据
-            PlayerData data = JsonConvert.DeserializeObject<PlayerData>(File.ReadAllText(Consts.LocalPlayerDataPath));
+            GameData data = JsonConvert.DeserializeObject<GameData>(File.ReadAllText(Consts.LocalGameDataPath));
             _tree.Add("Player Data", data);
 
             // 编辑一个预设的TrainerData

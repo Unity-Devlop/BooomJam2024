@@ -22,11 +22,11 @@ namespace Game
             trainerData = new TrainerData();
         }
 
-        [Sirenix.OdinInspector.Button]
-        private void SaveToLocal()
-        {
-            string jsonStr = JsonConvert.SerializeObject(this);
-            File.WriteAllText(Consts.LocalPlayerDataPath, jsonStr);
-        }
+        // [Sirenix.OdinInspector.Button]
+        // private void SaveToLocal()
+        // {
+        //     string jsonStr = JsonConvert.SerializeObject(this);
+        //     File.WriteAllText(Consts.LocalPlayerDataPath, jsonStr);
+        // }
     }
 }

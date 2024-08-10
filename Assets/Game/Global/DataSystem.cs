@@ -53,6 +53,7 @@ namespace Game
 
         private void WriteGameData(GameData data)
         {
+            Global.LogInfo($"Save Game Data:{data},path:{Consts.LocalGameDataPath}");
             File.WriteAllText(Consts.LocalGameDataPath, JsonConvert.SerializeObject(data));
         }
     }
