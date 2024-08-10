@@ -168,6 +168,11 @@ namespace Game
                 _canvas.overrideSorting = true;
             }
 
+            if (_target.isHovering)
+            {
+                _canvas.overrideSorting = true;
+            }
+
             gameObject.SetActive(_target.gameObject.activeInHierarchy);
             SmoothScale();
             HandPositioning();

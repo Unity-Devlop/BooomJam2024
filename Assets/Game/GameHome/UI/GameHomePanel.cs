@@ -51,7 +51,7 @@ namespace Game.GameHome
             if (Global.Get<DataSystem>().LoadPrevGameData(out GameData data))
             {
                 Global.Get<DataSystem>().Add(data);
-                // TODO 这里根据数据进行的位置判断
+                await Global.Get<GameFlow>().ToGameOutside(data.gameOutsideStateType);
             }
         }
 
