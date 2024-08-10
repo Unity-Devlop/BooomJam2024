@@ -26,6 +26,7 @@ namespace Game.GamePlay
         private IBattleOperation _enemyOper;
 
         private CancellationTokenSource _cts;
+        [ReadOnly,ShowInInspector]
         public BattleEnvData envEnvData { get; private set; }
 
         [field: SerializeField] public BattleSettlementData settlementData { get; private set; }
