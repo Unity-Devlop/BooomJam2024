@@ -28,12 +28,10 @@ namespace Game.GameHome
         {
             if (!debugOn)
             {
-                FindObjectOfType<DebugLogManager>(true).gameObject.SetActive(true);
                 UIRoot.Singleton.OpenPanel<GameDebugPanel>();
             }
             else
             {
-                FindObjectOfType<DebugLogManager>(true).gameObject.SetActive(false);
                 UIRoot.Singleton.ClosePanel<GameDebugPanel>();
             }
             debugOn = !debugOn;

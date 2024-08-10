@@ -32,30 +32,25 @@ namespace Game
         public override void OnLoaded()
         {
             base.OnLoaded();
-            AddDebugCommand();
+            DebugLogConsole.AddCommand("random-battle", "Start a random battle", OnRollToStartButtonClick);
         }
-
-        public static void AddDebugCommand()
-        {
-            DebugLogConsole.AddCommand("random-battle", "Start a random battle", RollToStart);
-        }
-
-        public static void RemoveDebugCommand()
-        {
-            DebugLogConsole.RemoveCommand("random-battle");
-        }
-
-        private static async UniTask RollToStart()
-        {
-            GameMath.RollBattleData(out var local, out var remote, out var battleData);
-            await Global.Get<GameFlow>().ToGameBattle(local, remote, battleData);
-        }
-
 
         public override void OnDispose()
         {
             base.OnDispose();
-            RemoveDebugCommand();
+            DebugLogConsole.RemoveCommand("random-battle");
+        }
+
+        public override void OnOpened()
+        {
+            base.OnOpened();
+            DebugLogManager.Instance.gameObject.SetActive(true);
+        }
+
+        public override void OnClosed()
+        {
+            base.OnClosed();
+            DebugLogManager.Instance.gameObject.SetActive(false);
         }
 
         private void OnDebuggerButtonClick()
@@ -86,7 +81,8 @@ namespace Game
 
         private async void OnRollToStartButtonClick()
         {
-            await RollToStart();
+            GameMath.RollBattleData(out var local, out var remote, out var battleData);
+            await Global.Get<GameFlow>().ToGameBattle(local, remote, battleData);
             container.gameObject.SetActive(false);
         }
     }

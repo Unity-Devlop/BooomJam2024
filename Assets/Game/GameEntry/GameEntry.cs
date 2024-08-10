@@ -20,7 +20,7 @@ namespace Game.GameEntry
 #if UNITY_EDITOR
             manager.Awake();
             manager.gameObject.SetActive(true);
-            GameDebugPanel.AddDebugCommand();
+            UIRoot.Singleton.OpenPanel<GameDebugPanel>();
 #else
             manager.Awake();
             manager.gameObject.SetActive(false);
