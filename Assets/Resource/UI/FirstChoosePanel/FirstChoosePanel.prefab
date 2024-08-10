@@ -1411,6 +1411,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1446704696548751446, guid: 7952a43eb52c621438ee14bcd985cd03, type: 3}
+      propertyPath: m_Interactable
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2392380892782564077, guid: 7952a43eb52c621438ee14bcd985cd03, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1457,6 +1461,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3213446155280464186, guid: 7952a43eb52c621438ee14bcd985cd03, type: 3}
       propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3323069958375795568, guid: 7952a43eb52c621438ee14bcd985cd03, type: 3}
+      propertyPath: m_Interactable
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3634337383456562246, guid: 7952a43eb52c621438ee14bcd985cd03, type: 3}
@@ -1501,6 +1509,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5150311503155626297, guid: 7952a43eb52c621438ee14bcd985cd03, type: 3}
       propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5777769258848114287, guid: 7952a43eb52c621438ee14bcd985cd03, type: 3}
+      propertyPath: m_Interactable
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7116311368728000684, guid: 7952a43eb52c621438ee14bcd985cd03, type: 3}
@@ -1595,8 +1607,16 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8358233991584928422, guid: 7952a43eb52c621438ee14bcd985cd03, type: 3}
+      propertyPath: m_Interactable
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8623722605150122345, guid: 7952a43eb52c621438ee14bcd985cd03, type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9188234596014715163, guid: 7952a43eb52c621438ee14bcd985cd03, type: 3}
+      propertyPath: m_Interactable
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
