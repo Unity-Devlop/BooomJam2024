@@ -41,6 +41,7 @@ namespace Game
         public void OnExit(GameFlow owner, IStateMachine<GameFlow> stateMachine)
         {
             // throw new System.NotImplementedException();
+            // 关闭外部场景还有UI
         }
     }
 }

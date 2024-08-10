@@ -78,7 +78,7 @@ namespace Game.GamePlay
         public UniTask Rounding();
         public UniTask AfterRound();
         public UniTask RoundEnd();
-        public UniTask Exit();
+        public UniTask Exit(IBattleTrainer winner);
         public void Cancel();
         // public bool TryGetRoundWinner(out IBattleTrainer battleTrainer);
 
@@ -86,7 +86,7 @@ namespace Game.GamePlay
 
         public static async UniTask RoundFlow(IBattleFlow flow, CancellationToken token)
         {
-            IBattleTrainer winner;
+            IBattleTrainer winner = null;
             while (!token.IsCancellationRequested)
             {
                 await flow.RoundStart(); // 回合开始
@@ -124,7 +124,7 @@ namespace Game.GamePlay
             }
 
             // 执行退出战斗流程
-            await flow.Exit();
+            await flow.Exit(winner);
         }
     }
 }

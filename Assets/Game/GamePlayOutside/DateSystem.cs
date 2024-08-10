@@ -10,7 +10,7 @@ namespace Game
         public int year;
         public int month;
         public int day;
-        public int season;//Èü¼¾
+        public int season;//èµ›å­£
     }
 
     public class DateSystem

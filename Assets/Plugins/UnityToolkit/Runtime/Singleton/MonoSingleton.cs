@@ -12,6 +12,10 @@ namespace UnityToolkit
     {
     }
 
+    public interface INotSetNullParentSingleton
+    {
+    }
+
     public abstract class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T>
     {
         private static T _singleton;
@@ -62,7 +66,16 @@ namespace UnityToolkit
         private void OnSingletonInit()
         {
             // Debug.Log($"Singleton<{typeof(T).Name}>.OnInit() -> {gameObject.name}");
-            transform.SetParent(null);
+
+            // 如果T是不将父节点设置为null的单例
+            if (typeof(INotSetNullParentSingleton).IsAssignableFrom(typeof(T)))
+            {
+            }
+            else
+            {
+                transform.SetParent(null);
+            }
+
             if (DontDestroyOnLoad())
             {
                 if (Application.isPlaying)
@@ -86,7 +99,7 @@ namespace UnityToolkit
                     _singleton.OnSingletonInit();
                     return;
                 }
-                
+
                 // unknown error
                 Destroy(gameObject);
                 return;

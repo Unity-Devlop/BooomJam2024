@@ -218,7 +218,7 @@ namespace Game.GamePlay
             currentBattleData = data;
             RecalculateDeck();
             ReFillDrawZoneWhenChangeHulu();
-            await DrawSkills(4);
+            await DrawSkills(Consts.DefaultDrawCardCnt);
         }
 
         private void InitOwnerSkillToDrawZone()
@@ -322,6 +322,7 @@ namespace Game.GamePlay
                     Debug.Log($"墓地区域有{skill} 不再加入卡组");
                     continue;
                 }
+
                 Assert.IsFalse(skill.id == ActiveSkillEnum.None);
                 deck.Add(skill.id);
             }
@@ -346,6 +347,13 @@ namespace Game.GamePlay
 
             // Debug.Log($"可以抽牌:{need}张");
             HashSet<ActiveSkillData> drawList = HashSetPool<ActiveSkillData>.Get();
+
+
+            if (drawZone.Count < need)
+            {
+                await Discard2DrawZone();
+            }
+
             // 从抽牌区抽牌
             for (int i = 0; i < need; i++)
             {
@@ -358,7 +366,7 @@ namespace Game.GamePlay
 
                 if (drawZone.Count == 0)
                 {
-                    Debug.LogError("抽牌区没牌了");
+                    Debug.LogWarning("抽牌区没牌了 别抽了");
                     break;
                 }
 
@@ -509,7 +517,7 @@ namespace Game.GamePlay
         public async UniTask AddBuff(BattleBuffEnum buff)
         {
             var buffConfig = Global.Table.BattleBuffTable.Get(buff);
-
+            Debug.Log($"{this}获得buff{buff}");
             Assert.IsTrue(buffConfig.IsTrainerBuff);
 
             Debug.Log($"{this} 获得buff {buff}");

@@ -176,19 +176,34 @@ namespace Game
             }
         }
 
+        public event Func<UniTask> OnHealEvent = default;
+        public event Func<UniTask> OnDamageEvent = default;
+
+        public event Func<BattleBuffEnum, UniTask> OnAttainBuffEvent = default;
+        public event Func<BattleBuffEnum, UniTask> OnLoseBuffEvent = default;
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public async UniTask DecreaseHealth(int delta, HuluData attacker = null)
         {
             if (buffList.Contains(BattleBuffEnum.规避弱点) && delta > 0)
             {
-                RemoveBuff(BattleBuffEnum.规避弱点);
+                await RemoveBuff(BattleBuffEnum.规避弱点);
                 delta /= 2;
             }
 
             if (attacker != null && ContainsBuff(BattleBuffEnum.自己受到伤害时攻击方也会受到等量伤害))
             {
-                RemoveBuff(BattleBuffEnum.自己受到伤害时攻击方也会受到等量伤害);
+                await RemoveBuff(BattleBuffEnum.自己受到伤害时攻击方也会受到等量伤害);
                 await attacker.DecreaseHealth(delta, null);
+            }
+
+            if (delta > 0)
+            {
+                await OnDamageEvent();
+            }
+            else if (delta < 0)
+            {
+                await OnHealEvent();
             }
 
             currentHp -= delta;
@@ -197,8 +212,7 @@ namespace Game
             if (buffList.Contains(BattleBuffEnum.站起来) && currentHp <= 0)
             {
                 Global.Event.Send(new BattleTipEvent($"{this}站起来"));
-                Debug.Log("站起来");
-                buffList.Remove(BattleBuffEnum.站起来);
+                await RemoveBuff(BattleBuffEnum.站起来);
                 await DecreaseHealth(-1, null);
             }
 
@@ -207,10 +221,11 @@ namespace Game
             {
                 Debug.Log("狂风不灭");
                 Global.Event.Send(new BattleTipEvent($"{this}狂风不灭"));
-                buffList.Remove(BattleBuffEnum.狂风不灭);
+                await RemoveBuff(BattleBuffEnum.狂风不灭);
                 await DecreaseHealth(-hp / 2);
             }
-            else if (id == HuluEnum.枯木妖 && passiveSkillConfig.Id == PassiveSkillEnum.枯木逢春)
+
+            if (id == HuluEnum.枯木妖 && passiveSkillConfig.Id == PassiveSkillEnum.枯木逢春)
             {
                 Debug.Log($"枯木逢春");
                 Global.Event.Send(new BattleTipEvent($"{this}枯木逢春"));
@@ -292,7 +307,7 @@ namespace Game
 
         public async UniTask RoundEnd()
         {
-            Global.LogInfo($"{this}回合结束");
+            // Global.LogInfo($"{this}回合结束");
             if (healP0intBy回满血然后回合结束受到等量伤害 > 0)
             {
                 Global.LogInfo($"{this}回合结束受到等量伤害:{healP0intBy回满血然后回合结束受到等量伤害}");
@@ -328,6 +343,7 @@ namespace Game
                 return;
             }
 
+            await OnAttainBuffEvent(buff);
             buffList.Add(buff);
         }
 
@@ -339,6 +355,7 @@ namespace Game
         public async UniTask RemoveBuff(BattleBuffEnum buff)
         {
             buffList.Remove(buff);
+            await OnLoseBuffEvent(buff);
             await UniTask.CompletedTask;
         }
 

@@ -7,8 +7,6 @@ namespace Game.GameHome
     {
         protected override void OnInit()
         {
-            // PlayerData data = new PlayerData();
-            // Global.Get<DataSystem>().Add(data);
             UIRoot.Singleton.OpenPanel<GameHomePanel>();
             PlayBGM();
         }

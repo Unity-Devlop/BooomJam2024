@@ -139,7 +139,7 @@ namespace Game
 
         public void OnContinueBtnClick()
         {
-            var playerData = Global.Get<DataSystem>().Get<PlayerData>();
+            var playerData = Global.Get<DataSystem>().Get<GameData>().playerData;
             foreach (var chooseHulu in _chooseHulus)
             {
                 playerData.trainerData.datas.Add(chooseHulu);

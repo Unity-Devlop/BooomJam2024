@@ -43,6 +43,19 @@ namespace Game
             datas = new List<HuluData>();
         }
 
+        public void RemoveTrainerSkill(ActiveSkillEnum id)
+        {
+            int index = -1;
+            for(int i=0;i<trainerSkills.Count;++i)
+            {
+                if (trainerSkills[i].id==id)
+                {
+                    index = i;
+                    break;
+                }
+            }
+            if (index >= 0) trainerSkills.RemoveAt(index);
+        }
 
         [Button, HorizontalGroup("TrainerDebug")]
         private void AddToPreset()

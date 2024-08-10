@@ -67,7 +67,7 @@ namespace Game
 
         public void Confirm()
         {
-            var playerData = Global.Get<DataSystem>().Get<PlayerData>();
+            var playerData = Global.Get<DataSystem>().Get<GameData>().playerData;
             playerData.name = inputField.text;
             for (int i = 0; i < styleToSkills[curStyle].skills.Count; ++i)
             {

@@ -7,23 +7,21 @@ using UnityToolkit;
 
 namespace Game
 {
+
     public class CardItem : Card
     {
-        public Button cardBtn;
-        public Text titleTxt;
-        public Text descriptionTxt;
-        public Image cardImg;
-
         public override void OnSelect(BaseEventData eventData)
         {
-            Global.Get<AudioSystem>().PlayOneShot(FMODName.Event.SFX_ui_选择牌);
-            transform.localPosition += transform.up * selectionOffset;
+            base.OnSelect(eventData);
+            ClickCardEvent e = new ClickCardEvent();
+            e.data = data;
+            Global.Event.Send<ClickCardEvent>(e);
         }
 
         public override void OnDeselect(BaseEventData eventData)
         {
-            Global.Get<AudioSystem>().PlayOneShot(FMODName.Event.SFX_ui_选择牌);
-            transform.localPosition -= transform.up * selectionOffset;
+            base.OnDeselect(eventData);
+
         }
 
         public override void OnBeginDrag(PointerEventData eventData)
@@ -31,22 +29,12 @@ namespace Game
 
         }
 
-        public override void OnPointerEnter(PointerEventData eventData)
+        public override void OnDrag(PointerEventData eventData)
         {
-
+           
         }
 
-        public override void OnPointerExit(PointerEventData eventData)
-        {
-            
-        }
-
-        public override void OnPointerDown(PointerEventData eventData)
-        {
-            
-        }
-
-        public override void OnPointerUp(PointerEventData eventData)
+        public override void OnEndDrag(PointerEventData eventData)
         {
 
         }

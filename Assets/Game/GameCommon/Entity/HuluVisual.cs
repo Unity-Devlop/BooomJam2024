@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Threading.Tasks;
 using cfg;
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using Spine.Unity;
 using TMPro;
 using UnityEngine;
@@ -24,8 +26,11 @@ namespace Game.GamePlay
             skeletonAnimation.gameObject.SetActive(false);
         }
 
+        public Direction dir { get; private set; }
+
         public async void Bind(HuluData data, Direction direction)
         {
+            dir = direction;
             _data = data;
             _unbindCmd = _data.bind.Listen(OnData);
 
@@ -75,6 +80,8 @@ namespace Game.GamePlay
             OnDataDirect(data);
         }
 
+        private int showCurrentHp;
+
         public void UnBind()
         {
             skeletonAnimation.gameObject.SetActive(false);
@@ -87,6 +94,7 @@ namespace Game.GamePlay
         {
             nameText.text = obj.name;
             hpText.text = $"{obj.currentHp}/{obj.hp}";
+            showCurrentHp = obj.currentHp;
             elementText.text = obj.elementEnum.ToString();
             // statusText.text = $"Atk:{obj.currentAtk}\nDef:{obj.currentDef}\nSpeed:{obj.currentSpeed}\nAdap:{obj.currentAdap}";
         }
@@ -99,14 +107,19 @@ namespace Game.GamePlay
 
             // statusText.text = $"Atk:{obj.currentAtk}\nDef:{obj.currentDef}\nSpeed:{obj.currentSpeed}\nAdap:{obj.currentAdap}";
 
-            int origin = hpText.text == "" ? 0 : int.Parse(hpText.text.Split('/')[0]);
-            int delta = obj.currentHp - origin;
-            // 10滴血一帧
-            int cnt = Mathf.Abs(delta) / 10;
+            int origin = showCurrentHp;
+            int delta = obj.currentHp - origin; // 这次动画的血量变化
+
+            // 10滴血 1/60s
+            int cnt = Mathf.Abs(delta) / 10; // 一共多少次
+            cnt = Mathf.Clamp(cnt, 1, 60); // 最少1次，最多60次
+            int deltaPerFrame = delta / cnt; // 每次多少血
+
             for (int i = 0; i < cnt; i++)
             {
-                hpText.text = $"{origin + delta * i / 10}/{obj.hp}";
-                await UniTask.Delay(TimeSpan.FromMilliseconds(1 / 60f * 1000));
+                int current = origin + deltaPerFrame * i;
+                hpText.text = $"{current}/{obj.hp}";
+                await UniTask.Delay(TimeSpan.FromSeconds(1 / 60f));
             }
 
             OnDataDirect(obj);
@@ -125,6 +138,29 @@ namespace Game.GamePlay
         private void ToIdle()
         {
             skeletonAnimation.AnimationState.SetAnimation(0, Consts.Animation.BattlePokemonIdleAnim, true);
+        }
+
+        public async UniTask PlayTakeDamageAnimation()
+        {
+            Vector3 moveDir;
+            switch (dir)
+            {
+                case Direction.Left:
+                    moveDir = new Vector3(-0.5f, 0, 0);
+                    break;
+                case Direction.Right:
+                    moveDir = new Vector3(0.5f, 0, 0);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            GameBattleMgr.Singleton.cameraEffect.Shake(0.2f, 0.05f,1); // 震屏
+            // 顿帧
+            Time.timeScale = 0.7f;
+            transform.DOMove(transform.position + moveDir, 0.1f).SetLoops(2, LoopType.Yoyo);
+            await UniTask.Delay(TimeSpan.FromSeconds(0.2f));
+            Time.timeScale = 1;
         }
     }
 }
