@@ -5,7 +5,6 @@ using UnityToolkit;
 
 namespace Game
 {
-
     public class GamePlayOutsideMgr : MonoSingleton<GamePlayOutsideMgr>
     {
         public StateMachine<GamePlayOutsideMgr> machine { get; private set; }
@@ -14,9 +13,8 @@ namespace Game
 
         protected override void OnInit()
         {
-            Global.Get<DataSystem>().Get<GameData>();
             dateSystem = new DateSystem(2024, 8, 1, 1); //暂时写死，后续改为读表
-            
+
             machine = new StateMachine<GamePlayOutsideMgr>(this);
             machine.Add(new FirstSettingState());
             machine.Add(new FirstChooseState());
@@ -24,12 +22,21 @@ namespace Game
             machine.Add(new SpecialTrainState());
             machine.Add(new BattleSettlementState());
             machine.Add(new SelectOpponentState());
-            
+
+            machine.OnStateChange += OnOutsideStateChange;
+
+
             machine.Run<FirstSettingState>();
-            
+
             Register();
-            
+
             PlayBGM();
+        }
+
+        private void OnOutsideStateChange(Type from, Type to)
+        {
+            Global.Get<DataSystem>().Get<GameData>().gameOutsideStateType = to;
+            Global.LogInfo($"GameOutsideState Switch {from}:{to}");
         }
 
         protected override void OnDispose()
@@ -43,16 +50,16 @@ namespace Game
         {
             machine.OnUpdate();
         }
-        
+
 
         private void Register()
         {
         }
-        
+
         private void UnRegister()
         {
         }
-        
+
         public void PlayBGM()
         {
             Global.Get<AudioSystem>().PlaySingleton(FMODName.Event.MX_NORMAL_DEMO1);

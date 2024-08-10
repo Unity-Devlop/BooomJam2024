@@ -24,6 +24,7 @@ namespace Game.GameHome
         }
 
         public bool debugOn = false;
+
         private void DevButtonClick()
         {
             if (!debugOn)
@@ -34,6 +35,7 @@ namespace Game.GameHome
             {
                 UIRoot.Singleton.ClosePanel<GameDebugPanel>();
             }
+
             debugOn = !debugOn;
         }
 
@@ -51,7 +53,8 @@ namespace Game.GameHome
             if (Global.Get<DataSystem>().LoadPrevGameData(out GameData data))
             {
                 Global.Get<DataSystem>().Add(data);
-                // TODO 这里根据数据进行的位置判断
+                Global.LogInfo($"Load Game Data:{data},outsideState:{data.gameOutsideStateType}");
+                await Global.Get<GameFlow>().ToGameOutside(data.gameOutsideStateType);
             }
         }
 

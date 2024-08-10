@@ -80,6 +80,13 @@ namespace Game
             await UniTask.CompletedTask;
         }
 
+        public async UniTask ToGameOutside(Type outsideStateType)
+        {
+            _stateMachine.SetParam(Consts.GamePlayOutsideStateType, outsideStateType);
+            _stateMachine.Change<GameOutsideState>();
+            await UniTask.CompletedTask;
+        }
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public T GetParam<T>(string key)
         {
