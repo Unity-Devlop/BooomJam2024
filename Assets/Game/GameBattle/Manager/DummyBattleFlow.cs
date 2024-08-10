@@ -74,7 +74,7 @@ namespace Game.GamePlay
 
         public async UniTask ChangeBattleEnv(BattleEnvironmentEnum configChangeBattleEnvAfterUse)
         {
-            _envEnvData.id = configChangeBattleEnvAfterUse;
+            await _envEnvData.Change(configChangeBattleEnvAfterUse);
             await UniTask.CompletedTask;
         }
 

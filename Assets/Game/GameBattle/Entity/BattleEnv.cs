@@ -1,13 +1,24 @@
-﻿using UnityEngine;
+﻿using Cysharp.Threading.Tasks;
+using UnityEngine;
+using UnityToolkit;
 
 namespace Game.GamePlay
 {
     public class BattleEnv : MonoBehaviour
     {
         [SerializeField] private SpriteRenderer background;
-        public async void Init(BattleEnvData battleEnvData)
+        private ICommand _unbind;
+
+        public async UniTask Init(BattleEnvData battleEnvData)
         {
-            background.sprite = await Global.Get<ResourceSystem>().LoadBattleBG(battleEnvData.id);
+            _unbind?.Execute();
+            _unbind = battleEnvData.bind.Listen(OnData);
+            await OnData(battleEnvData);
+        }
+
+        private async UniTask OnData(BattleEnvData obj)
+        {
+            background.sprite = await Global.Get<ResourceSystem>().LoadBattleBG(obj.id);
         }
     }
 }

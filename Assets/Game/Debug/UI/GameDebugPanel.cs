@@ -1,9 +1,6 @@
-﻿using System;
-using Cysharp.Threading.Tasks;
-using Game.GamePlay;
+﻿using Game.GamePlay;
 using IngameDebugConsole;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 using UnityToolkit;
 using UnityToolkit.Debugger;
@@ -32,13 +29,13 @@ namespace Game
         public override void OnLoaded()
         {
             base.OnLoaded();
-            DebugLogConsole.AddCommand("random-battle", "Start a random battle", OnRollToStartButtonClick);
+            // Register Command
         }
 
         public override void OnDispose()
         {
             base.OnDispose();
-            DebugLogConsole.RemoveCommand("random-battle");
+            // UnRegister Command
         }
 
         public override void OnOpened()
