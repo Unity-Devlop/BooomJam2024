@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed386f946fb1bb1428cc2c03ce051400, type: 3}
-  m_Name: "\u6DF1\u601D\u719F\u8651"
+  m_Script: {fileID: 11500000, guid: b57f0329fcd9373449fc93c938a5b3a6, type: 3}
+  m_Name: "\u5916\u661F\u4EBA"
   m_EditorClassIdentifier: 
-  styleName: "\u6DF1\u601D\u719F\u8651"
-  skills: 26000000270000000100000002000000
+  id: 0
+  hulus: 000000000000000000000000000000000000000000000000

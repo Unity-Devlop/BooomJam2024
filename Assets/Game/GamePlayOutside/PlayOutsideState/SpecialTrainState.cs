@@ -17,7 +17,7 @@ namespace Game
         {
         }
 
-        public void OnExit(GamePlayOutsideMgr owner, IStateMachine<GamePlayOutsideMgr> stateMachine)
+        public async void OnExit(GamePlayOutsideMgr owner, IStateMachine<GamePlayOutsideMgr> stateMachine)
         {
             UIRoot.Singleton.ClosePanel<SpecialTrainPanel>();
         }
