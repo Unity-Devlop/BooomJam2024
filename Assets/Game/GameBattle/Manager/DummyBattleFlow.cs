@@ -469,7 +469,7 @@ namespace Game.GamePlay
             await position.ExecuteEnter();
             await trainer.SwitchPokemon(next);
             next.enterTimes += 1;
-            Global.Event.Send(new BattleTipEvent($"{trainer.currentBattleData} 第:{next.enterTimes}登场"));
+            Global.Event.Send(new BattleTipEvent($"{trainer.currentBattleData} 第{next.enterTimes}次登场"));
             Assert.IsTrue(trainer == position.battleTrainer);
             await UglyMath.PostprocessHuluEnterBattle(next);
         }
