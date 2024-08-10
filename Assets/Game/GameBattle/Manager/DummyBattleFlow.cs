@@ -33,7 +33,6 @@ namespace Game.GamePlay
 
         public void Init(IBattleTrainer self, IBattleTrainer enemy, BattleEnvData envData)
         {
-            Assert.IsNull(_cts);
             this.self = self;
             this.enemy = enemy;
 
@@ -67,9 +66,15 @@ namespace Game.GamePlay
             UIRoot.Singleton.ClosePanel<GameBattlePanel>();
         }
 
+        private void OnDestroy()
+        {
+            _cts?.Cancel();
+            _cts = null;
+        }
+
         public async UniTask ChangeBattleEnv(BattleEnvironmentEnum configChangeBattleEnvAfterUse)
         {
-            _envEnvData.id = configChangeBattleEnvAfterUse;
+            await _envEnvData.Change(configChangeBattleEnvAfterUse);
             await UniTask.CompletedTask;
         }
 

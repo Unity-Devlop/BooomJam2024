@@ -26,6 +26,8 @@ namespace Game
 
         public void Dispose()
         {
+            Global.LogInfo($"Save Game Data");
+            WriteGameData(Get<GameData>());
         }
 
         public bool LoadPrevGameData(out GameData data)
@@ -49,7 +51,7 @@ namespace Game
             }
         }
 
-        public void WriteGameData(GameData data)
+        private void WriteGameData(GameData data)
         {
             File.WriteAllText(Consts.LocalGameDataPath, JsonConvert.SerializeObject(data));
         }

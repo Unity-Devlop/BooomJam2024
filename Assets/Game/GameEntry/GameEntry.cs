@@ -9,14 +9,22 @@ namespace Game.GameEntry
 {
     public class GameEntry : MonoBehaviour
     {
+        [SerializeField] private DebugLogManager manager;
+
         private async void Start()
         {
             Application.runInBackground = true;
             Application.targetFrameRate = 144;
             await UniTask.WaitUntil(() => Global.Singleton.initialized);
 
-            await UniTask.WaitUntil(() => DebugLogManager.Instance != null);
-            DebugLogManager.Instance.gameObject.SetActive(false);
+#if UNITY_EDITOR
+            manager.Awake();
+            manager.gameObject.SetActive(true);
+            UIRoot.Singleton.OpenPanel<GameDebugPanel>();
+#else
+            manager.Awake();
+            manager.gameObject.SetActive(false);
+#endif
             Global.Get<GameFlow>().Run<GameHomeState>();
         }
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace UnityToolkit
 {
@@ -17,6 +18,7 @@ namespace UnityToolkit
 
     public interface IStateMachine<TOwner>
     {
+        public event Action<Type, Type> OnStateChange;
         public bool running { get; }
         public TOwner owner { get; }
         public IState<TOwner> currentState { get; }
@@ -28,10 +30,12 @@ namespace UnityToolkit
         public void Add<T>() where T : IState<TOwner>, new() => Add(new T());
         public void OnUpdate();
         void RemoveParam(string key);
+        bool ContainsParam(string battleSettlementData);
     }
 
     public class StateMachine<TOwner> : IStateMachine<TOwner>
     {
+        public event Action<Type, Type> OnStateChange = delegate { };
         public bool running { get; protected set; }
         public TOwner owner { get; protected set; }
         public IState<TOwner> currentState { get; protected set; }
@@ -69,6 +73,7 @@ namespace UnityToolkit
                 currentState.OnExit(owner, this);
                 currentState = state;
                 currentState.OnEnter(owner, this);
+                OnStateChange(currentState.GetType(), typeof(T));
                 return true;
             }
 
@@ -82,6 +87,7 @@ namespace UnityToolkit
                 currentState.OnExit(owner, this);
                 currentState = state;
                 currentState.OnEnter(owner, this);
+                OnStateChange(currentState.GetType(), type);
                 return true;
             }
 
@@ -101,17 +107,26 @@ namespace UnityToolkit
             running = true;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void OnUpdate()
         {
             if (!running) return;
             currentState.OnUpdate(owner, this);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void RemoveParam(string key)
         {
             _blackboard.Remove(key);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool ContainsParam(string battleSettlementData)
+        {
+            return _blackboard.ContainsKey(battleSettlementData);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Stop()
         {
             currentState.OnExit(owner, this);
