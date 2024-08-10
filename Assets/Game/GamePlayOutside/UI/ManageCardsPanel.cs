@@ -26,6 +26,7 @@ namespace Game
         private ActiveSkillEnum curSelectCardId;
         private HuluData curHulu = null;
         private ManageState curManageState;
+        private Action callBack = null;
 
         public override void OnLoaded()
         {
@@ -37,6 +38,7 @@ namespace Game
         {
             base.OnOpened();
             confirmBtn.gameObject.SetActive(false);
+            callBack = null;
         }
 
 
@@ -53,7 +55,7 @@ namespace Game
             UnRegister();
         }
 
-        public void SelectHuluSkillCard(HuluData hulu)
+        public void SelectHuluSkillCard(HuluData hulu,Action callback=null)
         {
             curManageState = ManageState.Select;
             curHulu = hulu;
@@ -66,6 +68,7 @@ namespace Game
                 list.Add(data);
             }
             container.DrawCardToHand(list);
+            this.callBack = callback;
         }
 
         public void SelectTrainerSkillCard()
@@ -82,11 +85,12 @@ namespace Game
             container.DrawCardToHand(list);
         }
 
-        public void DeleteHuluSkillCard(HuluData hulu)
+        public void DeleteHuluSkillCard(HuluData hulu,Action callback)
         {
             curManageState = ManageState.Delete;
             curHulu = hulu;
             container.DrawCardToHand(hulu.ownedSkills);
+            this.callBack = callback;
         }
 
         public void DeleteTrainerSkillCard()
@@ -105,7 +109,11 @@ namespace Game
         {
             if (curManageState == ManageState.Select)
             {
-                if (curHulu != null) curHulu.AddOwnedSkill(curSelectCardId);
+                if (curHulu != null)
+                {
+                    curHulu.AddOwnedSkill(curSelectCardId);
+                    if (callBack != null) callBack.Invoke();
+                }
                 else
                 {
                     ActiveSkillData data = new();
@@ -115,7 +123,11 @@ namespace Game
             }
             else
             {
-                if (curHulu != null) curHulu.RemoveOwnedSkill(curSelectCardId);
+                if (curHulu != null)
+                {
+                    curHulu.RemoveOwnedSkill(curSelectCardId);
+                    if (callBack != null) callBack.Invoke();
+                }
                 else
                 {
                     playerData.trainerData.RemoveTrainerSkill(curSelectCardId);

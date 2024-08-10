@@ -25,18 +25,15 @@ namespace Game
 
     public class SpecialTrainPanel : UIPanel
     {
-        [SerializeField] private PokemonUIShow show;
-
         public GameObject roleList;
-        public GameObject skillList;
         public GameObject ValueList;
         public Button confirmBtn;
         public GameObject rolePortraitUIItem;
         public SpecialTrainData trainData;
-        public LoopHorizontalScrollRect skillScroll;
-        public EasyGameObjectPool skillItemPool;
         public PokemonUIShow uIShow;
         public PokemonHUD pokemonHUD;
+        public Button SelectCard;
+        public Button DeleteCard;
        // public Text roleShowName;
         //public Text roleShowPassiveSkill;
         private PlayerData playerData;
@@ -62,9 +59,6 @@ namespace Game
                 rolePortraitUIItems[i].roleName.text = list[i].id.ToString();
                 rolePortraitUIItems[i].index = i;
             }
-            skillScroll.itemRenderer = ItemRenderer;
-            skillScroll.ItemProvider = ItemProvider;
-            skillScroll.ItemReturn = ItemReturn;
             Register();
         }
 
@@ -79,6 +73,8 @@ namespace Game
             base.OnOpened();
             haveTrained = false;
             ShowUI();
+            SelectCard.gameObject.SetActive(true);
+            DeleteCard.gameObject.SetActive(true);
         }
 
         public override void OnClosed()
@@ -97,6 +93,8 @@ namespace Game
             valueUIItems[3].addBtn.onClick.AddListener(AddSpeed);
             valueUIItems[4].addBtn.onClick.AddListener(AddAdaptability);
             Global.Event.Listen<OperateSkillEvent>(HaveOperateSkill);
+            SelectCard.onClick.AddListener(SelectSkillCard);
+            DeleteCard.onClick.AddListener(DeleteSkillCard);
         }
 
         private void UnRegister()
@@ -109,18 +107,27 @@ namespace Game
             valueUIItems[3].addBtn.onClick.RemoveListener(AddSpeed);
             valueUIItems[4].addBtn.onClick.RemoveListener(AddAdaptability);
             Global.Event.UnListen<OperateSkillEvent>(HaveOperateSkill);
+            SelectCard.onClick.RemoveListener(SelectSkillCard);
+            DeleteCard.onClick.RemoveListener(DeleteSkillCard);
         }
 
-        private void ItemReturn(Transform transform1)
+
+        private void SelectSkillCard()
         {
-            skillItemPool.Release(transform1.gameObject);
+            var panel= UIRoot.Singleton.OpenPanel<ManageCardsPanel>();
+            panel.SelectHuluSkillCard(playerData.trainerData.datas[curHulu],ShowUI);
+            HideAddBtnAndTxt();
+            SelectCard.gameObject.SetActive(false);
+            DeleteCard.gameObject.SetActive(false);
         }
 
-        private GameObject ItemProvider(int idx)
+        private void DeleteSkillCard()
         {
-            GameObject obj = skillItemPool.Get();
-            obj.name = idx.ToString();
-            return obj;
+            var panel = UIRoot.Singleton.OpenPanel<ManageCardsPanel>();
+            panel.DeleteHuluSkillCard(playerData.trainerData.datas[curHulu],ShowUI);
+            HideAddBtnAndTxt();
+            SelectCard.gameObject.SetActive(false);
+            DeleteCard.gameObject.SetActive(false);
         }
 
         private void ItemRenderer(Transform transform1, int idx)
@@ -148,23 +155,6 @@ namespace Game
             }
         }
 
-        public void UnBind()
-        {
-            skillScroll.totalCount = 0;
-            skillScroll.RefillCells();
-            skillScroll.RefreshCells();
-        }
-
-
-        public void Bind()
-        {
-            var huluData = playerData.trainerData.datas[curHulu];
-            if (!haveTrained) skillScroll.totalCount = huluData.ownedSkills.Count + 3;
-            else skillScroll.totalCount = huluData.ownedSkills.Count;
-            skillScroll.RefillCells();
-            skillScroll.RefreshCells();
-        }
-
         private void ShowUI()
         {
             var list = playerData.trainerData.datas;
@@ -173,8 +163,7 @@ namespace Game
             //roleShowPassiveSkill.text = Global.Table.PassiveSkillTable.Get(huluData.passiveSkillConfig.Id).Desc;
             //UnBind();
             uIShow.Bind(huluData);
-            //pokemonHUD.Bind(huluData);
-            Bind();
+            pokemonHUD.Bind(huluData);
             valueUIItems[0].valueNum.text = huluData.hp.ToString();
             valueUIItems[0].slider.value = (float)huluData.hp / huluData.config.MaxHp;
             valueUIItems[0].addText.text = $"+{trainData.minHealth}~{trainData.maxHealth}";
