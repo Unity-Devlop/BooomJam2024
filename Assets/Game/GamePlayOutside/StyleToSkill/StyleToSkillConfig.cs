@@ -9,8 +9,8 @@ using UnityEngine.Serialization;
 
 namespace Game
 {
-    [GlobalConfig("Assets/Resouce/Config/StyleToSkillConfig")]
-    public class StyleToSkillConfig : GlobalConfig<StyleToSkillConfig>
+    [CreateAssetMenu(fileName = "StyleToSkillConfig", menuName = "Game/StyleToSkillConfig")]
+    public class StyleToSkillConfig : ScriptableObject
     {
         public List<StyleToSkillData> dataList = new List<StyleToSkillData>();
 

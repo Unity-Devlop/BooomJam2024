@@ -1245,6 +1245,7 @@ MonoBehaviour:
   leftBtn: {fileID: 457729023627163253}
   rightBtn: {fileID: 1841295270224034154}
   confirmBtn: {fileID: 4852499293305843539}
+  config: {fileID: 11400000, guid: f52ab125828fe1a43be6b7ce66461a05, type: 2}
 --- !u!114 &900064296103723100
 MonoBehaviour:
   m_ObjectHideFlags: 0
