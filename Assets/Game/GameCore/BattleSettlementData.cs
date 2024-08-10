@@ -103,7 +103,9 @@ namespace Game
         {
             if (winner == localPlayerTrainerData)
             {
-                return localPlayerPokemonDamageCount.Max();
+                int maxValue = localPlayerPokemonDamageCount.Max(x => x.Value);
+                return localPlayerPokemonDamageCount.FirstOrDefault(x => x.Value == maxValue);
+                //return localPlayerPokemonDamageCount.Max();
             }
 
             if (winner == remotePlayerTrainerData)
@@ -119,7 +121,9 @@ namespace Game
         {
             if (winner == localPlayerTrainerData)
             {
-                return localPlayerPokemonDamageCount.Max();
+                int maxValue = localPlayerPokemonDamageCount.Max(x => x.Value);
+                return localPlayerPokemonDamageCount.FirstOrDefault(x => x.Value == maxValue);
+                //return localPlayerPokemonDamageCount.Max();
             }
 
             if (winner == remotePlayerTrainerData)
