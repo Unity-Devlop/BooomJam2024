@@ -1,8 +1,6 @@
-﻿using System;
-using Game.GamePlay;
+﻿using Game.GamePlay;
 using IngameDebugConsole;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 using UnityToolkit;
 using UnityToolkit.Debugger;
@@ -28,17 +26,28 @@ namespace Game
         }
 
 
-
         public override void OnLoaded()
         {
             base.OnLoaded();
-            DebugLogConsole.AddCommand("random-battle", "Start a random battle", OnRollToStartButtonClick);
+            // Register Command
         }
 
         public override void OnDispose()
         {
             base.OnDispose();
-            DebugLogConsole.RemoveCommand("random-battle");
+            // UnRegister Command
+        }
+
+        public override void OnOpened()
+        {
+            base.OnOpened();
+            DebugLogManager.Instance.gameObject.SetActive(true);
+        }
+
+        public override void OnClosed()
+        {
+            base.OnClosed();
+            DebugLogManager.Instance.gameObject.SetActive(false);
         }
 
         private void OnDebuggerButtonClick()
@@ -71,7 +80,6 @@ namespace Game
         {
             GameMath.RollBattleData(out var local, out var remote, out var battleData);
             await Global.Get<GameFlow>().ToGameBattle(local, remote, battleData);
-
             container.gameObject.SetActive(false);
         }
     }

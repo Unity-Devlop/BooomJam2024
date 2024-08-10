@@ -3,12 +3,14 @@ using cfg;
 using Game.GamePlay;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Game
 {
     public class CardInfo : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI infoText;
+        [SerializeField] private Image bg;
 
         private void OnEnable()
         {
@@ -25,18 +27,23 @@ namespace Game
             if (obj.card.data.id == ActiveSkillEnum.None)
             {
                 Global.LogWarning($"{this}卡牌ID为None");
+                bg.enabled = false;
+                infoText.text = "";
                 return;
             }
+
             if (obj.hovering)
             {
                 string content = $"{obj.card.data.config.Desc}";
+                bg.enabled = true;
                 infoText.text = content;
+                
             }
             else
             {
+                bg.enabled = false;
                 infoText.text = "";
             }
-            
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using cfg;
 using Cysharp.Threading.Tasks;
 using Game.GamePlay;
@@ -23,21 +24,29 @@ namespace Game
         public BattleEnvironmentEnum id;
         public BattleEnvironmentConfig config => Global.Table.BattleEnvironmentTable.Get(id);
 
+        public BindData<BattleEnvData, UniTask> bind { get; private set; }
         // [ShowInInspector] private Dictionary<IBattleTrainer, BuffContainer> _containers;
 
         public BattleEnvData()
         {
+            bind = new BindData<BattleEnvData, UniTask>(this);
+            // _containers = new Dictionary<IBattleTrainer, BuffContainer>();
         }
 
         public async UniTask RoundEnd()
         {
             await UniTask.CompletedTask;
         }
-        
+
 
         public void Clear()
         {
-            
+        }
+
+        public async UniTask Change(BattleEnvironmentEnum configChangeBattleEnvAfterUse)
+        {
+            id = configChangeBattleEnvAfterUse;
+            await bind.Invoke();
         }
     }
 }
