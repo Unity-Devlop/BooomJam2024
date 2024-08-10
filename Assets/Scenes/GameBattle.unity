@@ -155,6 +155,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selfPos: {fileID: 1878422005}
   enemyPos: {fileID: 1641858193}
+  battleEnv: {fileID: 1943693590}
 --- !u!114 &517525038
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -330,7 +331,6 @@ MonoBehaviour:
         - id: 2
     buffList: 
     deck: 
-  battleEnv: {fileID: 1943693590}
 --- !u!4 &517525039
 Transform:
   m_ObjectHideFlags: 0
@@ -787,7 +787,7 @@ SpriteRenderer:
   m_Size: {x: 20, y: 12}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1943693589
