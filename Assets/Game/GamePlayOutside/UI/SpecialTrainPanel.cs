@@ -77,7 +77,6 @@ namespace Game
             base.OnOpened();
             haveTrained = false;
             ShowUI();
-            UIRoot.Singleton.OpenPanel<ManageCardsPanel>();
         }
 
         public override void OnClosed()
@@ -268,7 +267,7 @@ namespace Game
 
         public void Confirm()
         {
-            CloseSelf();
+            GamePlayOutsideMgr.Singleton.machine.Change<SelectOpponentState>();
         }
 
         IEnumerator ValueUp(ValueUp v)

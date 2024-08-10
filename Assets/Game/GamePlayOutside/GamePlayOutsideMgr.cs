@@ -10,6 +10,7 @@ namespace Game
     {
         public StateMachine<GamePlayOutsideMgr> machine { get; private set; }
         public DateSystem dateSystem;
+        public List<Opponent> opponents = new List<Opponent>();
 
         protected override void OnInit()
         {
@@ -22,6 +23,7 @@ namespace Game
             machine.Add(new DailyTrainState());
             machine.Add(new SpecialTrainState());
             machine.Add(new BattleSettlementState());
+            machine.Add(new SelectOpponentState());
             
             machine.Run<FirstSettingState>();
             
