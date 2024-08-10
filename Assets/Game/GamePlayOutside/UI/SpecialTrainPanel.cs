@@ -35,8 +35,9 @@ namespace Game
         public SpecialTrainData trainData;
         public LoopHorizontalScrollRect skillScroll;
         public EasyGameObjectPool skillItemPool;
-        public Text roleShowName;
-        public Text roleShowPassiveSkill;
+        public PokemonUIShow uIShow;
+       // public Text roleShowName;
+        //public Text roleShowPassiveSkill;
         private PlayerData playerData;
 
         private RolePortraitUIItem[] rolePortraitUIItems;
@@ -167,9 +168,10 @@ namespace Game
         {
             var list = playerData.trainerData.datas;
             var huluData = list[curHulu];
-            roleShowName.text = huluData.id.ToString();
-            roleShowPassiveSkill.text = Global.Table.PassiveSkillTable.Get(huluData.passiveSkillConfig.Id).Desc;
+            //roleShowName.text = huluData.id.ToString();
+            //roleShowPassiveSkill.text = Global.Table.PassiveSkillTable.Get(huluData.passiveSkillConfig.Id).Desc;
             //UnBind();
+            uIShow.Bind(huluData);
             Bind();
             valueUIItems[0].valueNum.text = huluData.hp.ToString();
             valueUIItems[0].slider.value = (float)huluData.hp / huluData.config.MaxHp;
