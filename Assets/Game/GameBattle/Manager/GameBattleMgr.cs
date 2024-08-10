@@ -22,6 +22,9 @@ namespace Game.GamePlay
 
         // [HorizontalGroup("TrainerGroup")] 
         public DummyRobot robotBattleTrainer;
+        
+        public BattleEnv battleEnv;
+        
 
         protected override void OnInit()
         {
@@ -40,6 +43,7 @@ namespace Game.GamePlay
             TrainerData aiTrainerData = enemy;
             playerBattleTrainer.Init(playerTrainerData); // 暂时用Inspector配置的数据
             robotBattleTrainer.Init(aiTrainerData);
+            battleEnv.Init(battleEnvData);
 
             battleFlow.Init(playerBattleTrainer, robotBattleTrainer, battleEnvData);
 

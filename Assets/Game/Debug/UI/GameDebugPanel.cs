@@ -1,4 +1,5 @@
 ﻿using System;
+using Cysharp.Threading.Tasks;
 using Game.GamePlay;
 using IngameDebugConsole;
 using UnityEngine;
@@ -28,17 +29,33 @@ namespace Game
         }
 
 
-
         public override void OnLoaded()
         {
             base.OnLoaded();
-            DebugLogConsole.AddCommand("random-battle", "Start a random battle", OnRollToStartButtonClick);
+            AddDebugCommand();
         }
+
+        public static void AddDebugCommand()
+        {
+            DebugLogConsole.AddCommand("random-battle", "Start a random battle", RollToStart);
+        }
+
+        public static void RemoveDebugCommand()
+        {
+            DebugLogConsole.RemoveCommand("random-battle");
+        }
+
+        private static async UniTask RollToStart()
+        {
+            GameMath.RollBattleData(out var local, out var remote, out var battleData);
+            await Global.Get<GameFlow>().ToGameBattle(local, remote, battleData);
+        }
+
 
         public override void OnDispose()
         {
             base.OnDispose();
-            DebugLogConsole.RemoveCommand("random-battle");
+            RemoveDebugCommand();
         }
 
         private void OnDebuggerButtonClick()
@@ -69,9 +86,7 @@ namespace Game
 
         private async void OnRollToStartButtonClick()
         {
-            GameMath.RollBattleData(out var local, out var remote, out var battleData);
-            await Global.Get<GameFlow>().ToGameBattle(local, remote, battleData);
-
+            await RollToStart();
             container.gameObject.SetActive(false);
         }
     }

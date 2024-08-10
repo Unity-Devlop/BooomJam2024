@@ -443,7 +443,7 @@ namespace IngameDebugConsole
 		private DebugLogLogcatListener logcatListener;
 #endif
 
-		private void Awake()
+		public void Awake()
 		{
 			// Only one instance of debug console is allowed
 			if( !Instance )
