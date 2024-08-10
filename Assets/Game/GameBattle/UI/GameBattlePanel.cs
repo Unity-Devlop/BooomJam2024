@@ -13,11 +13,10 @@ namespace Game
 {
     public class GameBattlePanel : UIPanel
     {
-        [FormerlySerializedAs("selfCardContainer")] [SerializeField] private BattleCardContainer selfBattleCardContainer;
+        [SerializeField] private BattleCardContainer selfBattleCardContainer;
         [SerializeField] private Button endRoundButton;
         [SerializeField] private LeftTeamHuluView leftTeamHuluView;
         private IBattleTrainer _trainer;
-        public TextMeshProUGUI tipText;
 
         private void Awake()
         {
@@ -27,18 +26,12 @@ namespace Game
         public override void OnOpened()
         {
             base.OnOpened();
-            Global.Event.Listen<BattleTipEvent>(OnBattleTip);
         }
-
-        private void OnBattleTip(BattleTipEvent obj)
-        {
-            tipText.text = obj.tip;
-        }
+        
 
         public override void OnClosed()
         {
             base.OnClosed();
-            Global.Event.UnListen<BattleTipEvent>(OnBattleTip);
         }
 
         private void OnEndRoundButtonClick()

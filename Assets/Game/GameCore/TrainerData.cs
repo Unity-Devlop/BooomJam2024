@@ -23,7 +23,7 @@ namespace Game
                 {
                     if (!data.CanFight())
                     {
-                        Global.LogWarning($"{data}战斗不能");
+                        // Global.LogWarning($"{data}战斗不能");
                         deadCnt++;
                     }
                 }
@@ -69,7 +69,7 @@ namespace Game
             if (trainerSkills == null)
                 trainerSkills = new List<ActiveSkillData>(9);
             trainerSkills.Clear();
-            var targets = Global.Table.ActiveSkillTable.DataList.FindAll((c) => c.Type == ActiveSkillTypeEnum.指挥);
+            var targets = Global.Table.ActiveSkillTable.DataList.FindAll((c) => (c.Type & ActiveSkillTypeEnum.指挥) != 0);
 
             targets.Shuffle();
 

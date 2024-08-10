@@ -1245,11 +1245,6 @@ MonoBehaviour:
   leftBtn: {fileID: 457729023627163253}
   rightBtn: {fileID: 1841295270224034154}
   confirmBtn: {fileID: 4852499293305843539}
-  styleToSkills:
-  - {fileID: 11400000, guid: b89f37c840c3da64095dff7ea21f5d58, type: 2}
-  - {fileID: 11400000, guid: f52ab125828fe1a43be6b7ce66461a05, type: 2}
-  - {fileID: 11400000, guid: d41e2f82a4bc8dd4db031c8a2fe60d9b, type: 2}
-  - {fileID: 11400000, guid: e9ee2b92ce189d04c94deb6251215014, type: 2}
 --- !u!114 &900064296103723100
 MonoBehaviour:
   m_ObjectHideFlags: 0

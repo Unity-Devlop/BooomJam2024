@@ -280,8 +280,8 @@ namespace Game
                 await UniTask.Delay(TimeSpan.FromSeconds(0.2f));
                 return null;
             }
-            
-            if(trainer.ContainsBuff(BattleBuffEnum.结束回合))
+
+            if (trainer.ContainsBuff(BattleBuffEnum.结束回合))
             {
                 await trainer.RemoveBuff(BattleBuffEnum.结束回合);
                 return new EndRoundOperation();
@@ -306,8 +306,7 @@ namespace Game
         {
             if (trainer.ContainsBuff(BattleBuffEnum.没有手牌时当前宝可梦生命值归0) && trainer.handZone.Count <= 0)
             {
-                Debug.Log($"{trainer}没有手牌!当前宝可梦生命值归0");
-                Global.Event.Send(new BattleTipEvent("没有手牌!当前宝可梦生命值归0"));
+                Global.Event.Send(new BattleTipEvent($"{trainer}没有手牌!当前宝可梦生命值归0"));
                 await trainer.currentBattleData.DecreaseHealth(trainer.currentBattleData.currentHp);
             }
         }
@@ -386,6 +385,14 @@ namespace Game
             }
 
             env = GameMath.RandomBattleEnvData();
+        }
+
+        public static ActiveSkillEnum RandomTrainerSkill()
+        {
+            var targets = Global.Table.ActiveSkillTable.DataList.FindAll((c) => (c.Type & ActiveSkillTypeEnum.指挥) != 0);
+
+            targets.Shuffle();
+            return targets[UnityEngine.Random.Range(0, targets.Count)].Id;
         }
     }
 }
