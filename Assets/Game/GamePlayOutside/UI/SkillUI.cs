@@ -39,8 +39,8 @@ namespace Game
             var config = Global.Table.ActiveSkillTable.Get(skillId);
             skillName.text = config.Id.ToString();
             this.operation = operation;
-            if (operation == SkillOperation.Select) btnText.text = "Ñ¡Ôñ";
-            else btnText.text = "É¾³ý";
+            if (operation == SkillOperation.Select) btnText.text = "é€‰æ‹©";
+            else btnText.text = "åˆ é™¤";
         }
 
         private void OperateSkill()

@@ -47,7 +47,7 @@ Material:
     - _poly_frequency: 1
     - _poly_power: 0.2
     m_Colors:
-    - _Rotation: {r: 0, g: 0, b: 0, a: 0}
+    - _Rotation: {r: 0.12617713, g: -0.35310364, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &2331130589060580268
 MonoBehaviour:

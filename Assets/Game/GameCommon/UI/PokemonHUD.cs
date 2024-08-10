@@ -1,6 +1,7 @@
 ﻿using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 using UnityToolkit;
@@ -11,8 +12,7 @@ namespace Game
     {
         [SerializeField] private Image BG;
         [SerializeField] private LoopHorizontalScrollRect ownedCardList;
-        [SerializeField] private EasyGameObjectPool fixedCardPool;
-
+        [SerializeField] private EasyGameObjectPool fixedCardAndSlotPool;
         [SerializeField] private RectTransform valueUIRoot;
         private ValueUIItem[] _valueUIItems;
         HuluData _data;
@@ -29,22 +29,22 @@ namespace Game
 
         private void ItemReturn(Transform transform1)
         {
-            fixedCardPool.Release(transform1.gameObject);
+            fixedCardAndSlotPool.Release(transform1.gameObject);
         }
 
         private GameObject ItemProvider(int idx)
         {
-            GameObject obj = fixedCardPool.Get();
-            obj.name = idx.ToString();
+            GameObject obj = fixedCardAndSlotPool.Get();
+            obj.transform.GetChild(0).name = idx.ToString();
             return obj;
         }
 
         private void ItemRenderer(Transform transform1, int idx)
         {
             ActiveSkillData skillData = _data.ownedSkills[idx];
-            FixedCard card = transform1.GetComponentInChildren<FixedCard>();
-            card.UnBind();
-            card.Bind(skillData, cardVisualPool);
+            Assert.IsTrue(transform1.GetComponent<CardSlot>() != null);
+            OutSideCard card = transform1.GetComponentInChildren<OutSideCard>();
+            card.Init(cardVisualPool, skillData);
         }
 
 

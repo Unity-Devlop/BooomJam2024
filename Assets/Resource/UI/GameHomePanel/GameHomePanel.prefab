@@ -102,6 +102,7 @@ MonoBehaviour:
   developerButton: {fileID: 1867251918105186205}
   exitGame: {fileID: 2333452045528370816}
   devButton: {fileID: 1931402062034484553}
+  debugOn: 0
 --- !u!222 &8633187748281514535
 CanvasRenderer:
   m_ObjectHideFlags: 0

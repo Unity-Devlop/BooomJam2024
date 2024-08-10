@@ -13,6 +13,7 @@ namespace Game
     {
         public enum ShaderType
         {
+            None,
             Regular,
             Polychrome,
             Negative
@@ -93,7 +94,7 @@ namespace Game
 
         protected virtual void Select(Card card, bool state)
         {
-            _canvas.overrideSorting = state;
+            // _canvas.overrideSorting = state;
             // DOTween.Kill(2, true);
             // float dir = state ? 1 : 0;
             // shakeParent.DOPunchPosition(shakeParent.up * selectPunchAmount * dir, scaleTransition, 10, 1);
