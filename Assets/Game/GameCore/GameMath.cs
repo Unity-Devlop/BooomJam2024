@@ -280,8 +280,8 @@ namespace Game
                 await UniTask.Delay(TimeSpan.FromSeconds(0.2f));
                 return null;
             }
-            
-            if(trainer.ContainsBuff(BattleBuffEnum.结束回合))
+
+            if (trainer.ContainsBuff(BattleBuffEnum.结束回合))
             {
                 await trainer.RemoveBuff(BattleBuffEnum.结束回合);
                 return new EndRoundOperation();
@@ -386,6 +386,14 @@ namespace Game
             }
 
             env = GameMath.RandomBattleEnvData();
+        }
+
+        public static ActiveSkillEnum RandomTrainerSkill()
+        {
+            var targets = Global.Table.ActiveSkillTable.DataList.FindAll((c) => (c.Type & ActiveSkillTypeEnum.指挥) != 0);
+
+            targets.Shuffle();
+            return targets[UnityEngine.Random.Range(0, targets.Count)].Id;
         }
     }
 }

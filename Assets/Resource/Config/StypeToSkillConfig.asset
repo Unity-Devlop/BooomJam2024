@@ -10,7 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ed386f946fb1bb1428cc2c03ce051400, type: 3}
-  m_Name: "\u6DF1\u601D\u719F\u8651"
+  m_Name: StypeToSkillConfig
   m_EditorClassIdentifier: 
-  styleName: "\u6DF1\u601D\u719F\u8651"
-  skills: 26000000270000000100000002000000
+  dataList:
+  - styleName: "\u9632\u5B88\u53CD\u51FB"
+    skills: 38000000300000003200000031000000
+  - styleName: "\u8FC5\u731B\u8FDB\u653B"
+    skills: 2900000036000000360000002d000000

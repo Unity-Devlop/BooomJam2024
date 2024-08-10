@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 using UnityToolkit;
 
@@ -14,7 +15,7 @@ namespace Game
         public Button leftBtn;
         public Button rightBtn;
         public Button confirmBtn;
-        public List<StyleToSkill> styleToSkills = new List<StyleToSkill>();
+        private static StyleToSkillConfig config => StyleToSkillConfig.Instance;
 
         private int curStyle = 0;
 
@@ -33,7 +34,7 @@ namespace Game
         public override void OnOpened()
         {
             base.OnOpened();
-            styleText.text = styleToSkills[curStyle].styleName;
+            styleText.text = config.dataList[0].styleName;
         }
 
         private void Register()
@@ -53,26 +54,26 @@ namespace Game
         public void NextStyle()
         {
             ++curStyle;
-            curStyle %= styleToSkills.Count;
-            styleText.text = styleToSkills[curStyle].styleName;
+            curStyle %= config.dataList.Count;
+            styleText.text = config.dataList[curStyle].styleName;
         }
 
         public void LastStyle()
         {
             --curStyle;
-            curStyle += styleToSkills.Count;
-            curStyle %= styleToSkills.Count;
-            styleText.text = styleToSkills[curStyle].styleName;
+            curStyle += config.dataList.Count;
+            curStyle %= config.dataList.Count;
+            styleText.text = config.dataList[curStyle].styleName;
         }
 
         public void Confirm()
         {
             var playerData = Global.Get<DataSystem>().Get<GameData>().playerData;
             playerData.name = inputField.text;
-            for (int i = 0; i < styleToSkills[curStyle].skills.Count; ++i)
+            for (int i = 0; i < config.dataList[curStyle].skills.Count; ++i)
             {
                 var temp = new ActiveSkillData();
-                temp.id = styleToSkills[curStyle].skills[i];
+                temp.id = config.dataList[curStyle].skills[i];
                 playerData.trainerData.trainerSkills.Add(temp);
             }
 

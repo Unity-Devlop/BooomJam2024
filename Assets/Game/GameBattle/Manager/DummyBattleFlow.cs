@@ -74,7 +74,6 @@ namespace Game.GamePlay
         public async UniTask ChangeBattleEnv(BattleEnvironmentEnum configChangeBattleEnvAfterUse)
         {
             await envEnvData.Change(configChangeBattleEnvAfterUse);
-            await UniTask.CompletedTask;
         }
 
         public async UniTask Enter()
@@ -779,6 +778,7 @@ namespace Game.GamePlay
 
             if (config.ChangeBattleEnvAfterUse != BattleEnvironmentEnum.None)
             {
+                Global.LogInfo($"{userPosition}使用{operation.data.id}改变战场环境:{config.ChangeBattleEnvAfterUse}");
                 await ChangeBattleEnv(config.ChangeBattleEnvAfterUse);
             }
 

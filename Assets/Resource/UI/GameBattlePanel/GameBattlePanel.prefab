@@ -734,7 +734,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 251.385, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 119.85, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4794958445394785216
 CanvasRenderer:
@@ -764,7 +764,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 
+  m_text: 123456
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ae91f85c7316840b9beb0fc8828f6ffd, type: 2}
   m_sharedMaterial: {fileID: -3430180963447677115, guid: ae91f85c7316840b9beb0fc8828f6ffd, type: 2}
@@ -902,7 +902,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5051996465147023441}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -975,6 +975,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3038995950287039585}
   - component: {fileID: 983753942638447419}
+  - component: {fileID: 8349993453471184356}
   m_Layer: 5
   m_Name: BattleTip
   m_TagString: Untagged
@@ -1010,6 +1011,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5363148527851314316}
   m_CullTransparentMesh: 1
+--- !u!114 &8349993453471184356
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5363148527851314316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a93dba7b80a4af0a2f8b84579b7535c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Bg: {fileID: 4683365737451874885}
+  tipText: {fileID: 4597337034667307775}
 --- !u!1 &5615162247392166439
 GameObject:
   m_ObjectHideFlags: 0
@@ -1615,7 +1630,6 @@ MonoBehaviour:
   selfBattleCardContainer: {fileID: 665382401368143376}
   endRoundButton: {fileID: 2055847392948659394}
   leftTeamHuluView: {fileID: 4504405033315295121}
-  tipText: {fileID: 4597337034667307775}
 --- !u!1001 &2104982675038939175
 PrefabInstance:
   m_ObjectHideFlags: 0

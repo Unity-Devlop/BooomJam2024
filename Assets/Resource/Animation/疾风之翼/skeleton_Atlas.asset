@@ -9,8 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed386f946fb1bb1428cc2c03ce051400, type: 3}
-  m_Name: "\u8FC5\u731B\u8FDB\u653B"
+  m_Script: {fileID: 11500000, guid: a6b194f808b1af6499c93410e504af42, type: 3}
+  m_Name: skeleton_Atlas
   m_EditorClassIdentifier: 
-  styleName: "\u8FC5\u731B\u8FDB\u653B"
-  skills: 1f000000250000000300000005000000
+  atlasFile: {fileID: 4900000, guid: 7ee8f561bac5bc34b8bbc8d315668d62, type: 3}
+  materials:
+  - {fileID: 2100000, guid: 1de6df8d1906ff443b50ac91c18c6f5c, type: 2}
