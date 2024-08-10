@@ -8,39 +8,43 @@ using UnityToolkit;
 
 namespace Game
 {
-    struct Selection
+    public enum ManageState
     {
-        public HuluEnum huluEnum;
-        public ActiveSkillEnum originSkill;
-
-        public Selection(HuluEnum hulu,ActiveSkillEnum ori)
-        {
-            huluEnum = hulu;
-            originSkill = ori;
-        }
+        None,
+        Select,
+        Delete,
     }
 
     public class ManageCardsPanel : UIPanel
     {
         public GameObject selectCard;
         public GameObject deleteCard;
-        public Button selectConfirm;
-        public OutsideCardContainer container;
-
-        private CardItem[] selectCardItems;
-        private CardItem[] deleteCardItems;
+        public Button confirmBtn;
+        public ManageCardContainer container;
         private PlayerData playerData;
-        private List<ActiveSkillEnum> activeSkillEnums;
         private Action<bool, HuluEnum, ActiveSkillEnum, ActiveSkillEnum> action;
-        private int curSelectCard=-1;
-        private Selection selection;
+        private ActiveSkillEnum curSelectCardId;
+        private HuluData curHulu = null;
+        private ManageState curManageState;
 
         public override void OnLoaded()
         {
-            selectCardItems = selectCard.GetComponentsInChildren<CardItem>();
-            deleteCardItems=deleteCard.GetComponentsInChildren<CardItem>();
             playerData = Global.Get<DataSystem>().Get<GameData>().playerData;
             Register();
+        }
+
+        public override void OnOpened()
+        {
+            base.OnOpened();
+            confirmBtn.gameObject.SetActive(false);
+        }
+
+
+        public override void OnClosed()
+        {
+            base.OnClosed();
+            curHulu = null;
+            curManageState = ManageState.None;
         }
 
         public override void OnDispose()
@@ -49,37 +53,74 @@ namespace Game
             UnRegister();
         }
 
-        public void SelectSkillCard(HuluEnum id,ActiveSkillEnum ori,Action<bool,HuluEnum,ActiveSkillEnum,ActiveSkillEnum> callback)
+        public void SelectHuluSkillCard(HuluData hulu)
         {
-            selectCard.SetActive(true);
-            deleteCard.SetActive(false);
-            activeSkillEnums = GetRandomSkill(Global.Table.HuluTable.Get(id).SkillPool);
-            var table = Global.Table.ActiveSkillTable;
+            curManageState = ManageState.Select;
+            curHulu = hulu;
+            var activeSkillEnums = GetRandomSkill(Global.Table.HuluTable.Get(hulu.id).SkillPool);
+            List<ActiveSkillData> list = new List<ActiveSkillData>();
             for(int i=0;i< activeSkillEnums.Count; ++i)
             {
-                selectCardItems[i].titleTxt.text = table.Get(activeSkillEnums[i]).Id.ToString();
-                selectCardItems[i].descriptionTxt.text = table.Get(activeSkillEnums[i]).Desc;
                 var data = new ActiveSkillData();
                 data.id = activeSkillEnums[i];
-                container.AddCardItem(selectCardItems[i], data);
+                list.Add(data);
             }
-            action = callback;
-            selection = new Selection(id, ori);
+            container.DrawCardToHand(list);
         }
 
-        public void ClickSelectSkillCard(int index)
+        public void SelectTrainerSkillCard()
         {
-            curSelectCard = index;
-        }
-
-        public void ConfirmSelectSkillCard()
-        {
-            if(action!=null)
+            curManageState = ManageState.Select;
+            List<ActiveSkillData> list = new List<ActiveSkillData>();
+            var targets = Global.Table.ActiveSkillTable.DataList.FindAll((c) => c.Type == ActiveSkillTypeEnum.Ö¸»Ó);
+            for (int i = 0; i < targets.Count; ++i)
             {
-                if (curSelectCard != -1) action(true, selection.huluEnum, selection.originSkill, activeSkillEnums[curSelectCard]);
-                else action(false,default(HuluEnum), default(ActiveSkillEnum), default(ActiveSkillEnum));
+                var data = new ActiveSkillData();
+                data.id = targets[i].Id;
+                list.Add(data);
             }
-            selectCard.SetActive(false);
+            container.DrawCardToHand(list);
+        }
+
+        public void DeleteHuluSkillCard(HuluData hulu)
+        {
+            curManageState = ManageState.Delete;
+            curHulu = hulu;
+            container.DrawCardToHand(hulu.ownedSkills);
+        }
+
+        public void DeleteTrainerSkillCard()
+        {
+            curManageState = ManageState.Delete;
+            container.DrawCardToHand(playerData.trainerData.trainerSkills);
+        }
+
+        public void ClickSelectSkillCard(ClickCardEvent e)
+        {
+            curSelectCardId = e.data.id;
+            confirmBtn.gameObject.SetActive(true);
+        }
+
+        public void ConfirmSkillCard()
+        {
+            if (curManageState == ManageState.Select)
+            {
+                if (curHulu != null) curHulu.AddOwnedSkill(curSelectCardId);
+                else
+                {
+                    ActiveSkillData data = new();
+                    data.id = curSelectCardId;
+                    playerData.trainerData.trainerSkills.Add(data);
+                }
+            }
+            else
+            {
+                if (curHulu != null) curHulu.RemoveOwnedSkill(curSelectCardId);
+                else
+                {
+                    playerData.trainerData.RemoveTrainerSkill(curSelectCardId);
+                }
+            }
             CloseSelf();
         }
 
@@ -99,22 +140,19 @@ namespace Game
 
         private void Register()
         {
-            selectConfirm.onClick.AddListener(ConfirmSelectSkillCard);
-            for(int i=0;i<selectCardItems.Length;++i)
-            {
-                int index = i;
-                selectCardItems[i].cardBtn.onClick.AddListener(() => { ClickSelectSkillCard(index); });
-            }
+            confirmBtn.onClick.AddListener(ConfirmSkillCard);
+            Global.Event.Listen<ClickCardEvent>(ClickSelectSkillCard);
         }
 
         private void UnRegister()
         {
-            selectConfirm.onClick.RemoveListener(ConfirmSelectSkillCard);
-            for (int i = 0; i < selectCardItems.Length; ++i)
-            {
-                int index = i;
-                selectCardItems[i].cardBtn.onClick.RemoveListener(() => { ClickSelectSkillCard(index); });
-            }
+            confirmBtn.onClick.RemoveListener(ConfirmSkillCard);
+            Global.Event.UnListen<ClickCardEvent>(ClickSelectSkillCard);
         }
+    }
+
+    public class ClickCardEvent
+    {
+        public ActiveSkillData data;
     }
 }

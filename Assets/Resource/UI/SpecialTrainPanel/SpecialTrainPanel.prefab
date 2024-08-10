@@ -116,7 +116,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
   m_FillRect: {fileID: 5983257670710779144}
   m_HandleRect: {fileID: 0}
@@ -512,10 +512,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <state>k__BackingField: 0
   sortingOrder: 0
+  show: {fileID: 0}
   roleList: {fileID: 835701314592972448}
-  roleShowImg: {fileID: 971963799378423373}
-  roleShowName: {fileID: 2633959070549873797}
-  roleShowPassiveSkill: {fileID: 7075180883330071910}
   skillList: {fileID: 8930528756992947176}
   ValueList: {fileID: 4777271618781173197}
   confirmBtn: {fileID: 6839939916477811132}
@@ -523,6 +521,8 @@ MonoBehaviour:
   trainData: {fileID: 11400000, guid: d2585c2b2331fee4192c955b58e61b79, type: 2}
   skillScroll: {fileID: 7959763096326370558}
   skillItemPool: {fileID: 7803322429966166587}
+  roleShowName: {fileID: 2633959070549873797}
+  roleShowPassiveSkill: {fileID: 7075180883330071910}
 --- !u!1 &1225388728530239081
 GameObject:
   m_ObjectHideFlags: 0
@@ -1184,7 +1184,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
   m_FillRect: {fileID: 5921580060487932105}
   m_HandleRect: {fileID: 0}
@@ -2592,7 +2592,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
   m_FillRect: {fileID: 1173253842176445604}
   m_HandleRect: {fileID: 0}
@@ -2859,7 +2859,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
   m_FillRect: {fileID: 599382252680928593}
   m_HandleRect: {fileID: 0}
@@ -3663,7 +3663,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
   m_FillRect: {fileID: 2335322774835958330}
   m_HandleRect: {fileID: 0}

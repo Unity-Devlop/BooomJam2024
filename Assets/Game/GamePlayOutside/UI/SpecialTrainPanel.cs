@@ -25,10 +25,9 @@ namespace Game
 
     public class SpecialTrainPanel : UIPanel
     {
+        [SerializeField] private PokemonUIShow show;
+
         public GameObject roleList;
-        public Image roleShowImg;
-        public Text roleShowName;
-        public Text roleShowPassiveSkill;
         public GameObject skillList;
         public GameObject ValueList;
         public Button confirmBtn;
@@ -36,6 +35,8 @@ namespace Game
         public SpecialTrainData trainData;
         public LoopHorizontalScrollRect skillScroll;
         public EasyGameObjectPool skillItemPool;
+        public Text roleShowName;
+        public Text roleShowPassiveSkill;
         private PlayerData playerData;
 
         private RolePortraitUIItem[] rolePortraitUIItems;
@@ -76,6 +77,7 @@ namespace Game
             base.OnOpened();
             haveTrained = false;
             ShowUI();
+            UIRoot.Singleton.OpenPanel<ManageCardsPanel>();
         }
 
         public override void OnClosed()
@@ -195,6 +197,7 @@ namespace Game
 
         public void Choose()
         {
+
         }
 
         private void AddHealth()

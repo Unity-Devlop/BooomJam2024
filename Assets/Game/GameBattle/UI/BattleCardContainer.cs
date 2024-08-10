@@ -35,8 +35,6 @@ namespace Game
         [field: SerializeField] public CardVisualPool cardVisualPool { get; private set; }
         [field: SerializeField] public EasyGameObjectPool cardPool { get; private set; }
 
-        [field: SerializeField] public EasyGameObjectPool cardItemPool { get; private set; }
-
         private Tweener _endDragTween;
 
         private void Awake()
@@ -228,26 +226,6 @@ namespace Game
 
             return card;
         }
-
-        private CardItem SpawnOneCardItemObj(string objName = "")
-        {
-            CardSlot slot = cardSlotPool.Get().GetComponent<CardSlot>();
-            slot.transform.SetParent(transform);
-
-            CardItem card = cardItemPool.Get().GetComponent<CardItem>();
-            card.transform.SetParent(slot.transform);
-            card.transform.localPosition = Vector3.zero;
-
-            card.name = objName;
-            card.PointerEnterEvent += CardPointerEnter;
-            card.PointerExitEvent += CardPointerExit;
-            card.BeginDragEvent += BeginDrag;
-            card.EndDragEvent += EndDrag;
-
-
-            return card;
-        }
-
 
         private void BeginDrag(Card card)
         {
