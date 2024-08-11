@@ -70,6 +70,7 @@ namespace Game
                 uIShow.Bind(settlementData.SVP().Key);
             }
             m_txtReward.text = $"+{settlementData.LocalAdmirePoint()}";
+            Global.Get<DataSystem>().Get<GameData>().admireNum += settlementData.LocalAdmirePoint();
         }
 
         private void Confirm()
