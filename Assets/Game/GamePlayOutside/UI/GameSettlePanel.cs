@@ -25,6 +25,7 @@ namespace Game
         private SettleEnum settle;
         private BattleSettlementData settlementData;
         private int count = 0;
+        private bool isNextSeason = false;
 
         public override void OnLoaded()
         {
@@ -75,6 +76,7 @@ namespace Game
             if (++Global.Get<DataSystem>().Get<GameData>().date.count%3==0)
             {
                 GamePlayOutsideMgr.Singleton.dateSystem.SeasonElapse(1);
+                isNextSeason = true;
             }
         }
 
@@ -124,7 +126,8 @@ namespace Game
                     ++count;
                     break;
                 default:
-                    GamePlayOutsideMgr.Singleton.machine.Change<DailyTrainState>();
+                    if(isNextSeason) GamePlayOutsideMgr.Singleton.machine.Change<ChangeHuluState>();
+                    else GamePlayOutsideMgr.Singleton.machine.Change<DailyTrainState>();
                     break;
 
             }
@@ -135,7 +138,7 @@ namespace Game
             m_rectWin.gameObject.SetActive(false);
             m_rectLose.gameObject.SetActive(false);
             count = 0;
-            
+            isNextSeason = false;
         }
 
     }

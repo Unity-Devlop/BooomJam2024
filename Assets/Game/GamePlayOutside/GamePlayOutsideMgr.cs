@@ -22,6 +22,7 @@ namespace Game
             machine.Add(new SpecialTrainState());
             machine.Add(new BattleSettlementState());
             machine.Add(new SelectOpponentState());
+            machine.Add(new ChangeHuluState());
 
             machine.OnStateChange += OnOutsideStateChange;
 

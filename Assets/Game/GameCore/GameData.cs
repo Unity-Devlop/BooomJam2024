@@ -13,6 +13,7 @@ namespace Game
         // TODO 游戏流程的位置信息
         public Type gameOutsideStateType;
         public BattleSettlementData battleSettlementData;
+        public int huluCapacity=4;
         
         [JsonIgnore]
         public BindData<GameData> bind { get; private set; }
