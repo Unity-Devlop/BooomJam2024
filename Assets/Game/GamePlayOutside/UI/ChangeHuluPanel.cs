@@ -1,10 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityToolkit;
-using static GluonGui.WorkspaceWindow.Views.Checkin.Operations.CheckinViewDeleteOperation;
 
 namespace Game
 {
@@ -164,11 +162,11 @@ namespace Game
 
             if (_chooseHulus.Contains(data))
             {
-                chooseBtnText.text = "取消招募";
+                chooseBtnText.text = "鍙栨秷鎷涘嫙";
             }
             else
             {
-                chooseBtnText.text = "招募";
+                chooseBtnText.text = "鎷涘嫙";
             }
         }
 
@@ -197,11 +195,11 @@ namespace Game
 
             if (_chooseOwnedHulus.Contains(data))
             {
-                fireBtnText.text = "取消解雇";
+                fireBtnText.text = "鍙栨秷瑙ｉ泧";
             }
             else
             {
-                fireBtnText.text = "解雇";
+                fireBtnText.text = "瑙ｉ泧";
             }
         }
 
@@ -214,7 +212,7 @@ namespace Game
             if (_chooseHulus.Contains(chooseTar))
             {
                 _chooseHulus.Remove(chooseTar);
-                chooseBtnText.text = "招募";
+                chooseBtnText.text = "鎷涘嫙";
                 selectItem.SetState(Color.white);
             }
             else
@@ -223,7 +221,7 @@ namespace Game
                 {
                     _chooseHulus.Add(chooseTar);
                     selectItem.SetState(Color.green);
-                    chooseBtnText.text = "取消招募";
+                    chooseBtnText.text = "鍙栨秷鎷涘嫙";
                 }
             }
             ShowOwnedUI(_curSelectedOwnedHulu);
@@ -238,7 +236,7 @@ namespace Game
             if (_chooseOwnedHulus.Contains(chooseTar))
             {
                 _chooseOwnedHulus.Remove(chooseTar);
-                fireBtnText.text = "解雇";
+                fireBtnText.text = "瑙ｉ泧";
                 selectItem.SetState(Color.white);
             }
             else
@@ -247,7 +245,7 @@ namespace Game
                 {
                     _chooseOwnedHulus.Add(chooseTar);
                     selectItem.SetState(Color.green);
-                    fireBtnText.text = "取消解雇";
+                    fireBtnText.text = "鍙栨秷瑙ｉ泧";
                 }
             }
             ShowUI(_curSelectedHulu);
