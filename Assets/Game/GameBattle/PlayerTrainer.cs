@@ -336,7 +336,7 @@ namespace Game.GamePlay
             // Debug.Log($"{this} 抽牌 {cnt}");
             int cur = handZone.Count; // 手牌数量
             // Debug.Log($"当前手牌数量:{cur}");
-            int need = Consts.MaxHandCard - cur; // 还可以抽的数量
+            int need = CalHandMax() - cur; // 还可以抽的数量
             need = Mathf.Clamp(need, 0, cnt); // 限制抽牌数量
             need = Mathf.Clamp(need, 0, deck.Count);
             if (need == 0)
@@ -470,9 +470,21 @@ namespace Game.GamePlay
             return UniTask.CompletedTask;
         }
 
+        public int CalHandMax()
+        {
+            int max = Consts.MaxHandCard;
+            GameData gameData = Global.Get<DataSystem>().Get<GameData>();
+            if (gameData.ruleConfig.ruleList.Contains(GameRuleEnum.手牌上限减少到6张))
+            {
+                max = 6;
+            }
+
+            return max;
+        }
+
         public async UniTask DrawHandFull()
         {
-            await DrawSkills(Consts.MaxHandCard - handZone.Count);
+            await DrawSkills(CalHandMax() - handZone.Count);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

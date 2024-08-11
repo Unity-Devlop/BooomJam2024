@@ -7,6 +7,6 @@ namespace Game
     public class GameRuleConfig
     {
         public int prevCnt;// 变更规则前的规则数量
-        public List<GameRule> ruleList;// 当前规则
+        public HashSet<GameRuleEnum> ruleList;// 当前规则
     }
 }
