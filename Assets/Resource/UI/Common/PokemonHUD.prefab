@@ -2108,6 +2108,7 @@ MonoBehaviour:
   ownedCardList: {fileID: 8226142020884563969}
   fixedCardAndSlotPool: {fileID: 4377334518326757476}
   valueUIRoot: {fileID: 5150311503155626297}
+  visualParameters: {fileID: 11400000, guid: 76b4e11e6d6e5ff498fc405c6e7e5adc, type: 2}
   cardVisualPool: {fileID: 2075548364664837191}
 --- !u!114 &4377334518326757476
 MonoBehaviour:
