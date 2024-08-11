@@ -23,6 +23,7 @@ namespace Game
         public Button confirmBtn;
         public ManageCardContainer container;
         public TextMeshProUGUI title;
+        public Button cancelBtn;
         private PlayerData playerData;
         private Action<bool, HuluEnum, ActiveSkillEnum, ActiveSkillEnum> action;
         private ActiveSkillEnum curSelectCardId;
@@ -59,7 +60,7 @@ namespace Game
 
         public void SelectHuluSkillCard(HuluData hulu,Action callback=null)
         {
-            title.text = "选择一张卡牌";
+            title.text = $"选择一张卡牌\n{hulu.id}";
             curManageState = ManageState.Select;
             curHulu = hulu;
             var activeSkillEnums = GetRandomSkill(Global.Table.HuluTable.Get(hulu.id).SkillPool);
@@ -76,7 +77,7 @@ namespace Game
 
         public void SelectTrainerSkillCard()
         {
-            title.text = "选择一张卡牌";
+            title.text = "选择一张指挥卡牌";
             curManageState = ManageState.Select;
             List<ActiveSkillData> list = new List<ActiveSkillData>();
             var targets = Global.Table.ActiveSkillTable.DataList.FindAll((c) => c.Type == ActiveSkillTypeEnum.指挥);
@@ -92,7 +93,7 @@ namespace Game
 
         public void DeleteHuluSkillCard(HuluData hulu,Action callback=null)
         {
-            title.text = "删除一张卡牌";
+            title.text = $"删除一张卡牌\n{hulu.id}";
             curManageState = ManageState.Delete;
             curHulu = hulu;
             container.DrawCardToHand(hulu.ownedSkills);
@@ -101,7 +102,7 @@ namespace Game
 
         public void DeleteTrainerSkillCard()
         {
-            title.text = "删除一张卡牌";
+            title.text = "删除一张指挥卡牌";
             curManageState = ManageState.Delete;
             container.DrawCardToHand(playerData.trainerData.trainerSkills);
         }
@@ -109,7 +110,7 @@ namespace Game
         public void ClickSelectSkillCard(ClickCardEvent e)
         {
             curSelectCardId = e.data.id;
-            confirmBtn.gameObject.SetActive(true);
+            ConfirmSkillCard();
         }
 
         public void ConfirmSkillCard()
@@ -157,15 +158,22 @@ namespace Game
             return new List<ActiveSkillEnum>() { array[0], array[1], array[2] };
         }
 
+        private void Cancel()
+        {
+            CloseSelf();
+        }
+
         private void Register()
         {
             confirmBtn.onClick.AddListener(ConfirmSkillCard);
+            cancelBtn.onClick.AddListener(Cancel);
             Global.Event.Listen<ClickCardEvent>(ClickSelectSkillCard);
         }
 
         private void UnRegister()
         {
             confirmBtn.onClick.RemoveListener(ConfirmSkillCard);
+            cancelBtn.onClick.RemoveListener(Cancel);
             Global.Event.UnListen<ClickCardEvent>(ClickSelectSkillCard);
         }
     }
