@@ -104,6 +104,7 @@ namespace UnityToolkit
         {
             currentState = _states[TypeId<T>.stableId];
             currentState.OnEnter(owner, this);
+            OnStateChange(null, typeof(T));
             running = true;
         }
 
