@@ -58,7 +58,7 @@ namespace Game
             _canvas = GetComponentInParent<Canvas>();
         }
 
-        public virtual async void Initialize(Card card)
+        public virtual void Initialize(Card card)
         {
             if (_target != null)
             {

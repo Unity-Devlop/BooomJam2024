@@ -46,7 +46,7 @@ namespace Game
         public float biggerScale = 2f;
 
         // components
-        private CardVisual _visual;
+        public CardVisual visual { get; private set; }
         private CardVisualPool _cardVisualPool;
         public Image img { get; private set; }
         private Canvas _canvas;
@@ -54,7 +54,7 @@ namespace Game
 
         public ActiveSkillData data;
 
-        public async void Init(CardVisualPool cardVisualPool, ActiveSkillData data)
+        public async void Init(CardVisualPool cardVisualPool, ActiveSkillData data,bool directSetPos = false)
         {
             this.data = data;
             _cardVisualPool = cardVisualPool;
@@ -62,25 +62,28 @@ namespace Game
             // Debug.Log($"Init Card: HashCode: {this.data.GetHashCode()}, data: {data}");
             img = GetComponent<Image>();
             _canvas = GetComponentInParent<Canvas>();
-            if (_visual != null)
+            if (visual != null)
             {
-                cardVisualPool.Release(_visual);
-                _visual = null;
+                cardVisualPool.Release(visual);
+                visual = null;
             }
 
             if (data.id == ActiveSkillEnum.保时捷的赞助)
             {
-                _visual = cardVisualPool.GetSpecial(data.id);
+                visual = cardVisualPool.GetSpecial(data.id);
             }
             else
             {
-                _visual = cardVisualPool.Get(data.config.Type);
+                visual = cardVisualPool.Get(data.config.Type);
             }
 
-            _visual.transform.localScale = Vector3.one;
-            _visual.transform.localPosition = Vector3.zero;
-            _visual.Initialize(this);
-
+            visual.transform.localScale = Vector3.one;
+            visual.transform.localPosition = Vector3.zero;
+            if (directSetPos)
+            {
+                visual.transform.position = transform.position;
+            }
+            visual.Initialize(this);
             img.sprite = await Global.Get<ResourceSystem>().LoadCardBg(data.id);
         }
 
@@ -102,12 +105,12 @@ namespace Game
             EndDragEvent = delegate { };
             SelectEvent = delegate { };
 
-            if (_visual != null)
+            if (visual != null)
             {
-                _cardVisualPool.Release(_visual);
+                _cardVisualPool.Release(visual);
             }
 
-            _visual = null;
+            visual = null;
 
             data = null;
         }
