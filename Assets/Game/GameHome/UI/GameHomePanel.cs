@@ -46,6 +46,7 @@ namespace Game.GameHome
 
         private void DeveloperButtonClick()
         {
+            UIRoot.Singleton.OpenPanel<DeveloperPanel>();
         }
 
         private async void ContinueGameClick()
