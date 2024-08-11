@@ -68,7 +68,7 @@ namespace Game.GameHome
             GameData gameData = new GameData();
             gameData.playerData = new PlayerData(true);
             GameRuleConfig gameRuleConfig = new GameRuleConfig();
-            gameRuleConfig.ruleList = new List<GameRule>();
+            gameRuleConfig.ruleList = new HashSet<GameRuleEnum>();
             gameRuleConfig.prevCnt = 0;
             gameData.ruleConfig = gameRuleConfig;
             
