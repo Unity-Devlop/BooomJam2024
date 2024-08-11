@@ -9,7 +9,7 @@ namespace Game
     {
         public StateMachine<GamePlayOutsideMgr> machine { get; private set; }
         public DateSystem dateSystem;
-        public List<Opponent> opponents = new List<Opponent>();
+        public OpponentConfig opponents;
 
         protected override void OnInit()
         {

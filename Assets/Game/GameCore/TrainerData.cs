@@ -11,6 +11,7 @@ namespace Game
     [Serializable]
     public class TrainerData
     {
+        public string name;
         public List<ActiveSkillData> trainerSkills;
         public List<HuluData> datas;
 

@@ -122,28 +122,11 @@ namespace Game
 
         private void LoadOpponent()
         {
-            var opponentList = GamePlayOutsideMgr.Singleton.opponents;
-            var metList = GamePlayOutsideMgr.Singleton.dateSystem.haveMet;
+            var opponentList = GamePlayOutsideMgr.Singleton.opponents.opponents;
+            var metList = GamePlayOutsideMgr.Singleton.dateSystem.hasMeet;
             opponentList.Shuffle();
-            TrainerData trainer = new TrainerData();
-            trainer.RollTrainerSkill9();
-            for (int i = 0; i < opponentList.Count; ++i)
-            {
-                if (!metList.Contains(opponentList[i].id))
-                {
-                    opponentList[i].hulus.Shuffle();
-                    for (int j = 0; j < opponentList[i].hulus.Count;++j)
-                    {
-                        HuluData data = new HuluData();
-                        data.RollAbility();
-                        data.id = opponentList[i].hulus[j];
-                        data.elementEnum = data.config.Elements;
-                        trainer.datas.Add(data);
-                    }
-                    break;
-                }
-            }
-            enemy = trainer;
+            var target = opponentList.Find(x => !metList.Contains(x.name));
+            enemy = target;
         }
 
         private void EnemyChoose()
