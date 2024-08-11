@@ -16,7 +16,7 @@ namespace Game
     public class DateSystem
     {
         public Date curDate;
-        public List<OpponentId> haveMet = new List<OpponentId>();
+        public List<string> hasMeet = new List<string>();
 
 
         public DateSystem(int year,int month,int day,int season)
@@ -45,7 +45,6 @@ namespace Game
         public void SeasonElapse(int value)
         {
             curDate.season += value;
-            haveMet.Clear();
         }
     }
 }
