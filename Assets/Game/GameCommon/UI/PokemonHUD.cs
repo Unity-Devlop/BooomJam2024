@@ -1,4 +1,5 @@
 ﻿using System;
+using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -14,6 +15,7 @@ namespace Game
         [SerializeField] private LoopHorizontalScrollRect ownedCardList;
         [SerializeField] private EasyGameObjectPool fixedCardAndSlotPool;
         [SerializeField] private RectTransform valueUIRoot;
+        [SerializeField] private CardVisualParameters visualParameters;
         private ValueUIItem[] _valueUIItems;
         HuluData _data;
         [SerializeField] private CardVisualPool cardVisualPool;
@@ -39,12 +41,14 @@ namespace Game
             return obj;
         }
 
-        private void ItemRenderer(Transform transform1, int idx)
+        private async void ItemRenderer(Transform transform1, int idx)
         {
             ActiveSkillData skillData = _data.ownedSkills[idx];
             Assert.IsTrue(transform1.GetComponent<CardSlot>() != null);
             OutSideCard card = transform1.GetComponentInChildren<OutSideCard>();
-            card.Init(cardVisualPool, skillData);
+            await UniTask.DelayFrame(1);
+            card.Init(cardVisualPool, skillData,true);
+            card.visual.SetParameters(visualParameters);
         }
 
 

@@ -58,7 +58,7 @@ namespace Game
             _canvas = GetComponentInParent<Canvas>();
         }
 
-        public virtual async void Initialize(Card card)
+        public virtual void Initialize(Card card)
         {
             if (_target != null)
             {
@@ -281,6 +281,11 @@ namespace Game
             float lerpZ = Mathf.LerpAngle(tiltContainer.eulerAngles.z, tiltZ, tiltSpeed / 2 * Time.deltaTime);
 
             tiltContainer.eulerAngles = new Vector3(lerpX, lerpY, lerpZ);
+        }
+
+        public void SetParameters(CardVisualParameters visualParameters)
+        {
+            this.curve = visualParameters;
         }
     }
 }

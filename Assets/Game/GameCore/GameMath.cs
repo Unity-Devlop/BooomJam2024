@@ -160,13 +160,13 @@ namespace Game
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static async UniTask<int> CalDamage(HuluData atk, HuluData def, ActiveSkillEnum skill,
-            BattleEnvData envData)
+            BattleEnvData envData,GameData gameData)
         {
             ActiveSkillConfig config = Global.Table.ActiveSkillTable.Get(skill);
             Assert.IsTrue(config.DamagePoint != 0);
 
             Assert.IsTrue(config.Type == ActiveSkillTypeEnum.伤害技能);
-            int damagePoint = UglyMath.PostprocessDamagePoint(config, envData);
+            int damagePoint = UglyMath.PostprocessDamagePoint(config, envData, gameData);
             int atkPoint = await UglyMath.PostprocessAtkPoint(atk, config, envData);
             Debug.Log(
                 $"攻击力{atkPoint},伤害{damagePoint},防御力{def.currentDef}" +

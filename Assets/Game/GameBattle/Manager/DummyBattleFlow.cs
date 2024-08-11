@@ -26,8 +26,7 @@ namespace Game.GamePlay
         private IBattleOperation _enemyOper;
 
         private CancellationTokenSource _cts;
-        [ReadOnly,ShowInInspector]
-        public BattleEnvData envEnvData { get; private set; }
+        [ReadOnly, ShowInInspector] public BattleEnvData envEnvData { get; private set; }
 
         [field: SerializeField] public BattleSettlementData settlementData { get; private set; }
 
@@ -112,8 +111,20 @@ namespace Game.GamePlay
         {
             // throw new System.NotImplementedException();
             // 各自抽卡
-            await self.DrawSkills(1);
-            await enemy.DrawSkills(1);
+            await self.DrawSkills(CalEveryRoundDrawCnt());
+            await enemy.DrawSkills(CalEveryRoundDrawCnt());
+        }
+
+        public int CalEveryRoundDrawCnt()
+        {
+            var gameData = Global.Get<DataSystem>().Get<GameData>();
+            if (gameData is { ruleConfig: { ruleList: not null } } &&
+                gameData.ruleConfig.ruleList.Contains(GameRuleEnum.每回合抽牌数量变为2张))
+            {
+                return 2;
+            }
+
+            return Consts.EvertRoundDrawCardCnt;
         }
 
 
@@ -565,7 +576,6 @@ namespace Game.GamePlay
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             if (config.Type == ActiveSkillTypeEnum.伤害技能)
             {
-                await userTrainer.currentBattleData.UseSkill(operation.data, defTrainer);
                 int times;
                 if (config.MulAttackTimes == null || config.MulAttackTimes.Length == 0)
                 {
@@ -579,9 +589,11 @@ namespace Game.GamePlay
                     Global.Event.Send<BattleInfoRecordEvent>(new BattleInfoRecordEvent($"{userPosition}攻击次数:{times}"));
                 }
 
+                GameData gameData = Global.Get<DataSystem>().Get<GameData>();
                 Debug.Log($"{userPosition}:Attack Times:{times}");
                 for (int i = 0; i < times; i++)
                 {
+                    await userTrainer.currentBattleData.UseSkill(operation.data, defTrainer, i);
                     if (!userTrainer.currentBattleData.CanFight())
                     {
                         Debug.Log($"{userPosition.current}战斗不能 不再计算伤害");
@@ -605,7 +617,7 @@ namespace Game.GamePlay
                             operation.data.id, envEnvData))
                     {
                         int damage = await GameMath.CalDamage(userPosition.current, defPosition.current,
-                            operation.data.id, envEnvData);
+                            operation.data.id, envEnvData, gameData);
                         Global.Event.Send<BattleInfoRecordEvent>(
                             new BattleInfoRecordEvent(
                                 $"{userPosition}对{defPosition.current}使用{operation.data.id}造成{damage}伤害"));
@@ -673,7 +685,8 @@ namespace Game.GamePlay
 
             if (config.DefDiscardCountAnyway != 0)
             {
-                Global.Event.Send(new BattleInfoRecordEvent($"{config} 弃牌生效 {defTrainer}弃{config.DefDiscardCountAnyway} 张"));
+                Global.Event.Send(
+                    new BattleInfoRecordEvent($"{config} 弃牌生效 {defTrainer}弃{config.DefDiscardCountAnyway} 张"));
                 await defTrainer.RandomDiscardCardFromHand(config.DefDiscardCountAnyway);
             }
 

@@ -62,7 +62,8 @@ namespace UnityToolkit
                 return (TModel)model;
             }
 
-            throw new KeyNotFoundException($"please register model<{nameof(TModel)}> first");
+            Log.Error($"please register model<{typeof(TModel)}> first");
+            return default;
         }
 
         public void UnRegister<TModel>() where TModel : IModel

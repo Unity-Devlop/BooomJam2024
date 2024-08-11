@@ -358,15 +358,16 @@ namespace Game
             await UniTask.CompletedTask;
         }
 
-        public async UniTask UseSkill(ActiveSkillData skill, IBattleTrainer tar)
+        public async UniTask UseSkill(ActiveSkillData skill, IBattleTrainer tar, int times)
         {
-            if (skill.config.Element == ElementEnum.风 && buffList.Contains(BattleBuffEnum.下次一次使用风属性时速度提高20))
+            if (times == 0 && skill.config.Element == ElementEnum.风 &&
+                buffList.Contains(BattleBuffEnum.下次一次使用风属性时速度提高20))
             {
                 await RemoveBuff(BattleBuffEnum.下次一次使用风属性时速度提高20);
                 await IncreaseCurrentSpeed(20);
             }
 
-            if (skill.id == ActiveSkillEnum.喙啄 && buffList.Contains(BattleBuffEnum.使用喙啄时对方丢一张牌))
+            if (times == 0 && skill.id == ActiveSkillEnum.喙啄 && buffList.Contains(BattleBuffEnum.使用喙啄时对方丢一张牌))
             {
                 await RemoveBuff(BattleBuffEnum.使用喙啄时对方丢一张牌);
                 await tar.RandomDiscardCardFromHand(1);
