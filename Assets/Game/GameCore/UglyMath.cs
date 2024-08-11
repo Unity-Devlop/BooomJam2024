@@ -315,15 +315,25 @@ namespace Game
             await next.bind.Invoke();
         }
 
-        public static int PostprocessDamagePoint(ActiveSkillConfig config, BattleEnvData envData)
+        public static int PostprocessDamagePoint(ActiveSkillConfig config, BattleEnvData envData, GameData gameData)
         {
+            int basePoint = 0;
+
+            if (gameData != null)
+            {
+                if (gameData.ruleConfig.ruleList.Contains(GameRuleEnum.所有伤害技能威力增加20))
+                {
+                    basePoint += 20;
+                }
+            }
+
             if (envData.id == BattleEnvironmentEnum.草地 && config.IncreaseDamagePointWhenGrassEnv != 0)
             {
                 Global.Event.Send(new BattleInfoRecordEvent($"草地增伤:{config.IncreaseDamagePointWhenGrassEnv}"));
-                return config.DamagePoint + config.IncreaseDamagePointWhenGrassEnv;
+                return config.DamagePoint + config.IncreaseDamagePointWhenGrassEnv + basePoint;
             }
 
-            return config.DamagePoint;
+            return config.DamagePoint + basePoint;
         }
 
         public static async UniTask<int> PostprocessAtkPoint(HuluData atk, ActiveSkillConfig config,

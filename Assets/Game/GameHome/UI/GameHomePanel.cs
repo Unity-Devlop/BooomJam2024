@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using IngameDebugConsole;
 using UnityEngine;
 using UnityEngine.UI;
@@ -62,8 +63,11 @@ namespace Game.GameHome
         private async void NewGameClick()
         {
             Global.Get<DataSystem>().ClearGameData();
-            GameData gameData = new GameData();
-            gameData.playerData = new PlayerData(true);
+            
+            // 构造一个新的GameData
+            GameData gameData = GameData.CreateEmpty();
+            
+            
             Global.Get<DataSystem>().Add(gameData);
             await Global.Get<GameFlow>().ToGameOutside<FirstSettingState>();
         }

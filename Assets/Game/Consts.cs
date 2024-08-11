@@ -19,6 +19,7 @@ namespace Game
         public const int BattleWinnerBaseAdmirePoint = 200;
         public const int BattleLoserBaseAdmirePoint = 100;
         public const int DefaultDrawCardCnt = 4;
+        public const int EvertRoundDrawCardCnt = 1;
 
 
         public static class Animation
