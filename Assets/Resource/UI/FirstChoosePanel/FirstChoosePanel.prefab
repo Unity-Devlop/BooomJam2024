@@ -530,6 +530,7 @@ MonoBehaviour:
   chooseBtn: {fileID: 192386148826364365}
   chooseBtnText: {fileID: 8416606935472602928}
   nextBtn: {fileID: 1751657932905921232}
+  charmNum: {fileID: 0}
   selectContainer: {fileID: 716181025385294244}
   show: {fileID: 5229562980791872933}
   hud: {fileID: 1916723282069662515}
@@ -1838,6 +1839,10 @@ PrefabInstance:
     - target: {fileID: 3268489888533492419, guid: 3cb26d5140e17d0499b50bba045b3aff, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5310602245555312092, guid: 3cb26d5140e17d0499b50bba045b3aff, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7395316275856742971, guid: 3cb26d5140e17d0499b50bba045b3aff, type: 3}
       propertyPath: m_Name

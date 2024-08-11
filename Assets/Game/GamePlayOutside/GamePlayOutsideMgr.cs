@@ -26,7 +26,7 @@ namespace Game
             machine.OnStateChange += OnOutsideStateChange;
 
 
-            machine.Run<FirstSettingState>();
+            // machine.Run<FirstSettingState>();
 
             Register();
 

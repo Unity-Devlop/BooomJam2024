@@ -22,22 +22,19 @@ namespace Game
             // 拿到要进入的小状态
             Type type = stateMachine.GetParam<Type>(Consts.GamePlayOutsideStateType);
             stateMachine.RemoveParam(Consts.GamePlayOutsideStateType);
-
-
-            // 将数据写入自己的状态机 并且移除全局状态机的数据
-            // if (stateMachine.ContainsParam(Consts.BattleSettlementData))
-            // {
-            //     BattleSettlementData settlementData =
-            //         stateMachine.GetParam<BattleSettlementData>(Consts.BattleSettlementData);
-            //     stateMachine.RemoveParam(Consts.BattleSettlementData);
-            //     GamePlayOutsideMgr.Singleton.machine.SetParam(Consts.BattleSettlementData, settlementData);
-            // }
-
+            
             await UniTask.WaitUntil(() => GamePlayOutsideMgr.Singleton != null,
                 cancellationToken: Global.Singleton.destroyCancellationToken);
             Assert.IsNotNull(GamePlayOutsideMgr.Singleton);
             Assert.IsNotNull(GamePlayOutsideMgr.Singleton.machine);
-            GamePlayOutsideMgr.Singleton.machine.Change(type);
+            if (GamePlayOutsideMgr.Singleton.machine.running)
+            {
+                GamePlayOutsideMgr.Singleton.machine.Change(type);
+            }
+            else
+            {
+                GamePlayOutsideMgr.Singleton.machine.Run(type);
+            }
         }
 
         public void OnUpdate(GameFlow owner, IStateMachine<GameFlow> stateMachine)

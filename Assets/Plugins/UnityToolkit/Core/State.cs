@@ -107,6 +107,13 @@ namespace UnityToolkit
             running = true;
         }
 
+        public void Run(Type type)
+        {
+            currentState = _states[TypeId.StableId(type)];
+            currentState.OnEnter(owner, this);
+            running = true;
+        }
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void OnUpdate()
         {
