@@ -474,7 +474,8 @@ namespace Game.GamePlay
         {
             int max = Consts.MaxHandCard;
             GameData gameData = Global.Get<DataSystem>().Get<GameData>();
-            if (gameData.ruleConfig.ruleList.Contains(GameRuleEnum.手牌上限减少到6张))
+            if (gameData is { ruleConfig: not null } &&
+                gameData.ruleConfig.ruleList.Contains(GameRuleEnum.手牌上限减少到6张))
             {
                 max = 6;
             }

@@ -117,7 +117,9 @@ namespace Game.GamePlay
 
         public int CalEveryRoundDrawCnt()
         {
-            if (Global.Get<DataSystem>().Get<GameData>().ruleConfig.ruleList.Contains(GameRuleEnum.每回合抽牌数量变为2张))
+            var gameData = Global.Get<DataSystem>().Get<GameData>();
+            if (gameData is { ruleConfig: { ruleList: not null } } &&
+                gameData.ruleConfig.ruleList.Contains(GameRuleEnum.每回合抽牌数量变为2张))
             {
                 return 2;
             }

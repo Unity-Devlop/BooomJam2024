@@ -78,6 +78,14 @@ namespace Game
 
         private async void OnRollToStartButtonClick()
         {
+            // if (Global.Get<DataSystem>().LoadPrevGameData(out GameData gameData))
+            // {
+            //     Global.Get<DataSystem>().Add(gameData);
+            //     Global.LogInfo($"Load Game Data:{gameData},outsideState:{gameData.gameOutsideStateType}");
+            //     await Global.Get<GameFlow>().ToGameOutside(gameData.gameOutsideStateType);
+            //     container.gameObject.SetActive(false);
+            //     return;
+            // }
             GameMath.RollBattleData(out var local, out var remote, out var battleData);
             await Global.Get<GameFlow>().ToGameBattle(local, remote, battleData);
             container.gameObject.SetActive(false);
