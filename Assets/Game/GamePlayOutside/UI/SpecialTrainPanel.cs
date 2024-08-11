@@ -245,7 +245,8 @@ namespace Game
             {
                 valueUIItems[i].addBtn.gameObject.SetActive(false);
             }
-
+            SelectCard.gameObject.SetActive(false);
+            DeleteCard.gameObject.SetActive(false);
 /*            for(int i=0;i<rolePortraitUIItems.Length;++i)
             {
                 rolePortraitUIItems[i].btn.enabled = false;
@@ -261,6 +262,7 @@ namespace Game
 
         public void Confirm()
         {
+            GamePlayOutsideMgr.Singleton.dateSystem.MonthElapse(1);
             GamePlayOutsideMgr.Singleton.machine.Change<SelectOpponentState>();
         }
 
