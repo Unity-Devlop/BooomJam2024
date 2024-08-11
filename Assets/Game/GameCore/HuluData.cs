@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using cfg;
 using Cysharp.Threading.Tasks;
 using Game.GamePlay;
+using Newtonsoft.Json;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -60,12 +61,11 @@ namespace Game
             elementEnum = config.Elements;
         }
 
+        [JsonIgnore] public BindData<HuluData, UniTask> bind { get; private set; }
 
-        public BindData<HuluData, UniTask> bind { get; private set; }
+        [JsonIgnore] public HuluConfig config => Global.Table.HuluTable.Get(id);
 
-
-        public HuluConfig config => Global.Table.HuluTable.Get(id);
-
+        [JsonIgnore]
         public PassiveSkillConfig passiveSkillConfig =>
             Global.Table.PassiveSkillTable.Get(Global.Table.HuluTable.Get(id).PassiveSkill);
 

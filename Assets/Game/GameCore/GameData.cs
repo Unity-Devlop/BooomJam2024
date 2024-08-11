@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 using UnityToolkit;
 
 namespace Game
@@ -12,5 +13,13 @@ namespace Game
         // TODO 游戏流程的位置信息
         public Type gameOutsideStateType;
         public BattleSettlementData battleSettlementData;
+        
+        [JsonIgnore]
+        public BindData<GameData> bind { get; private set; }
+
+        public GameData()
+        {
+            bind = new BindData<GameData>(this);
+        }
     }
 }
