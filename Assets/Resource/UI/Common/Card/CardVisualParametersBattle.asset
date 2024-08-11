@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 235b56ea0d2f4fe1a928730ec8248706, type: 3}
-  m_Name: CardVisualParameters
+  m_Name: CardVisualParametersBattle
   m_EditorClassIdentifier: 
   positioning:
     serializedVersion: 2

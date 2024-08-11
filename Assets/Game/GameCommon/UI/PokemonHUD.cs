@@ -15,6 +15,7 @@ namespace Game
         [SerializeField] private LoopHorizontalScrollRect ownedCardList;
         [SerializeField] private EasyGameObjectPool fixedCardAndSlotPool;
         [SerializeField] private RectTransform valueUIRoot;
+        [SerializeField] private CardVisualParameters visualParameters;
         private ValueUIItem[] _valueUIItems;
         HuluData _data;
         [SerializeField] private CardVisualPool cardVisualPool;
@@ -47,6 +48,7 @@ namespace Game
             OutSideCard card = transform1.GetComponentInChildren<OutSideCard>();
             await UniTask.DelayFrame(1);
             card.Init(cardVisualPool, skillData,true);
+            card.visual.SetParameters(visualParameters);
         }
 
 

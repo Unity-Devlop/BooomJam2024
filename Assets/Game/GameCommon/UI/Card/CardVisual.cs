@@ -282,5 +282,10 @@ namespace Game
 
             tiltContainer.eulerAngles = new Vector3(lerpX, lerpY, lerpZ);
         }
+
+        public void SetParameters(CardVisualParameters visualParameters)
+        {
+            this.curve = visualParameters;
+        }
     }
 }
