@@ -86,13 +86,16 @@ namespace Game.GamePlay
         {
             if (operation.data.config.Type == ActiveSkillTypeEnum.指挥)
             {
-                Debug.LogWarning($"{this}-{current}使用指挥技能:{operation.data}");
+                Debug.LogWarning($"{this}-{current}使用指挥技能:{operation.data} 未实现动画");
+                await Global.Event.SendWithResult<OnExecuteCommandSkill, UniTask>(
+                    new OnExecuteCommandSkill(battleTrainer, operation.data));
                 return;
             }
 
             if ((operation.data.config.Type & ActiveSkillTypeEnum.变化技能) != 0)
             {
-                Debug.LogWarning($"{this}-{current}使用变化技能:{operation.data}");
+                Debug.LogWarning($"{this}-{current}使用变化技能:{operation.data} 未实现动画");
+                await visual.ExecuteSkill(operation.data);
                 return;
             }
 

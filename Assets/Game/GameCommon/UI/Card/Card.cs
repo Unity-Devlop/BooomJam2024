@@ -156,7 +156,7 @@ namespace Game
 
         public virtual void OnBeginDrag(PointerEventData eventData)
         {
-            Debug.Log("OnBeginDrag");
+            // Debug.Log("OnBeginDrag");
             transform.DOScale(Vector3.one * biggerScale, 0.1f);
             BeginDragEvent(this);
             Vector2 mousePosition = UIRoot.Singleton.UICamera.ScreenToWorldPoint(eventData.position);

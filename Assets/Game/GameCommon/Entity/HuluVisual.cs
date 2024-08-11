@@ -128,11 +128,21 @@ namespace Game.GamePlay
 
         public async UniTask ExecuteSkill(ActiveSkillData skill)
         {
-            var trackEntry =
-                skeletonAnimation.AnimationState.SetAnimation(0, Consts.Animation.BattlePokemonAttackAnim, false);
-            // 等待动画播放完毕
-            await UniTask.WaitUntil(() => trackEntry.IsComplete);
-            ToIdle();
+            if ((skill.config.Type & ActiveSkillTypeEnum.伤害技能) != 0)
+            {
+                var trackEntry =
+                    skeletonAnimation.AnimationState.SetAnimation(0, Consts.Animation.BattlePokemonAttackAnim, false);
+                // 等待动画播放完毕
+                await UniTask.WaitUntil(() => trackEntry.IsComplete);
+                ToIdle();
+                return;
+            }
+            //TODO 变化技能需要实现一下
+            if ((skill.config.Type & ActiveSkillTypeEnum.变化技能) != 0)
+            {
+                Global.LogWarning($"{_data.name}使用变化技能:{skill} 动画未实现");
+                return;
+            }
         }
 
         private void ToIdle()
@@ -155,7 +165,7 @@ namespace Game.GamePlay
                     throw new ArgumentOutOfRangeException();
             }
 
-            GameBattleMgr.Singleton.cameraEffect.Shake(0.2f, 0.05f,1); // 震屏
+            GameBattleMgr.Singleton.cameraEffect.Shake(0.2f, 0.05f, 1); // 震屏
             // 顿帧
             Time.timeScale = 0.7f;
             transform.DOMove(transform.position + moveDir, 0.1f).SetLoops(2, LoopType.Yoyo);

@@ -1,8 +1,20 @@
-﻿using Game.GamePlay;
+﻿using cfg;
+using Game.GamePlay;
 using UnityToolkit;
 
 namespace Game
 {
+    
+    public readonly struct OnExecuteCommandSkill : IEvent
+    {
+        public readonly IBattleTrainer user;
+        public readonly ActiveSkillData data;
+        public OnExecuteCommandSkill(IBattleTrainer user, ActiveSkillData data)
+        {
+            this.user = user;
+            this.data = data;
+        }
+    }
     public struct BattleTipEvent : IEvent
     {
         public readonly string tip;

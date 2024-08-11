@@ -531,7 +531,6 @@ MonoBehaviour:
   chooseBtn: {fileID: 192386148826364365}
   chooseBtnText: {fileID: 8416606935472602928}
   nextBtn: {fileID: 1751657932905921232}
-  charmNum: {fileID: 4111311843213313991}
   selectContainer: {fileID: 716181025385294244}
   show: {fileID: 5229562980791872933}
   hud: {fileID: 1916723282069662515}
@@ -2282,17 +2281,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7826f726af396564dbde5ee37ddc8a04, type: 3}
---- !u!114 &4111311843213313991 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6103548730913347559, guid: 7826f726af396564dbde5ee37ddc8a04, type: 3}
-  m_PrefabInstance: {fileID: 7906765605413736480}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!224 &8113316256503242979 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2099296773719814339, guid: 7826f726af396564dbde5ee37ddc8a04, type: 3}

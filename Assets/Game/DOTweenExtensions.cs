@@ -13,5 +13,10 @@ namespace Game
             return DOTween.To(() => renderer.color.a,
                 x => renderer.color = new Color(renderer.color.r, renderer.color.g, renderer.color.b, x), to, duration);
         }
+
+        public static TweenerCore<float, float, FloatOptions> DOAlpha(this CanvasGroup group, float to, float duration)
+        {
+            return DOTween.To(() => group.alpha, x => group.alpha = x, to, duration);
+        }
     }
 }
