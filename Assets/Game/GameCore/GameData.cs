@@ -14,8 +14,9 @@ namespace Game
         //游戏流程的位置信息
         public Type gameOutsideStateType;
         public BattleSettlementData battleSettlementData;
+        public int huluCapacity=4;
         //游戏当前规则配置信息
-        public GameRuleConfig ruleConfig;
+        //public GameRuleConfig ruleConfig;
         [JsonIgnore]
         public BindData<GameData> bind { get; private set; }
 
@@ -28,10 +29,10 @@ namespace Game
         {
             var gameData = new GameData();
             gameData.playerData = new PlayerData(true);
-            GameRuleConfig gameRuleConfig = new GameRuleConfig();
-            gameRuleConfig.ruleList = new HashSet<GameRuleEnum>();
-            gameRuleConfig.prevCnt = 0;
-            gameData.ruleConfig = gameRuleConfig;
+            //GameRuleConfig gameRuleConfig = new GameRuleConfig();
+            //gameRuleConfig.ruleList = new HashSet<GameRuleEnum>();
+            //gameRuleConfig.prevCnt = 0;
+            //gameData.ruleConfig = gameRuleConfig;
             return gameData;
         }
     }

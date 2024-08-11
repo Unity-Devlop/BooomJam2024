@@ -50,15 +50,6 @@ namespace Game
             base.OnLoaded();
             valueUIItems = ValueList.GetComponentsInChildren<ValueUIItem>();
             playerData = Global.Get<DataSystem>().Get<GameData>().playerData;
-            var list = playerData.trainerData.datas;
-            rolePortraitUIItems = new RolePortraitUIItem[list.Count];
-            for (int i = 0; i < list.Count; ++i)
-            {
-                var go = Instantiate(rolePortraitUIItem, roleList.transform);
-                rolePortraitUIItems[i] = go.GetComponent<RolePortraitUIItem>();
-                rolePortraitUIItems[i].roleName.text = list[i].id.ToString();
-                rolePortraitUIItems[i].index = i;
-            }
             Register();
         }
 
@@ -268,6 +259,15 @@ namespace Game
 
         private void Refresh()
         {
+            var list = playerData.trainerData.datas;
+            rolePortraitUIItems = new RolePortraitUIItem[list.Count];
+            for (int i = 0; i < list.Count; ++i)
+            {
+                var go = Instantiate(rolePortraitUIItem, roleList.transform);
+                rolePortraitUIItems[i] = go.GetComponent<RolePortraitUIItem>();
+                rolePortraitUIItems[i].roleName.text = list[i].id.ToString();
+                rolePortraitUIItems[i].index = i;
+            }
             for (int i = 0; i < valueUIItems.Length; ++i)
             {
                 valueUIItems[i].addBtn.gameObject.SetActive(true);

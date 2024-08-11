@@ -19,6 +19,7 @@ namespace Game
     public class HuluData
     {
         [HorizontalGroup("1")] public HuluEnum id;
+        public int cost = 0;
 
         [HorizontalGroup("1"), Button]
         public void Roll9Skills()

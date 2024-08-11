@@ -16,7 +16,7 @@ namespace Game
         [SerializeField] private TextMeshProUGUI nameText;
 
         // [SerializeField] private Image icon;
-        [SerializeField] private Image bg;
+        [SerializeField] public Image bg;
         private ICommand _unbind;
 
         public void Bind(HuluData data, int index)
