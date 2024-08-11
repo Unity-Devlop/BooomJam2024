@@ -3,12 +3,15 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using NodeCanvas.DialogueTrees;
+using TMPro;
 using UnityEngine.EventSystems;
+using UnityToolkit;
 
-namespace NodeCanvas.DialogueTrees.UI.Examples
+namespace Game
 {
 
-    public class DialogueUGUI : MonoBehaviour, IPointerClickHandler
+    public class DialoguePanel : UIPanel, IPointerClickHandler
     {
 
         [System.Serializable]
@@ -28,8 +31,8 @@ namespace NodeCanvas.DialogueTrees.UI.Examples
         //Group...
         [Header("Subtitles")]
         public RectTransform subtitlesGroup;
-        public Text actorSpeech;
-        public Text actorName;
+        public TextMeshProUGUI actorSpeech;
+        public TextMeshProUGUI actorName;
         public Image actorPortrait;
         public RectTransform waitInputIndicator;
         public SubtitleDelays subtitleDelays = new SubtitleDelays();
@@ -241,7 +244,7 @@ namespace NodeCanvas.DialogueTrees.UI.Examples
                 btn.gameObject.SetActive(true);
                 btn.transform.SetParent(optionsGroup.transform, false);
                 btn.transform.localPosition = (Vector3)optionButton.transform.localPosition - new Vector3(0, buttonHeight * i, 0);
-                btn.GetComponentInChildren<Text>().text = pair.Key.text;
+                btn.GetComponentInChildren<TextMeshProUGUI>().text = pair.Key.text;
                 cachedButtons.Add(btn, pair.Value);
                 btn.onClick.AddListener(() => { Finalize(info, cachedButtons[btn]); });
                 i++;
