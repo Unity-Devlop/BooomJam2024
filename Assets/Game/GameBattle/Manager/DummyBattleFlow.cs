@@ -574,7 +574,6 @@ namespace Game.GamePlay
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             if (config.Type == ActiveSkillTypeEnum.伤害技能)
             {
-                await userTrainer.currentBattleData.UseSkill(operation.data, defTrainer);
                 int times;
                 if (config.MulAttackTimes == null || config.MulAttackTimes.Length == 0)
                 {
@@ -588,9 +587,11 @@ namespace Game.GamePlay
                     Global.Event.Send<BattleInfoRecordEvent>(new BattleInfoRecordEvent($"{userPosition}攻击次数:{times}"));
                 }
 
+                GameData gameData = Global.Get<DataSystem>().Get<GameData>();
                 Debug.Log($"{userPosition}:Attack Times:{times}");
                 for (int i = 0; i < times; i++)
                 {
+                    await userTrainer.currentBattleData.UseSkill(operation.data, defTrainer, i);
                     if (!userTrainer.currentBattleData.CanFight())
                     {
                         Debug.Log($"{userPosition.current}战斗不能 不再计算伤害");
@@ -614,7 +615,7 @@ namespace Game.GamePlay
                             operation.data.id, envEnvData))
                     {
                         int damage = await GameMath.CalDamage(userPosition.current, defPosition.current,
-                            operation.data.id, envEnvData);
+                            operation.data.id, envEnvData, gameData);
                         Global.Event.Send<BattleInfoRecordEvent>(
                             new BattleInfoRecordEvent(
                                 $"{userPosition}对{defPosition.current}使用{operation.data.id}造成{damage}伤害"));
