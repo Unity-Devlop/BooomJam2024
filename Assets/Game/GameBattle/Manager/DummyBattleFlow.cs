@@ -26,8 +26,7 @@ namespace Game.GamePlay
         private IBattleOperation _enemyOper;
 
         private CancellationTokenSource _cts;
-        [ReadOnly,ShowInInspector]
-        public BattleEnvData envEnvData { get; private set; }
+        [ReadOnly, ShowInInspector] public BattleEnvData envEnvData { get; private set; }
 
         [field: SerializeField] public BattleSettlementData settlementData { get; private set; }
 
@@ -112,8 +111,18 @@ namespace Game.GamePlay
         {
             // throw new System.NotImplementedException();
             // 各自抽卡
-            await self.DrawSkills(1);
-            await enemy.DrawSkills(1);
+            await self.DrawSkills(CalEveryRoundDrawCnt());
+            await enemy.DrawSkills(CalEveryRoundDrawCnt());
+        }
+
+        public int CalEveryRoundDrawCnt()
+        {
+            if (Global.Get<DataSystem>().Get<GameData>().ruleConfig.ruleList.Contains(GameRuleEnum.每回合抽牌数量变为2张))
+            {
+                return 2;
+            }
+
+            return Consts.EvertRoundDrawCardCnt;
         }
 
 
@@ -673,7 +682,8 @@ namespace Game.GamePlay
 
             if (config.DefDiscardCountAnyway != 0)
             {
-                Global.Event.Send(new BattleInfoRecordEvent($"{config} 弃牌生效 {defTrainer}弃{config.DefDiscardCountAnyway} 张"));
+                Global.Event.Send(
+                    new BattleInfoRecordEvent($"{config} 弃牌生效 {defTrainer}弃{config.DefDiscardCountAnyway} 张"));
                 await defTrainer.RandomDiscardCardFromHand(config.DefDiscardCountAnyway);
             }
 
