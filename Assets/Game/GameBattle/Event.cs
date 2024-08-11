@@ -14,16 +14,21 @@ namespace Game
         }
     }
 
-    public readonly struct OnExecuteCommandSkill : IEvent
+    public readonly struct OnExecuteSkill : IEvent
     {
         public readonly IBattleTrainer user;
         public readonly ActiveSkillData data;
 
-        public OnExecuteCommandSkill(IBattleTrainer user, ActiveSkillData data)
+        public OnExecuteSkill(IBattleTrainer user, ActiveSkillData data)
         {
             this.user = user;
             this.data = data;
         }
+    }
+
+    public readonly struct OnExecuteBuff : IEvent
+    {
+        
     }
 
     /// <summary>

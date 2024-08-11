@@ -87,20 +87,26 @@ namespace Game.GamePlay
             if (operation.data.config.Type == ActiveSkillTypeEnum.指挥)
             {
                 Debug.LogWarning($"{this}-{current}使用指挥技能:{operation.data} 未实现动画");
-                await Global.Event.SendWithResult<OnExecuteCommandSkill, UniTask>(
-                    new OnExecuteCommandSkill(battleTrainer, operation.data));
+                await Global.Event.SendWithResult<OnExecuteSkill, UniTask>(
+                    new OnExecuteSkill(battleTrainer, operation.data));
                 return;
             }
 
             if ((operation.data.config.Type & ActiveSkillTypeEnum.变化技能) != 0)
             {
                 Debug.LogWarning($"{this}-{current}使用变化技能:{operation.data} 未实现动画");
-                await visual.ExecuteSkill(operation.data);
+                await UniTask.WhenAll(
+                    Global.Event.SendWithResult<OnExecuteSkill, UniTask>(
+                        new OnExecuteSkill(battleTrainer, operation.data)),
+                    visual.ExecuteSkill(operation.data));
                 return;
             }
 
             Global.LogInfo($"{this}-{current}使用主动技能:{operation.data}");
-            await visual.ExecuteSkill(operation.data);
+            await UniTask.WhenAll(
+                Global.Event.SendWithResult<OnExecuteSkill, UniTask>(
+                    new OnExecuteSkill(battleTrainer, operation.data)),
+                visual.ExecuteSkill(operation.data));
         }
 
         public async UniTask RoundEnd()
@@ -111,7 +117,7 @@ namespace Game.GamePlay
 
         public override string ToString()
         {
-            return $"{gameObject.name}-{current}";
+            return $"{battleTrainer.trainerData.name}-{current}";
         }
 
         public async UniTask OnTakeSkillFrom(ActiveSkillData skill, IBattleTrainer userTrainer,

@@ -23,15 +23,15 @@ namespace Game
 
         protected void OnEnable()
         {
-            Global.Event.Listen<OnExecuteCommandSkill, UniTask>(OnUsingCommandSkill);
+            Global.Event.Listen<OnExecuteSkill, UniTask>(OnUsingCommandSkill);
         }
 
         protected void OnDisable()
         {
-            Global.Event.UnListen<OnExecuteCommandSkill, UniTask>(OnUsingCommandSkill);
+            Global.Event.UnListen<OnExecuteSkill, UniTask>(OnUsingCommandSkill);
         }
 
-        private async UniTask OnUsingCommandSkill(OnExecuteCommandSkill arg)
+        private async UniTask OnUsingCommandSkill(OnExecuteSkill arg)
         {
             _group.alpha = 1;
             transform.localScale = Vector3.zero;

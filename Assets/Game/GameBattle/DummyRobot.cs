@@ -13,9 +13,9 @@ namespace Game.GamePlay
     {
         public override async UniTask<IBattleOperation> CalOperation()
         {
-            Debug.Log($"{this} 开始思考操作");
-            float thinkingTime = UnityEngine.Random.Range(0.5f, 0.7f);
-            await UniTask.Delay(TimeSpan.FromSeconds(thinkingTime));
+            Global.LogInfo($"{this} 开始思考操作");
+            float thinkingTime = UnityEngine.Random.Range(0.01f, 3f);
+            await UniTask.Delay(TimeSpan.FromSeconds(thinkingTime - 0.01f));
             if (handZone.Count == 0)
             {
                 return new EndRoundOperation();
