@@ -65,12 +65,7 @@ namespace Game.GameHome
             Global.Get<DataSystem>().ClearGameData();
             
             // 构造一个新的GameData
-            GameData gameData = new GameData();
-            gameData.playerData = new PlayerData(true);
-            GameRuleConfig gameRuleConfig = new GameRuleConfig();
-            gameRuleConfig.ruleList = new HashSet<GameRuleEnum>();
-            gameRuleConfig.prevCnt = 0;
-            gameData.ruleConfig = gameRuleConfig;
+            GameData gameData = GameData.CreateEmpty();
             
             
             Global.Get<DataSystem>().Add(gameData);

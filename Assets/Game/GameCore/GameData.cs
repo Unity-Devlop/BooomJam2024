@@ -23,5 +23,16 @@ namespace Game
         {
             bind = new BindData<GameData>(this);
         }
+
+        public static GameData CreateEmpty()
+        {
+            var gameData = new GameData();
+            gameData.playerData = new PlayerData(true);
+            GameRuleConfig gameRuleConfig = new GameRuleConfig();
+            gameRuleConfig.ruleList = new HashSet<GameRuleEnum>();
+            gameRuleConfig.prevCnt = 0;
+            gameData.ruleConfig = gameRuleConfig;
+            return gameData;
+        }
     }
 }
