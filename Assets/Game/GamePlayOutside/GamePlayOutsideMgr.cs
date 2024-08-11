@@ -13,7 +13,7 @@ namespace Game
 
         protected override void OnInit()
         {
-            dateSystem = new DateSystem(2024, 8, 1, 1); //暂时写死，后续改为读表
+            dateSystem = new DateSystem();
 
             machine = new StateMachine<GamePlayOutsideMgr>(this);
             machine.Add(new FirstSettingState());

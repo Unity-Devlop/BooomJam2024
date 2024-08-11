@@ -16,7 +16,6 @@ namespace Game
         public Button chooseBtn;
         public TextMeshProUGUI chooseBtnText;
         public Button nextBtn;
-        public TextMeshProUGUI charmNum;
 
         [SerializeField] private RectTransform selectContainer;
         private PokemonSelectItem[] _selectItems;
@@ -71,7 +70,7 @@ namespace Game
                 _selectItems[i].UnBind();
                 _selectItems[i].Bind(_firstGeneratedPokemons[i], i);
             }
-            charmNum.text = Global.Get<DataSystem>().Get<GameData>().admireNum.ToString();
+            //charmNum.text = Global.Get<DataSystem>().Get<GameData>().admireNum.ToString();
             ShowUI(0);
         }
 

@@ -71,6 +71,11 @@ namespace Game
             }
             m_txtReward.text = $"+{settlementData.LocalAdmirePoint()}";
             Global.Get<DataSystem>().Get<GameData>().admireNum += settlementData.LocalAdmirePoint();
+            GamePlayOutsideMgr.Singleton.dateSystem.DayElapse(1);
+            if (++Global.Get<DataSystem>().Get<GameData>().date.count%3==0)
+            {
+                GamePlayOutsideMgr.Singleton.dateSystem.SeasonElapse(1);
+            }
         }
 
         private void Confirm()
