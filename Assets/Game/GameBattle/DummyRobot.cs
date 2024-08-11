@@ -14,19 +14,20 @@ namespace Game.GamePlay
         public override async UniTask<IBattleOperation> CalOperation()
         {
             Debug.Log($"{this} 开始思考操作");
-            await UniTask.DelayFrame(1);
+            float thinkingTime = UnityEngine.Random.Range(0.5f, 0.7f);
+            await UniTask.Delay(TimeSpan.FromSeconds(thinkingTime));
             if (handZone.Count == 0)
             {
                 return new EndRoundOperation();
             }
 
             PlayerBattleTrainer playerBattleTrainer = GameBattleMgr.Singleton.playerBattleTrainer;
-            
+
             // 如果自己没血了 尽可能找治疗技能 放 或者 放守护技能
-            
+
             var target = handZone.RandomTakeWithoutRemove();
-            
-            
+
+
             IBattleOperation operation = new ActiveSkillBattleOperation()
             {
                 data = target
