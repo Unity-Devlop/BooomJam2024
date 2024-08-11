@@ -211,7 +211,7 @@ namespace Game
 
             if (buffList.Contains(BattleBuffEnum.站起来) && currentHp <= 0)
             {
-                Global.Event.Send(new BattleTipEvent($"{this}站起来"));
+                Global.Event.Send(new BattleInfoRecordEvent($"{this}站起来"));
                 await RemoveBuff(BattleBuffEnum.站起来);
                 await DecreaseHealth(-1, null);
             }
@@ -219,14 +219,14 @@ namespace Game
             if (id == HuluEnum.斯托姆 && passiveSkillConfig.Id == PassiveSkillEnum.狂风不灭 &&
                 buffList.Contains(BattleBuffEnum.狂风不灭) && currentHp <= 0)
             {
-                Global.Event.Send(new BattleTipEvent($"{this}狂风不灭"));
+                Global.Event.Send(new BattleInfoRecordEvent($"{this}狂风不灭"));
                 await RemoveBuff(BattleBuffEnum.狂风不灭);
                 await DecreaseHealth(-hp / 2);
             }
 
             if (id == HuluEnum.枯木妖 && passiveSkillConfig.Id == PassiveSkillEnum.枯木逢春)
             {
-                Global.Event.Send(new BattleTipEvent($"{this}枯木逢春"));
+                Global.Event.Send(new BattleInfoRecordEvent($"{this}枯木逢春"));
                 int damageHp = hp - currentHp;
                 int cnt = damageHp / 100;
                 int adaptIncrease = cnt * 5;

@@ -4,22 +4,36 @@ using UnityToolkit;
 
 namespace Game
 {
-    
+    public readonly struct BattleStateTipEvent : IEvent
+    {
+        public readonly string tip;
+
+        public BattleStateTipEvent(string tip)
+        {
+            this.tip = tip;
+        }
+    }
+
     public readonly struct OnExecuteCommandSkill : IEvent
     {
         public readonly IBattleTrainer user;
         public readonly ActiveSkillData data;
+
         public OnExecuteCommandSkill(IBattleTrainer user, ActiveSkillData data)
         {
             this.user = user;
             this.data = data;
         }
     }
-    public struct BattleTipEvent : IEvent
+
+    /// <summary>
+    /// 战斗中的记录信息 输出到一个列表中供玩家查看
+    /// </summary>
+    public struct BattleInfoRecordEvent : IEvent
     {
         public readonly string tip;
 
-        public BattleTipEvent(string tip)
+        public BattleInfoRecordEvent(string tip)
         {
             this.tip = tip;
         }

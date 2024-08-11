@@ -162,7 +162,9 @@ namespace Game.GamePlay
                 if (_enemyOper is not EndRoundOperation)
                 {
                     enemy.ClearOperation();
+                    Global.Event.Send<BattleStateTipEvent>(new BattleStateTipEvent("对方正在思考"));
                     _enemyOper = await enemy.CalOperation();
+                    Global.Event.Send<BattleStateTipEvent>(new BattleStateTipEvent(""));
                 }
 
                 // 双方都结束回合 则进入下一阶段
@@ -464,12 +466,12 @@ namespace Game.GamePlay
         private async UniTask ExecuteEnter(IBattleTrainer trainer, BattlePosition position, HuluData next)
         {
             Assert.IsNotNull(next);
-            Global.Event.Send(new BattleTipEvent($"{position}切换到{next}"));
+            Global.Event.Send(new BattleInfoRecordEvent($"{position}切换到{next}"));
             await position.NextReplaceCurrent();
             await position.ExecuteEnter();
             await trainer.SwitchPokemon(next);
             next.enterTimes += 1;
-            Global.Event.Send(new BattleTipEvent($"{trainer.currentBattleData} 第{next.enterTimes}次登场"));
+            Global.Event.Send(new BattleInfoRecordEvent($"{trainer.currentBattleData} 第{next.enterTimes}次登场"));
             Assert.IsTrue(trainer == position.battleTrainer);
             await UglyMath.PostprocessHuluEnterBattle(next);
         }
@@ -519,7 +521,7 @@ namespace Game.GamePlay
 
             // 计算伤害
             Global.Event.Send(
-                new BattleTipEvent($"{userPosition}使用{operation.data}"));
+                new BattleInfoRecordEvent($"{userPosition}使用{operation.data}"));
 
             await UglyMath.PostprocessHuluDataWhenUseSkill(userPosition.current, config);
 
@@ -530,7 +532,7 @@ namespace Game.GamePlay
                 await userPosition.ExecuteSkill(operation);
                 if (operation.data.id == ActiveSkillEnum.重整思路)
                 {
-                    Global.Event.Send(new BattleTipEvent($"重整思路 弃所有手牌 抽等量牌"));
+                    Global.Event.Send(new BattleInfoRecordEvent($"重整思路 弃所有手牌 抽等量牌"));
                     int currentCount = userTrainer.handZone.Count;
                     await userTrainer.DiscardAllHandCards();
                     await userTrainer.DrawSkills(currentCount);
@@ -538,7 +540,7 @@ namespace Game.GamePlay
 
                 if (operation.data.id == ActiveSkillEnum.喝茶)
                 {
-                    Global.Event.Send(new BattleTipEvent($"喝茶 双方结束回合 自己回50血"));
+                    Global.Event.Send(new BattleInfoRecordEvent($"喝茶 双方结束回合 自己回50血"));
                     _selfOper = new EndRoundOperation();
                     _enemyOper = new EndRoundOperation();
                 }
@@ -548,7 +550,7 @@ namespace Game.GamePlay
                     HuluData next = userTrainer.trainerData.RandomSelectExpect(userTrainer.currentBattleData);
                     if (next == null)
                     {
-                        Global.Event.Send<BattleTipEvent>(new BattleTipEvent("轮转没有可用的精灵"));
+                        Global.Event.Send<BattleInfoRecordEvent>(new BattleInfoRecordEvent("轮转没有可用的精灵"));
                     }
                     else
                     {
@@ -574,7 +576,7 @@ namespace Game.GamePlay
                     Assert.IsTrue(config.MulAttackTimes.Length == 2);
                     Assert.IsTrue(config.MulAttackTimes[0] <= config.MulAttackTimes[1]);
                     times = GameMath.CalAtkTimes(userPosition.current, config);
-                    Global.Event.Send<BattleTipEvent>(new BattleTipEvent($"{userPosition}攻击次数:{times}"));
+                    Global.Event.Send<BattleInfoRecordEvent>(new BattleInfoRecordEvent($"{userPosition}攻击次数:{times}"));
                 }
 
                 Debug.Log($"{userPosition}:Attack Times:{times}");
@@ -593,7 +595,7 @@ namespace Game.GamePlay
                     }
 
                     await userPosition.ExecuteSkill(operation);
-                    Global.Event.Send<BattleTipEvent>(new BattleTipEvent($"{userPosition}攻击次数:{i + 1}"));
+                    Global.Event.Send<BattleInfoRecordEvent>(new BattleInfoRecordEvent($"{userPosition}攻击次数:{i + 1}"));
                     // await UniTask.Delay(TimeSpan.FromSeconds(0.5f));
 
                     await UglyMath.PostprocessHuluDataBeforeUseSkill(userPosition.current, config);
@@ -604,8 +606,8 @@ namespace Game.GamePlay
                     {
                         int damage = await GameMath.CalDamage(userPosition.current, defPosition.current,
                             operation.data.id, envEnvData);
-                        Global.Event.Send<BattleTipEvent>(
-                            new BattleTipEvent(
+                        Global.Event.Send<BattleInfoRecordEvent>(
+                            new BattleInfoRecordEvent(
                                 $"{userPosition}对{defPosition.current}使用{operation.data.id}造成{damage}伤害"));
                         Global.Event.Send<OnBattleApplyDamage>(
                             new OnBattleApplyDamage(
@@ -646,7 +648,7 @@ namespace Game.GamePlay
                     }
                     else
                     {
-                        Global.Event.Send<BattleTipEvent>(new BattleTipEvent(
+                        Global.Event.Send<BattleInfoRecordEvent>(new BattleInfoRecordEvent(
                             $"计算技能伤害,pos:{userPosition},{userPosition.current}对{defPosition.current}使用{operation.data.id} 未命中"));
                         // break;
                     }
@@ -665,13 +667,13 @@ namespace Game.GamePlay
 
             if (config.UserDiscardCountAnyway != 0)
             {
-                Global.Event.Send(new BattleTipEvent($"{userTrainer} 弃牌生效 {config.UserDiscardCountAnyway}"));
+                Global.Event.Send(new BattleInfoRecordEvent($"{userTrainer} 弃牌生效 {config.UserDiscardCountAnyway}"));
                 await userTrainer.RandomDiscardCardFromHand(config.UserDiscardCountAnyway);
             }
 
             if (config.DefDiscardCountAnyway != 0)
             {
-                Global.Event.Send(new BattleTipEvent($"{config} 弃牌生效 {defTrainer}弃{config.DefDiscardCountAnyway} 张"));
+                Global.Event.Send(new BattleInfoRecordEvent($"{config} 弃牌生效 {defTrainer}弃{config.DefDiscardCountAnyway} 张"));
                 await defTrainer.RandomDiscardCardFromHand(config.DefDiscardCountAnyway);
             }
 
@@ -728,8 +730,8 @@ namespace Game.GamePlay
                 var buffConfig = Global.Table.BattleBuffTable.Get(config.SelfBattleBuffAfterUse);
                 for (int i = 0; i != config.SelfBattleBuffCountAfterUse; ++i)
                 {
-                    Global.Event.Send<BattleTipEvent>(
-                        new BattleTipEvent(
+                    Global.Event.Send<BattleInfoRecordEvent>(
+                        new BattleInfoRecordEvent(
                             $"{userPosition}使用{operation.data.id}获得{config.SelfBattleBuffAfterUse}"));
                     await UniTask.Delay(TimeSpan.FromSeconds(0.2f));
                     Assert.IsFalse(buffConfig.IsTrainerBuff);
@@ -742,8 +744,8 @@ namespace Game.GamePlay
                 var buffConfig = Global.Table.BattleBuffTable.Get(config.SelfTrainerBuffAfterUse);
                 for (int i = 0; i < config.SelfTrainerBuffAfterUseCount; i++)
                 {
-                    Global.Event.Send<BattleTipEvent>(
-                        new BattleTipEvent(
+                    Global.Event.Send<BattleInfoRecordEvent>(
+                        new BattleInfoRecordEvent(
                             $"{userPosition}使用{operation.data.id}获得{config.SelfTrainerBuffAfterUse}"));
                     await UniTask.Delay(TimeSpan.FromSeconds(0.2f));
                     Assert.IsTrue(buffConfig.IsTrainerBuff);
@@ -757,8 +759,8 @@ namespace Game.GamePlay
                 var buffConfig = Global.Table.BattleBuffTable.Get(config.DefTrainerBuffAfterUse);
                 for (int i = 0; i < config.DefTrainerBuffAfterUseCount; i++)
                 {
-                    Global.Event.Send<BattleTipEvent>(
-                        new BattleTipEvent(
+                    Global.Event.Send<BattleInfoRecordEvent>(
+                        new BattleInfoRecordEvent(
                             $"{userPosition}使用{operation.data.id}给对方加buff:{config.DefTrainerBuffAfterUse}"));
                     await UniTask.Delay(TimeSpan.FromSeconds(0.2f));
                     Assert.IsTrue(buffConfig.IsTrainerBuff);

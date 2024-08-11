@@ -21,32 +21,32 @@ namespace Game
                 GameMath.CalDefDiscardCardRateWhenHitted(atkTrainer, defTrainer, skill);
             if (Random.value < defDiscardCardRateWhenHitted)
             {
-                Global.Event.Send(new BattleTipEvent($"弃牌生效 {defTrainer}弃{skill.DefDiscardCountWhenHitted} 张"));
+                Global.Event.Send(new BattleInfoRecordEvent($"弃牌生效 {defTrainer}弃{skill.DefDiscardCountWhenHitted} 张"));
                 await defTrainer.RandomDiscardCardFromHand(skill.DefDiscardCountWhenHitted);
             }
 
             if (skill.IncreaseSelfSpeedPointAfterUse != 0)
             {
-                Global.Event.Send(new BattleTipEvent($"速度+{skill.IncreaseSelfSpeedPointAfterUse}"));
+                Global.Event.Send(new BattleInfoRecordEvent($"速度+{skill.IncreaseSelfSpeedPointAfterUse}"));
                 await atk.IncreaseCurrentSpeed(skill.IncreaseSelfSpeedPointAfterUse);
             }
 
             if (skill.IncreaseSelfDefPointAfterUse != 0)
             {
-                Global.Event.Send(new BattleTipEvent($"防御+{skill.IncreaseSelfDefPointAfterUse}"));
+                Global.Event.Send(new BattleInfoRecordEvent($"防御+{skill.IncreaseSelfDefPointAfterUse}"));
                 await atk.IncreaseDef(skill.IncreaseSelfDefPointAfterUse);
             }
 
             if (skill.PercentageDamageBySelf != 0)
             {
                 Global.Event.Send(
-                    new BattleTipEvent($"对自己反伤造成{damagePoint * skill.PercentageDamageBySelf}点伤害"));
+                    new BattleInfoRecordEvent($"对自己反伤造成{damagePoint * skill.PercentageDamageBySelf}点伤害"));
                 await atk.TakeDamageFromSelfSkillEffect((int)(damagePoint * skill.PercentageDamageBySelf));
             }
 
             if (skill.ChangeElementAfterUse != ElementEnum.None)
             {
-                Global.Event.Send(new BattleTipEvent($"{atk} 变成{skill.ChangeElementAfterUse}属性"));
+                Global.Event.Send(new BattleInfoRecordEvent($"{atk} 变成{skill.ChangeElementAfterUse}属性"));
                 await atk.ChangeElement(skill.ChangeElementAfterUse);
             }
 
@@ -63,7 +63,7 @@ namespace Game
             if (atk.id == HuluEnum.噼啪小将 && atk.passiveSkillConfig.Id == PassiveSkillEnum.噼里啪啦 &&
                 skill.Element == ElementEnum.电)
             {
-                Global.Event.Send(new BattleTipEvent($"{PassiveSkillEnum.噼里啪啦}"));
+                Global.Event.Send(new BattleInfoRecordEvent($"{PassiveSkillEnum.噼里啪啦}"));
                 await atk.IncreaseAtk(10);
                 atk.currentAtk = Mathf.Clamp(atk.currentAtk, 0, 30 + atk.atk);
                 return;
@@ -82,7 +82,7 @@ namespace Game
             // Buff
             if (atk.ContainsBuff(BattleBuffEnum.寻找弱点))
             {
-                Global.Event.Send(new BattleTipEvent($"{atk}寻找弱点"));
+                Global.Event.Send(new BattleInfoRecordEvent($"{atk}寻找弱点"));
                 baseValue *= 1.5f;
                 await atk.RemoveBuff(BattleBuffEnum.寻找弱点);
             }
@@ -90,7 +90,7 @@ namespace Game
             if (atk.ContainsBuff(BattleBuffEnum.下一次技能伤害两倍))
             {
                 await atk.RemoveBuff(BattleBuffEnum.下一次技能伤害两倍);
-                Global.Event.Send(new BattleTipEvent($"{atk}下一次技能伤害两倍"));
+                Global.Event.Send(new BattleInfoRecordEvent($"{atk}下一次技能伤害两倍"));
                 baseValue *= 2;
             }
 
@@ -98,7 +98,7 @@ namespace Game
             if (atk.ContainsBuff(BattleBuffEnum.技能造成的伤害变成优先级倍))
             {
                 await atk.RemoveBuff(BattleBuffEnum.技能造成的伤害变成优先级倍);
-                Global.Event.Send(new BattleTipEvent($"{atk}技能造成的伤害变成优先级倍"));
+                Global.Event.Send(new BattleInfoRecordEvent($"{atk}技能造成的伤害变成优先级倍"));
                 // TODO 狗策划
                 int priority = Mathf.Clamp(atkSkill.Priority, 1, int.MaxValue);
                 baseValue *= priority;
@@ -106,30 +106,30 @@ namespace Game
 
             if (atkSkill.FullHpIncreaseBaseValueRate != 0 && atk.currentHp >= atk.hp)
             {
-                Global.Event.Send(new BattleTipEvent($"{atk}满血加成{atkSkill.FullHpIncreaseBaseValueRate}"));
+                Global.Event.Send(new BattleInfoRecordEvent($"{atk}满血加成{atkSkill.FullHpIncreaseBaseValueRate}"));
                 baseValue *= (1 + atkSkill.FullHpIncreaseBaseValueRate);
             }
 
             if (Random.value < atkSkill.EffectHitRate)
             {
-                Global.Event.Send(new BattleTipEvent($"{atk}技能{atkSkill}命中要害"));
+                Global.Event.Send(new BattleInfoRecordEvent($"{atk}技能{atkSkill}命中要害"));
                 baseValue *= 1.5f;
             }
 
             if (atk.id == HuluEnum.怒潮龙 && atk.passiveSkillConfig.Id == PassiveSkillEnum.怒火喷发 && atk.currentHp == atk.hp)
             {
-                Global.Event.Send(new BattleTipEvent($"{atk}怒火喷发"));
+                Global.Event.Send(new BattleInfoRecordEvent($"{atk}怒火喷发"));
                 baseValue *= 1.5f;
             }
             else if (atk.id == HuluEnum.烈火领主 && atk.passiveSkillConfig.Id == PassiveSkillEnum.火焰共鸣)
             {
-                Global.Event.Send(new BattleTipEvent($"{atk}火焰共鸣"));
+                Global.Event.Send(new BattleInfoRecordEvent($"{atk}火焰共鸣"));
                 baseValue = baseValue / GameMath.CalSelfElementFit(atk.config, atkSkill) * 1.5f;
             }
             else if (def.id == HuluEnum.吞火熊 && def.passiveSkillConfig.Id == PassiveSkillEnum.内敛 &&
                      atkSkill.Element == ElementEnum.水)
             {
-                Global.Event.Send(new BattleTipEvent($"{atk}内敛"));
+                Global.Event.Send(new BattleInfoRecordEvent($"{atk}内敛"));
                 baseValue /= await GameMath.CalDamageElementFit(atk, atkSkill.Element, def.elementEnum);
             }
 
@@ -142,7 +142,7 @@ namespace Game
             bool res = true; // 最终是否能命中
             if (def.ContainsBuff(BattleBuffEnum.守护))
             {
-                Global.Event.Send(new BattleTipEvent($"{def}守护中，无法被攻击"));
+                Global.Event.Send(new BattleInfoRecordEvent($"{def}守护中，无法被攻击"));
                 return false;
             }
 
@@ -152,7 +152,7 @@ namespace Game
                 res &= !(Random.value < 0.6f);
                 if (!res)
                 {
-                    Global.Event.Send(new BattleTipEvent($"{atk}快躲开"));
+                    Global.Event.Send(new BattleInfoRecordEvent($"{atk}快躲开"));
                     Debug.Log("快躲开");
                 }
             }
@@ -162,7 +162,7 @@ namespace Game
                 res &= !(Random.value < 0.2f); // 生效了就不命中
                 if (!res)
                 {
-                    Global.Event.Send(new BattleTipEvent($"{def}大口吃 规避技能"));
+                    Global.Event.Send(new BattleInfoRecordEvent($"{def}大口吃 规避技能"));
                 }
             }
 
@@ -248,7 +248,7 @@ namespace Game
                     {
                         next = tar
                     };
-                    Global.Event.Send(new BattleTipEvent($"{hulu} 发动 胆小鬼"));
+                    Global.Event.Send(new BattleInfoRecordEvent($"{hulu} 发动 胆小鬼"));
                     await UniTask.Delay(TimeSpan.FromSeconds(1));
                     await hulu.RemoveBuff(BattleBuffEnum.胆小鬼);
                     await hulu.AddBuff(BattleBuffEnum.胆小鬼归来);
@@ -264,7 +264,7 @@ namespace Game
         {
             if (atk.id == HuluEnum.小闪光 && atk.passiveSkillConfig.Id == PassiveSkillEnum.集合体 && atk.skillTimes == 0)
             {
-                Global.Event.Send(new BattleTipEvent($"{atk}发动集合体 变换属性{skill.Element}"));
+                Global.Event.Send(new BattleInfoRecordEvent($"{atk}发动集合体 变换属性{skill.Element}"));
                 atk.elementEnum = skill.Element;
                 atk.skillTimes++;
             }
@@ -298,7 +298,7 @@ namespace Game
             if (next.ContainsBuff(BattleBuffEnum.胆小鬼归来))
             {
                 await next.RemoveBuff(BattleBuffEnum.胆小鬼归来);
-                Global.Event.Send(new BattleTipEvent($"{next}胆小鬼归来 全属性+50%"));
+                Global.Event.Send(new BattleInfoRecordEvent($"{next}胆小鬼归来 全属性+50%"));
                 next.hp = (int)(next.hp * 1.5f);
                 // next.atk = (int)(next.atk * 1.5f);
                 // next.def = (int)(next.def * 1.5f);
@@ -319,7 +319,7 @@ namespace Game
         {
             if (envData.id == BattleEnvironmentEnum.草地 && config.IncreaseDamagePointWhenGrassEnv != 0)
             {
-                Global.Event.Send(new BattleTipEvent($"草地增伤:{config.IncreaseDamagePointWhenGrassEnv}"));
+                Global.Event.Send(new BattleInfoRecordEvent($"草地增伤:{config.IncreaseDamagePointWhenGrassEnv}"));
                 return config.DamagePoint + config.IncreaseDamagePointWhenGrassEnv;
             }
 
@@ -332,14 +332,14 @@ namespace Game
             //TODO 狗策划 边际情况 
             if (atk.ContainsBuff(BattleBuffEnum.用速度代替攻击力进行伤害计算))
             {
-                Global.Event.Send(new BattleTipEvent($"{atk}使用速度代替攻击力计算伤害"));
+                Global.Event.Send(new BattleInfoRecordEvent($"{atk}使用速度代替攻击力计算伤害"));
                 await atk.RemoveBuff(BattleBuffEnum.用速度代替攻击力进行伤害计算);
                 return atk.currentSpeed;
             }
 
             if (config.UsingDefToCalDamage)
             {
-                Global.Event.Send(new BattleTipEvent($"{atk}使用防御力计算伤害"));
+                Global.Event.Send(new BattleInfoRecordEvent($"{atk}使用防御力计算伤害"));
                 return atk.currentDef;
             }
 

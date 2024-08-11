@@ -13,15 +13,20 @@ namespace Game
     {
         [SerializeField] private LoopVerticalScrollRect list;
         [SerializeField] private EasyGameObjectPool listItemPool;
-        private List<string> dataSource;
+        private List<string> _dataSource;
 
         private void Awake()
         {
-            Global.Event.Listen<BattleTipEvent>(OnBattleTipEvent);
-            dataSource = new List<string>();
+            Global.Event.Listen<BattleInfoRecordEvent>(OnBattleTipEvent);
+            _dataSource = new List<string>();
             list.itemRenderer = RenderItem;
             list.ItemProvider = GetItem;
             list.ItemReturn = ReturnItem;
+        }
+
+        private void OnDestroy()
+        {
+            Global.Event.UnListen<BattleInfoRecordEvent>(OnBattleTipEvent);
         }
 
         private void ReturnItem(Transform transform1)
@@ -38,16 +43,16 @@ namespace Game
         private async void RenderItem(Transform transform1, int idx)
         {
             TextMeshProUGUI tip = transform1.GetComponentInChildren<TextMeshProUGUI>();
-            tip.text = dataSource[idx];
+            tip.text = _dataSource[idx];
             await UniTask.DelayFrame(1);
             var layoutElement = transform1.GetComponent<LayoutElement>();
             layoutElement.preferredHeight = tip.rectTransform.sizeDelta.y;
         }
 
-        private void OnBattleTipEvent(BattleTipEvent obj)
+        private void OnBattleTipEvent(BattleInfoRecordEvent obj)
         {
-            dataSource.Add(obj.tip);
-            list.totalCount = dataSource.Count;
+            _dataSource.Add(obj.tip);
+            list.totalCount = _dataSource.Count;
             list.RefreshCells();
             list.SrollToCellWithinTime(list.totalCount - 1, .2f);
         }

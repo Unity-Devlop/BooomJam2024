@@ -29,7 +29,7 @@ namespace Game.GamePlay
         {
             // Init Battle Controller
             battleFlow = GetComponent<DummyBattleFlow>();
-            Global.Event.Listen<BattleTipEvent>(OnTip);
+            Global.Event.Listen<BattleInfoRecordEvent>(OnTip);
 
 #if UNITY_EDITOR
 
@@ -41,14 +41,14 @@ namespace Game.GamePlay
 #endif
         }
 
-        private void OnTip(BattleTipEvent obj)
+        private void OnTip(BattleInfoRecordEvent obj)
         {
             Global.LogInfo(obj.tip);
         }
 
         protected override void OnDispose()
         {
-            Global.Event.UnListen<BattleTipEvent>(OnTip);
+            Global.Event.UnListen<BattleInfoRecordEvent>(OnTip);
             battleFlow.Dispose();
         }
 
