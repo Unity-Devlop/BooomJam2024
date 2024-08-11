@@ -103,6 +103,7 @@ namespace Game
             temp_player.trainerSkills = player.trainerData.trainerSkills;
             for(int i=0;i< playerChosenHulu.Count;++i)
             {
+                playerHulus[playerChosenHulu[i]].RecoverAllAbility();
                 temp_player.datas.Add(playerHulus[playerChosenHulu[i]]);
             }
             temp_enemy.trainerSkills = enemy.trainerSkills;
