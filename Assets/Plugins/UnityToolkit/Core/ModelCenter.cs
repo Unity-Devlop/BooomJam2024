@@ -62,7 +62,7 @@ namespace UnityToolkit
                 return (TModel)model;
             }
 
-            Log.Error($"please register model<{nameof(TModel)}> first");
+            Log.Error($"please register model<{typeof(TModel)}> first");
             return default;
         }
 
