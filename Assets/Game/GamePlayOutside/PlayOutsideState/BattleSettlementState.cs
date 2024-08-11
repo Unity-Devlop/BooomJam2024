@@ -13,6 +13,7 @@ namespace Game
 
             BattleSettlementData data = Global.Get<DataSystem>().Get<GameData>().battleSettlementData;
             // TODO Do something with data
+            UIRoot.Singleton.OpenPanel<GameSettlePanel>();
         }
 
         public void OnUpdate(GamePlayOutsideMgr owner, IStateMachine<GamePlayOutsideMgr> stateMachine)
@@ -21,6 +22,7 @@ namespace Game
 
         public void OnExit(GamePlayOutsideMgr owner, IStateMachine<GamePlayOutsideMgr> stateMachine)
         {
+            UIRoot.Singleton.ClosePanel<GameSettlePanel>();
         }
     }
 }

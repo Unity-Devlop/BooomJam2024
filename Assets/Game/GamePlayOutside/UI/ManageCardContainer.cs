@@ -34,6 +34,11 @@ namespace Game
 
         public void Refresh()
         {
+            for(int i=0;i<CardList.Count;++i)
+            {
+                cardSlotPool.Release(CardList[i].transform.parent.gameObject);
+                cardPool.Release(CardList[i].gameObject);
+            }
             cardPool.Initialize();
             cardSlotPool.Initialize();
             cardVisualPool.Initialize();
@@ -42,6 +47,7 @@ namespace Game
 
         public void DrawCardToHand(List<ActiveSkillData> dataList)
         {
+            Refresh();
             for (int i = 0; i < dataList.Count; i++)
             {
                 ActiveSkillData data = dataList[i];

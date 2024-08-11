@@ -1,4 +1,4 @@
-using cfg;
+﻿using cfg;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -71,6 +71,7 @@ namespace Game
         public override void OnOpened()
         {
             base.OnOpened();
+            Refresh();
             haveTrained = false;
             ShowUI();
             SelectCard.gameObject.SetActive(true);
@@ -261,6 +262,16 @@ namespace Game
         public void Confirm()
         {
             GamePlayOutsideMgr.Singleton.machine.Change<SelectOpponentState>();
+        }
+
+        private void Refresh()
+        {
+            for (int i = 0; i < valueUIItems.Length; ++i)
+            {
+                valueUIItems[i].addBtn.gameObject.SetActive(true);
+            }
+            haveTrained = false;
+            curHulu = 0;
         }
 
         IEnumerator ValueUp(ValueUp v)

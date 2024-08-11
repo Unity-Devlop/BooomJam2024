@@ -2,6 +2,7 @@ using cfg;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityToolkit;
@@ -21,6 +22,7 @@ namespace Game
         public GameObject deleteCard;
         public Button confirmBtn;
         public ManageCardContainer container;
+        public TextMeshProUGUI title;
         private PlayerData playerData;
         private Action<bool, HuluEnum, ActiveSkillEnum, ActiveSkillEnum> action;
         private ActiveSkillEnum curSelectCardId;
@@ -57,6 +59,7 @@ namespace Game
 
         public void SelectHuluSkillCard(HuluData hulu,Action callback=null)
         {
+            title.text = "选择一张卡牌";
             curManageState = ManageState.Select;
             curHulu = hulu;
             var activeSkillEnums = GetRandomSkill(Global.Table.HuluTable.Get(hulu.id).SkillPool);
@@ -73,10 +76,12 @@ namespace Game
 
         public void SelectTrainerSkillCard()
         {
+            title.text = "选择一张卡牌";
             curManageState = ManageState.Select;
             List<ActiveSkillData> list = new List<ActiveSkillData>();
             var targets = Global.Table.ActiveSkillTable.DataList.FindAll((c) => c.Type == ActiveSkillTypeEnum.指挥);
-            for (int i = 0; i < targets.Count; ++i)
+            targets.Shuffle();
+            for (int i = 0; i < 3; ++i)
             {
                 var data = new ActiveSkillData();
                 data.id = targets[i].Id;
@@ -85,8 +90,9 @@ namespace Game
             container.DrawCardToHand(list);
         }
 
-        public void DeleteHuluSkillCard(HuluData hulu,Action callback)
+        public void DeleteHuluSkillCard(HuluData hulu,Action callback=null)
         {
+            title.text = "删除一张卡牌";
             curManageState = ManageState.Delete;
             curHulu = hulu;
             container.DrawCardToHand(hulu.ownedSkills);
@@ -95,6 +101,7 @@ namespace Game
 
         public void DeleteTrainerSkillCard()
         {
+            title.text = "删除一张卡牌";
             curManageState = ManageState.Delete;
             container.DrawCardToHand(playerData.trainerData.trainerSkills);
         }
