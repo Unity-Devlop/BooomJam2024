@@ -9,24 +9,21 @@ namespace Game
     {
         public TextMeshProUGUI m_txtAdmire;
         public TextMeshProUGUI m_txtDate;
-        private Dictionary<int, string> dateDic;
 
-        private void Awake()
+        public static readonly Dictionary<int, string> dateDic = new Dictionary<int, string>()
         {
-            dateDic = new Dictionary<int, string>()
-            {
-                {1,"一"},
-                {2,"二"},
-                {3,"三"},
-                {4,"四"},
-                {5,"五"},
-                {6,"六"},
-                {7, "七"},
-                {8,"八"},
-                {9,"九"},
-                {10,"十"},
-            };
-        }
+            { 1, "一" },
+            { 2, "二" },
+            { 3, "三" },
+            { 4, "四" },
+            { 5, "五" },
+            { 6, "六" },
+            { 7, "七" },
+            { 8, "八" },
+            { 9, "九" },
+            { 10, "十" },
+        };
+        
 
         private void OnEnable()
         {

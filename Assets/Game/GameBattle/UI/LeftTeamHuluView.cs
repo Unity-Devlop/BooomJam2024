@@ -9,13 +9,14 @@ namespace Game
 {
     public class LeftTeamHuluView : MonoBehaviour
     {
-        [SerializeField] private HuluIcon[] huluIcons;
+        [SerializeField] private PokemonPortraitIcon prefab;
+        [SerializeField] private PokemonPortraitIcon[] huluIcons;
 
         private IBattleTrainer _trainer;
 
         private void Awake()
         {
-            huluIcons = transform.GetComponentsInChildren<HuluIcon>();
+            huluIcons = transform.GetComponentsInChildren<PokemonPortraitIcon>();
             foreach (var icon in huluIcons)
             {
                 icon.OnClick += OnHuluIconClick;

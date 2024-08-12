@@ -7,7 +7,7 @@ using UnityToolkit;
 
 namespace Game
 {
-    public class HuluIcon : Image, IPointerClickHandler
+    public class PokemonPortraitIcon : Image, IPointerClickHandler
     {
         public event Action<int> OnClick = delegate { };
         private int _idx = -1;

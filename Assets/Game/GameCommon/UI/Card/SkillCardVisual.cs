@@ -13,7 +13,7 @@ namespace Game
         [SerializeField] private Image icon;
         [SerializeField] private Image attachIcon;
         [SerializeField] private TextMeshProUGUI damagePointText;
-        [SerializeField] private Image image;
+        // [SerializeField] private Image image;
         [SerializeField] private Image descBg;
 
         [SerializeField] private RectTransform typeContainer; // 当没有完整的卡牌时 激活这个 程序拼一个假的
@@ -35,15 +35,15 @@ namespace Game
             {
                 background.sprite = await Global.Get<ResourceSystem>().LoadSkillCardBg(card.data.config.Element);
                 icon.sprite = await Global.Get<ResourceSystem>().LoadSkillCardElementBg(card.data.config.Element);
-                if (!string.IsNullOrEmpty(
-                        card.data.config.SpecialIconPath) &&
-                    !string.IsNullOrWhiteSpace(card.data.config.SpecialIconPath))
-                {
-                    image.sprite = await Global.Get<ResourceSystem>().LoadSkillCardImage(card.data.id);
-                }
+                // if (!string.IsNullOrEmpty(
+                //         card.data.config.SpecialIconPath) &&
+                //     !string.IsNullOrWhiteSpace(card.data.config.SpecialIconPath))
+                // {
+                //     image.sprite = await Global.Get<ResourceSystem>().LoadSkillCardImage(card.data.id);
+                // }
 
                 descBg.sprite = await Global.Get<ResourceSystem>().LoadSkillCardDescBg(card.data.config.Element);
-                image.enabled = image.sprite != null;
+                // image.enabled = image.sprite != null;
                 typeContainer.gameObject.SetActive(true);
             }
 

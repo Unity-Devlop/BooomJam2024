@@ -147,7 +147,7 @@ GameObject:
   - component: {fileID: 4891557961225334694}
   - component: {fileID: 6395369054306631100}
   m_Layer: 5
-  m_Name: HuluIcon
+  m_Name: PokemonPortraitIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
