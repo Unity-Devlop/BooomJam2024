@@ -319,5 +319,33 @@ namespace Game
 
             return sprite;
         }
+
+        private Dictionary<string, Sprite> imageCache = new Dictionary<string, Sprite>();
+        public async UniTask<Sprite> LoadImage(string address)
+        {
+            if(imageCache.TryGetValue(address, out var sprite))
+            {
+                return sprite;
+            }
+            try
+            {
+                sprite = await Addressables.LoadAssetAsync<Sprite>(address);
+            }
+            catch (InvalidKeyException e)
+            {
+                Global.LogWarning($"找不到{address}的资源:{address}");
+            }
+            catch (Exception e)
+            {
+                Global.LogError($"加载{address}的资源失败:{address}");
+            }
+            
+            if (sprite != null)
+            {
+                imageCache.TryAdd(address, sprite);
+            }
+
+            return sprite;
+        }
     }
 }
