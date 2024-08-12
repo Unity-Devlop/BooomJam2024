@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using Newtonsoft.Json;
 using UnityEngine;
 using UnityToolkit;
@@ -41,11 +42,15 @@ namespace Game
             if (File.Exists(Consts.LocalGameDataPath))
             {
                 data = JsonConvert.DeserializeObject<GameData>(File.ReadAllText(Consts.LocalGameDataPath));
-
                 if (data != null)
                 {
-                    data.battleSettlementData.localPlayerTrainerData = data.playerData.trainerData;
+                    if (data.battleSettlementData != null)
+                    {
+                        Global.LogInfo($"恢复战斗结算数据");
+                        data.battleSettlementData.localPlayerTrainerData = data.playerData.trainerData;
+                    }
                 }
+
                 return data != null;
             }
 
