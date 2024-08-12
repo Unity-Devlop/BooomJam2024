@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using Newtonsoft.Json;
 using UnityEngine;
 using UnityToolkit;
@@ -26,6 +27,11 @@ namespace Game
 
         public void Dispose()
         {
+            if (Get<GameData>() == null)
+            {
+                return;
+            }
+
             Global.LogInfo($"Save Game Data");
             WriteGameData(Get<GameData>());
         }
@@ -36,6 +42,15 @@ namespace Game
             if (File.Exists(Consts.LocalGameDataPath))
             {
                 data = JsonConvert.DeserializeObject<GameData>(File.ReadAllText(Consts.LocalGameDataPath));
+                if (data != null)
+                {
+                    if (data.battleSettlementData != null)
+                    {
+                        Global.LogInfo($"恢复战斗结算数据");
+                        data.battleSettlementData.localPlayerTrainerData = data.playerData.trainerData;
+                    }
+                }
+
                 return data != null;
             }
 

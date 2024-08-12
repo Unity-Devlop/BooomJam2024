@@ -26,6 +26,7 @@ MonoBehaviour:
     - id: 44
     datas:
     - id: 0
+      cost: 0
       elementEnum: 1
       hp: 358
       currentHp: 358
@@ -48,6 +49,7 @@ MonoBehaviour:
       - id: 26
       - id: 26
     - id: 1
+      cost: 0
       elementEnum: 2
       hp: 241
       currentHp: 241
@@ -70,6 +72,7 @@ MonoBehaviour:
       - id: 7
       - id: 25
     - id: 3
+      cost: 0
       elementEnum: 4
       hp: 233
       currentHp: 233
@@ -92,6 +95,7 @@ MonoBehaviour:
       - id: 25
       - id: 14
     - id: 4
+      cost: 0
       elementEnum: 5
       hp: 296
       currentHp: 296
@@ -114,6 +118,7 @@ MonoBehaviour:
       - id: 27
       - id: 21
     - id: 7
+      cost: 0
       elementEnum: 2
       hp: 388
       currentHp: 388
@@ -136,6 +141,7 @@ MonoBehaviour:
       - id: 8
       - id: 28
     - id: 8
+      cost: 0
       elementEnum: 3
       hp: 420
       currentHp: 420
@@ -170,6 +176,7 @@ MonoBehaviour:
     - id: 55
     datas:
     - id: 1
+      cost: 0
       elementEnum: 2
       hp: 288
       currentHp: 288
@@ -192,6 +199,7 @@ MonoBehaviour:
       - id: 7
       - id: 5
     - id: 2
+      cost: 0
       elementEnum: 3
       hp: 475
       currentHp: 475
@@ -214,6 +222,7 @@ MonoBehaviour:
       - id: 11
       - id: 26
     - id: 3
+      cost: 0
       elementEnum: 4
       hp: 245
       currentHp: 245
@@ -236,6 +245,7 @@ MonoBehaviour:
       - id: 6
       - id: 27
     - id: 4
+      cost: 0
       elementEnum: 5
       hp: 365
       currentHp: 365
@@ -258,6 +268,7 @@ MonoBehaviour:
       - id: 20
       - id: 27
     - id: 7
+      cost: 0
       elementEnum: 2
       hp: 335
       currentHp: 335
@@ -280,6 +291,7 @@ MonoBehaviour:
       - id: 8
       - id: 8
     - id: 9
+      cost: 0
       elementEnum: 4
       hp: 193
       currentHp: 193
@@ -314,6 +326,7 @@ MonoBehaviour:
     - id: 61
     datas:
     - id: 0
+      cost: 0
       elementEnum: 1
       hp: 348
       currentHp: 348
@@ -336,6 +349,7 @@ MonoBehaviour:
       - id: 20
       - id: 20
     - id: 2
+      cost: 0
       elementEnum: 3
       hp: 377
       currentHp: 377
@@ -358,6 +372,7 @@ MonoBehaviour:
       - id: 10
       - id: 26
     - id: 4
+      cost: 0
       elementEnum: 5
       hp: 458
       currentHp: 458
@@ -380,6 +395,7 @@ MonoBehaviour:
       - id: 27
       - id: 27
     - id: 5
+      cost: 0
       elementEnum: 6
       hp: 494
       currentHp: 494
@@ -402,6 +418,7 @@ MonoBehaviour:
       - id: 1
       - id: 1
     - id: 6
+      cost: 0
       elementEnum: 1
       hp: 590
       currentHp: 590
@@ -424,6 +441,7 @@ MonoBehaviour:
       - id: 2
       - id: 14
     - id: 8
+      cost: 0
       elementEnum: 3
       hp: 416
       currentHp: 416
@@ -458,6 +476,7 @@ MonoBehaviour:
     - id: 42
     datas:
     - id: 0
+      cost: 0
       elementEnum: 1
       hp: 360
       currentHp: 360
@@ -480,6 +499,7 @@ MonoBehaviour:
       - id: 25
       - id: 20
     - id: 1
+      cost: 0
       elementEnum: 2
       hp: 281
       currentHp: 281
@@ -502,6 +522,7 @@ MonoBehaviour:
       - id: 5
       - id: 7
     - id: 2
+      cost: 0
       elementEnum: 3
       hp: 382
       currentHp: 382
@@ -524,6 +545,7 @@ MonoBehaviour:
       - id: 9
       - id: 10
     - id: 5
+      cost: 0
       elementEnum: 6
       hp: 536
       currentHp: 536
@@ -546,6 +568,7 @@ MonoBehaviour:
       - id: 14
       - id: 26
     - id: 8
+      cost: 0
       elementEnum: 3
       hp: 415
       currentHp: 415
@@ -568,6 +591,7 @@ MonoBehaviour:
       - id: 12
       - id: 27
     - id: 11
+      cost: 0
       elementEnum: 4
       hp: 250
       currentHp: 250
@@ -596,12 +620,13 @@ MonoBehaviour:
     - id: 42
     - id: 30
     - id: 49
-    - id: 61
+    - id: 39
     - id: 53
     - id: 49
     - id: 38
     datas:
     - id: 2
+      cost: 0
       elementEnum: 3
       hp: 479
       currentHp: 479
@@ -624,6 +649,7 @@ MonoBehaviour:
       - id: 9
       - id: 9
     - id: 3
+      cost: 0
       elementEnum: 4
       hp: 245
       currentHp: 245
@@ -646,6 +672,7 @@ MonoBehaviour:
       - id: 14
       - id: 27
     - id: 4
+      cost: 0
       elementEnum: 5
       hp: 379
       currentHp: 379
@@ -668,6 +695,7 @@ MonoBehaviour:
       - id: 27
       - id: 25
     - id: 5
+      cost: 0
       elementEnum: 6
       hp: 500
       currentHp: 500
@@ -690,6 +718,7 @@ MonoBehaviour:
       - id: 26
       - id: 26
     - id: 6
+      cost: 0
       elementEnum: 1
       hp: 585
       currentHp: 585
@@ -712,6 +741,7 @@ MonoBehaviour:
       - id: 2
       - id: 2
     - id: 11
+      cost: 0
       elementEnum: 4
       hp: 226
       currentHp: 226
