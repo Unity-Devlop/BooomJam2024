@@ -44,12 +44,25 @@ namespace Game
         {
             base.OnOpened();
             DebugLogManager.Instance.gameObject.SetActive(true);
+            DebugLogConsole.AddCommand("Increase1000Atk", "", () =>
+            {
+                if (Global.Get<GameFlow>().currentState is GameBattleState)
+                {
+                    GameBattleMgr.Singleton.playerBattleTrainer.currentBattleData.IncreaseAtk(1000, true).ContinueWith(
+                        () =>
+                        {
+                            Global.LogInfo(
+                                $"{GameBattleMgr.Singleton.playerBattleTrainer.currentBattleData}当前攻击力：{GameBattleMgr.Singleton.playerBattleTrainer.currentBattleData.currentAtk}");
+                        });
+                }
+            });
         }
 
         public override void OnClosed()
         {
             base.OnClosed();
             DebugLogManager.Instance.gameObject.SetActive(false);
+            DebugLogConsole.RemoveCommand("Increase1000Atk");
         }
 
         private void OnDebuggerButtonClick()

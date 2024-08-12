@@ -79,7 +79,12 @@ namespace Game.GamePlay
 
         public void PushOperation(IBattleOperation operation)
         {
-            Assert.IsNull(_operation);
+            if (_operation != null)
+            {
+                Global.LogWarning($"已经存在一个预先输入的操作{_operation}了,是点击过快么");
+                return;
+            }
+
             _operation = operation;
         }
 

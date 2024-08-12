@@ -2255,19 +2255,19 @@ PrefabInstance:
     - target: {fileID: 364096560366168593, guid: 60a112e81a69b464596bd16aac91a0b2, type: 3}
       propertyPath: commandCardPrefab
       value: 
-      objectReference: {fileID: 487571756750657809, guid: 5dfcff101d095c941aeaaa7fbc029238, type: 3}
+      objectReference: {fileID: 4196669521381212917, guid: b968357bcb52cfa46880c9403d09d432, type: 3}
     - target: {fileID: 364096560366168593, guid: 60a112e81a69b464596bd16aac91a0b2, type: 3}
       propertyPath: specialCardPrefab
       value: 
-      objectReference: {fileID: 8153024066923616867, guid: 3d997708b058753499ea9936e5e8e922, type: 3}
+      objectReference: {fileID: 4708756325618156298, guid: 2afd281c447c0154fb81ca4ac3ccdfd7, type: 3}
     - target: {fileID: 364096560366168593, guid: 60a112e81a69b464596bd16aac91a0b2, type: 3}
       propertyPath: buffSkillCardPrefab
       value: 
-      objectReference: {fileID: 6079323580551679333, guid: c5c89a699e749b44db4d60c928df75e2, type: 3}
+      objectReference: {fileID: 8947283798133074793, guid: 1549a519a9a8d824bb3d07149f27fa3a, type: 3}
     - target: {fileID: 364096560366168593, guid: 60a112e81a69b464596bd16aac91a0b2, type: 3}
       propertyPath: damageSkillCardPrefab
       value: 
-      objectReference: {fileID: 1932998328039608793, guid: db24a39d4c8e636418d7730769de4071, type: 3}
+      objectReference: {fileID: 861660487519876984, guid: 4fc43009a259d1b49b1c227ff1b5e4ae, type: 3}
     - target: {fileID: 1903401737580635221, guid: 60a112e81a69b464596bd16aac91a0b2, type: 3}
       propertyPath: m_Name
       value: VisualPool

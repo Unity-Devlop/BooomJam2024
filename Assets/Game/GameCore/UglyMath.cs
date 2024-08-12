@@ -64,8 +64,8 @@ namespace Game
                 skill.Element == ElementEnum.电)
             {
                 Global.Event.Send(new BattleInfoRecordEvent($"{PassiveSkillEnum.噼里啪啦}"));
-                await atk.IncreaseAtk(10);
-                atk.currentAtk = Mathf.Clamp(atk.currentAtk, 0, 30 + atk.atk);
+                await atk.IncreaseAtk(15);
+                atk.currentAtk = Mathf.Clamp(atk.currentAtk, 0, 45 + atk.atk);
                 return;
             }
         }

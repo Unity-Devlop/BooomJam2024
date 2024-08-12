@@ -36,7 +36,7 @@ namespace Game
             if (File.Exists(Consts.LocalGameDataPath))
             {
                 data = JsonConvert.DeserializeObject<GameData>(File.ReadAllText(Consts.LocalGameDataPath));
-                return true;
+                return data != null;
             }
 
             data = null;

@@ -12,8 +12,8 @@ namespace Game
         public event Action<int> OnClick = delegate { };
         private int _idx = -1;
         private HuluData _data;
-        private ICommand _unbindCmd;
         private TextMeshProUGUI _nameText;
+        private ICommand _unbindCommand;
 
         protected override void Awake()
         {
@@ -24,7 +24,7 @@ namespace Game
         {
             _idx = idx;
             _data = data;
-            _unbindCmd = _data.bind.Listen(OnData);
+            _unbindCommand = _data.bind.Listen(OnData);
             OnData(data);
         }
 
@@ -33,11 +33,11 @@ namespace Game
             _nameText.text = obj.name;
             return UniTask.CompletedTask;
         }
-        
+
 
         public void Unbind()
         {
-            _unbindCmd?.Execute();
+            _unbindCommand?.Execute();
             _data = null;
             _idx = -1;
         }

@@ -50,7 +50,13 @@ namespace Game.GamePlay
         {
             Global.Event.UnListen<BattleInfoRecordEvent>(OnTip);
             battleFlow.Dispose();
+            if (UIRoot.Singleton.GetOpenedPanel(out GameBattlePanel battlePanel))
+            {
+                battlePanel.UnBind();
+            }
         }
+
+        private bool _battling = false;
 
         public void StartBattle(TrainerData self, TrainerData enemy, BattleEnvData battleEnvData)
         {
@@ -63,12 +69,14 @@ namespace Game.GamePlay
 
             GameBattlePanel gameBattlePanel = UIRoot.Singleton.OpenPanel<GameBattlePanel>();
             gameBattlePanel.Bind(battleFlow.self);
+            _battling = true;
             battleFlow.Enter().ContinueWith(OnBattleEnd).Forget();
         }
 
 
         private async void OnBattleEnd()
         {
+            _battling = false;
             if (UIRoot.Singleton.GetOpenedPanel(out GameBattlePanel battlePanel))
             {
                 battlePanel.UnBind();
@@ -95,15 +103,6 @@ namespace Game.GamePlay
         {
             StartBattle(playerBattleTrainer.trainerData, robotBattleTrainer.trainerData,
                 GameMath.RandomBattleEnvData());
-        }
-
-        public void EndBattle()
-        {
-            if (UIRoot.Singleton.GetOpenedPanel(out GameBattlePanel panel))
-            {
-                panel.UnBind();
-                UIRoot.Singleton.ClosePanel<GameBattlePanel>();
-            }
         }
     }
 }

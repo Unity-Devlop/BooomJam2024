@@ -257,9 +257,14 @@ namespace Game
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public async UniTask IncreaseAtk(int delta)
+        public async UniTask IncreaseAtk(int delta,bool ignoreMax = false)
         {
-            int nextAtk = Mathf.Clamp(currentAtk + delta, 0, atk);
+            int max = int.MaxValue;
+            if (!ignoreMax)
+            {
+                max = atk;
+            }
+            int nextAtk = Mathf.Clamp(currentAtk + delta, 0, max);
             currentAtk = nextAtk;
             await bind.Invoke();
         }
