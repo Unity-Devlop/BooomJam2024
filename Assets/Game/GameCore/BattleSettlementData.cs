@@ -158,7 +158,7 @@ namespace Game
             {
                 if (remotePlayerPokemonDamageCount.Count == 0)
                 {
-                    Global.LogWarning($"对面一点伤害没打,就赢了?");
+                    Global.LogWarning($"对面一点伤害没打,就输了?");
                     int idx = UnityEngine.Random.Range(0, remotePlayerTrainerData.datas.Count);
                     return new KeyValuePair<HuluData, int>(remotePlayerTrainerData.datas[idx], 0);
                 }
@@ -172,7 +172,7 @@ namespace Game
             {
                 if (localPlayerPokemonDamageCount.Count == 0)
                 {
-                    Global.LogWarning($"我一点伤害没打,就赢了?");
+                    Global.LogWarning($"我一点伤害没打,就输了?");
                     int idx = UnityEngine.Random.Range(0, localPlayerTrainerData.datas.Count);
                     return new KeyValuePair<HuluData, int>(localPlayerTrainerData.datas[idx], 0);
                 }

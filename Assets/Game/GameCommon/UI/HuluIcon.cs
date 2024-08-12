@@ -25,13 +25,13 @@ namespace Game
             _idx = idx;
             _data = data;
             _unbindCommand = _data.bind.Listen(OnData);
-            OnData(data);
+            OnData(data).Forget();
         }
 
-        private UniTask OnData(HuluData obj)
+        private async UniTask OnData(HuluData obj)
         {
             _nameText.text = obj.name;
-            return UniTask.CompletedTask;
+            sprite = await Global.Get<ResourceSystem>().LoadPortraitBox(obj.id);
         }
 
 
