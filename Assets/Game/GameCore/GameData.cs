@@ -15,6 +15,7 @@ namespace Game
         public Type gameOutsideStateType;
         public BattleSettlementData battleSettlementData;
         public int huluCapacity=4;
+        public bool allowCompeting = true;
         //游戏当前规则配置信息
         public GameRuleConfig ruleConfig;
         [JsonIgnore]

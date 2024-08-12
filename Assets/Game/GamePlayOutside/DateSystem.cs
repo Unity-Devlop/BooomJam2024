@@ -60,6 +60,7 @@ namespace Game
         public void SeasonElapse(int value)
         {
             Global.Get<DataSystem>().Get<GameData>().date.season += value;
+            if (Global.Get<DataSystem>().Get<GameData>().date.season >= 10) Global.Get<DataSystem>().Get<GameData>().date.season = 1;
         }
     }
 }
