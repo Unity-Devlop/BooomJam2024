@@ -87,7 +87,7 @@ namespace Game
                 await UniTask.Delay(TimeSpan.FromSeconds(interval));
             }
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private async UniTask DrawOneCardToHand(ActiveSkillData data, string name = "")
         {
@@ -293,6 +293,20 @@ namespace Game
 
         public void UnBind()
         {
+            if (_calCts != null)
+            {
+                _calCts.Cancel();
+                _calCts.Dispose();
+                _calCts = null;
+            }
+
+            foreach (var card in handZoneCardList)
+            {
+                cardSlotPool.Release(card.transform.parent.gameObject);
+                cardPool.Release(card.gameObject);
+            }
+
+            handZoneCardList.Clear();
         }
 
         private CancellationTokenSource _calCts;

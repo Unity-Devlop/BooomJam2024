@@ -18,20 +18,21 @@ namespace Game
         [SerializeField] private AssetReference gameOutsideScene;
 
         private StateMachine<GameFlow> _stateMachine;
+        public IState<GameFlow> currentState => _stateMachine.currentState;
 
         public AsyncOperationHandle<SceneInstance> ToGameHomeScene()
         {
-            return homeScene.LoadSceneAsync();
+            return Addressables.LoadSceneAsync(homeScene);
         }
 
         public AsyncOperationHandle<SceneInstance> ToGameBattleScene()
         {
-            return gameBattleScene.LoadSceneAsync();
+            return Addressables.LoadSceneAsync(gameBattleScene);
         }
 
         public AsyncOperationHandle<SceneInstance> ToGameOutsideScene()
         {
-            return gameOutsideScene.LoadSceneAsync();
+            return Addressables.LoadSceneAsync(gameOutsideScene);
         }
 
 

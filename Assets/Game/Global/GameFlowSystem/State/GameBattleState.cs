@@ -36,6 +36,7 @@ namespace Game
         public void OnExit(GameFlow owner, IStateMachine<GameFlow> stateMachine)
         {
             // throw new System.NotImplementedException();
+            GameBattleMgr.Singleton.EndBattle();
         }
     }
 }

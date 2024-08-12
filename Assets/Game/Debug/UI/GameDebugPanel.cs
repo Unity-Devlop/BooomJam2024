@@ -1,6 +1,8 @@
-﻿using Game.GamePlay;
+﻿using Cysharp.Threading.Tasks;
+using Game.GamePlay;
 using IngameDebugConsole;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityToolkit;
 using UnityToolkit.Debugger;
@@ -86,9 +88,21 @@ namespace Game
             //     container.gameObject.SetActive(false);
             //     return;
             // }
-            GameMath.RollBattleData(out var local, out var remote, out var battleData);
-            await Global.Get<GameFlow>().ToGameBattle(local, remote, battleData);
-            container.gameObject.SetActive(false);
+
+            if (Global.Get<GameFlow>().currentState is GameBattleState)
+            {
+                await Global.Get<GameFlow>().ToGameHome();
+                await UniTask.WaitUntil(() => SceneManager.GetActiveScene().name == "GameHome");
+                GameMath.RollBattleData(out var local, out var remote, out var battleData);
+                await Global.Get<GameFlow>().ToGameBattle(local, remote, battleData);
+                container.gameObject.SetActive(false);
+            }
+            else
+            {
+                GameMath.RollBattleData(out var local, out var remote, out var battleData);
+                await Global.Get<GameFlow>().ToGameBattle(local, remote, battleData);
+                container.gameObject.SetActive(false);
+            }
         }
     }
 }
