@@ -84,6 +84,7 @@ namespace Game.GamePlay
                 _cts.Dispose();
                 _cts = null;
             }
+
             Assert.IsNull(_cts);
             // Roll Initial Cards
 
@@ -331,7 +332,7 @@ namespace Game.GamePlay
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public UniTask Exit(IBattleTrainer winner)
         {
-            settlementData.winner = winner.trainerData;
+            settlementData.isLocalPlayerWin = winner == self;
 
 
             self.OnDiscardCardFromHand -= enemy.OnEnemyTrainerDiscardCard;
