@@ -26,6 +26,10 @@ namespace Game
 
         public void Dispose()
         {
+            if (Get<GameData>() == null)
+            {
+                return;
+            }
             Global.LogInfo($"Save Game Data");
             WriteGameData(Get<GameData>());
         }

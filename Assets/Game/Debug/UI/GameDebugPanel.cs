@@ -42,6 +42,7 @@ namespace Game
 
         public override void OnOpened()
         {
+            Global.LogInfo("GameDebugPanel Opened");
             base.OnOpened();
             DebugLogManager.Instance.gameObject.SetActive(true);
             DebugLogConsole.AddCommand("Increase1000Atk", "", () =>

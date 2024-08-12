@@ -2,25 +2,27 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using UnityEngine;
 using UnityEngine.Assertions;
+using UnityToolkit;
 
 namespace Game
 {
     [Serializable]
     public class BattleSettlementData
     {
-        public Dictionary<HuluData, int> localPlayerPokemonDamageCount;
-        public Dictionary<HuluData, int> remotePlayerPokemonDamageCount;
+        public SerializableDictionary<HuluData, int> localPlayerPokemonDamageCount;
+        public SerializableDictionary<HuluData, int> remotePlayerPokemonDamageCount;
 
-        public Dictionary<HuluData, int> localPlayerPokemonDefeatCount;
-        public Dictionary<HuluData, int> remotePlayerPokemonDefeatCount;
+        public SerializableDictionary<HuluData, int> localPlayerPokemonDefeatCount;
+        public SerializableDictionary<HuluData, int> remotePlayerPokemonDefeatCount;
 
 
-        [NonSerialized] public TrainerData localPlayerTrainerData;
+        [HideInInspector] public TrainerData localPlayerTrainerData;
 
-        [NonSerialized] public TrainerData remotePlayerTrainerData;
+        [HideInInspector] public TrainerData remotePlayerTrainerData;
 
-        [NonSerialized] public TrainerData winner;
+        [HideInInspector] public TrainerData winner;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool LocalPlayerWin()
@@ -46,16 +48,24 @@ namespace Game
             return remotePlayerTrainerData == winner;
         }
 
+        public BattleSettlementData()
+        {
+            localPlayerPokemonDamageCount = new SerializableDictionary<HuluData, int>();
+            remotePlayerPokemonDamageCount = new SerializableDictionary<HuluData, int>();
+
+            localPlayerPokemonDefeatCount = new SerializableDictionary<HuluData, int>();
+            remotePlayerPokemonDefeatCount = new SerializableDictionary<HuluData, int>();
+        }
         public BattleSettlementData(TrainerData localPlayerTrainerData, TrainerData remotePlayerTrainerData)
         {
             this.localPlayerTrainerData = localPlayerTrainerData;
             this.remotePlayerTrainerData = remotePlayerTrainerData;
 
-            localPlayerPokemonDamageCount = new Dictionary<HuluData, int>(6);
-            remotePlayerPokemonDamageCount = new Dictionary<HuluData, int>(6);
+            localPlayerPokemonDamageCount = new SerializableDictionary<HuluData, int>();
+            remotePlayerPokemonDamageCount = new SerializableDictionary<HuluData, int>();
 
-            localPlayerPokemonDefeatCount = new Dictionary<HuluData, int>(6);
-            remotePlayerPokemonDefeatCount = new Dictionary<HuluData, int>(6);
+            localPlayerPokemonDefeatCount = new SerializableDictionary<HuluData, int>();
+            remotePlayerPokemonDefeatCount = new SerializableDictionary<HuluData, int>();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
