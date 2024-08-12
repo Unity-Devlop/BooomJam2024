@@ -57,6 +57,15 @@ namespace Game
                         });
                 }
             });
+            DebugLogConsole.AddCommand("Increase1000AtkEnemy", "给对面当前宝可梦增加1000点攻击力", () =>
+            {
+                GameBattleMgr.Singleton.robotBattleTrainer.currentBattleData.IncreaseAtk(1000, true).ContinueWith(
+                    () =>
+                    {
+                        Global.LogInfo(
+                            $"{GameBattleMgr.Singleton.robotBattleTrainer.currentBattleData}当前攻击力：{GameBattleMgr.Singleton.robotBattleTrainer.currentBattleData.currentAtk}");
+                    });
+            });
         }
 
         public override void OnClosed()

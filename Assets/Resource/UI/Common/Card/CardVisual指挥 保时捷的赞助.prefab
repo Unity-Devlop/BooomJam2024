@@ -252,6 +252,10 @@ PrefabInstance:
       propertyPath: shaderType
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8381434635854591784, guid: 8755fdbc104aad84bbbbf8589264037c, type: 3}
+      propertyPath: m_OverrideSorting
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1997608742063624616, guid: 8755fdbc104aad84bbbbf8589264037c, type: 3}
     m_RemovedGameObjects: []

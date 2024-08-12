@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2119374863299430140, guid: 3fd527b8b45c247469b7917c5ada313b, type: 3}
       propertyPath: m_Name
-      value: "CardVisual\u4F24\u5BB3\u6280\u80FD"
+      value: "CardVisual\u53D8\u5316\u6280\u80FD"
       objectReference: {fileID: 0}
     - target: {fileID: 7492550025233649436, guid: 3fd527b8b45c247469b7917c5ada313b, type: 3}
       propertyPath: m_Pivot.x
@@ -90,6 +90,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7492550025233649436, guid: 3fd527b8b45c247469b7917c5ada313b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8381434635854591784, guid: 3fd527b8b45c247469b7917c5ada313b, type: 3}
+      propertyPath: m_OverrideSorting
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
