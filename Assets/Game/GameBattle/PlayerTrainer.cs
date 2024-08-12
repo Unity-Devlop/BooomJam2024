@@ -563,6 +563,23 @@ namespace Game.GamePlay
 
         public void ExitBattle()
         {
+            deck.Clear();
+            drawZone.Clear();
+            handZone.Clear();
+            discardZone.Clear();
+            consumedZone.Clear();
+            _operation = null;
+            // trainerData.ClearBattleDirtyData();
+            buffList.Clear();
+            foreach (var pokemonData in trainerData.datas)
+            {
+                Global.LogInfo($"{this}退出战斗 清理{pokemonData}的战斗遗留数据");
+                pokemonData.ClearBattleDirtyData();
+            }
+        }
+
+        public void OnBattleEnd()
+        {
         }
     }
 }

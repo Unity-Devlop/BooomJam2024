@@ -76,6 +76,8 @@ namespace Game.GamePlay
 
         private async void OnBattleEnd()
         {
+            playerBattleTrainer.OnBattleEnd();
+            robotBattleTrainer.OnBattleEnd();
             _battling = false;
             if (UIRoot.Singleton.GetOpenedPanel(out GameBattlePanel battlePanel))
             {

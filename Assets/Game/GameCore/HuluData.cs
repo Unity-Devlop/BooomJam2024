@@ -76,6 +76,15 @@ namespace Game
         [NonSerialized] public int skillTimes = 0; // Ugly 自由者
         [NonSerialized] public int enterTimes = 0; // 第几次进入战场
         [ShowInInspector] private List<BattleBuffEnum> buffList; // 守护
+        private int healP0intBy回满血然后回合结束受到等量伤害 = 0;
+
+        internal void ClearBattleDirtyData()
+        {
+            skillTimes = 0;
+            enterTimes = 0;
+            buffList.Clear();
+            healP0intBy回满血然后回合结束受到等量伤害 = 0;
+        }
 
 
         public ElementEnum elementEnum;
@@ -323,7 +332,7 @@ namespace Game
             await bind.Invoke();
         }
 
-        private int healP0intBy回满血然后回合结束受到等量伤害 = 0;
+
 
         public async UniTask AddBuff(BattleBuffEnum buff)
         {
