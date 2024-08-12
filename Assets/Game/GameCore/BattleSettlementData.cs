@@ -2,27 +2,42 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Assertions;
-using UnityToolkit;
 
 namespace Game
 {
-    [Serializable]
+    // [Serializable]
     public class BattleSettlementData
     {
-        public SerializableDictionary<HuluData, int> localPlayerPokemonDamageCount;
-        public SerializableDictionary<HuluData, int> remotePlayerPokemonDamageCount;
+        public Dictionary<int, int> localPlayerPokemonDamageCount = new Dictionary<int, int>();
+        public Dictionary<int, int> remotePlayerPokemonDamageCount = new Dictionary<int, int>();
 
-        public SerializableDictionary<HuluData, int> localPlayerPokemonDefeatCount;
-        public SerializableDictionary<HuluData, int> remotePlayerPokemonDefeatCount;
+        public Dictionary<int, int> localPlayerPokemonDefeatCount = new Dictionary<int, int>();
+        public Dictionary<int, int> remotePlayerPokemonDefeatCount = new Dictionary<int, int>();
 
 
-        [HideInInspector] public TrainerData localPlayerTrainerData;
+        [JsonIgnore]
+        public TrainerData localPlayerTrainerData => Global.Get<DataSystem>().Get<GameData>().playerData.trainerData;
 
-        [HideInInspector] public TrainerData remotePlayerTrainerData;
+        [JsonIgnore, HideInInspector] public TrainerData remotePlayerTrainerData;
 
-        [HideInInspector] public TrainerData winner;
+        [JsonIgnore]
+        public TrainerData winner
+        {
+            get
+            {
+                if (isLocalPlayerWin)
+                {
+                    return localPlayerTrainerData;
+                }
+
+                return remotePlayerTrainerData;
+            }
+        }
+
+        public bool isLocalPlayerWin;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool LocalPlayerWin()
@@ -48,42 +63,29 @@ namespace Game
             return remotePlayerTrainerData == winner;
         }
 
-        public BattleSettlementData()
+        public BattleSettlementData(TrainerData remotePlayerTrainerData)
         {
-            localPlayerPokemonDamageCount = new SerializableDictionary<HuluData, int>();
-            remotePlayerPokemonDamageCount = new SerializableDictionary<HuluData, int>();
-
-            localPlayerPokemonDefeatCount = new SerializableDictionary<HuluData, int>();
-            remotePlayerPokemonDefeatCount = new SerializableDictionary<HuluData, int>();
-        }
-        public BattleSettlementData(TrainerData localPlayerTrainerData, TrainerData remotePlayerTrainerData)
-        {
-            this.localPlayerTrainerData = localPlayerTrainerData;
             this.remotePlayerTrainerData = remotePlayerTrainerData;
-
-            localPlayerPokemonDamageCount = new SerializableDictionary<HuluData, int>();
-            remotePlayerPokemonDamageCount = new SerializableDictionary<HuluData, int>();
-
-            localPlayerPokemonDefeatCount = new SerializableDictionary<HuluData, int>();
-            remotePlayerPokemonDefeatCount = new SerializableDictionary<HuluData, int>();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void AddDefeatCount(TrainerData trainerData, HuluData attacker, int cnt = 1)
         {
+            int idx = trainerData.datas.IndexOf(attacker);
+            Assert.IsTrue(idx != -1);
             Assert.IsTrue(trainerData == localPlayerTrainerData || trainerData == remotePlayerTrainerData);
             if (trainerData == localPlayerTrainerData)
             {
-                if (!localPlayerPokemonDefeatCount.TryAdd(attacker, cnt))
+                if (!localPlayerPokemonDefeatCount.TryAdd(idx, cnt))
                 {
-                    localPlayerPokemonDefeatCount[attacker] += cnt;
+                    localPlayerPokemonDefeatCount[idx] += cnt;
                 }
             }
             else if (trainerData == remotePlayerTrainerData)
             {
-                if (!remotePlayerPokemonDefeatCount.TryAdd(attacker, cnt))
+                if (!remotePlayerPokemonDefeatCount.TryAdd(idx, cnt))
                 {
-                    remotePlayerPokemonDefeatCount[attacker] += cnt;
+                    remotePlayerPokemonDefeatCount[idx] += cnt;
                 }
             }
         }
@@ -91,19 +93,21 @@ namespace Game
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void AddDamageCount(TrainerData trainerData, HuluData attacker, int damage)
         {
+            int idx = trainerData.datas.IndexOf(attacker);
+            Assert.IsTrue(idx != -1);
             Assert.IsTrue(trainerData == localPlayerTrainerData || trainerData == remotePlayerTrainerData);
             if (trainerData == localPlayerTrainerData)
             {
-                if (!localPlayerPokemonDamageCount.TryAdd(attacker, damage))
+                if (!localPlayerPokemonDamageCount.TryAdd(idx, damage))
                 {
-                    localPlayerPokemonDamageCount[attacker] += damage;
+                    localPlayerPokemonDamageCount[idx] += damage;
                 }
             }
             else if (trainerData == remotePlayerTrainerData)
             {
-                if (!remotePlayerPokemonDamageCount.TryAdd(attacker, damage))
+                if (!remotePlayerPokemonDamageCount.TryAdd(idx, damage))
                 {
-                    remotePlayerPokemonDamageCount[attacker] += damage;
+                    remotePlayerPokemonDamageCount[idx] += damage;
                 }
             }
         }
@@ -114,13 +118,14 @@ namespace Game
             if (winner == localPlayerTrainerData)
             {
                 int maxValue = localPlayerPokemonDamageCount.Max(x => x.Value);
-                return localPlayerPokemonDamageCount.FirstOrDefault(x => x.Value == maxValue);
-                //return localPlayerPokemonDamageCount.Max();
+                var kv = localPlayerPokemonDamageCount.FirstOrDefault(x => x.Value == maxValue);
+                return new KeyValuePair<HuluData, int>(localPlayerTrainerData.datas[kv.Key], kv.Value);
             }
 
             if (winner == remotePlayerTrainerData)
             {
-                return remotePlayerPokemonDamageCount.Max();
+                var kv = remotePlayerPokemonDamageCount.Max();
+                return new KeyValuePair<HuluData, int>(remotePlayerTrainerData.datas[kv.Key], kv.Value);
             }
 
             throw new NotImplementedException();
@@ -132,13 +137,14 @@ namespace Game
             if (winner == localPlayerTrainerData)
             {
                 int maxValue = localPlayerPokemonDamageCount.Max(x => x.Value);
-                return localPlayerPokemonDamageCount.FirstOrDefault(x => x.Value == maxValue);
-                //return localPlayerPokemonDamageCount.Max();
+                var kv = localPlayerPokemonDamageCount.FirstOrDefault(x => x.Value == maxValue);
+                return new KeyValuePair<HuluData, int>(localPlayerTrainerData.datas[kv.Key], kv.Value);
             }
 
             if (winner == remotePlayerTrainerData)
             {
-                return remotePlayerPokemonDamageCount.Max();
+                var kv = remotePlayerPokemonDamageCount.Max();
+                return new KeyValuePair<HuluData, int>(remotePlayerTrainerData.datas[kv.Key], kv.Value);
             }
 
             throw new NotImplementedException();
