@@ -254,12 +254,31 @@ namespace Game
         public void Confirm()
         {
             GamePlayOutsideMgr.Singleton.dateSystem.MonthElapse(1);
-            GamePlayOutsideMgr.Singleton.machine.Change<SelectOpponentState>();
+            if (Global.Get<DataSystem>().Get<GameData>().allowCompeting) GamePlayOutsideMgr.Singleton.machine.Change<SelectOpponentState>();
+            else
+            {
+                GamePlayOutsideMgr.Singleton.dateSystem.MonthElapse(1);
+                if (++Global.Get<DataSystem>().Get<GameData>().date.count % 3 == 0)
+                {
+                    GamePlayOutsideMgr.Singleton.dateSystem.SeasonElapse(1);
+                    Global.Get<DataSystem>().Get<GameData>().allowCompeting = true;
+                }
+                GamePlayOutsideMgr.Singleton.machine.Change<DailyTrainState>();
+            }
         }
 
         private void Refresh()
         {
             var list = playerData.trainerData.datas;
+            if(rolePortraitUIItems!=null)
+            {
+                Transform t;
+                for (int i = 0; i < roleList.transform.childCount; i++)
+                {
+                    t = roleList.transform.GetChild(i);
+                    GameObject.Destroy(t.gameObject);
+                }
+            }
             rolePortraitUIItems = new RolePortraitUIItem[list.Count];
             for (int i = 0; i < list.Count; ++i)
             {

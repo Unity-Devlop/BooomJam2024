@@ -87,7 +87,6 @@ namespace Game
         private void Confirm()
         {
             table.Train(_playerData.trainerData.datas);
-            GamePlayOutsideMgr.Singleton.dateSystem.DayElapse(4);
             GamePlayOutsideMgr.Singleton.machine.Change<SpecialTrainState>();
         }
     }

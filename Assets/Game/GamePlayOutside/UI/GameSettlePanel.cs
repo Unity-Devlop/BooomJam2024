@@ -69,13 +69,15 @@ namespace Game
             {
                 m_rectLose.gameObject.SetActive(true);
                 uIShow.Bind(settlementData.SVP().Key);
+                Global.Get<DataSystem>().Get<GameData>().allowCompeting = false;
             }
             m_txtReward.text = $"+{settlementData.LocalAdmirePoint()}";
             Global.Get<DataSystem>().Get<GameData>().admireNum += settlementData.LocalAdmirePoint();
-            GamePlayOutsideMgr.Singleton.dateSystem.DayElapse(1);
+            GamePlayOutsideMgr.Singleton.dateSystem.MonthElapse(1);
             if (++Global.Get<DataSystem>().Get<GameData>().date.count%3==0)
             {
                 GamePlayOutsideMgr.Singleton.dateSystem.SeasonElapse(1);
+                Global.Get<DataSystem>().Get<GameData>().allowCompeting = true;
                 isNextSeason = true;
             }
         }
