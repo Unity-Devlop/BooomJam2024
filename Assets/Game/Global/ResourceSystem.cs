@@ -311,7 +311,7 @@ namespace Game
             {
                 Global.LogError($"加载{id}的BattleBG资源失败:{address}");
             }
-            
+
             if (sprite != null)
             {
                 battleBgCache.TryAdd(id, sprite);
@@ -321,12 +321,14 @@ namespace Game
         }
 
         private Dictionary<string, Sprite> imageCache = new Dictionary<string, Sprite>();
+
         public async UniTask<Sprite> LoadImage(string address)
         {
-            if(imageCache.TryGetValue(address, out var sprite))
+            if (imageCache.TryGetValue(address, out var sprite))
             {
                 return sprite;
             }
+
             try
             {
                 sprite = await Addressables.LoadAssetAsync<Sprite>(address);
@@ -339,10 +341,43 @@ namespace Game
             {
                 Global.LogError($"加载{address}的资源失败:{address}");
             }
-            
+
             if (sprite != null)
             {
                 imageCache.TryAdd(address, sprite);
+            }
+
+            return sprite;
+        }
+
+        private Dictionary<HuluEnum, Sprite> _uiGrassPortraitboxCache = new Dictionary<HuluEnum, Sprite>();
+
+        public async UniTask<Sprite> LoadPortraitBox(HuluEnum id)
+        {
+            string key = Global.Table.ElementFitTable.Get(Global.Table.HuluTable.Get(id).Elements).UiPathTranslate;
+            string address = $"UI/Atlas/ui_{key}_portraitbox.png";
+
+            if (_uiGrassPortraitboxCache.TryGetValue(id, out var sprite))
+            {
+                return sprite;
+            }
+
+            try
+            {
+                sprite = await Addressables.LoadAssetAsync<Sprite>(address);
+            }
+            catch (InvalidKeyException e)
+            {
+                Global.LogWarning($"找不到{id}的PortraitBox资源:{address}");
+            }
+            catch (Exception e)
+            {
+                Global.LogError($"加载{id}的PortraitBox资源失败:{address}");
+            }
+
+            if (sprite != null)
+            {
+                _uiGrassPortraitboxCache.TryAdd(id, sprite);
             }
 
             return sprite;
