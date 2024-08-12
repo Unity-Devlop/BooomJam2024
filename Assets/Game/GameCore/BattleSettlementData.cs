@@ -154,7 +154,7 @@ namespace Game
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public KeyValuePair<HuluData, int> SVP()
         {
-            if (winner != localPlayerTrainerData)
+            if (winner == localPlayerTrainerData) // 我赢了,对面是SVP
             {
                 if (remotePlayerPokemonDamageCount.Count == 0)
                 {
@@ -163,12 +163,12 @@ namespace Game
                     return new KeyValuePair<HuluData, int>(remotePlayerTrainerData.datas[idx], 0);
                 }
 
-                int maxValue = localPlayerPokemonDamageCount.Max(x => x.Value);
-                var kv = localPlayerPokemonDamageCount.FirstOrDefault(x => x.Value == maxValue);
+                int maxValue = remotePlayerPokemonDamageCount.Max(x => x.Value);
+                var kv = remotePlayerPokemonDamageCount.FirstOrDefault(x => x.Value == maxValue);
                 return new KeyValuePair<HuluData, int>(remotePlayerTrainerData.datas[kv.Key], kv.Value);
             }
 
-            if (winner == remotePlayerTrainerData)
+            if (winner == remotePlayerTrainerData) // 对面赢了 我是SVP
             {
                 if (localPlayerPokemonDamageCount.Count == 0)
                 {
@@ -177,7 +177,7 @@ namespace Game
                     return new KeyValuePair<HuluData, int>(localPlayerTrainerData.datas[idx], 0);
                 }
 
-                var kv = remotePlayerPokemonDamageCount.Max();
+                var kv = localPlayerPokemonDamageCount.Max();
                 return new KeyValuePair<HuluData, int>(localPlayerTrainerData.datas[kv.Key], kv.Value);
             }
 

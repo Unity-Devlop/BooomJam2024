@@ -15,16 +15,16 @@ namespace Game
         {
             dateDic = new Dictionary<int, string>()
             {
-                {1,"Ò»"},
-                {2,"¶ş"},
-                {3,"Èı"},
-                {4,"ËÄ"},
-                {5,"Îå"},
-                {6,"Áù"},
-                {7, "Æß"},
-                {8,"°Ë"},
-                {9,"¾Å"},
-                {10,"Ê®"},
+                {1,"ä¸€"},
+                {2,"äºŒ"},
+                {3,"ä¸‰"},
+                {4,"å››"},
+                {5,"äº”"},
+                {6,"å…­"},
+                {7, "ä¸ƒ"},
+                {8,"å…«"},
+                {9,"ä¹"},
+                {10,"å"},
             };
         }
 
@@ -32,7 +32,7 @@ namespace Game
         {
             var temp = Global.Get<DataSystem>().Get<GameData>();
             m_txtAdmire.text = temp.admireNum.ToString();
-            m_txtDate.text = $"{temp.date.month}ÔÂ{temp.date.day}ÈÕ µÚ{dateDic[temp.date.season]}Èü¼¾";
+            m_txtDate.text = $"{temp.date.month}æœˆ{temp.date.day}æ—¥ ç¬¬{dateDic[temp.date.season]}èµ›å­£";
         }
     }
 }
