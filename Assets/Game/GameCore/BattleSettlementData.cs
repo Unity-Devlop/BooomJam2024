@@ -154,7 +154,7 @@ namespace Game
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public KeyValuePair<HuluData, int> SVP()
         {
-            if (winner == localPlayerTrainerData)
+            if (winner != localPlayerTrainerData)
             {
                 if (remotePlayerPokemonDamageCount.Count == 0)
                 {

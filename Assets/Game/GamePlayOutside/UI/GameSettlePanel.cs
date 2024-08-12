@@ -30,7 +30,6 @@ namespace Game
         public override void OnLoaded()
         {
             base.OnLoaded();
-            settlementData = Global.Get<DataSystem>().Get<GameData>().battleSettlementData;
             Register();
         }
 
@@ -44,6 +43,7 @@ namespace Game
         {
             base.OnOpened();
             Refresh();
+            settlementData = Global.Get<DataSystem>().Get<GameData>().battleSettlementData;
             GameSettle();
         }
 
