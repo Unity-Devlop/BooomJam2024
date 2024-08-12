@@ -36,7 +36,7 @@ namespace Game
 
         private void OnEndRoundButtonClick()
         {
-            _trainer.PushOperation(default(EndRoundOperation));
+            _trainer.PushOperation(new EndRoundOperation());
         }
 
         public void Bind(IBattleTrainer battleTrainer)

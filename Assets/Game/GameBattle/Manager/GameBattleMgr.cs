@@ -96,5 +96,14 @@ namespace Game.GamePlay
             StartBattle(playerBattleTrainer.trainerData, robotBattleTrainer.trainerData,
                 GameMath.RandomBattleEnvData());
         }
+
+        public void EndBattle()
+        {
+            if (UIRoot.Singleton.GetOpenedPanel(out GameBattlePanel panel))
+            {
+                panel.UnBind();
+                UIRoot.Singleton.ClosePanel<GameBattlePanel>();
+            }
+        }
     }
 }

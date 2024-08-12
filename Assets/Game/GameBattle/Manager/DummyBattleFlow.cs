@@ -78,6 +78,12 @@ namespace Game.GamePlay
 
         public async UniTask Enter()
         {
+            if (_cts != null)
+            {
+                _cts.Cancel();
+                _cts.Dispose();
+                _cts = null;
+            }
             Assert.IsNull(_cts);
             // Roll Initial Cards
 

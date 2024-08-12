@@ -11,7 +11,7 @@ namespace Game
         [SerializeField] private TextMeshProUGUI elementText;
 
         [SerializeField] private Image icon;
-
+        [SerializeField] private Image attachIcon;
         [SerializeField] private TextMeshProUGUI damagePointText;
         [SerializeField] private Image image;
         [SerializeField] private Image descBg;
@@ -25,16 +25,19 @@ namespace Game
 
             background.sprite = await Global.Get<ResourceSystem>().LoadSkillCardBg(card.data.config.Element);
 
+            
+            icon.sprite = await Global.Get<ResourceSystem>().LoadSkillCardElementBg(card.data.config.Element);
             if (string.IsNullOrEmpty(card.data.config.SpecialIconPath) ||
                 string.IsNullOrWhiteSpace(card.data.config.SpecialIconPath))
             {
+                attachIcon.enabled = false;
                 damagePointText.enabled = true;
-                icon.sprite = await Global.Get<ResourceSystem>().LoadSkillCardElementBg(card.data.config.Element);
             }
             else
             {
                 damagePointText.enabled = false;
-                icon.sprite = await Global.Get<ResourceSystem>().LoadSpecialSkillIcon(card.data.id);
+                attachIcon.sprite = await Global.Get<ResourceSystem>().LoadSpecialSkillIcon(card.data.id);
+                attachIcon.enabled = true;
             }
 
             if (!string.IsNullOrEmpty(

@@ -104,6 +104,10 @@ namespace Game
             BeginDragEvent = delegate { };
             EndDragEvent = delegate { };
             SelectEvent = delegate { };
+            // Reset States
+            isDragging = false;
+            isHovering = false;
+            selected = false;
 
             if (visual != null)
             {
