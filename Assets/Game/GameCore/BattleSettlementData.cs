@@ -18,8 +18,7 @@ namespace Game
         public Dictionary<int, int> remotePlayerPokemonDefeatCount = new Dictionary<int, int>();
 
 
-        [JsonIgnore]
-        public TrainerData localPlayerTrainerData => Global.Get<DataSystem>().Get<GameData>().playerData.trainerData;
+        [JsonIgnore] public TrainerData localPlayerTrainerData;
 
         [JsonIgnore, HideInInspector] public TrainerData remotePlayerTrainerData;
 
@@ -63,8 +62,9 @@ namespace Game
             return remotePlayerTrainerData == winner;
         }
 
-        public BattleSettlementData(TrainerData remotePlayerTrainerData)
+        public BattleSettlementData(TrainerData local,TrainerData remotePlayerTrainerData)
         {
+            this.localPlayerTrainerData = local;
             this.remotePlayerTrainerData = remotePlayerTrainerData;
         }
 

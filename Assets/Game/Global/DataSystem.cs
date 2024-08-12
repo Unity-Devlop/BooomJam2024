@@ -30,6 +30,7 @@ namespace Game
             {
                 return;
             }
+
             Global.LogInfo($"Save Game Data");
             WriteGameData(Get<GameData>());
         }
@@ -40,6 +41,11 @@ namespace Game
             if (File.Exists(Consts.LocalGameDataPath))
             {
                 data = JsonConvert.DeserializeObject<GameData>(File.ReadAllText(Consts.LocalGameDataPath));
+
+                if (data != null)
+                {
+                    data.battleSettlementData.localPlayerTrainerData = data.playerData.trainerData;
+                }
                 return data != null;
             }
 
