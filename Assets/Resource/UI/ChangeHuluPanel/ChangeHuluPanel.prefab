@@ -5023,7 +5023,7 @@ MonoBehaviour:
   ownedCardList: {fileID: 475893213693781419}
   fixedCardAndSlotPool: {fileID: 5605491699756294814}
   valueUIRoot: {fileID: 5269148784337856442}
-  visualParameters: {fileID: 0}
+  visualParameters: {fileID: 11400000, guid: 76b4e11e6d6e5ff498fc405c6e7e5adc, type: 2}
   cardVisualPool: {fileID: 84992867205077570}
 --- !u!114 &5605491699756294814
 MonoBehaviour:
@@ -7285,7 +7285,7 @@ MonoBehaviour:
   ownedCardList: {fileID: 4902108477980139775}
   fixedCardAndSlotPool: {fileID: 1464059650991295471}
   valueUIRoot: {fileID: 3515936079387006306}
-  visualParameters: {fileID: 0}
+  visualParameters: {fileID: 11400000, guid: 76b4e11e6d6e5ff498fc405c6e7e5adc, type: 2}
   cardVisualPool: {fileID: 4946204385684590471}
 --- !u!114 &1464059650991295471
 MonoBehaviour:
