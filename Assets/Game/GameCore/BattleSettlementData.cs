@@ -144,7 +144,8 @@ namespace Game
                     return new KeyValuePair<HuluData, int>(remotePlayerTrainerData.datas[idx], 0);
                 }
 
-                var kv = remotePlayerPokemonDamageCount.Max();
+                var max = remotePlayerPokemonDamageCount.Max(x => x.Value);
+                var kv = remotePlayerPokemonDamageCount.FirstOrDefault(x => x.Value == max);
                 return new KeyValuePair<HuluData, int>(remotePlayerTrainerData.datas[kv.Key], kv.Value);
             }
 
@@ -177,7 +178,8 @@ namespace Game
                     return new KeyValuePair<HuluData, int>(localPlayerTrainerData.datas[idx], 0);
                 }
 
-                var kv = localPlayerPokemonDamageCount.Max();
+                int maxValue = localPlayerPokemonDamageCount.Max(x => x.Value);
+                var kv = localPlayerPokemonDamageCount.FirstOrDefault(x => x.Value == maxValue);
                 return new KeyValuePair<HuluData, int>(localPlayerTrainerData.datas[kv.Key], kv.Value);
             }
 
