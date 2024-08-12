@@ -134,7 +134,7 @@ namespace Game
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public KeyValuePair<HuluData, int> SVP()
         {
-            if (winner == localPlayerTrainerData)
+            if (winner != localPlayerTrainerData)
             {
                 int maxValue = localPlayerPokemonDamageCount.Max(x => x.Value);
                 var kv = localPlayerPokemonDamageCount.FirstOrDefault(x => x.Value == maxValue);

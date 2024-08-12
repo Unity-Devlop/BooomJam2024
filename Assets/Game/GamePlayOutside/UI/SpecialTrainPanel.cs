@@ -262,8 +262,9 @@ namespace Game
                 {
                     GamePlayOutsideMgr.Singleton.dateSystem.SeasonElapse(1);
                     Global.Get<DataSystem>().Get<GameData>().allowCompeting = true;
+                    GamePlayOutsideMgr.Singleton.machine.Change<ChangeHuluState>();
                 }
-                GamePlayOutsideMgr.Singleton.machine.Change<DailyTrainState>();
+                else GamePlayOutsideMgr.Singleton.machine.Change<DailyTrainState>();
             }
         }
 
