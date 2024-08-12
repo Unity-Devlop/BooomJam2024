@@ -456,7 +456,7 @@
     "desc": "从地面中爆发出灼热的岩浆袭击对手。",
     "special_icon_path": "",
     "type": 4,
-    "damage_point": 110,
+    "damage_point": 100,
     "priority": 0,
     "not_full_hp_buff_for_user": {
       "cnt": 0,
@@ -1506,7 +1506,7 @@
     "id": 21,
     "eng_name": "",
     "element": 5,
-    "desc": "挂起猛烈的风。接下来3回合中，将己方选手的速度提高10点，敌方选手的速度降低10点。",
+    "desc": "挂起猛烈的风。接下来3回合中，将己方选手的速度提高30点，敌方选手的速度降低30点。",
     "special_icon_path": "UI/CardAtlas/icon/skillcard_wind_value_qf.png",
     "type": 8,
     "damage_point": 0,
