@@ -15,7 +15,7 @@
         0.5
       ]
     ],
-    "text": "",
+    "text": "Ocean",
     "ui_path_translate": "water"
   },
   {
@@ -34,7 +34,7 @@
         2
       ]
     ],
-    "text": "",
+    "text": "Flame",
     "ui_path_translate": "fire"
   },
   {
@@ -61,7 +61,7 @@
         0.5
       ]
     ],
-    "text": "",
+    "text": "Natural",
     "ui_path_translate": "grass"
   },
   {
@@ -95,7 +95,7 @@
         0.5
       ]
     ],
-    "text": "",
+    "text": "Storm",
     "ui_path_translate": "wind"
   },
   {
@@ -110,13 +110,13 @@
         2
       ]
     ],
-    "text": "",
+    "text": "Toxic",
     "ui_path_translate": "poison"
   },
   {
     "id": 7,
     "fit": [],
-    "text": "",
+    "text": "Normal",
     "ui_path_translate": "normal"
   }
 ]

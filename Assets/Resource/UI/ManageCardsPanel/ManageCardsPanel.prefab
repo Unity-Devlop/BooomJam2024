@@ -1822,7 +1822,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 100
+  m_SortingOrder: 99
   m_TargetDisplay: 0
 --- !u!114 &5066516363241342184
 MonoBehaviour:
@@ -1837,7 +1837,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <state>k__BackingField: 0
-  sortingOrder: 100
+  sortingOrder: 99
   selectCard: {fileID: 652094460733909467}
   deleteCard: {fileID: 872478862230774346}
   confirmBtn: {fileID: 907872166848217902}

@@ -11,11 +11,11 @@ namespace Game
     // [Serializable]
     public class BattleSettlementData
     {
-        public Dictionary<int, int> localPlayerPokemonDamageCount = new Dictionary<int, int>();
-        public Dictionary<int, int> remotePlayerPokemonDamageCount = new Dictionary<int, int>();
+        public Dictionary<int, int> localPlayerPokemonDamageCount;
+        public Dictionary<int, int> remotePlayerPokemonDamageCount;
 
-        public Dictionary<int, int> localPlayerPokemonDefeatCount = new Dictionary<int, int>();
-        public Dictionary<int, int> remotePlayerPokemonDefeatCount = new Dictionary<int, int>();
+        public Dictionary<int, int> localPlayerPokemonDefeatCount;
+        public Dictionary<int, int> remotePlayerPokemonDefeatCount;
 
 
         [JsonIgnore] public TrainerData localPlayerTrainerData;
@@ -62,10 +62,16 @@ namespace Game
             return remotePlayerTrainerData == winner;
         }
 
-        public BattleSettlementData(TrainerData local,TrainerData remotePlayerTrainerData)
+        public BattleSettlementData(TrainerData local, TrainerData remotePlayerTrainerData)
         {
             this.localPlayerTrainerData = local;
             this.remotePlayerTrainerData = remotePlayerTrainerData;
+
+            localPlayerPokemonDamageCount = new Dictionary<int, int>();
+            remotePlayerPokemonDamageCount = new Dictionary<int, int>();
+
+            localPlayerPokemonDefeatCount = new Dictionary<int, int>();
+            remotePlayerPokemonDefeatCount = new Dictionary<int, int>();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -117,6 +123,13 @@ namespace Game
         {
             if (winner == localPlayerTrainerData)
             {
+                if (localPlayerPokemonDamageCount.Count == 0)
+                {
+                    Global.LogWarning($"我一点伤害没打,就赢了?");
+                    int idx = UnityEngine.Random.Range(0, localPlayerTrainerData.datas.Count);
+                    return new KeyValuePair<HuluData, int>(localPlayerTrainerData.datas[idx], 0);
+                }
+
                 int maxValue = localPlayerPokemonDamageCount.Max(x => x.Value);
                 var kv = localPlayerPokemonDamageCount.FirstOrDefault(x => x.Value == maxValue);
                 return new KeyValuePair<HuluData, int>(localPlayerTrainerData.datas[kv.Key], kv.Value);
@@ -124,6 +137,13 @@ namespace Game
 
             if (winner == remotePlayerTrainerData)
             {
+                if (remotePlayerPokemonDamageCount.Count == 0)
+                {
+                    Global.LogWarning($"对面一点伤害没打,就赢了?");
+                    int idx = UnityEngine.Random.Range(0, remotePlayerTrainerData.datas.Count);
+                    return new KeyValuePair<HuluData, int>(remotePlayerTrainerData.datas[idx], 0);
+                }
+
                 var kv = remotePlayerPokemonDamageCount.Max();
                 return new KeyValuePair<HuluData, int>(remotePlayerTrainerData.datas[kv.Key], kv.Value);
             }
@@ -136,15 +156,29 @@ namespace Game
         {
             if (winner != localPlayerTrainerData)
             {
+                if (remotePlayerPokemonDamageCount.Count == 0)
+                {
+                    Global.LogWarning($"对面一点伤害没打,就输了?");
+                    int idx = UnityEngine.Random.Range(0, remotePlayerTrainerData.datas.Count);
+                    return new KeyValuePair<HuluData, int>(remotePlayerTrainerData.datas[idx], 0);
+                }
+
                 int maxValue = localPlayerPokemonDamageCount.Max(x => x.Value);
                 var kv = localPlayerPokemonDamageCount.FirstOrDefault(x => x.Value == maxValue);
-                return new KeyValuePair<HuluData, int>(localPlayerTrainerData.datas[kv.Key], kv.Value);
+                return new KeyValuePair<HuluData, int>(remotePlayerTrainerData.datas[kv.Key], kv.Value);
             }
 
             if (winner == remotePlayerTrainerData)
             {
+                if (localPlayerPokemonDamageCount.Count == 0)
+                {
+                    Global.LogWarning($"我一点伤害没打,就输了?");
+                    int idx = UnityEngine.Random.Range(0, localPlayerTrainerData.datas.Count);
+                    return new KeyValuePair<HuluData, int>(localPlayerTrainerData.datas[idx], 0);
+                }
+
                 var kv = remotePlayerPokemonDamageCount.Max();
-                return new KeyValuePair<HuluData, int>(remotePlayerTrainerData.datas[kv.Key], kv.Value);
+                return new KeyValuePair<HuluData, int>(localPlayerTrainerData.datas[kv.Key], kv.Value);
             }
 
             throw new NotImplementedException();
