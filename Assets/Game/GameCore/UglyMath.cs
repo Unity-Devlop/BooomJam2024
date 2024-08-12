@@ -54,7 +54,8 @@ namespace Game
                 skill.Element == ElementEnum.毒)
             {
                 int heal = (int)(damagePoint * 0.3f);
-                await atk.DecreaseHealth(heal);
+                Global.Event.Send(new BattleInfoRecordEvent($"{atk}毒素治疗 治疗{heal}"));
+                await atk.DecreaseHealth(-heal);
             }
         }
 
