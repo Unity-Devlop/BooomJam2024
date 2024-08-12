@@ -22,6 +22,7 @@ public sealed partial class ActiveSkillConfig : Luban.BeanBase
         { if(!_buf["element"].IsNumber) { throw new SerializationException(); }  Element = (ElementEnum)_buf["element"].AsInt; }
         { if(!_buf["desc"].IsString) { throw new SerializationException(); }  Desc = _buf["desc"]; }
         { if(!_buf["special_icon_path"].IsString) { throw new SerializationException(); }  SpecialIconPath = _buf["special_icon_path"]; }
+        { if(!_buf["card_image_path"].IsString) { throw new SerializationException(); }  CardImagePath = _buf["card_image_path"]; }
         { if(!_buf["type"].IsNumber) { throw new SerializationException(); }  Type = (ActiveSkillTypeEnum)_buf["type"].AsInt; }
         { if(!_buf["damage_point"].IsNumber) { throw new SerializationException(); }  DamagePoint = _buf["damage_point"]; }
         { if(!_buf["priority"].IsNumber) { throw new SerializationException(); }  Priority = _buf["priority"]; }
@@ -79,7 +80,14 @@ public sealed partial class ActiveSkillConfig : Luban.BeanBase
     /// 描述
     /// </summary>
     public readonly string Desc;
+    /// <summary>
+    /// 特殊的属性小图标（守护，起风，喷火等）
+    /// </summary>
     public readonly string SpecialIconPath;
+    /// <summary>
+    /// 卡牌的图片路径，没有就会代码自动拼一个
+    /// </summary>
+    public readonly string CardImagePath;
     /// <summary>
     /// 类型（指挥/技能）
     /// </summary>
@@ -256,6 +264,7 @@ public sealed partial class ActiveSkillConfig : Luban.BeanBase
         
         
         
+        
         DarwTargetCardConfigAfterUse?.ResolveRef(tables);
         
         
@@ -286,6 +295,7 @@ public sealed partial class ActiveSkillConfig : Luban.BeanBase
         + "element:" + Element + ","
         + "desc:" + Desc + ","
         + "specialIconPath:" + SpecialIconPath + ","
+        + "cardImagePath:" + CardImagePath + ","
         + "type:" + Type + ","
         + "damagePoint:" + DamagePoint + ","
         + "priority:" + Priority + ","
