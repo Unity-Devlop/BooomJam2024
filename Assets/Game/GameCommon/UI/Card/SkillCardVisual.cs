@@ -25,13 +25,13 @@ namespace Game
             damagePointText.text = card.data.config.DamagePoint.ToString();
             elementText.text = Global.Table.ElementFitTable.Get(card.data.config.Element).Text;
 
-            // if (!string.IsNullOrEmpty(
-            //         card.data.config.CardImagePath) && !string.IsNullOrWhiteSpace(card.data.config.CardImagePath))
-            // {
-            //     background.sprite = await Global.Get<ResourceSystem>().LoadImage(card.data.config.CardImagePath);
-            //     typeContainer.gameObject.SetActive(false);
-            // }
-            // else
+            if (!string.IsNullOrEmpty(
+                    card.data.config.CardImagePath) && !string.IsNullOrWhiteSpace(card.data.config.CardImagePath))
+            {
+                background.sprite = await Global.Get<ResourceSystem>().LoadImage(card.data.config.CardImagePath);
+                typeContainer.gameObject.SetActive(false);
+            }
+            else
             {
                 background.sprite = await Global.Get<ResourceSystem>().LoadSkillCardBg(card.data.config.Element);
                 icon.sprite = await Global.Get<ResourceSystem>().LoadSkillCardElementBg(card.data.config.Element);
