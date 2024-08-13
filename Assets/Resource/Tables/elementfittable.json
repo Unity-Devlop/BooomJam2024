@@ -1,5 +1,11 @@
 [
   {
+    "id": 7,
+    "fit": [],
+    "text": "Normal",
+    "ui_path_translate": "normal"
+  },
+  {
     "id": 1,
     "fit": [
       [
@@ -112,11 +118,5 @@
     ],
     "text": "Toxic",
     "ui_path_translate": "poison"
-  },
-  {
-    "id": 7,
-    "fit": [],
-    "text": "Normal",
-    "ui_path_translate": "normal"
   }
 ]

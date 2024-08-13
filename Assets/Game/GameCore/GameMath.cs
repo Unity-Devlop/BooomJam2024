@@ -34,6 +34,13 @@ namespace Game
 
             return value;
         }
+        
+        public static float CalElementFit(ElementEnum atk, ElementEnum def)
+        {
+            var fit = Global.Table.ElementFitTable.Get(atk).Fit;
+            float value = fit.GetValueOrDefault(def, 1);
+            return value;
+        }
 
         public static async UniTask<string> CalElementFitText(HuluData user, ElementEnum atk, ElementEnum def)
         {
