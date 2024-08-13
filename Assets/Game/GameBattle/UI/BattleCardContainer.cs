@@ -11,6 +11,7 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Serialization;
+using UnityEngine.UI;
 using UnityToolkit;
 
 namespace Game
@@ -23,7 +24,7 @@ namespace Game
         // private List<ActiveSkillData> _drawZoneCardList; // 抽牌区域
 
         //把卡牌拖到这个区域内 -> 出牌
-        [SerializeField] private RectTransform outsideArea;
+        [SerializeField] private RectTransform useCardArea;
         [SerializeField] private bool tweenCardReturn = true;
         public RectTransform rectTransform { get; private set; }
 
@@ -36,6 +37,22 @@ namespace Game
         [field: SerializeField] public EasyGameObjectPool cardPool { get; private set; }
 
         private Tweener _endDragTween;
+        public event Action BeginDragEvent;
+        public event Action EndDragEvent;
+
+        private IBattleTrainer _trainer;
+
+        [SerializeField] private bool autoSizing = true;
+        [SerializeField] public float standardWidth = 100;
+        [SerializeField] public float standardHeight = 150;
+        [SerializeField] public int standardCount = 8;
+
+
+        [SerializeField] private RectTransform usePlacePos;
+        [SerializeField] private RectTransform discardPos;
+
+
+        private CancellationTokenSource _calCts;
 
         private void Awake()
         {
@@ -51,15 +68,6 @@ namespace Game
             // _drawZoneCardList = new List<ActiveSkillData>();
             // _cemeteryZoneCardList = new List<ActiveSkillData>();
         }
-
-        [SerializeField] private bool autoSizing = true;
-        [SerializeField] public float standardWidth = 100;
-        [SerializeField] public float standardHeight = 150;
-        [SerializeField] public int standardCount = 8;
-
-
-        [SerializeField] private RectTransform usePlacePos;
-        [SerializeField] private RectTransform discardPos;
 
         private void Update()
         {
@@ -229,12 +237,16 @@ namespace Game
 
         private void BeginDrag(Card card)
         {
+            useCardArea.GetComponent<Image>().enabled = true;
+            BeginDragEvent?.Invoke();
             selectedCard = card;
         }
 
 
         void EndDrag(Card card)
         {
+            useCardArea.GetComponent<Image>().enabled = false;
+            EndDragEvent?.Invoke();
             if (selectedCard == null)
                 return;
             if (_endDragTween != null)
@@ -246,7 +258,7 @@ namespace Game
 
             // 判断结束拖拽的位置是不是出牌区
             Vector3 screenPoint = UIRoot.Singleton.UICamera.WorldToScreenPoint(selectedCard.transform.position);
-            if (RectTransformUtility.RectangleContainsScreenPoint(outsideArea,
+            if (RectTransformUtility.RectangleContainsScreenPoint(useCardArea,
                     new Vector2(screenPoint.x, screenPoint.y), UIRoot.Singleton.UICamera)
                 && _calCts is { IsCancellationRequested: false })
             {
@@ -284,7 +296,6 @@ namespace Game
             hoveringCard = obj;
         }
 
-        private IBattleTrainer _trainer;
 
         public void Bind(IBattleTrainer trainer)
         {
@@ -293,6 +304,8 @@ namespace Game
 
         public void UnBind()
         {
+            BeginDragEvent = null;
+            EndDragEvent = null;
             if (_calCts != null)
             {
                 _calCts.Cancel();
@@ -309,7 +322,6 @@ namespace Game
             handZoneCardList.Clear();
         }
 
-        private CancellationTokenSource _calCts;
 
         public UniTask StartCalOperation()
         {
