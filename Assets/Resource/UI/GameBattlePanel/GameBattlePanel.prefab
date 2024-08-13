@@ -178,7 +178,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   handZoneCardList: []
-  outsideArea: {fileID: 7632034146367919622}
+  useCardArea: {fileID: 7632034146367919622}
   tweenCardReturn: 1
   <cardSlotPool>k__BackingField: {fileID: 2251692799095270213}
   <cardVisualPool>k__BackingField: {fileID: 2884888780711308005}
@@ -850,7 +850,7 @@ GameObject:
   - component: {fileID: 8248012240050705214}
   - component: {fileID: 1004238770885880586}
   m_Layer: 5
-  m_Name: OutSideArea
+  m_Name: UseCardArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -896,7 +896,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.007843138}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.19215687}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1119,15 +1119,15 @@ RectTransform:
   - {fileID: 5015615630167559162}
   - {fileID: 3296482415056664860}
   - {fileID: 6908772854341910083}
-  - {fileID: 7632034146367919622}
   - {fileID: 9124227018214507149}
   - {fileID: 4398300240332508974}
   - {fileID: 1604673623263243027}
   - {fileID: 3038995950287039585}
   - {fileID: 8083667311473773825}
   - {fileID: 4815967831562169538}
-  - {fileID: 3821421319449407699}
   - {fileID: 8225853731282497149}
+  - {fileID: 7632034146367919622}
+  - {fileID: 3821421319449407699}
   - {fileID: 1650541942150474941}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
