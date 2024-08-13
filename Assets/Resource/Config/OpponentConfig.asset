@@ -15,15 +15,15 @@ MonoBehaviour:
   opponents:
   - name: "\u5916\u661F\u4EBA"
     trainerSkills:
-    - id: 39
     - id: 38
-    - id: 30
-    - id: 36
-    - id: 41
+    - id: 38
+    - id: 39
+    - id: 39
+    - id: 35
     - id: 63
-    - id: 63
+    - id: 34
     - id: 40
-    - id: 44
+    - id: 60
     datas:
     - id: 0
       cost: 0
@@ -40,13 +40,11 @@ MonoBehaviour:
       currentAdap: 21
       ownedSkills:
       - id: 1
-      - id: 26
-      - id: 26
+      - id: 1
+      - id: 3
       - id: 3
       - id: 20
-      - id: 2
-      - id: 1
-      - id: 26
+      - id: 20
       - id: 26
     - id: 1
       cost: 0
@@ -63,37 +61,28 @@ MonoBehaviour:
       currentAdap: 6
       ownedSkills:
       - id: 7
-      - id: 5
-      - id: 25
-      - id: 5
-      - id: 23
-      - id: 5
-      - id: 5
       - id: 7
-      - id: 25
+      - id: 23
+      - id: 23
+      - id: 7
     - id: 3
       cost: 0
       elementEnum: 4
-      hp: 233
-      currentHp: 233
+      hp: 282
+      currentHp: 282
       atk: 92
       currentAtk: 92
-      def: 25
-      currentDef: 25
+      def: 35
+      currentDef: 35
       speed: 158
       currentSpeed: 158
-      adap: 9
-      currentAdap: 9
+      adap: 15
+      currentAdap: 15
       ownedSkills:
-      - id: 25
-      - id: 14
-      - id: 14
-      - id: 27
-      - id: 25
       - id: 16
-      - id: 14
-      - id: 25
-      - id: 14
+      - id: 16
+      - id: 27
+      - id: 6
     - id: 4
       cost: 0
       elementEnum: 5
@@ -110,13 +99,10 @@ MonoBehaviour:
       ownedSkills:
       - id: 21
       - id: 19
-      - id: 25
       - id: 19
+      - id: 20
       - id: 27
       - id: 20
-      - id: 25
-      - id: 27
-      - id: 21
     - id: 7
       cost: 0
       elementEnum: 2
@@ -131,14 +117,10 @@ MonoBehaviour:
       adap: 21
       currentAdap: 21
       ownedSkills:
-      - id: 28
-      - id: 5
       - id: 5
       - id: 8
-      - id: 8
-      - id: 5
-      - id: 8
-      - id: 8
+      - id: 6
+      - id: 27
       - id: 28
     - id: 8
       cost: 0
@@ -154,26 +136,22 @@ MonoBehaviour:
       adap: 11
       currentAdap: 11
       ownedSkills:
-      - id: 26
-      - id: 25
-      - id: 26
+      - id: 12
+      - id: 12
+      - id: 14
       - id: 14
       - id: 26
-      - id: 14
-      - id: 27
-      - id: 14
-      - id: 25
   - name: "\u4E94\u6052\u661F"
     trainerSkills:
-    - id: 62
+    - id: 34
     - id: 63
-    - id: 62
-    - id: 41
-    - id: 61
-    - id: 42
-    - id: 54
-    - id: 44
     - id: 55
+    - id: 41
+    - id: 41
+    - id: 42
+    - id: 42
+    - id: 53
+    - id: 59
     datas:
     - id: 1
       cost: 0
@@ -189,15 +167,10 @@ MonoBehaviour:
       adap: 4
       currentAdap: 4
       ownedSkills:
-      - id: 5
       - id: 7
-      - id: 25
-      - id: 28
-      - id: 25
-      - id: 23
-      - id: 23
       - id: 7
-      - id: 5
+      - id: 7
+      - id: 23
     - id: 2
       cost: 0
       elementEnum: 3
@@ -214,36 +187,27 @@ MonoBehaviour:
       ownedSkills:
       - id: 26
       - id: 11
-      - id: 11
-      - id: 26
-      - id: 26
-      - id: 11
-      - id: 10
-      - id: 11
-      - id: 26
+      - id: 9
+      - id: 9
+      - id: 9
     - id: 3
       cost: 0
       elementEnum: 4
-      hp: 245
-      currentHp: 245
+      hp: 291
+      currentHp: 291
       atk: 148
       currentAtk: 148
       def: 22
       currentDef: 22
       speed: 155
       currentSpeed: 155
-      adap: 6
-      currentAdap: 6
+      adap: 17
+      currentAdap: 17
       ownedSkills:
       - id: 27
-      - id: 25
-      - id: 27
       - id: 16
       - id: 16
-      - id: 27
       - id: 6
-      - id: 6
-      - id: 27
     - id: 4
       cost: 0
       elementEnum: 5
@@ -258,15 +222,10 @@ MonoBehaviour:
       adap: 21
       currentAdap: 21
       ownedSkills:
-      - id: 25
-      - id: 20
-      - id: 27
       - id: 21
-      - id: 25
+      - id: 20
+      - id: 20
       - id: 19
-      - id: 20
-      - id: 20
-      - id: 27
     - id: 7
       cost: 0
       elementEnum: 2
@@ -281,38 +240,30 @@ MonoBehaviour:
       adap: 4
       currentAdap: 4
       ownedSkills:
-      - id: 25
+      - id: 5
       - id: 6
       - id: 5
       - id: 8
-      - id: 5
-      - id: 8
-      - id: 8
-      - id: 8
-      - id: 8
+      - id: 25
     - id: 9
       cost: 0
       elementEnum: 4
-      hp: 193
-      currentHp: 193
-      atk: 88
-      currentAtk: 88
-      def: 22
-      currentDef: 22
-      speed: 118
-      currentSpeed: 118
-      adap: 15
-      currentAdap: 15
+      hp: 280
+      currentHp: 280
+      atk: 94
+      currentAtk: 94
+      def: 32
+      currentDef: 32
+      speed: 116
+      currentSpeed: 116
+      adap: 17
+      currentAdap: 17
       ownedSkills:
-      - id: 13
-      - id: 23
-      - id: 23
+      - id: 17
+      - id: 17
       - id: 23
       - id: 13
       - id: 27
-      - id: 23
-      - id: 13
-      - id: 17
   - name: "\u547D\u8FD0"
     trainerSkills:
     - id: 57
