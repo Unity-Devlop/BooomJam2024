@@ -839,7 +839,7 @@
     "id": 12,
     "eng_name": "",
     "element": 3,
-    "desc": "不管不顾地向前冲击，自己也会受到造成的伤害的50%的伤害。\n处于草地战场时，招式威力增加40点。",
+    "desc": "不管不顾地向前冲击，自己也会受到造成的伤害的20%的伤害。\n处于草地战场时，招式威力增加40点。",
     "special_icon_path": "",
     "card_image_path": "Graphics/card/ActiveSkill012_Grass_hlll.png",
     "type": 4,
@@ -907,7 +907,7 @@
       "buff": 0
     },
     "full_hp_increase_base_value_rate": 0,
-    "percentage_damage_by_self": 0.5,
+    "percentage_damage_by_self": 0.2,
     "change_element_after_use": 0,
     "increase_damage_point_when_grass_env": 40
   },
