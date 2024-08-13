@@ -266,15 +266,15 @@ MonoBehaviour:
       - id: 27
   - name: "\u547D\u8FD0"
     trainerSkills:
-    - id: 57
-    - id: 55
-    - id: 46
+    - id: 38
+    - id: 49
     - id: 32
-    - id: 55
-    - id: 62
+    - id: 32
+    - id: 36
+    - id: 35
     - id: 37
     - id: 50
-    - id: 61
+    - id: 60
     datas:
     - id: 0
       cost: 0
@@ -290,15 +290,11 @@ MonoBehaviour:
       adap: 12
       currentAdap: 12
       ownedSkills:
+      - id: 1
       - id: 3
-      - id: 1
       - id: 20
       - id: 26
       - id: 26
-      - id: 25
-      - id: 1
-      - id: 20
-      - id: 20
     - id: 2
       cost: 0
       elementEnum: 3
@@ -316,12 +312,8 @@ MonoBehaviour:
       - id: 11
       - id: 9
       - id: 26
-      - id: 11
       - id: 26
       - id: 9
-      - id: 9
-      - id: 10
-      - id: 26
     - id: 4
       cost: 0
       elementEnum: 5
@@ -336,15 +328,12 @@ MonoBehaviour:
       adap: 22
       currentAdap: 22
       ownedSkills:
+      - id: 21
+      - id: 21
       - id: 27
       - id: 20
       - id: 20
-      - id: 27
-      - id: 20
-      - id: 20
-      - id: 27
-      - id: 27
-      - id: 27
+      - id: 19
     - id: 5
       cost: 0
       elementEnum: 6
@@ -362,12 +351,10 @@ MonoBehaviour:
       - id: 14
       - id: 14
       - id: 24
+      - id: 24
+      - id: 1
       - id: 26
-      - id: 14
-      - id: 25
-      - id: 1
-      - id: 1
-      - id: 1
+      - id: 26
     - id: 6
       cost: 0
       elementEnum: 1
@@ -382,15 +369,11 @@ MonoBehaviour:
       adap: 17
       currentAdap: 17
       ownedSkills:
-      - id: 1
       - id: 14
-      - id: 1
-      - id: 2
-      - id: 1
-      - id: 25
-      - id: 25
-      - id: 2
       - id: 14
+      - id: 2
+      - id: 4
+      - id: 4
     - id: 8
       cost: 0
       elementEnum: 3
@@ -405,26 +388,22 @@ MonoBehaviour:
       adap: 2
       currentAdap: 2
       ownedSkills:
-      - id: 25
-      - id: 25
       - id: 27
       - id: 14
-      - id: 14
       - id: 12
       - id: 12
-      - id: 25
-      - id: 12
+      - id: 26
   - name: "\u4E2D\u5206\u9E21"
     trainerSkills:
     - id: 59
-    - id: 37
+    - id: 35
     - id: 29
+    - id: 34
+    - id: 31
+    - id: 31
     - id: 33
-    - id: 55
-    - id: 43
-    - id: 42
-    - id: 45
-    - id: 42
+    - id: 37
+    - id: 59
     datas:
     - id: 0
       cost: 0
@@ -440,14 +419,10 @@ MonoBehaviour:
       adap: 22
       currentAdap: 22
       ownedSkills:
-      - id: 26
       - id: 1
-      - id: 2
       - id: 3
-      - id: 2
-      - id: 25
-      - id: 2
-      - id: 25
+      - id: 1
+      - id: 3
       - id: 20
     - id: 1
       cost: 0
@@ -463,14 +438,9 @@ MonoBehaviour:
       adap: 4
       currentAdap: 4
       ownedSkills:
-      - id: 28
-      - id: 5
-      - id: 25
-      - id: 5
-      - id: 23
-      - id: 28
       - id: 7
-      - id: 5
+      - id: 7
+      - id: 23
       - id: 7
     - id: 2
       cost: 0
@@ -490,11 +460,8 @@ MonoBehaviour:
       - id: 26
       - id: 11
       - id: 11
-      - id: 26
-      - id: 11
-      - id: 10
       - id: 9
-      - id: 10
+      - id: 9
     - id: 5
       cost: 0
       elementEnum: 6
@@ -510,14 +477,10 @@ MonoBehaviour:
       currentAdap: 21
       ownedSkills:
       - id: 26
-      - id: 25
       - id: 1
       - id: 14
-      - id: 26
-      - id: 25
-      - id: 26
+      - id: 24
       - id: 14
-      - id: 26
     - id: 8
       cost: 0
       elementEnum: 3
@@ -532,15 +495,10 @@ MonoBehaviour:
       adap: 2
       currentAdap: 2
       ownedSkills:
-      - id: 26
       - id: 27
       - id: 12
       - id: 12
-      - id: 12
       - id: 14
-      - id: 14
-      - id: 12
-      - id: 27
     - id: 11
       cost: 0
       elementEnum: 4
@@ -556,24 +514,20 @@ MonoBehaviour:
       currentAdap: 9
       ownedSkills:
       - id: 13
-      - id: 26
       - id: 18
-      - id: 26
       - id: 15
       - id: 18
       - id: 27
-      - id: 27
-      - id: 18
   - name: "\u8BF4\u5531\u7BEE\u7403"
     trainerSkills:
-    - id: 47
-    - id: 34
-    - id: 42
-    - id: 30
+    - id: 51
+    - id: 51
+    - id: 52
     - id: 49
-    - id: 39
+    - id: 49
+    - id: 59
+    - id: 59
     - id: 53
-    - id: 49
     - id: 38
     datas:
     - id: 2
@@ -591,13 +545,8 @@ MonoBehaviour:
       currentAdap: 26
       ownedSkills:
       - id: 11
-      - id: 11
-      - id: 11
       - id: 9
-      - id: 11
       - id: 26
-      - id: 10
-      - id: 9
       - id: 9
     - id: 3
       cost: 0
@@ -613,15 +562,10 @@ MonoBehaviour:
       adap: 1
       currentAdap: 1
       ownedSkills:
-      - id: 25
       - id: 6
-      - id: 27
-      - id: 14
+      - id: 16
+      - id: 16
       - id: 6
-      - id: 14
-      - id: 14
-      - id: 14
-      - id: 27
     - id: 4
       cost: 0
       elementEnum: 5
@@ -639,12 +583,8 @@ MonoBehaviour:
       - id: 21
       - id: 27
       - id: 20
-      - id: 25
       - id: 19
-      - id: 20
-      - id: 21
-      - id: 27
-      - id: 25
+      - id: 19
     - id: 5
       cost: 0
       elementEnum: 6
@@ -660,14 +600,10 @@ MonoBehaviour:
       currentAdap: 45
       ownedSkills:
       - id: 14
-      - id: 25
       - id: 26
       - id: 1
-      - id: 1
-      - id: 14
-      - id: 25
-      - id: 26
-      - id: 26
+      - id: 24
+      - id: 24
     - id: 6
       cost: 0
       elementEnum: 1
@@ -682,15 +618,11 @@ MonoBehaviour:
       adap: 20
       currentAdap: 20
       ownedSkills:
-      - id: 2
-      - id: 2
-      - id: 1
-      - id: 14
+      - id: 4
       - id: 4
       - id: 2
-      - id: 2
-      - id: 2
-      - id: 2
+      - id: 14
+      - id: 4
     - id: 11
       cost: 0
       elementEnum: 4
@@ -708,9 +640,5 @@ MonoBehaviour:
       - id: 15
       - id: 18
       - id: 13
-      - id: 18
-      - id: 26
-      - id: 15
-      - id: 15
       - id: 18
       - id: 15
