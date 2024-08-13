@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.Pool;
 
 namespace UnityToolkit
@@ -15,12 +16,21 @@ namespace UnityToolkit
 
         private void Awake()
         {
-            Initialize(hidden);
+            if (prefab != null)
+            {
+                Initialize(hidden, prefab);
+            }
         }
 
-        public void Initialize(Transform parent = null)
+        public void Initialize(Transform parent = null, GameObject target = null)
         {
+            if (target != null)
+            {
+                this.prefab = target;
+            }
+
             if (parent == null) parent = hidden;
+            Assert.IsNotNull(this.prefab);
             if (_initialized) return;
             _initialized = true;
             _pool = new ObjectPool<GameObject>(

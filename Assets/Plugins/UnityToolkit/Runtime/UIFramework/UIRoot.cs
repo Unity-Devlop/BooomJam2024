@@ -70,7 +70,6 @@ namespace UnityToolkit
             for (int i = 0; i < rootCanvas.transform.childCount; i++)
             {
                 Destroy(rootCanvas.transform.GetChild(i));
-                Debug.LogWarning("Delete the default canvas child");
             }
             
         }

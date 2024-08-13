@@ -32,23 +32,13 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 511c64d1d9a8b3b4992b3e1656becf66
-    m_Address: Scenes
+  - m_GUID: ae5714c6f1ff4e04ba3c52cc36ba1562
+    m_Address: UI
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 1ff178673b570a0458b9a8e4cc5a5d65
-    m_Address: Home
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 01061f83bf694b841b1713e15ae229e3
-    m_Address: Game
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: ae5714c6f1ff4e04ba3c52cc36ba1562
-    m_Address: UI
+    m_Address: GameHome
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -58,7 +48,32 @@ MonoBehaviour:
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 19575959ae28134449d9f8cf8122417f
-    m_Address: Assets/Scenes/GameOutside.unity
+    m_Address: GameOutside
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 01061f83bf694b841b1713e15ae229e3
+    m_Address: GameBattle
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c9f5c107f7132414ca78e5a8b4f1764a
+    m_Address: Animation
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d3280ae5b622a644d9c005ec903c7e67
+    m_Address: Resource
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: be9f3915257b95648865d783d1fd0057
+    m_Address: Graphics
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7169c3b533887174cbbb8d77bbf9eccb
+    m_Address: Config
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

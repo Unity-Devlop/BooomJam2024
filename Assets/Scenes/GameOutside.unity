@@ -304,6 +304,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ae54a7adcae4ac69ce554f70ffca577, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  opponents: {fileID: 11400000, guid: ce0a5a752d81ded458195bca4ca3124e, type: 2}
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0

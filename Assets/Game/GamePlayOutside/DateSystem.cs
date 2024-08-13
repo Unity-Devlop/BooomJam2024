@@ -10,39 +10,57 @@ namespace Game
         public int year;
         public int month;
         public int day;
-        public int season;//Èü¼¾
+        public int season;//èµ›å­£
+        public int count;//æ¯”èµ›åœºæ•°
+
+        public Date(int year,int month,int day,int season,int count)
+        {
+            this.year = year;
+            this.month = month;
+            this.day = day;
+            this.season = season;
+            this.count = count;
+        }
     }
 
     public class DateSystem
     {
-        public Date curDate;
+        public List<string> hasMeet = new List<string>();
 
-        public DateSystem(int year,int month,int day,int season)
+        public DateSystem()
         {
-            curDate.year = year;
-            curDate.month = month;
-            curDate.day = day;
-            curDate.season = season;
+
         }
 
         public void YearElapse(int value)
         {
-            curDate.year += value;
+            Global.Get<DataSystem>().Get<GameData>().date.year += value;
         }
 
         public void MonthElapse(int value)
         {
-            curDate.month += value;
+            Global.Get<DataSystem>().Get<GameData>().date.month += value;
+            if(Global.Get<DataSystem>().Get<GameData>().date.month>12)
+            {
+                Global.Get<DataSystem>().Get<GameData>().date.year += Global.Get<DataSystem>().Get<GameData>().date.month/13;
+                Global.Get<DataSystem>().Get<GameData>().date.month = Global.Get<DataSystem>().Get<GameData>().date.month%13+1;
+            }
         }
 
         public void DayElapse(int value)
         {
-            curDate.day += value;
+            Global.Get<DataSystem>().Get<GameData>().date.day += value;
+            if(Global.Get<DataSystem>().Get<GameData>().date.day>30)
+            {
+                MonthElapse(Global.Get<DataSystem>().Get<GameData>().date.day / 31);
+                Global.Get<DataSystem>().Get<GameData>().date.day= Global.Get<DataSystem>().Get<GameData>().date.day%31+1;
+            }
         }
 
         public void SeasonElapse(int value)
         {
-            curDate.season += value;
+            Global.Get<DataSystem>().Get<GameData>().date.season += value;
+            if (Global.Get<DataSystem>().Get<GameData>().date.season >= 10) Global.Get<DataSystem>().Get<GameData>().date.season = 1;
         }
     }
 }

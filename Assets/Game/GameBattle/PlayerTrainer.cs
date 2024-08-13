@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using cfg;
 using Cysharp.Threading.Tasks;
-using Game.Game;
 using Sirenix.OdinInspector;
 using Sirenix.Utilities;
 using UnityEngine;
@@ -18,14 +16,17 @@ namespace Game.GamePlay
     [Serializable]
     public class PlayerBattleTrainer : IBattleTrainer
     {
-        public bool canFight => trainerData.canFight;
         [field: SerializeField] public TrainerData trainerData { get; private set; }
         [field: NonSerialized] public HuluData currentBattleData { get; private set; }
 
         public event Func<List<ActiveSkillData>, UniTask> OnDrawCard = delegate { return UniTask.CompletedTask; };
-        public event Func<ActiveSkillData, UniTask> OnUseHandCard = delegate { return UniTask.CompletedTask; };
+        public event Func<ActiveSkillData, UniTask> OnUseCardFromHand = delegate { return UniTask.CompletedTask; };
         public event Func<List<ActiveSkillData>, UniTask> OnDestroyCard = delegate { return UniTask.CompletedTask; };
-        public event Func<List<ActiveSkillData>, UniTask> OnDiscardCard = delegate { return UniTask.CompletedTask; };
+
+        public event Func<List<ActiveSkillData>, IBattleTrainer, UniTask> OnDiscardCardFromHand = delegate
+        {
+            return UniTask.CompletedTask;
+        };
 
         public event Func<List<ActiveSkillData>, UniTask> OnConsumedCard = delegate { return UniTask.CompletedTask; };
         public event Func<UniTask> OnStartCalOperation = delegate { return UniTask.CompletedTask; };
@@ -35,6 +36,9 @@ namespace Game.GamePlay
         {
             return UniTask.CompletedTask;
         };
+
+        [SerializeField] private List<BattleBuffEnum> buffList = new List<BattleBuffEnum>();
+
 
         public List<ActiveSkillEnum> deck = new();
 
@@ -54,9 +58,16 @@ namespace Game.GamePlay
             _operation = null;
         }
 
-        public async UniTask<IBattleOperation> CalOperation()
+        public virtual async UniTask<IBattleOperation> CalOperation()
         {
+            Debug.Log($"{this} 开始思考操作");
             Assert.IsNull(_operation);
+
+            if (handZone.Count == 0)
+            {
+                return new EndRoundOperation();
+            }
+
             // Debug.Log("开始计算操作");
             await OnStartCalOperation(); // 通知UI开始计算操作
             await UniTask.WaitUntil(() => _operation != null); // 等待一个操作
@@ -68,37 +79,65 @@ namespace Game.GamePlay
 
         public void PushOperation(IBattleOperation operation)
         {
-            Assert.IsNull(_operation);
+            if (_operation != null)
+            {
+                Global.LogWarning($"已经存在一个预先输入的操作{_operation}了,是点击过快么");
+                return;
+            }
+
             _operation = operation;
         }
 
         /// <summary>
-        /// 消耗一张牌
+        /// 使用手牌
         /// </summary>
         /// <param name="data"></param>
-        public async UniTask UseCardFromHandZone(ActiveSkillData data)
+        public async UniTask UseCardFromHand(ActiveSkillData data)
         {
+            Assert.IsFalse(data.id == ActiveSkillEnum.None);
             Assert.IsNotNull(data);
             // Debug.Log(
             // $"handZone:{handZone.Contains(data)},drawZone:{drawZone.Contains(data)},discardZone:{discardZone.Contains(data)}");
             // Debug.Log($"消耗牌{data} HashCode: {data.GetHashCode()}");
             Assert.IsTrue(handZone.Contains(data));
-            await OnUseHandCard(data);
-            if (data.config.Type2 == CardTypeEnum.Normal)
+            await OnUseCardFromHand(data);
+            if ((data.config.Type2 & CardTypeEnum.消耗) != 0)
             {
-                await Discard(data);
+                await ConsumeCardFromHand(data);
             }
-            else if (data.config.Type2 == CardTypeEnum.消耗)
+            else
             {
-                Debug.Log($"消耗牌{data}");
-                await Consumed(data);
+                await DiscardCardFromHand(data);
             }
         }
 
-        private async UniTask Consumed(ActiveSkillData data)
+
+        private async UniTask DiscardCardFromHand(ActiveSkillData data)
         {
-            Assert.IsTrue(data.config.Type2 == CardTypeEnum.消耗);
+            Assert.IsFalse(data.id == ActiveSkillEnum.None);
+            // Assert.IsTrue((data.config.Type2 & CardTypeEnum.Normal) != 0);
             Assert.IsTrue(handZone.Contains(data));
+            Assert.IsFalse(discardZone.Contains(data));
+            Assert.IsFalse(consumedZone.Contains(data));
+            Assert.IsFalse(drawZone.Contains(data));
+            handZone.Remove(data);
+            List<ActiveSkillData> list = new List<ActiveSkillData>(1) { data };
+            await OnDiscardCardFromHand(list, this);
+            discardZone.Add(data);
+        }
+
+
+        public async UniTask ConsumeCardFromHand(ActiveSkillData data)
+        {
+            Assert.IsFalse(data.id == ActiveSkillEnum.None);
+            if ((data.config.Type2 & CardTypeEnum.消耗) == 0)
+            {
+                Debug.LogWarning($"尝试消耗非消耗牌{data}");
+            }
+
+            Assert.IsTrue(handZone.Contains(data));
+            Assert.IsFalse(discardZone.Contains(data));
+            Assert.IsFalse(drawZone.Contains(data));
             Assert.IsFalse(consumedZone.Contains(data));
 
             handZone.Remove(data);
@@ -106,73 +145,100 @@ namespace Game.GamePlay
             List<ActiveSkillData> list = ListPool<ActiveSkillData>.Get();
             list.Add(data);
             await OnConsumedCard(list);
-            ListPool<ActiveSkillData>.Release(list);
         }
 
-
-        public async UniTask Discard(ActiveSkillData data)
+        public async UniTask MoveDiscardCardToConsumeZone(ActiveSkillData data)
         {
-            Assert.IsTrue(data.config.Type2 == CardTypeEnum.Normal);
-            Assert.IsTrue(handZone.Contains(data));
-            Assert.IsFalse(discardZone.Contains(data));
-            handZone.Remove(data);
-            discardZone.Add(data);
-            List<ActiveSkillData> list = ListPool<ActiveSkillData>.Get();
-            list.Add(data);
-            await OnDiscardCard(list);
-            ListPool<ActiveSkillData>.Release(list);
+            Assert.IsFalse(data.id == ActiveSkillEnum.None);
+            Assert.IsTrue(discardZone.Contains(data));
+            Assert.IsFalse(consumedZone.Contains(data));
+            discardZone.Remove(data);
+            consumedZone.Add(data);
+            Debug.Log($"移动弃牌区到消耗区{data}");
+            await UniTask.CompletedTask;
         }
 
-        public async UniTask RandomDiscard(int i)
+        public bool ContainsBuff(BattleBuffEnum buff)
+        {
+            return buffList.Contains(buff);
+        }
+
+        public int GetConsumeCardInHandCount(ActiveSkillTypeEnum target)
+        {
+            int cnt = 0;
+            foreach (var activeSkillData in handZone)
+            {
+                if ((activeSkillData.config.Type & target) != 0)
+                {
+                    cnt++;
+                }
+            }
+
+            return cnt;
+        }
+
+        public async UniTask RoundEnd()
+        {
+            Global.LogInfo($"{this} 回合结束");
+            GameMath.ProcessBuffWhenRoundEnd(buffList);
+            await UniTask.CompletedTask;
+        }
+
+        public async UniTask RandomDiscardCardFromHand(int i)
         {
             Debug.Log($"随机弃牌{i}张");
             int cnt = Mathf.Clamp(handZone.Count, 0, i);
             for (int j = 0; j < cnt; j++)
             {
-                var discard = handZone.RandomTake();
-                await Discard(discard);
+                var discard = handZone.RandomTakeWithoutRemove();
+                await DiscardCardFromHand(discard);
             }
 
-            await UniTask.Delay(TimeSpan.FromSeconds(1));
+            await UniTask.Delay(TimeSpan.FromSeconds(0.2f));
         }
 
-        public int GetHandZoneCount()
+        public async UniTask DiscardAllHandCards()
         {
-            return handZone.Count;
+            var copy = handZone.ToList();
+            foreach (var activeSkillData in copy)
+            {
+                await DiscardCardFromHand(activeSkillData);
+            }
         }
 
-        public UniTask DiscardAllHandCards()
-        {
-            Debug.Log("弃掉所有手牌");
-            List<ActiveSkillData> list = ListPool<ActiveSkillData>.Get();
-            list.AddRange(handZone);
-            handZone.Clear();
-            discardZone.AddRange(list);
-            return OnDiscardCard(list);
-        }
-
-        public async UniTask ChangeCurrentHulu(HuluData data)
+        public async UniTask SwitchPokemon(HuluData data)
         {
             Assert.IsNotNull(data);
             Debug.Log($"切换当前宝可梦{currentBattleData}->{data}");
             if (currentBattleData != null)
             {
-                await DestroyCurrentCard();
+                await DestroyCurrentPokemonSkillCard();
             }
             else
             {
-                Debug.Log("最初进入战斗 直接抽牌");
+                InitOwnerSkillToDrawZone();
             }
 
             Debug.Log($"{this}切换成功");
             currentBattleData = data;
             RecalculateDeck();
-            ReFillDrawZone();
-            await DrawSkills(4);
+            ReFillDrawZoneWhenChangeHulu();
+            await DrawSkills(Consts.DefaultDrawCardCnt);
+        }
+
+        private void InitOwnerSkillToDrawZone()
+        {
+            foreach (var trainerSkill in trainerData.trainerSkills)
+            {
+                Assert.IsFalse(drawZone.Contains(trainerSkill));
+                Assert.IsFalse(handZone.Contains(trainerSkill));
+                Assert.IsFalse(discardZone.Contains(trainerSkill));
+                drawZone.Add(trainerSkill);
+            }
         }
 
 
-        private async UniTask DestroyCurrentCard()
+        private async UniTask DestroyCurrentPokemonSkillCard()
         {
             List<ActiveSkillData> needDelete = ListPool<ActiveSkillData>.Get();
 
@@ -180,12 +246,10 @@ namespace Game.GamePlay
 
             foreach (var activeSkillData in currentBattleData.ownedSkills)
             {
-                if (drawZone.Contains(activeSkillData))
+                if (!consumedZone.Contains(activeSkillData))
+                {
                     needDelete.Add(activeSkillData);
-                if (handZone.Contains(activeSkillData))
-                    needDelete.Add(activeSkillData);
-                if (discardZone.Contains(activeSkillData))
-                    needDelete.Add(activeSkillData);
+                }
             }
 
 
@@ -215,44 +279,18 @@ namespace Game.GamePlay
             ListPool<ActiveSkillData>.Release(needDelete);
         }
 
-        private void ReFillDrawZone()
+        private void ReFillDrawZoneWhenChangeHulu()
         {
             //此时手里是没抽新宝可梦的技能牌的
             foreach (var ownedSkill in currentBattleData.ownedSkills)
             {
-                if (handZone.Contains(ownedSkill))
-                {
-                    // Debug.Log($"手牌区域有{ownedSkill} 不再加入抽牌区");
-                    continue;
-                }
-
-                if (consumedZone.Contains(ownedSkill))
-                {
-                    // Debug.Log($"墓地区域有{ownedSkill} 不再加入抽牌区");
-                    continue;
-                }
-
+                Assert.IsFalse(handZone.Contains(ownedSkill));
+                Assert.IsFalse(discardZone.Contains(ownedSkill));
+                Assert.IsFalse(drawZone.Contains(ownedSkill));
                 drawZone.Add(ownedSkill);
             }
 
-            foreach (var trainerSkill in trainerData.trainerSkills)
-            {
-                if (handZone.Contains(trainerSkill))
-                {
-                    // Debug.Log($"手牌区域有{trainerSkill} 不再加入抽牌区");
-                    continue;
-                }
-
-                if (consumedZone.Contains(trainerSkill))
-                {
-                    // Debug.Log($"墓地区域有{trainerSkill} 不再加入抽牌区");
-                    continue;
-                }
-
-                drawZone.Add(trainerSkill);
-            }
-
-            Debug.Log($"重置抽牌区,当前抽牌区有:{drawZone.Count}张牌");
+            Debug.Log($"为当前宝可梦{currentBattleData}填充抽牌区域");
         }
 
         public async UniTask Discard2DrawZone()
@@ -272,13 +310,25 @@ namespace Game.GamePlay
             deck.Clear();
             foreach (var ownedSkill in currentBattleData.ownedSkills)
             {
-                if (consumedZone.Contains(ownedSkill)) continue;
+                if (consumedZone.Contains(ownedSkill))
+                {
+                    Debug.Log($"墓地区域有{ownedSkill} 不再加入卡组");
+                    continue;
+                }
+
+                Assert.IsFalse(ownedSkill.id == ActiveSkillEnum.None);
                 deck.Add(ownedSkill.id);
             }
 
             foreach (var skill in trainerData.trainerSkills)
             {
-                if (consumedZone.Contains(skill)) continue;
+                if (consumedZone.Contains(skill))
+                {
+                    Debug.Log($"墓地区域有{skill} 不再加入卡组");
+                    continue;
+                }
+
+                Assert.IsFalse(skill.id == ActiveSkillEnum.None);
                 deck.Add(skill.id);
             }
 
@@ -291,7 +341,7 @@ namespace Game.GamePlay
             // Debug.Log($"{this} 抽牌 {cnt}");
             int cur = handZone.Count; // 手牌数量
             // Debug.Log($"当前手牌数量:{cur}");
-            int need = Consts.MaxHandCard - cur; // 还可以抽的数量
+            int need = CalHandMax() - cur; // 还可以抽的数量
             need = Mathf.Clamp(need, 0, cnt); // 限制抽牌数量
             need = Mathf.Clamp(need, 0, deck.Count);
             if (need == 0)
@@ -302,6 +352,13 @@ namespace Game.GamePlay
 
             // Debug.Log($"可以抽牌:{need}张");
             HashSet<ActiveSkillData> drawList = HashSetPool<ActiveSkillData>.Get();
+
+
+            if (drawZone.Count < need)
+            {
+                await Discard2DrawZone();
+            }
+
             // 从抽牌区抽牌
             for (int i = 0; i < need; i++)
             {
@@ -314,7 +371,7 @@ namespace Game.GamePlay
 
                 if (drawZone.Count == 0)
                 {
-                    Debug.LogError("抽牌区没牌了");
+                    Debug.LogWarning("抽牌区没牌了 别抽了");
                     break;
                 }
 
@@ -332,7 +389,7 @@ namespace Game.GamePlay
             HashSetPool<ActiveSkillData>.Release(drawList);
         }
 
-        public async UniTask DrawTarget(ActiveSkillTypeEnum type, int cnt)
+        public async UniTask<int> DrawTarget(ActiveSkillTypeEnum type, int cnt)
         {
             HashSet<ActiveSkillData> drawList = HashSetPool<ActiveSkillData>.Get();
 
@@ -355,13 +412,174 @@ namespace Game.GamePlay
             }
 
             await OnDrawCard(drawList.ToList());
+            int result = drawList.Count;
             HashSetPool<ActiveSkillData>.Release(drawList);
+            return result;
+        }
+
+        public async UniTask<int> DrawTarget(ActiveSkillEnum target, int cnt)
+        {
+            HashSet<ActiveSkillData> drawList = HashSetPool<ActiveSkillData>.Get();
+
+
+            foreach (var activeSkillData in drawZone)
+            {
+                if (activeSkillData.id == target)
+                {
+                    drawList.Add(activeSkillData);
+                    if (drawList.Count == cnt)
+                    {
+                        break;
+                    }
+                }
+            }
+
+            foreach (var target1 in drawList)
+            {
+                drawZone.Remove(target1);
+                handZone.Add(target1);
+            }
+
+            await OnDrawCard(drawList.ToList());
+            int result = drawList.Count;
+            HashSetPool<ActiveSkillData>.Release(drawList);
+            return result;
+        }
+
+        public int GetTargetCntInDeck(ActiveSkillTypeEnum targetType)
+        {
+            int cnt = 0;
+            foreach (var skillEnum in deck)
+            {
+                var config = Global.Table.ActiveSkillTable.Get(skillEnum);
+                if ((targetType & config.Type) != 0)
+                {
+                    cnt++;
+                }
+            }
+
+            return cnt;
+        }
+
+        public UniTask AddCardToDeck(ActiveSkillData added)
+        {
+            Assert.IsNotNull(added);
+            Assert.IsFalse(deck.Contains(added.id));
+            Assert.IsFalse(drawZone.Contains(added));
+            Assert.IsFalse(handZone.Contains(added));
+            Assert.IsFalse(discardZone.Contains(added));
+
+            deck.Add(added.id);
+            drawZone.Add(added);
+            // TODO 通知UI
+            return UniTask.CompletedTask;
+        }
+
+        public int CalHandMax()
+        {
+            int max = Consts.MaxHandCard;
+            GameData gameData = Global.Get<DataSystem>().Get<GameData>();
+            if (gameData is { ruleConfig: not null } &&
+                gameData.ruleConfig.ruleList.Contains(GameRuleEnum.手牌上限减少到6张))
+            {
+                max = 6;
+            }
+
+            return max;
+        }
+
+        public async UniTask DrawHandFull()
+        {
+            await DrawSkills(CalHandMax() - handZone.Count);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Init(TrainerData trainerData1)
         {
             trainerData = trainerData1;
+        }
+
+
+        public async UniTask OnEnemyTrainerDiscardCard(List<ActiveSkillData> arg, IBattleTrainer trainer)
+        {
+            if (buffList.Contains(BattleBuffEnum.对手弃牌时自己摸等量手牌))
+            {
+                await DrawSkills(arg.Count);
+            }
+
+            if (buffList.Contains(BattleBuffEnum.回合内消耗对手弃置的牌))
+            {
+                foreach (var data in arg)
+                {
+                    if ((data.config.Type2 & CardTypeEnum.消耗) != 0)
+                    {
+                        await trainer.MoveDiscardCardToConsumeZone(data);
+                    }
+                }
+            }
+
+            await UniTask.CompletedTask;
+        }
+
+        public async UniTask RemoveBuff(BattleBuffEnum buff)
+        {
+            buffList.Remove(buff);
+            await UniTask.CompletedTask;
+        }
+
+        public async UniTask BeforeRounding()
+        {
+            await UniTask.CompletedTask;
+        }
+
+        public async UniTask AddBuff(BattleBuffEnum buff)
+        {
+            var buffConfig = Global.Table.BattleBuffTable.Get(buff);
+            Debug.Log($"{this}获得buff{buff}");
+            Assert.IsTrue(buffConfig.IsTrainerBuff);
+
+            Debug.Log($"{this} 获得buff {buff}");
+            if (buff == BattleBuffEnum.抽两张牌)
+            {
+                await DrawSkills(2);
+            }
+
+            if (Global.Table.BattleBuffTable.Get(buff).NotSave)
+                return;
+
+            if (buffList.Contains(buff) && !buffConfig.CanStack)
+                return;
+            int cnt = buffList.Count((x) => x == buff);
+
+            if (buffConfig.MaxStack > 0 && cnt >= buffConfig.MaxStack)
+            {
+                Debug.Log($"{this} buff {buff} 已经达到最大层数{buffConfig.MaxStack}");
+                return;
+            }
+
+            buffList.Add(buff);
+        }
+
+
+        public void ExitBattle()
+        {
+            deck.Clear();
+            drawZone.Clear();
+            handZone.Clear();
+            discardZone.Clear();
+            consumedZone.Clear();
+            _operation = null;
+            // trainerData.ClearBattleDirtyData();
+            buffList.Clear();
+            foreach (var pokemonData in trainerData.datas)
+            {
+                Global.LogInfo($"{this}退出战斗 清理{pokemonData}的战斗遗留数据");
+                pokemonData.ClearBattleDirtyData();
+            }
+        }
+
+        public void OnBattleEnd()
+        {
         }
     }
 }

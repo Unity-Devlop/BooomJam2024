@@ -1,68 +1,74 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using FMOD.Studio;
 using UnityToolkit;
 
 namespace Game
 {
-    public enum POState
-    {
-        FirstSettingState,
-        FirstChooseState,
-        DailyTrainState,
-        SpecialTrainState,
-    }
-
     public class GamePlayOutsideMgr : MonoSingleton<GamePlayOutsideMgr>
     {
-        private Dictionary<POState, PlayOutsideState> states = new Dictionary<POState, PlayOutsideState>();
-        private PlayOutsideState curState;
-
+        public StateMachine<GamePlayOutsideMgr> machine { get; private set; }
         public DateSystem dateSystem;
+        public OpponentConfig opponents;
 
         protected override void OnInit()
         {
-            base.OnInit();
-            Global.Get<DataSystem>().Add(new PlayerData());
-            dateSystem = new DateSystem(2024,8,1,1);//暂时写死，后续改为读表
-            states.Add(POState.FirstSettingState,new FirstSettingState());
-            states.Add(POState.FirstChooseState, new FirstChooseState());
-            states.Add(POState.DailyTrainState, new DailyTrainState());
-            states.Add(POState.SpecialTrainState, new SpecialTrainState());
-            curState = states[POState.FirstSettingState];
-            curState.OnEnter();
+            dateSystem = new DateSystem();
+
+            machine = new StateMachine<GamePlayOutsideMgr>(this);
+            machine.Add(new FirstSettingState());
+            machine.Add(new FirstChooseState());
+            machine.Add(new DailyTrainState());
+            machine.Add(new SpecialTrainState());
+            machine.Add(new BattleSettlementState());
+            machine.Add(new SelectOpponentState());
+            machine.Add(new ChangeHuluState());
+
+            machine.OnStateChange += OnOutsideStateChange;
+
+
+            // machine.Run<FirstSettingState>();
+
             Register();
+
+            PlayBGM();
+        }
+
+        private void OnOutsideStateChange(Type from, Type to)
+        {
+            Global.Get<DataSystem>().Get<GameData>().gameOutsideStateType = to;
+            Global.LogInfo($"GameOutsideState Switch {from}:{to}");
         }
 
         protected override void OnDispose()
         {
             UnRegister();
-            base.OnDispose();
+            machine.Stop();
+            StopBGM();
         }
 
         private void Update()
         {
-            curState.OnStay();
+            machine.OnUpdate();
         }
 
-        private void ChangeState(ChangeStateEvent e)
-        {
-            if (curState != null) curState.OnExit();
-            curState = states[e.poState];
-            curState.OnEnter();
-        }
 
         private void Register()
         {
-            TypeEventSystem.Global.Listen<ChangeStateEvent>(ChangeState);
         }
 
         private void UnRegister()
         {
-            TypeEventSystem.Global.UnListen<ChangeStateEvent>(ChangeState);
         }
-    }
 
-    public class ChangeStateEvent
-    {
-        public POState poState;
+        public void PlayBGM()
+        {
+            Global.Get<AudioSystem>().PlaySingleton(FMODName.Event.MX_NORMAL_DEMO1);
+        }
+
+        public void StopBGM()
+        {
+            Global.Get<AudioSystem>().StopSingleton(FMODName.Event.MX_NORMAL_DEMO1, STOP_MODE.ALLOWFADEOUT);
+        }
     }
 }

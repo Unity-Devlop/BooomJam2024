@@ -5,22 +5,26 @@ using UnityToolkit;
 
 namespace Game
 {
-    public class FirstSettingState : PlayOutsideState
+    public class FirstSettingState : IState<GamePlayOutsideMgr>
     {
-        public override void OnEnter()
+        public void OnInit(GamePlayOutsideMgr owner, IStateMachine<GamePlayOutsideMgr> stateMachine)
         {
-            base.OnEnter();
+            
+        }
+
+        public void OnEnter(GamePlayOutsideMgr owner, IStateMachine<GamePlayOutsideMgr> stateMachine)
+        {
+            Global.Get<DataSystem>().Get<GameData>().date = new(2024, 8, 1, 1, 0);
             UIRoot.Singleton.OpenPanel<FirstSettingPanel>();
         }
 
-        public override void OnStay()
+        public void OnUpdate(GamePlayOutsideMgr owner, IStateMachine<GamePlayOutsideMgr> stateMachine)
         {
-            base.OnStay();
         }
 
-        public override void OnExit()
+        public void OnExit(GamePlayOutsideMgr owner, IStateMachine<GamePlayOutsideMgr> stateMachine)
+
         {
-            base.OnExit();
             UIRoot.Singleton.ClosePanel<FirstSettingPanel>();
         }
     }

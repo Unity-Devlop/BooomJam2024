@@ -15,13 +15,23 @@ namespace UnityToolkit.Debugger
         /// <summary>
         /// 默认调试器漂浮框大小。
         /// </summary>
-        internal static readonly Rect DefaultIconRect = new Rect(10f, 10f, 60f, 60f);
- 
+        internal static Rect DefaultIconRect
+        {
+            get
+            {
+                return
+                    new Rect(10f, 10f, 60f * 1920 / Screen.width, 60f * 1080 / Screen.height);
+            }
+        }
+
         /// <summary>
         /// 默认调试器窗口大小。
         /// </summary>
-        internal static readonly Rect DefaultWindowRect = new Rect(10f, 10f, 640f, 480f);
-        
+        internal static Rect DefaultWindowRect
+        {
+            get { return new Rect(10f, 10f, 640f * 1920 / Screen.width, 480f * 1080 / Screen.height); }
+        }
+
         /// <summary>
         /// 默认调试器窗口缩放比例。
         /// </summary>
@@ -29,7 +39,7 @@ namespace UnityToolkit.Debugger
 
         private static readonly TextEditor s_TextEditor = new TextEditor();
         private IDebuggerManager m_DebuggerManager = null;
-        private Rect m_DragRect = new Rect(0f, 0f, float.MaxValue, 25f);
+        private Rect m_DragRect = new Rect(0f, 0f, float.MaxValue, 30f);
         private Rect m_IconRect = DefaultIconRect;
         private Rect m_WindowRect = DefaultWindowRect;
         private float m_WindowScale = DefaultWindowScale;

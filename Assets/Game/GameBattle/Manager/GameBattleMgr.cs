@@ -1,11 +1,12 @@
-﻿#define QUICK_DEV
-using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System;
+using System.Runtime.CompilerServices;
+using cfg;
 using Cysharp.Threading.Tasks;
-using Game.Game;
-using Newtonsoft.Json;
+using FMOD.Studio;
+using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Pool;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using UnityToolkit;
 
@@ -15,44 +16,95 @@ namespace Game.GamePlay
     {
         public DummyBattleFlow battleFlow { get; private set; }
 
+        [field: SerializeField] public CameraEffect cameraEffect { get; private set; }
+
+        // [HorizontalGroup("TrainerGroup")] 
         public PlayerBattleTrainer playerBattleTrainer;
-        public RebotBattleTrainer rebotBattleTrainer;
-        public BattleEnvironmentData environmentData;
 
-        protected override async void OnInit()
+        // [HorizontalGroup("TrainerGroup")] 
+        public DummyRobot robotBattleTrainer;
+
+
+        protected async override void OnInit()
         {
-#if QUICK_DEV
-            // 访问一下 让Global初始化 正常从GameEntry进是不需要这一步的 因为初始化完毕才会加载到GamePlayMgr
-            var _ = Global.Singleton;
-#endif
-
             // Init Battle Controller
             battleFlow = GetComponent<DummyBattleFlow>();
-            await UniTask.Delay(TimeSpan.FromSeconds(1)); // TODO 后续删除这个等待逻辑 因为在进入游戏时 一定初始完毕了
-            StartBattle();
+            Global.Event.Listen<BattleInfoRecordEvent>(OnTip);
+
+#if UNITY_EDITOR
+
+            await UniTask.WaitUntil(() => Global.Singleton.initialized);
+            if (SceneManager.GetActiveScene().name == "QuickGameBattle")
+            {
+                DebugStartBattle();
+            }
+#endif
         }
 
-        public async void StartBattle()
+        private void OnTip(BattleInfoRecordEvent obj)
         {
-            //TODO Global.Get<GameFlow>().GetParam<TrainerData>(nameof(TrainerData)); // 从游戏流程中获取数据
-            TrainerData playerTrainerData = playerBattleTrainer.trainerData;
-            // TODO Global.Get<GameFlow>().GetParam<BattleEnvironmentData>(nameof(BattleEnvironmentData));
-            environmentData = environmentData;
-            playerBattleTrainer.Init(playerTrainerData); // 暂时用Inspector配置的数据
-
-            // TODO 后续配置一下 随机几个拿出来
-            Debug.LogWarning($"随机生成机器人未实现");
-            TrainerData aiTrainerData = rebotBattleTrainer.trainerData;
-            rebotBattleTrainer.Init(aiTrainerData);
-
-
-            battleFlow.Init(playerBattleTrainer, rebotBattleTrainer, environmentData);
-            await battleFlow.Enter();
+            Global.LogInfo(obj.tip);
         }
 
         protected override void OnDispose()
         {
+            Global.Event.UnListen<BattleInfoRecordEvent>(OnTip);
             battleFlow.Dispose();
+            if (UIRoot.Singleton.GetOpenedPanel(out GameBattlePanel battlePanel))
+            {
+                battlePanel.UnBind();
+            }
+        }
+
+        private bool _battling = false;
+
+        public void StartBattle(TrainerData self, TrainerData enemy, BattleEnvData battleEnvData)
+        {
+            TrainerData playerTrainerData = self;
+            TrainerData aiTrainerData = enemy;
+            playerBattleTrainer.Init(playerTrainerData); // 暂时用Inspector配置的数据
+            robotBattleTrainer.Init(aiTrainerData);
+            battleFlow.Init(playerBattleTrainer, robotBattleTrainer, battleEnvData);
+
+
+            GameBattlePanel gameBattlePanel = UIRoot.Singleton.OpenPanel<GameBattlePanel>();
+            gameBattlePanel.Bind(battleFlow.self);
+            _battling = true;
+            battleFlow.Enter().ContinueWith(OnBattleEnd).Forget();
+        }
+
+
+        private async void OnBattleEnd()
+        {
+            playerBattleTrainer.OnBattleEnd();
+            robotBattleTrainer.OnBattleEnd();
+            _battling = false;
+            if (UIRoot.Singleton.GetOpenedPanel(out GameBattlePanel battlePanel))
+            {
+                battlePanel.UnBind();
+            }
+
+            Global.Get<DataSystem>().Get<GameData>().battleSettlementData = battleFlow.settlementData;
+            await Global.Get<GameFlow>().ToGameOutside<BattleSettlementState>();
+        }
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void PlayBGM()
+        {
+            Global.Get<AudioSystem>().PlaySingleton(FMODName.Event.MX_COMBAT_DEMO1);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void StopBGM()
+        {
+            Global.Get<AudioSystem>().StopSingleton(FMODName.Event.MX_COMBAT_DEMO1, STOP_MODE.ALLOWFADEOUT);
+        }
+
+        public void DebugStartBattle()
+        {
+            StartBattle(playerBattleTrainer.trainerData, robotBattleTrainer.trainerData,
+                GameMath.RandomBattleEnvData());
         }
     }
 }

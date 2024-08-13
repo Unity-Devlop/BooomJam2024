@@ -1,0 +1,644 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b57f0329fcd9373449fc93c938a5b3a6, type: 3}
+  m_Name: OpponentConfig
+  m_EditorClassIdentifier: 
+  opponents:
+  - name: "\u5916\u661F\u4EBA"
+    trainerSkills:
+    - id: 38
+    - id: 38
+    - id: 39
+    - id: 39
+    - id: 35
+    - id: 63
+    - id: 34
+    - id: 40
+    - id: 60
+    datas:
+    - id: 0
+      cost: 0
+      elementEnum: 1
+      hp: 358
+      currentHp: 358
+      atk: 84
+      currentAtk: 84
+      def: 40
+      currentDef: 40
+      speed: 136
+      currentSpeed: 136
+      adap: 21
+      currentAdap: 21
+      ownedSkills:
+      - id: 1
+      - id: 1
+      - id: 3
+      - id: 3
+      - id: 20
+      - id: 20
+      - id: 26
+    - id: 1
+      cost: 0
+      elementEnum: 2
+      hp: 241
+      currentHp: 241
+      atk: 113
+      currentAtk: 113
+      def: 24
+      currentDef: 24
+      speed: 138
+      currentSpeed: 138
+      adap: 6
+      currentAdap: 6
+      ownedSkills:
+      - id: 7
+      - id: 7
+      - id: 23
+      - id: 23
+      - id: 7
+    - id: 3
+      cost: 0
+      elementEnum: 4
+      hp: 282
+      currentHp: 282
+      atk: 92
+      currentAtk: 92
+      def: 35
+      currentDef: 35
+      speed: 158
+      currentSpeed: 158
+      adap: 15
+      currentAdap: 15
+      ownedSkills:
+      - id: 16
+      - id: 16
+      - id: 27
+      - id: 6
+    - id: 4
+      cost: 0
+      elementEnum: 5
+      hp: 296
+      currentHp: 296
+      atk: 78
+      currentAtk: 78
+      def: 41
+      currentDef: 41
+      speed: 157
+      currentSpeed: 157
+      adap: 6
+      currentAdap: 6
+      ownedSkills:
+      - id: 21
+      - id: 19
+      - id: 19
+      - id: 20
+      - id: 27
+      - id: 20
+    - id: 7
+      cost: 0
+      elementEnum: 2
+      hp: 388
+      currentHp: 388
+      atk: 95
+      currentAtk: 95
+      def: 42
+      currentDef: 42
+      speed: 88
+      currentSpeed: 88
+      adap: 21
+      currentAdap: 21
+      ownedSkills:
+      - id: 5
+      - id: 8
+      - id: 6
+      - id: 27
+      - id: 28
+    - id: 8
+      cost: 0
+      elementEnum: 3
+      hp: 420
+      currentHp: 420
+      atk: 89
+      currentAtk: 89
+      def: 76
+      currentDef: 76
+      speed: 58
+      currentSpeed: 58
+      adap: 11
+      currentAdap: 11
+      ownedSkills:
+      - id: 12
+      - id: 12
+      - id: 14
+      - id: 14
+      - id: 26
+  - name: "\u4E94\u6052\u661F"
+    trainerSkills:
+    - id: 34
+    - id: 63
+    - id: 55
+    - id: 41
+    - id: 41
+    - id: 42
+    - id: 42
+    - id: 53
+    - id: 59
+    datas:
+    - id: 1
+      cost: 0
+      elementEnum: 2
+      hp: 288
+      currentHp: 288
+      atk: 103
+      currentAtk: 103
+      def: 34
+      currentDef: 34
+      speed: 128
+      currentSpeed: 128
+      adap: 4
+      currentAdap: 4
+      ownedSkills:
+      - id: 7
+      - id: 7
+      - id: 7
+      - id: 23
+    - id: 2
+      cost: 0
+      elementEnum: 3
+      hp: 475
+      currentHp: 475
+      atk: 59
+      currentAtk: 59
+      def: 127
+      currentDef: 127
+      speed: 40
+      currentSpeed: 40
+      adap: 23
+      currentAdap: 23
+      ownedSkills:
+      - id: 26
+      - id: 11
+      - id: 9
+      - id: 9
+      - id: 9
+    - id: 3
+      cost: 0
+      elementEnum: 4
+      hp: 291
+      currentHp: 291
+      atk: 148
+      currentAtk: 148
+      def: 22
+      currentDef: 22
+      speed: 155
+      currentSpeed: 155
+      adap: 17
+      currentAdap: 17
+      ownedSkills:
+      - id: 27
+      - id: 16
+      - id: 16
+      - id: 6
+    - id: 4
+      cost: 0
+      elementEnum: 5
+      hp: 365
+      currentHp: 365
+      atk: 60
+      currentAtk: 60
+      def: 38
+      currentDef: 38
+      speed: 133
+      currentSpeed: 133
+      adap: 21
+      currentAdap: 21
+      ownedSkills:
+      - id: 21
+      - id: 20
+      - id: 20
+      - id: 19
+    - id: 7
+      cost: 0
+      elementEnum: 2
+      hp: 335
+      currentHp: 335
+      atk: 100
+      currentAtk: 100
+      def: 41
+      currentDef: 41
+      speed: 65
+      currentSpeed: 65
+      adap: 4
+      currentAdap: 4
+      ownedSkills:
+      - id: 5
+      - id: 6
+      - id: 5
+      - id: 8
+      - id: 25
+    - id: 9
+      cost: 0
+      elementEnum: 4
+      hp: 280
+      currentHp: 280
+      atk: 94
+      currentAtk: 94
+      def: 32
+      currentDef: 32
+      speed: 116
+      currentSpeed: 116
+      adap: 17
+      currentAdap: 17
+      ownedSkills:
+      - id: 17
+      - id: 17
+      - id: 23
+      - id: 13
+      - id: 27
+  - name: "\u547D\u8FD0"
+    trainerSkills:
+    - id: 38
+    - id: 49
+    - id: 32
+    - id: 32
+    - id: 36
+    - id: 35
+    - id: 37
+    - id: 50
+    - id: 60
+    datas:
+    - id: 0
+      cost: 0
+      elementEnum: 1
+      hp: 348
+      currentHp: 348
+      atk: 78
+      currentAtk: 78
+      def: 64
+      currentDef: 64
+      speed: 111
+      currentSpeed: 111
+      adap: 12
+      currentAdap: 12
+      ownedSkills:
+      - id: 1
+      - id: 3
+      - id: 20
+      - id: 26
+      - id: 26
+    - id: 2
+      cost: 0
+      elementEnum: 3
+      hp: 377
+      currentHp: 377
+      atk: 67
+      currentAtk: 67
+      def: 90
+      currentDef: 90
+      speed: 21
+      currentSpeed: 21
+      adap: 35
+      currentAdap: 35
+      ownedSkills:
+      - id: 11
+      - id: 9
+      - id: 26
+      - id: 26
+      - id: 9
+    - id: 4
+      cost: 0
+      elementEnum: 5
+      hp: 458
+      currentHp: 458
+      atk: 54
+      currentAtk: 54
+      def: 80
+      currentDef: 80
+      speed: 129
+      currentSpeed: 129
+      adap: 22
+      currentAdap: 22
+      ownedSkills:
+      - id: 21
+      - id: 21
+      - id: 27
+      - id: 20
+      - id: 20
+      - id: 19
+    - id: 5
+      cost: 0
+      elementEnum: 6
+      hp: 494
+      currentHp: 494
+      atk: 55
+      currentAtk: 55
+      def: 104
+      currentDef: 104
+      speed: 21
+      currentSpeed: 21
+      adap: 31
+      currentAdap: 31
+      ownedSkills:
+      - id: 14
+      - id: 14
+      - id: 24
+      - id: 24
+      - id: 1
+      - id: 26
+      - id: 26
+    - id: 6
+      cost: 0
+      elementEnum: 1
+      hp: 590
+      currentHp: 590
+      atk: 16
+      currentAtk: 16
+      def: 128
+      currentDef: 128
+      speed: 7
+      currentSpeed: 7
+      adap: 17
+      currentAdap: 17
+      ownedSkills:
+      - id: 14
+      - id: 14
+      - id: 2
+      - id: 4
+      - id: 4
+    - id: 8
+      cost: 0
+      elementEnum: 3
+      hp: 416
+      currentHp: 416
+      atk: 92
+      currentAtk: 92
+      def: 81
+      currentDef: 81
+      speed: 59
+      currentSpeed: 59
+      adap: 2
+      currentAdap: 2
+      ownedSkills:
+      - id: 27
+      - id: 14
+      - id: 12
+      - id: 12
+      - id: 26
+  - name: "\u4E2D\u5206\u9E21"
+    trainerSkills:
+    - id: 59
+    - id: 35
+    - id: 29
+    - id: 34
+    - id: 31
+    - id: 31
+    - id: 33
+    - id: 37
+    - id: 59
+    datas:
+    - id: 0
+      cost: 0
+      elementEnum: 1
+      hp: 360
+      currentHp: 360
+      atk: 67
+      currentAtk: 67
+      def: 69
+      currentDef: 69
+      speed: 102
+      currentSpeed: 102
+      adap: 22
+      currentAdap: 22
+      ownedSkills:
+      - id: 1
+      - id: 3
+      - id: 1
+      - id: 3
+      - id: 20
+    - id: 1
+      cost: 0
+      elementEnum: 2
+      hp: 281
+      currentHp: 281
+      atk: 126
+      currentAtk: 126
+      def: 22
+      currentDef: 22
+      speed: 147
+      currentSpeed: 147
+      adap: 4
+      currentAdap: 4
+      ownedSkills:
+      - id: 7
+      - id: 7
+      - id: 23
+      - id: 7
+    - id: 2
+      cost: 0
+      elementEnum: 3
+      hp: 382
+      currentHp: 382
+      atk: 64
+      currentAtk: 64
+      def: 80
+      currentDef: 80
+      speed: 20
+      currentSpeed: 20
+      adap: 20
+      currentAdap: 20
+      ownedSkills:
+      - id: 26
+      - id: 26
+      - id: 11
+      - id: 11
+      - id: 9
+      - id: 9
+    - id: 5
+      cost: 0
+      elementEnum: 6
+      hp: 536
+      currentHp: 536
+      atk: 44
+      currentAtk: 44
+      def: 109
+      currentDef: 109
+      speed: 20
+      currentSpeed: 20
+      adap: 21
+      currentAdap: 21
+      ownedSkills:
+      - id: 26
+      - id: 1
+      - id: 14
+      - id: 24
+      - id: 14
+    - id: 8
+      cost: 0
+      elementEnum: 3
+      hp: 415
+      currentHp: 415
+      atk: 91
+      currentAtk: 91
+      def: 50
+      currentDef: 50
+      speed: 63
+      currentSpeed: 63
+      adap: 2
+      currentAdap: 2
+      ownedSkills:
+      - id: 27
+      - id: 12
+      - id: 12
+      - id: 14
+    - id: 11
+      cost: 0
+      elementEnum: 4
+      hp: 250
+      currentHp: 250
+      atk: 89
+      currentAtk: 89
+      def: 48
+      currentDef: 48
+      speed: 114
+      currentSpeed: 114
+      adap: 9
+      currentAdap: 9
+      ownedSkills:
+      - id: 13
+      - id: 18
+      - id: 15
+      - id: 18
+      - id: 27
+  - name: "\u8BF4\u5531\u7BEE\u7403"
+    trainerSkills:
+    - id: 51
+    - id: 51
+    - id: 52
+    - id: 49
+    - id: 49
+    - id: 59
+    - id: 59
+    - id: 53
+    - id: 38
+    datas:
+    - id: 2
+      cost: 0
+      elementEnum: 3
+      hp: 479
+      currentHp: 479
+      atk: 75
+      currentAtk: 75
+      def: 136
+      currentDef: 136
+      speed: 42
+      currentSpeed: 42
+      adap: 26
+      currentAdap: 26
+      ownedSkills:
+      - id: 11
+      - id: 9
+      - id: 26
+      - id: 9
+    - id: 3
+      cost: 0
+      elementEnum: 4
+      hp: 245
+      currentHp: 245
+      atk: 118
+      currentAtk: 118
+      def: 23
+      currentDef: 23
+      speed: 165
+      currentSpeed: 165
+      adap: 1
+      currentAdap: 1
+      ownedSkills:
+      - id: 6
+      - id: 16
+      - id: 16
+      - id: 6
+    - id: 4
+      cost: 0
+      elementEnum: 5
+      hp: 379
+      currentHp: 379
+      atk: 76
+      currentAtk: 76
+      def: 84
+      currentDef: 84
+      speed: 152
+      currentSpeed: 152
+      adap: 29
+      currentAdap: 29
+      ownedSkills:
+      - id: 21
+      - id: 27
+      - id: 20
+      - id: 19
+      - id: 19
+    - id: 5
+      cost: 0
+      elementEnum: 6
+      hp: 500
+      currentHp: 500
+      atk: 40
+      currentAtk: 40
+      def: 115
+      currentDef: 115
+      speed: 19
+      currentSpeed: 19
+      adap: 45
+      currentAdap: 45
+      ownedSkills:
+      - id: 14
+      - id: 26
+      - id: 1
+      - id: 24
+      - id: 24
+    - id: 6
+      cost: 0
+      elementEnum: 1
+      hp: 585
+      currentHp: 585
+      atk: 11
+      currentAtk: 11
+      def: 140
+      currentDef: 140
+      speed: 16
+      currentSpeed: 16
+      adap: 20
+      currentAdap: 20
+      ownedSkills:
+      - id: 4
+      - id: 4
+      - id: 2
+      - id: 14
+      - id: 4
+    - id: 11
+      cost: 0
+      elementEnum: 4
+      hp: 226
+      currentHp: 226
+      atk: 77
+      currentAtk: 77
+      def: 46
+      currentDef: 46
+      speed: 115
+      currentSpeed: 115
+      adap: 33
+      currentAdap: 33
+      ownedSkills:
+      - id: 15
+      - id: 18
+      - id: 13
+      - id: 18
+      - id: 15

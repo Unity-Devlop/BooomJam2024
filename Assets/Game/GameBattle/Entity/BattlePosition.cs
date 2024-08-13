@@ -1,74 +1,201 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using cfg;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
-using Sirenix.OdinInspector;
+using TMPro;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace Game.GamePlay
 {
     public class BattlePosition : MonoBehaviour
     {
         public IBattleTrainer battleTrainer;
-        public HuluData currentData { get; private set; } // 当前上场的数据
+        public HuluData current { get; private set; } // 当前上场的数据
         public HuluData next { get; private set; } // 准备上场的数据
 
-        public Hulu visual;
-        public Transform atkPos;
-        public async UniTask ExecuteEnter()
+        public HuluVisual visual;
+        public Direction direction;
+
+        [SerializeField] private TextMeshProUGUI abilityChangeText;
+
+        private void Awake()
         {
-            visual.gameObject.SetActive(false);
-            await UniTask.DelayFrame(6);
-            // 执行入场逻辑
-            Debug.LogWarning($"{gameObject.name}-{currentData}入场");
-            visual.gameObject.SetActive(true);
+            _originAbilityChangeTextPos = abilityChangeText.transform.position;
         }
 
-        public void SetNext(HuluData data)
+        public async UniTask ExecuteEnter()
+        {
+            visual.transform.localScale = Vector3.zero;
+            visual.transform.DOScale(Vector3.one, 0.5f);
+            await UniTask.Delay(TimeSpan.FromSeconds(0.5f), cancellationToken: destroyCancellationToken);
+            // 执行入场逻辑
+            Debug.Log($"{gameObject.name}-{current}入场");
+        }
+
+        public void PrepareNext(HuluData data)
         {
             next = data;
         }
 
-        public async UniTask Prepare2Current()
+        public async UniTask NextReplaceCurrent()
         {
-            currentData = next;
+            if (current != null)
+            {
+                current.OnAttainBuffEvent -= OnAttainBuff;
+                current.OnIncreaseAtkEvent -= OnIncreaseAtk;
+                current.OnIncreaseSpeedEvent -= OnIncreaseSpeed;
+                current.OnLoseBuffEvent -= OnLoseBuff;
+                current.OnDamageEvent -= OnDamage;
+                current.OnHealEvent -= OnHeal;
+
+                visual.transform.localScale = Vector3.one;
+                visual.transform.DOScale(Vector3.zero, 0.5f);
+                await UniTask.Delay(TimeSpan.FromSeconds(0.5f), cancellationToken: destroyCancellationToken);
+                Debug.Log($"{gameObject.name}-{current}离场");
+            }
+
+            current = next;
             next = null;
+            Assert.IsNotNull(current);
+            current.OnAttainBuffEvent += OnAttainBuff;
+            current.OnIncreaseAtkEvent += OnIncreaseAtk;
+            current.OnIncreaseSpeedEvent += OnIncreaseSpeed;
+            current.OnLoseBuffEvent += OnLoseBuff;
+            current.OnDamageEvent += OnDamage;
+            current.OnHealEvent += OnHeal;
+
+
             visual.UnBind();
-            visual.Bind(currentData);
+            visual.Bind(current, direction);
+
+
+            await UniTask.CompletedTask;
+        }
+
+        private Vector3 _originAbilityChangeTextPos;
+        [SerializeField] private Transform abilityChangeTextTarget;
+
+        private async UniTask OnIncreaseSpeed(int delta)
+        {
+            if (delta > 0)
+            {
+                await DoAbilityText($"+{delta}速度");
+            }
+            else
+            {
+                await DoAbilityText($"{delta}速度");
+            }
+        }
+
+        private bool _doabilityText = false;
+
+        private async UniTask DoAbilityText(string text)
+        {
+            if (_doabilityText) return;
+            abilityChangeText.text = text;
+            abilityChangeText.transform.position = _originAbilityChangeTextPos;
+            _doabilityText = true;
+            abilityChangeText.transform.DOMoveY(abilityChangeTextTarget.position.y, 1f);
+            await UniTask.Delay(TimeSpan.FromSeconds(1f), cancellationToken: destroyCancellationToken);
+            _doabilityText = false;
+            abilityChangeText.transform.position = _originAbilityChangeTextPos;
+            abilityChangeText.text = "";
+        }
+
+        private async UniTask OnIncreaseAtk(int delta)
+        {
+            if (delta > 0)
+            {
+                await DoAbilityText($"+{delta}攻击");
+            }
+            else
+            {
+                await DoAbilityText($"{delta}攻击");
+            }
+        }
+
+        private async UniTask OnHeal()
+        {
+            await UniTask.CompletedTask;
+        }
+
+        private async UniTask OnLoseBuff(BattleBuffEnum arg)
+        {
+            await UniTask.CompletedTask;
+        }
+
+        private async UniTask OnDamage()
+        {
+            await UniTask.CompletedTask;
+        }
+
+        private async UniTask OnAttainBuff(BattleBuffEnum arg)
+        {
+            await UniTask.CompletedTask;
         }
 
         public async UniTask ExecuteSkill(ActiveSkillBattleOperation operation)
         {
             if (operation.data.config.Type == ActiveSkillTypeEnum.指挥)
             {
-                Debug.LogWarning($"{currentData}使用指挥技能:{operation.data}");
+                Debug.LogWarning($"{this}-{current}使用指挥技能:{operation.data} 未实现动画");
+                await Global.Event.SendWithResult<OnExecuteSkill, UniTask>(
+                    new OnExecuteSkill(battleTrainer, operation.data));
                 return;
             }
-            bool flag = false;
 
-            Vector3 origin = visual.transform.position;
-            var t = visual.transform.DOMove(atkPos.position, 0.5f).SetEase(Ease.OutBack);
-            t.onComplete += () =>
+            if ((operation.data.config.Type & ActiveSkillTypeEnum.变化技能) != 0)
             {
-                visual.transform.position = origin;
-                flag = true;
-            };
-            await UniTask.WaitUntil(() => flag);
+                Debug.LogWarning($"{this}-{current}使用变化技能:{operation.data} 未实现动画");
+                await UniTask.WhenAll(
+                    Global.Event.SendWithResult<OnExecuteSkill, UniTask>(
+                        new OnExecuteSkill(battleTrainer, operation.data)),
+                    visual.ExecuteSkill(operation.data));
+                return;
+            }
+
+            Global.LogInfo($"{this}-{current}使用主动技能:{operation.data}");
+            await UniTask.WhenAll(
+                Global.Event.SendWithResult<OnExecuteSkill, UniTask>(
+                    new OnExecuteSkill(battleTrainer, operation.data)),
+                visual.ExecuteSkill(operation.data));
         }
 
-        public async UniTask ClearRoundData()
+        public async UniTask RoundEnd()
         {
-        }
-
-        public bool CanFight()
-        {
-            return !currentData.HealthIsZero();
+            // Debug.LogWarning($"{gameObject.name}-回合结束");
+            await UniTask.CompletedTask;
         }
 
         public override string ToString()
         {
-            return $"{gameObject.name}-{currentData}";
+            return $"{battleTrainer.trainerData.name}-{current}";
+        }
+
+        public async UniTask OnTakeSkillFrom(ActiveSkillData skill, IBattleTrainer userTrainer,
+            BattlePosition userPosition, int damage)
+        {
+            if (skill.config.Type == ActiveSkillTypeEnum.指挥)
+            {
+                Global.LogInfo($"{this}-{current}受到指挥技能:{skill}");
+                return;
+            }
+
+            if ((skill.config.Type & ActiveSkillTypeEnum.变化技能) != 0)
+            {
+                Global.LogInfo($"{this}-{current}受到变化技能:{skill}");
+                return;
+            }
+
+            if ((skill.config.Type & ActiveSkillTypeEnum.伤害技能) != 0)
+            {
+                Global.LogInfo($"{this}-{current}受到主动技能:{skill}");
+                await visual.PlayTakeDamageAnimation();
+                return;
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -17,22 +18,23 @@ namespace Game
         [SerializeField] private AssetReference gameOutsideScene;
 
         private StateMachine<GameFlow> _stateMachine;
+        public IState<GameFlow> currentState => _stateMachine.currentState;
 
         public AsyncOperationHandle<SceneInstance> ToGameHomeScene()
         {
-            return homeScene.LoadSceneAsync();
+            return Addressables.LoadSceneAsync(homeScene);
         }
 
         public AsyncOperationHandle<SceneInstance> ToGameBattleScene()
         {
-            return gameBattleScene.LoadSceneAsync();
+            return Addressables.LoadSceneAsync(gameBattleScene);
         }
-        
+
         public AsyncOperationHandle<SceneInstance> ToGameOutsideScene()
         {
-            return gameOutsideScene.LoadSceneAsync();
+            return Addressables.LoadSceneAsync(gameOutsideScene);
         }
-        
+
 
         public void OnInit()
         {
@@ -62,26 +64,46 @@ namespace Game
             await UniTask.CompletedTask;
         }
 
-        public async UniTask ToGameBattle()
+        public async UniTask ToGameBattle(TrainerData self, TrainerData enemy, BattleEnvData battleEnvData)
         {
+            _stateMachine.SetParam(Consts.GameBattleData, battleEnvData);
+            _stateMachine.SetParam(Consts.EnemyTrainerData, enemy);
+            _stateMachine.SetParam(Consts.LocalPlayerTrainerData, self);
             _stateMachine.Change<GameBattleState>();
             await UniTask.CompletedTask;
         }
 
-        public async UniTask ToGameOutside()
+        public async UniTask ToGameOutside<TOutsideState>() where TOutsideState : IState<GamePlayOutsideMgr>
         {
+            Type outsideStateType = typeof(TOutsideState);
+            _stateMachine.SetParam(Consts.GamePlayOutsideStateType, outsideStateType);
             _stateMachine.Change<GameOutsideState>();
             await UniTask.CompletedTask;
         }
 
-        public T GetParam<T>(string battleDataName)
+        public async UniTask ToGameOutside(Type outsideStateType)
         {
-            return _stateMachine.GetParam<T>(battleDataName);
+            _stateMachine.SetParam(Consts.GamePlayOutsideStateType, outsideStateType);
+            _stateMachine.Change<GameOutsideState>();
+            await UniTask.CompletedTask;
         }
 
-        public void SetParam<T>(string battleDataName, T data)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public T GetParam<T>(string key)
         {
-            _stateMachine.SetParm(battleDataName, data);
+            return _stateMachine.GetParam<T>(key);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void SetParam<T>(string key, T data)
+        {
+            _stateMachine.SetParam(key, data);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void RemoveParam(string key)
+        {
+            _stateMachine.RemoveParam(key);
         }
     }
 }

@@ -9,14 +9,13 @@ using UnityToolkit;
 
 namespace Game
 {
-    public class AudioSystem : MonoBehaviour, ISystem, IOnInit
+    public class AudioSystem : MonoBehaviour, ISystem, IAsyncOnInit
     {
         private Dictionary<string, EventInstance> _cache;
         [SerializeField] private AssetReference bank;
 
         [SerializeField] private AssetReference bankString;
-        // public bool initialized { get; private set; }
-        // public UniTask initTask { get; private set; }
+        public bool initialized { get; private set; }
 
         public async void OnInit()
         {
@@ -36,6 +35,7 @@ namespace Game
 
             RuntimeManager.LoadBank(bankAsset, false);
             RuntimeManager.LoadBank(bankStringAsset, false);
+            initialized = true;
         }
 
 
@@ -47,7 +47,7 @@ namespace Game
             }
         }
 
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Create(string path, out EventInstance instance, bool singleton = true)
         {
@@ -62,32 +62,39 @@ namespace Game
                 _cache.Add(path, instance);
                 return;
             }
+
             // 不缓存
             instance = RuntimeManager.CreateInstance(path);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public EventInstance Get(string path)
+        public EventInstance GetSingleton(string path)
         {
-            if(!_cache.TryGetValue(path, out var instance))
+            if (!_cache.TryGetValue(path, out _))
             {
-                Create(path, out instance, true);
+                Create(path, out _, true);
             }
+
             return _cache[path];
         }
 
-        public void Stop(string path)
-        {
-            
-        }
-        
-        public void Stop(ref EventInstance instance)
-        {
-            
-        }
-        
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Destroy(string path)
+        public void PlaySingleton(string path)
+        {
+            GetSingleton(path).start();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void StopSingleton(string path, FMOD.Studio.STOP_MODE mode)
+        {
+            if (_cache.TryGetValue(path, out var instance))
+            {
+                instance.stop(mode);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void DestroySingleton(string path)
         {
             if (_cache.TryGetValue(path, out var instance))
             {
@@ -96,7 +103,8 @@ namespace Game
             }
         }
 
-        public void Play(string path)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void PlayOneShot(string path)
         {
             RuntimeManager.PlayOneShot(path);
         }

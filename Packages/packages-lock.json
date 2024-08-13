@@ -7,47 +7,22 @@
       "dependencies": {},
       "hash": "de0348c453844f91d52e736be681f0713ae47201"
     },
+    "com.coffee.ui-particle": {
+      "version": "https://github.com/mob-sakai/ParticleEffectForUGUI.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.unity.ugui": "1.0.0",
+        "com.unity.modules.particlesystem": "1.0.0"
+      },
+      "hash": "025efcbc5d3175aa1aaf5cb42a667cd7727457ae"
+    },
     "com.cysharp.unitask": {
       "version": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask",
       "depth": 0,
       "source": "git",
       "dependencies": {},
       "hash": "cdf88c6a6ac8c9b7e6e5d3c0a360a4af29641c24"
-    },
-    "com.esotericsoftware.spine.spine-csharp": {
-      "version": "https://github.com/EsotericSoftware/spine-runtimes.git?path=spine-csharp/src#4.2",
-      "depth": 0,
-      "source": "git",
-      "dependencies": {},
-      "hash": "538c4ed58ec9fba90e76b931115987a433380d63"
-    },
-    "com.esotericsoftware.spine.spine-unity": {
-      "version": "https://github.com/EsotericSoftware/spine-runtimes.git?path=spine-unity/Assets/Spine#4.2",
-      "depth": 0,
-      "source": "git",
-      "dependencies": {
-        "com.esotericsoftware.spine.spine-csharp": "4.2.0"
-      },
-      "hash": "538c4ed58ec9fba90e76b931115987a433380d63"
-    },
-    "com.esotericsoftware.spine.timeline": {
-      "version": "https://github.com/EsotericSoftware/spine-runtimes.git?path=spine-unity/Modules/com.esotericsoftware.spine.timeline#4.2",
-      "depth": 0,
-      "source": "git",
-      "dependencies": {
-        "com.unity.timeline": "1.2.10",
-        "com.esotericsoftware.spine.spine-unity": "4.2.13"
-      },
-      "hash": "538c4ed58ec9fba90e76b931115987a433380d63"
-    },
-    "com.esotericsoftware.spine.urp-shaders": {
-      "version": "https://github.com/EsotericSoftware/spine-runtimes.git?path=spine-unity/Modules/com.esotericsoftware.spine.urp-shaders#4.2",
-      "depth": 0,
-      "source": "git",
-      "dependencies": {
-        "com.unity.render-pipelines.universal": "7.1.5"
-      },
-      "hash": "538c4ed58ec9fba90e76b931115987a433380d63"
     },
     "com.unity.2d.animation": {
       "version": "9.0.4",
@@ -244,6 +219,13 @@
     "com.unity.mathematics": {
       "version": "1.2.6",
       "depth": 1,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.nuget.newtonsoft-json": {
+      "version": "3.2.1",
+      "depth": 0,
       "source": "registry",
       "dependencies": {},
       "url": "https://packages.unity.com"
