@@ -15,6 +15,17 @@ namespace Game
             this.stage = stage;
         }
     }
+    
+    public readonly struct BattlePokemonBuffActionEvent : IEvent
+    {
+        public readonly HuluData pokemon;
+        public readonly BattleBuffEnum buff;
+        public BattlePokemonBuffActionEvent(HuluData pokemon,BattleBuffEnum buff)
+        {
+            this.pokemon = pokemon;
+            this.buff = buff;
+        }
+    }
 
     public readonly struct BattleStateTipEvent : IEvent
     {
