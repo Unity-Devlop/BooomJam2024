@@ -142,6 +142,7 @@ namespace Game.GamePlay
             _enemyOper = null;
 
             Global.Event.Send<BattleStateTipEvent>(new BattleStateTipEvent("回合进行"));
+            await UniTask.Delay(TimeSpan.FromSeconds(1f));
             while (_cts is { IsCancellationRequested: false })
             {
                 await UniTask.DelayFrame(1);
