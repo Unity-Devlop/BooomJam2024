@@ -21,46 +21,7 @@ namespace Game
         [HorizontalGroup("1")] public HuluEnum id;
         public int cost = 0;
 
-        [HorizontalGroup("1"), Button]
-        public void Roll9Skills()
-        {
-            RollTargetSkills(9);
-        }
 
-        public void RollTargetSkills(int skillCnt)
-        {
-            if (ownedSkills == null)
-                ownedSkills = new List<ActiveSkillData>(9);
-            for (int i = 0; i < skillCnt; i++)
-            {
-                ownedSkills.Add(new ActiveSkillData()
-                {
-                    id = config.SkillPool[UnityEngine.Random.Range(0, config.SkillPool.Length)]
-                });
-            }
-        }
-
-        [HorizontalGroup("1"), Button]
-        public void RollAbility()
-        {
-            hp = UnityEngine.Random.Range(config.BaseHp, config.MaxHp);
-            atk = UnityEngine.Random.Range(config.BaseAtk, config.MaxAtk);
-            def = UnityEngine.Random.Range(config.BaseDef, config.MaxDef);
-            speed = UnityEngine.Random.Range(config.BaseSpeed, config.MaxSpeed);
-            adap = UnityEngine.Random.Range(config.BaseAdap, config.MaxAdap);
-            RecoverAllAbility();
-        }
-
-        [HorizontalGroup("1"), Button]
-        public void RecoverAllAbility()
-        {
-            currentHp = hp;
-            currentAtk = atk;
-            currentDef = def;
-            currentSpeed = speed;
-            currentAdap = adap;
-            elementEnum = config.Elements;
-        }
 
         [JsonIgnore] public BindData<HuluData, UniTask> bind { get; private set; }
 
@@ -78,13 +39,7 @@ namespace Game
         [ShowInInspector] private List<BattleBuffEnum> buffList; // 守护
         private int healP0intBy回满血然后回合结束受到等量伤害 = 0;
 
-        internal void ClearBattleDirtyData()
-        {
-            skillTimes = 0;
-            enterTimes = 0;
-            buffList.Clear();
-            healP0intBy回满血然后回合结束受到等量伤害 = 0;
-        }
+
 
 
         public ElementEnum elementEnum;
@@ -127,6 +82,20 @@ namespace Game
         [HorizontalGroup("adap")] public int currentAdap;
         public List<ActiveSkillData> ownedSkills;
 
+
+
+        public event Func<UniTask> OnHealEvent = default;
+        public event Func<UniTask> OnDamageEvent = default;
+
+        public event Func<BattleBuffEnum, UniTask> OnAttainBuffEvent = default;
+        public event Func<BattleBuffEnum, UniTask> OnLoseBuffEvent = default;
+
+        public event Func<int,UniTask> OnIncreaseAtkEvent = default;
+        public event Func<int,UniTask> OnIncreaseSpeedEvent = default; 
+        
+        public event Func<int,UniTask> OnIncreaseDefEvent = default; 
+        
+        
         public HuluData()
         {
             bind = new BindData<HuluData, UniTask>(this);
@@ -185,13 +154,7 @@ namespace Game
                 }
             }
         }
-
-        public event Func<UniTask> OnHealEvent = default;
-        public event Func<UniTask> OnDamageEvent = default;
-
-        public event Func<BattleBuffEnum, UniTask> OnAttainBuffEvent = default;
-        public event Func<BattleBuffEnum, UniTask> OnLoseBuffEvent = default;
-
+        
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public async UniTask DecreaseHealth(int delta, HuluData attacker = null)
         {
@@ -256,15 +219,18 @@ namespace Game
             await DecreaseHealth(point);
             await bind.Invoke();
         }
-
+        
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public async UniTask DecreaseCurrentSpeed(int i)
+        public async UniTask IncreaseCurrentSpeed(int delta)
         {
-            currentSpeed -= i;
+            currentSpeed += delta;
             currentSpeed = Mathf.Clamp(currentSpeed, 0, speed);
+            Global.Event.Send<BattleInfoRecordEvent>(new BattleInfoRecordEvent($"{this}速度提高{delta}"));
+            await OnIncreaseSpeedEvent(delta);
             await bind.Invoke();
         }
 
+        
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public async UniTask IncreaseAtk(int delta,bool ignoreMax = false)
         {
@@ -275,14 +241,16 @@ namespace Game
             }
             int nextAtk = Mathf.Clamp(currentAtk + delta, 0, max);
             currentAtk = nextAtk;
+            await OnIncreaseAtkEvent(delta);
             await bind.Invoke();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public async UniTask IncreaseDef(int i)
+        public async UniTask IncreaseDef(int delta)
         {
-            int nextDef = Mathf.Clamp(currentDef + i, 0, def);
+            int nextDef = Mathf.Clamp(currentDef + delta, 0, def);
             currentDef = nextDef;
+            await OnIncreaseDefEvent(delta);
             await bind.Invoke();
         }
 
@@ -299,13 +267,6 @@ namespace Game
             await bind.Invoke();
         }
 
-        public async UniTask IncreaseCurrentSpeed(int i)
-        {
-            currentSpeed += i;
-            currentSpeed = Mathf.Clamp(currentSpeed, 0, speed);
-            Debug.Log($"{this}当前速度{currentSpeed}");
-            await bind.Invoke();
-        }
 
 
         public override string ToString()
@@ -341,7 +302,7 @@ namespace Game
             Assert.IsFalse(buffConfig.IsTrainerBuff);
             if (buff == BattleBuffEnum.回满血然后回合结束受到等量伤害)
             {
-                healP0intBy回满血然后回合结束受到等量伤害 = hp - currentHp;
+                healP0intBy回满血然后回合结束受到等量伤害 += hp - currentHp;
                 await DecreaseHealth(-healP0intBy回满血然后回合结束受到等量伤害);
             }
 
@@ -406,6 +367,54 @@ namespace Game
         public bool CanFight()
         {
             return currentHp > 0;
+        }
+        internal void ClearBattleDirtyData()
+        {
+            skillTimes = 0;
+            enterTimes = 0;
+            buffList.Clear();
+            healP0intBy回满血然后回合结束受到等量伤害 = 0;
+        }
+        
+        [HorizontalGroup("1"), Button]
+        public void Roll9Skills()
+        {
+            RollTargetSkills(9);
+        }
+
+        public void RollTargetSkills(int skillCnt)
+        {
+            if (ownedSkills == null)
+                ownedSkills = new List<ActiveSkillData>(9);
+            for (int i = 0; i < skillCnt; i++)
+            {
+                ownedSkills.Add(new ActiveSkillData()
+                {
+                    id = config.SkillPool[UnityEngine.Random.Range(0, config.SkillPool.Length)]
+                });
+            }
+        }
+
+        [HorizontalGroup("1"), Button]
+        public void RollAbility()
+        {
+            hp = UnityEngine.Random.Range(config.BaseHp, config.MaxHp);
+            atk = UnityEngine.Random.Range(config.BaseAtk, config.MaxAtk);
+            def = UnityEngine.Random.Range(config.BaseDef, config.MaxDef);
+            speed = UnityEngine.Random.Range(config.BaseSpeed, config.MaxSpeed);
+            adap = UnityEngine.Random.Range(config.BaseAdap, config.MaxAdap);
+            RecoverAllAbility();
+        }
+
+        [HorizontalGroup("1"), Button]
+        public void RecoverAllAbility()
+        {
+            currentHp = hp;
+            currentAtk = atk;
+            currentDef = def;
+            currentSpeed = speed;
+            currentAdap = adap;
+            elementEnum = config.Elements;
         }
     }
 }

@@ -14,7 +14,7 @@ namespace Game.GamePlay
     {
         private HuluData _data;
         [SerializeField] private SkeletonAnimation skeletonAnimation;
-        [SerializeField] private TMP_Text hpText;
+        [SerializeField] private ProgressBar hpBar;
         [SerializeField] private TMP_Text nameText;
         [SerializeField] private TMP_Text elementText;
         // [SerializeField] private TextMeshPro statusText;
@@ -93,7 +93,7 @@ namespace Game.GamePlay
         private void OnDataDirect(HuluData obj)
         {
             nameText.text = obj.name;
-            hpText.text = $"{obj.currentHp}/{obj.hp}";
+            hpBar.SetWithoutNotify(obj.currentHp, 0, obj.hp);
             showCurrentHp = obj.currentHp;
             elementText.text = obj.elementEnum.ToString();
             // statusText.text = $"Atk:{obj.currentAtk}\nDef:{obj.currentDef}\nSpeed:{obj.currentSpeed}\nAdap:{obj.currentAdap}";
@@ -118,7 +118,7 @@ namespace Game.GamePlay
             for (int i = 0; i < cnt; i++)
             {
                 int current = origin + deltaPerFrame * i;
-                hpText.text = $"{current}/{obj.hp}";
+                hpBar.SetWithoutNotify(current, 0, obj.hp);
                 await UniTask.Delay(TimeSpan.FromSeconds(1 / 60f));
             }
 
@@ -137,6 +137,7 @@ namespace Game.GamePlay
                 ToIdle();
                 return;
             }
+
             //TODO 变化技能需要实现一下
             if ((skill.config.Type & ActiveSkillTypeEnum.变化技能) != 0)
             {
