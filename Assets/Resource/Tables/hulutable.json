@@ -84,7 +84,7 @@
     "base_def": 30,
     "max_def": 60,
     "base_speed": 121,
-    "max_speed": 190,
+    "max_speed": 170,
     "base_adap": 0,
     "max_adap": 25,
     "skill_pool": [
@@ -228,8 +228,8 @@
     "max_atk": 110,
     "base_def": 20,
     "max_def": 40,
-    "base_speed": 100,
-    "max_speed": 200,
+    "base_speed": 60,
+    "max_speed": 120,
     "base_adap": 10,
     "max_adap": 20,
     "skill_pool": [
