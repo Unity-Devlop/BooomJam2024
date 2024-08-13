@@ -141,7 +141,8 @@ namespace Game.GamePlay
             _selfOper = null;
             _enemyOper = null;
 
-            Debug.Log("Rounding");
+            Global.Event.Send<BattleStateTipEvent>(new BattleStateTipEvent("回合进行"));
+            await UniTask.Delay(TimeSpan.FromSeconds(1f));
             while (_cts is { IsCancellationRequested: false })
             {
                 await UniTask.DelayFrame(1);
@@ -173,6 +174,7 @@ namespace Game.GamePlay
                 // 等待双方操作
                 if (_selfOper is not EndRoundOperation)
                 {
+                    Global.Event.Send<BattleStateTipEvent>(new BattleStateTipEvent("你的出牌时间"));
                     self.ClearOperation();
                     _selfOper = await self.CalOperation();
                 }
@@ -182,15 +184,21 @@ namespace Game.GamePlay
                     enemy.ClearOperation();
                     Global.Event.Send<BattleStateTipEvent>(new BattleStateTipEvent("对方正在思考"));
                     _enemyOper = await enemy.CalOperation();
-                    Global.Event.Send<BattleStateTipEvent>(new BattleStateTipEvent(""));
                 }
 
                 // 双方都结束回合 则进入下一阶段
                 if (_selfOper is EndRoundOperation && _enemyOper is EndRoundOperation)
                 {
+                    Global.Event.Send<BattleStateTipEvent>(new BattleStateTipEvent("回合结束"));
                     // Debug.LogWarning("双方结束回合");
                     break;
                 }
+
+                if (_selfOper is EndRoundOperation)
+                {
+                    Global.Event.Send<BattleStateTipEvent>(new BattleStateTipEvent("等待对方结束回合"));
+                }
+                
 
 
                 Debug.Log($"Self Oper: {_selfOper},Enemy Oper: {_enemyOper}");
