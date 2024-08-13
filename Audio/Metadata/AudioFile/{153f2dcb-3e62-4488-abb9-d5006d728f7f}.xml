@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{153f2dcb-3e62-4488-abb9-d5006d728f7f}">
+		<property name="assetPath">
+			<value>FGHTImpt_Combat Quick Punch Single 01_B00M_ONE.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>96</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>3.4553229166666668</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{fe42aa34-f306-441f-9693-d431c3dfcac3}</destination>
+		</relationship>
+	</object>
+</objects>

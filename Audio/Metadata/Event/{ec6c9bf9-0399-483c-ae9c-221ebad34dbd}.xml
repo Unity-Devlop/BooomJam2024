@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.02.02.00">
 	<object class="Event" id="{ec6c9bf9-0399-483c-ae9c-221ebad34dbd}">
 		<property name="name">
-			<value>ui_出牌</value>
+			<value>SFX_UI_出牌</value>
 		</property>
 		<property name="outputFormat">
 			<value>1</value>
@@ -95,6 +95,9 @@
 		<property name="timelockedOffset">
 			<value>0.12</value>
 		</property>
+		<property name="volume">
+			<value>3</value>
+		</property>
 		<relationship name="fadeInCurve">
 			<destination>{879bc29e-edc3-49e4-b383-a8ca58131bb5}</destination>
 		</relationship>
@@ -103,6 +106,9 @@
 		</relationship>
 	</object>
 	<object class="EventMixerGroup" id="{c99d1a65-ecfd-4f6c-9fd2-3ea4cbbd28ef}">
+		<property name="volume">
+			<value>10</value>
+		</property>
 		<property name="name">
 			<value>Audio 1</value>
 		</property>
