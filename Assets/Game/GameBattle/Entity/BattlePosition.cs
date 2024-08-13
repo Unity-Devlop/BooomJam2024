@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using cfg;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -16,6 +18,13 @@ namespace Game.GamePlay
 
         public HuluVisual visual;
         public Direction direction;
+
+        [SerializeField] private TextMeshProUGUI abilityChangeText;
+
+        private void Awake()
+        {
+            _originAbilityChangeTextPos = abilityChangeText.transform.position;
+        }
 
         public async UniTask ExecuteEnter()
         {
@@ -36,6 +45,8 @@ namespace Game.GamePlay
             if (current != null)
             {
                 current.OnAttainBuffEvent -= OnAttainBuff;
+                current.OnIncreaseAtkEvent -= OnIncreaseAtk;
+                current.OnIncreaseSpeedEvent -= OnIncreaseSpeed;
                 current.OnLoseBuffEvent -= OnLoseBuff;
                 current.OnDamageEvent -= OnDamage;
                 current.OnHealEvent -= OnHeal;
@@ -50,6 +61,8 @@ namespace Game.GamePlay
             next = null;
             Assert.IsNotNull(current);
             current.OnAttainBuffEvent += OnAttainBuff;
+            current.OnIncreaseAtkEvent += OnIncreaseAtk;
+            current.OnIncreaseSpeedEvent += OnIncreaseSpeed;
             current.OnLoseBuffEvent += OnLoseBuff;
             current.OnDamageEvent += OnDamage;
             current.OnHealEvent += OnHeal;
@@ -60,6 +73,48 @@ namespace Game.GamePlay
 
 
             await UniTask.CompletedTask;
+        }
+
+        private Vector3 _originAbilityChangeTextPos;
+        [SerializeField] private Transform abilityChangeTextTarget;
+
+        private async UniTask OnIncreaseSpeed(int delta)
+        {
+            if (delta > 0)
+            {
+                await DoAbilityText($"+{delta}速度");
+            }
+            else
+            {
+                await DoAbilityText($"{delta}速度");
+            }
+        }
+
+        private bool _doabilityText = false;
+
+        private async UniTask DoAbilityText(string text)
+        {
+            if (_doabilityText) return;
+            abilityChangeText.text = text;
+            abilityChangeText.transform.position = _originAbilityChangeTextPos;
+            _doabilityText = true;
+            abilityChangeText.transform.DOMoveY(abilityChangeTextTarget.position.y, 1f);
+            await UniTask.Delay(TimeSpan.FromSeconds(1f), cancellationToken: destroyCancellationToken);
+            _doabilityText = false;
+            abilityChangeText.transform.position = _originAbilityChangeTextPos;
+            abilityChangeText.text = "";
+        }
+
+        private async UniTask OnIncreaseAtk(int delta)
+        {
+            if (delta > 0)
+            {
+                await DoAbilityText($"+{delta}攻击");
+            }
+            else
+            {
+                await DoAbilityText($"{delta}攻击");
+            }
         }
 
         private async UniTask OnHeal()

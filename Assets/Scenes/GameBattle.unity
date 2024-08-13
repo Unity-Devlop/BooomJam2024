@@ -339,6 +339,7 @@ MonoBehaviour:
   <cameraEffect>k__BackingField: {fileID: 1971983449}
   playerBattleTrainer:
     <trainerData>k__BackingField:
+      name: 
       trainerSkills:
       - id: 44
       - id: 44
@@ -351,6 +352,7 @@ MonoBehaviour:
       - id: 44
       datas:
       - id: 1
+        cost: 0
         elementEnum: 2
         hp: 296
         currentHp: 296
@@ -373,6 +375,7 @@ MonoBehaviour:
         - id: 21
         - id: 9
       - id: 2
+        cost: 0
         elementEnum: 3
         hp: 356
         currentHp: 356
@@ -395,6 +398,7 @@ MonoBehaviour:
         - id: 16
         - id: 26
       - id: 0
+        cost: 0
         elementEnum: 1
         hp: 371
         currentHp: 371
@@ -420,6 +424,7 @@ MonoBehaviour:
     deck: 
   robotBattleTrainer:
     <trainerData>k__BackingField:
+      name: 
       trainerSkills:
       - id: 36
       - id: 57
@@ -432,6 +437,7 @@ MonoBehaviour:
       - id: 36
       datas:
       - id: 1
+        cost: 0
         elementEnum: 2
         hp: 294
         currentHp: 294
@@ -454,6 +460,7 @@ MonoBehaviour:
         - id: 21
         - id: 19
       - id: 2
+        cost: 0
         elementEnum: 3
         hp: 441
         currentHp: 441
@@ -476,6 +483,7 @@ MonoBehaviour:
         - id: 16
         - id: 26
       - id: 0
+        cost: 0
         elementEnum: 1
         hp: 385
         currentHp: 385
@@ -815,14 +823,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: LeftBattlePositon
       objectReference: {fileID: 0}
-    - target: {fileID: 783643361376220853, guid: 2bef472760ac4ea4381e70c622ce028b, type: 3}
-      propertyPath: m_Materials.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 783643361376220853, guid: 2bef472760ac4ea4381e70c622ce028b, type: 3}
-      propertyPath: m_Materials.Array.data[1]
-      value: 
-      objectReference: {fileID: 2100000, guid: 841821c27e2e4aa4ea67ef3841719ea9, type: 2}
     - target: {fileID: 2764561121062805327, guid: 2bef472760ac4ea4381e70c622ce028b, type: 3}
       propertyPath: m_LocalPosition.x
       value: -5
