@@ -16,6 +16,9 @@ namespace Game
         public Sprite _lock;
         public RectTransform m_rectOwnedShow;
         public RectTransform m_rectOwnedHud;
+        public RectTransform m_rectRule;
+        public TextMeshProUGUI m_txtRule;
+        public Button m_btnRule;
 
         [SerializeField] private RectTransform selectContainer;
         private PokemonSelectItem[] _selectItems;
@@ -29,6 +32,8 @@ namespace Game
 
         private int _curSelectedHulu = 0;
         private int _curSelectedOwnedHulu = -1;
+
+        private int limit = 3;
 
 
         [SerializeField] private PokemonUIShow show;
@@ -91,6 +96,7 @@ namespace Game
         public override void OnOpened()
         {
             base.OnOpened();
+            if (Global.Get<DataSystem>().Get<GameData>().ruleConfig.ruleList.Contains(GameRuleEnum.每局游戏上场的角色数量改为4)) limit = 4;
             _chooseHulus.Clear();
             _generatedPokemons = GameMath.RandomGeneratedFirstPokemon(_selectItems.Length);
             _curSelectedHulu = 0;
@@ -131,6 +137,7 @@ namespace Game
             chooseBtn.onClick.AddListener(OnChooseBtnClick);
             fireBtn.onClick.AddListener(OnFireBtnClick);
             nextBtn.onClick.AddListener(OnContinueBtnClick);
+            m_btnRule.onClick.AddListener(OnUnderstandNewRule);
         }
 
         private void UnRegister()
@@ -138,6 +145,7 @@ namespace Game
             chooseBtn.onClick.RemoveListener(OnChooseBtnClick);
             fireBtn.onClick.RemoveListener(OnFireBtnClick);
             nextBtn.onClick.RemoveListener(OnContinueBtnClick);
+            m_btnRule.onClick.RemoveListener(OnUnderstandNewRule);
         }
 
         private void ShowUI(int target)
@@ -177,7 +185,7 @@ namespace Game
             m_rectOwnedShow.gameObject.SetActive(true);
             fireBtn.gameObject.SetActive(true);
             HuluData data = Global.Get<DataSystem>().Get<GameData>().playerData.trainerData.datas[target];
-            if (Global.Get<DataSystem>().Get<GameData>().playerData.trainerData.datas.Count-_chooseOwnedHulus.Count+_chooseHulus.Count<=3)
+            if (Global.Get<DataSystem>().Get<GameData>().playerData.trainerData.datas.Count-_chooseOwnedHulus.Count+_chooseHulus.Count<=limit)
             {
                 fireBtn.GetComponent<Image>().color = Color.gray;
                 fireBtn.enabled = false;
@@ -241,7 +249,7 @@ namespace Game
             }
             else
             {
-                if (Global.Get<DataSystem>().Get<GameData>().playerData.trainerData.datas.Count - _chooseOwnedHulus.Count + _chooseHulus.Count > 3)
+                if (Global.Get<DataSystem>().Get<GameData>().playerData.trainerData.datas.Count - _chooseOwnedHulus.Count + _chooseHulus.Count > limit)
                 {
                     _chooseOwnedHulus.Add(chooseTar);
                     selectItem.SetState(Color.green);
@@ -249,6 +257,37 @@ namespace Game
                 }
             }
             ShowUI(_curSelectedHulu);
+        }
+
+        public void ShowNewRule()
+        {
+            m_rectRule.gameObject.SetActive(true);
+            if (Global.Get<DataSystem>().Get<GameData>().date.season == 2)
+            {
+                Global.Get<DataSystem>().Get<GameData>().huluCapacity = 5;
+                m_txtRule.text = "队伍上限变更为5";
+            }
+            else if (Global.Get<DataSystem>().Get<GameData>().date.season == 4)
+            {
+                Global.Get<DataSystem>().Get<GameData>().huluCapacity = 6;
+                m_txtRule.text = "队伍上限变更为6";
+            }
+            else
+            {
+                var gameData = Global.Get<DataSystem>().Get<GameData>();
+                if (gameData.ruleConfig.prevCnt < gameData.rulePool.Count)
+                {
+                    gameData.ruleConfig.ruleList.Add(gameData.rulePool[gameData.ruleConfig.prevCnt++]);
+                    m_txtRule.text = gameData.rulePool[gameData.ruleConfig.prevCnt - 1].ToString();
+                }
+                else m_txtRule.text = "无";
+            }
+        }
+
+        public void OnUnderstandNewRule()
+        {
+            m_rectRule.gameObject.SetActive(false);
+            GamePlayOutsideMgr.Singleton.machine.Change<DailyTrainState>();
         }
 
         public void OnContinueBtnClick()
@@ -262,8 +301,7 @@ namespace Game
             {
                 playerData.trainerData.datas.Add(chooseHulu);
             }
-
-            GamePlayOutsideMgr.Singleton.machine.Change<DailyTrainState>();
+            ShowNewRule();
         }
     }
 }

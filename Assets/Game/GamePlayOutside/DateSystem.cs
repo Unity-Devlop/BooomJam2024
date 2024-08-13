@@ -61,8 +61,6 @@ namespace Game
         {
             Global.Get<DataSystem>().Get<GameData>().date.season += value;
             if (Global.Get<DataSystem>().Get<GameData>().date.season >= 10) Global.Get<DataSystem>().Get<GameData>().date.season = 1;
-            if (Global.Get<DataSystem>().Get<GameData>().date.season == 2) Global.Get<DataSystem>().Get<GameData>().huluCapacity=5;
-            if (Global.Get<DataSystem>().Get<GameData>().date.season == 4) Global.Get<DataSystem>().Get<GameData>().huluCapacity=6;
         }
     }
 }

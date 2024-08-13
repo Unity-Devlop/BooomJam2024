@@ -29,6 +29,7 @@ namespace Game
         private BattleEnvData env;
         private float M_Time = 90f;
         private float m_time = 0;
+        private int limit = 3;
 
         public override void OnLoaded()
         {
@@ -40,6 +41,7 @@ namespace Game
         public override void OnOpened()
         {
             base.OnOpened();
+            if (Global.Get<DataSystem>().Get<GameData>().ruleConfig.ruleList.Contains(GameRuleEnum.每局游戏上场的角色数量改为4)) limit = 4;
             m_time = M_Time;
             LoadEnv();
             LoadOpponent();
@@ -88,12 +90,12 @@ namespace Game
 
         public void ChooseHulu(int index)
         {
-            if (playerChosenHulu.Count >= 3||playerChosenHulu.Contains(index)) return;
+            if (playerChosenHulu.Count >= limit||playerChosenHulu.Contains(index)) return;
             playerChosenHulu.Add(index);
             playerHuluOrder[index].text = $"{playerChosenHulu.Count}";
             playerHuluOrder[index].gameObject.SetActive(true);
             EnemyChoose();
-            if (playerChosenHulu.Count == 3 && m_time > 10f) m_time = 10f; 
+            if (playerChosenHulu.Count == limit && m_time > 10f) m_time = 10f; 
         }
 
         private void EnterGame()
@@ -132,7 +134,7 @@ namespace Game
 
         private void EnemyChoose()
         {
-            if (enemyChosenHulu.Count >= 3) return;
+            if (enemyChosenHulu.Count >= limit) return;
             int r = UnityEngine.Random.Range(0, enemy.datas.Count);
             while(enemyChosenHulu.Contains(r))
             {
