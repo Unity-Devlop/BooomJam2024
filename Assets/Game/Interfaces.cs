@@ -84,11 +84,26 @@ namespace Game.GamePlay
 
         public bool TryGetFinalWinner(out IBattleTrainer battleTrainer);
 
+        public enum BattleFlowStage
+        {
+            Enter,
+            RoundStart,
+            BeforeRound,
+            Rounding,
+            AfterRound,
+            RoundEnd,
+            Exit,
+        }
+
         public static async UniTask RoundFlow(IBattleFlow flow, CancellationToken token)
         {
             IBattleTrainer winner = null;
+            await Global.Event.SendWithResult<BattleFlowStateEvent, UniTask>(
+                new BattleFlowStateEvent(flow, BattleFlowStage.Enter));
             while (!token.IsCancellationRequested)
             {
+                await Global.Event.SendWithResult<BattleFlowStateEvent, UniTask>(
+                    new BattleFlowStateEvent(flow, BattleFlowStage.RoundStart));
                 await flow.RoundStart(); // 回合开始
 
                 if (flow.TryGetFinalWinner(out winner))
@@ -96,24 +111,32 @@ namespace Game.GamePlay
                     break;
                 }
 
+                await Global.Event.SendWithResult<BattleFlowStateEvent, UniTask>(
+                    new BattleFlowStateEvent(flow, BattleFlowStage.BeforeRound));
                 await flow.BeforeRound(); // 回合开始前
                 if (flow.TryGetFinalWinner(out winner))
                 {
                     break;
                 }
 
+                await Global.Event.SendWithResult<BattleFlowStateEvent, UniTask>(
+                    new BattleFlowStateEvent(flow, BattleFlowStage.Rounding));
                 await flow.Rounding(); // 回合进行
                 if (flow.TryGetFinalWinner(out winner))
                 {
                     break;
                 }
 
+                await Global.Event.SendWithResult<BattleFlowStateEvent, UniTask>(
+                    new BattleFlowStateEvent(flow, BattleFlowStage.AfterRound));
                 await flow.AfterRound();
                 if (flow.TryGetFinalWinner(out winner))
                 {
                     break;
                 }
 
+                await Global.Event.SendWithResult<BattleFlowStateEvent, UniTask>(
+                    new BattleFlowStateEvent(flow, BattleFlowStage.RoundEnd));
                 await flow.RoundEnd();
                 if (flow.TryGetFinalWinner(out winner))
                 {
@@ -123,6 +146,8 @@ namespace Game.GamePlay
                 await UniTask.DelayFrame(1, cancellationToken: token);
             }
 
+            await Global.Event.SendWithResult<BattleFlowStateEvent, UniTask>(
+                new BattleFlowStateEvent(flow, BattleFlowStage.Exit));
             // 执行退出战斗流程
             await flow.Exit(winner);
         }

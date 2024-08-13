@@ -75,7 +75,13 @@ namespace UnityToolkit
 
         public TResult SendWithResult<T, TResult>(T args)
         {
-            return _repository.Get<BuildInResultEvent<T, TResult>>().Invoke(args);
+            var eventInstance = _repository.Get<BuildInResultEvent<T, TResult>>();
+            if (eventInstance == null)
+            {
+                return default;
+            }
+
+            return eventInstance.Invoke(args);
         }
     }
 

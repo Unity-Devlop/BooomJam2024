@@ -4,6 +4,18 @@ using UnityToolkit;
 
 namespace Game
 {
+    public readonly struct BattleFlowStateEvent
+    {
+        public readonly IBattleFlow flow;
+        public readonly IBattleFlow.BattleFlowStage stage;
+
+        public BattleFlowStateEvent(IBattleFlow flow, IBattleFlow.BattleFlowStage stage)
+        {
+            this.flow = flow;
+            this.stage = stage;
+        }
+    }
+
     public readonly struct BattleStateTipEvent : IEvent
     {
         public readonly string tip;
@@ -28,7 +40,6 @@ namespace Game
 
     public readonly struct OnExecuteBuff : IEvent
     {
-        
     }
 
     /// <summary>

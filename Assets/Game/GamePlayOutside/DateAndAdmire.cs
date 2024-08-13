@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -27,9 +28,17 @@ namespace Game
 
         private void OnEnable()
         {
-            var temp = Global.Get<DataSystem>().Get<GameData>();
-            m_txtAdmire.text = temp.admireNum.ToString();
-            m_txtDate.text = $"{temp.date.month}月{temp.date.day}日 第{dateDic[temp.date.season]}赛季";
+            try
+            {
+
+                var temp = Global.Get<DataSystem>().Get<GameData>();
+                m_txtAdmire.text = temp.admireNum.ToString();
+                m_txtDate.text = $"{temp.date.month}月{temp.date.day}日 第{dateDic[temp.date.season]}赛季";
+            }
+            catch (Exception e)
+            {
+                Global.LogError(e.ToString());
+            }
         }
     }
 }

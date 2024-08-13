@@ -4,22 +4,29 @@ using Cysharp.Threading.Tasks;
 using Game.GamePlay;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.Serialization;
 
 namespace Game
 {
     public class LeftTeamHuluView : MonoBehaviour
     {
-        [SerializeField] private PokemonPortraitIcon prefab;
-        [SerializeField] private PokemonPortraitIcon[] huluIcons;
+        [SerializeField] private GameObject prefab;
+        [SerializeField] private Vector2 size;
+        private PokemonPortraitIcon[] _pokemonPortraitIcons;
 
         private IBattleTrainer _trainer;
 
         private void Awake()
         {
-            huluIcons = transform.GetComponentsInChildren<PokemonPortraitIcon>();
-            foreach (var icon in huluIcons)
+            _pokemonPortraitIcons = new PokemonPortraitIcon[6];
+            for (int i = 0; i < 6; i++)
             {
-                icon.OnClick += OnHuluIconClick;
+                GameObject obj = GameObject.Instantiate(prefab, transform);
+                RectTransform rectTransform = obj.transform as RectTransform;
+                rectTransform.sizeDelta = size;
+                _pokemonPortraitIcons[i] = obj.GetComponent<PokemonPortraitIcon>();
+                _pokemonPortraitIcons[i].OnClick += OnHuluIconClick;
+                _pokemonPortraitIcons[i].gameObject.SetActive(false);
             }
         }
 
@@ -32,23 +39,28 @@ namespace Game
                 {
                     next = idx
                 });
-                return;
             }
         }
 
         public void Bind(IBattleTrainer battleTrainer)
         {
+            foreach (var icon in _pokemonPortraitIcons)
+            {
+                icon.gameObject.SetActive(false);
+            }
+
             _trainer = battleTrainer;
             for (var i = 0; i < battleTrainer.trainerData.datas.Count; i++)
             {
                 HuluData data = battleTrainer.trainerData.datas[i];
-                huluIcons[i].Bind(data, i);
+                _pokemonPortraitIcons[i].Bind(data, i);
+                _pokemonPortraitIcons[i].gameObject.SetActive(true);
             }
         }
 
         public void UnBind()
         {
-            foreach (var icon in huluIcons)
+            foreach (var icon in _pokemonPortraitIcons)
             {
                 icon.Unbind();
             }

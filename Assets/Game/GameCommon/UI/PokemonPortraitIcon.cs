@@ -30,6 +30,7 @@ namespace Game
 
         private async UniTask OnData(HuluData obj)
         {
+            if (_nameText == null) _nameText = transform.Find("NameText").GetComponent<TextMeshProUGUI>();
             _nameText.text = obj.name;
             sprite = await Global.Get<ResourceSystem>().LoadPortraitBox(obj.id);
         }
