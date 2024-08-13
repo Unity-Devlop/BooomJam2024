@@ -250,7 +250,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8177227040374433270, guid: 8755fdbc104aad84bbbbf8589264037c, type: 3}
       propertyPath: shaderType
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8381434635854591784, guid: 8755fdbc104aad84bbbbf8589264037c, type: 3}
       propertyPath: m_OverrideSorting

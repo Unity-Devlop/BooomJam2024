@@ -88,9 +88,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4259101930226567066, guid: 1f1122185d4920d438c0d92a85b2d5ca, type: 3}
+      propertyPath: shaderType
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6271700349819790480, guid: 1f1122185d4920d438c0d92a85b2d5ca, type: 3}
       propertyPath: m_Name
-      value: "CardVisual\u6307\u6325 \u4FDD\u65F6\u6377\u7684\u8D5E\u52A9"
+      value: "CardVisual\u6307\u6325 \u4FDD\u65F6\u6377\u7684\u8D5E\u52A9 Variant"
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
