@@ -5,11 +5,20 @@ namespace Game
     {
         public static class Event
         {
-        	public const string SFX_ui_进入卡牌 = "event:/SFX/ui_进入卡牌";
-        	public const string SFX_ui_选择牌 = "event:/SFX/ui_选择牌";
         	public const string MX_NORMAL_DEMO1 = "event:/MX_NORMAL_DEMO1";
         	public const string MX_COMBAT_DEMO1 = "event:/MX_COMBAT_DEMO1";
-        	public const string SFX_ui_出牌 = "event:/SFX/ui_出牌";
+        	public const string SFX_SFX_UI_进入卡牌 = "event:/SFX/SFX_UI_进入卡牌";
+        	public const string SFX_SFX_使用_黑卡 = "event:/SFX/SFX_使用_黑卡";
+        	public const string SFX_SFX_使用_水 = "event:/SFX/SFX_使用_水";
+        	public const string SFX_SFX_UI_选择卡牌 = "event:/SFX/SFX_UI_选择卡牌";
+        	public const string SFX_SFX_使用_火 = "event:/SFX/SFX_使用_火";
+        	public const string SFX_SFX_使用_草 = "event:/SFX/SFX_使用_草";
+        	public const string SFX_SFX_使用_雷 = "event:/SFX/SFX_使用_雷";
+        	public const string SFX_SFX_UI_切换精灵 = "event:/SFX/SFX_UI_切换精灵";
+        	public const string SFX_SFX_使用_毒 = "event:/SFX/SFX_使用_毒";
+        	public const string SFX_SFX_使用_风 = "event:/SFX/SFX_使用_风";
+        	public const string SFX_SFX_使用_灰卡 = "event:/SFX/SFX_使用_灰卡";
+        	public const string SFX_SFX_UI_出牌 = "event:/SFX/SFX_UI_出牌";
         }
         public static class Snapshot
         {

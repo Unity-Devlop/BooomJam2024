@@ -193,7 +193,7 @@ namespace Game
 
             Global.Event.Send<OnBattleCardHover>(new OnBattleCardHover(this, isHovering));
             HoverEvent.Invoke(this, isHovering);
-            Global.Get<AudioSystem>().PlayOneShot(FMODName.Event.SFX_ui_进入卡牌);
+            Global.Get<AudioSystem>().PlayOneShot(FMODName.Event.SFX_SFX_UI_进入卡牌);
         }
 
         public override void OnPointerExit(PointerEventData eventData)
@@ -226,7 +226,7 @@ namespace Game
         public override void OnSelect(BaseEventData eventData)
         {
             base.OnSelect(eventData);
-            Global.Get<AudioSystem>().PlayOneShot(FMODName.Event.SFX_ui_选择牌);
+            Global.Get<AudioSystem>().PlayOneShot(FMODName.Event.SFX_SFX_UI_选择卡牌);
             selected = true;
             SelectEvent.Invoke(this, selected);
         }

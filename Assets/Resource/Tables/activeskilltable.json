@@ -536,7 +536,7 @@
     "eng_name": "",
     "element": 2,
     "desc": "从体内吐出火焰席卷敌人。\n满血时会造成1.5倍伤害。",
-    "special_icon_path": "",
+    "special_icon_path": "UI/CardAtlas/icon/skillcardl_fire_value_th.png",
     "card_image_path": "Graphics/card/ActiveSkill008_Fire_th.png",
     "type": 4,
     "damage_point": 80,

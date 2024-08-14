@@ -675,15 +675,15 @@ MonoBehaviour:
         adap: 0
         currentAdap: 0
         ownedSkills:
-        - id: 9
-        - id: 9
-        - id: 9
-        - id: 9
-        - id: 21
-        - id: 9
-        - id: 21
-        - id: 21
-        - id: 9
+        - id: 8
+        - id: 8
+        - id: 8
+        - id: 8
+        - id: 8
+        - id: 8
+        - id: 8
+        - id: 8
+        - id: 8
       - id: 2
         cost: 0
         elementEnum: 3
