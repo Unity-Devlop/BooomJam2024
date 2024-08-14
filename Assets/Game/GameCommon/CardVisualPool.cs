@@ -25,17 +25,27 @@ namespace Game
             _damageSkillCardPool = gameObject.AddComponent<EasyGameObjectPool>();
             _buffSkillCardPool = gameObject.AddComponent<EasyGameObjectPool>();
             _specialCardPool = gameObject.AddComponent<EasyGameObjectPool>();
-            
+
             _commandCardPool.Initialize(transform, commandCardPrefab);
             _damageSkillCardPool.Initialize(transform, damageSkillCardPrefab);
             _buffSkillCardPool.Initialize(transform, buffSkillCardPrefab);
             _specialCardPool.Initialize(transform, specialCardPrefab);
         }
 
-        public CardVisual GetSpecial(ActiveSkillEnum id)
+
+        public CardVisual Get(ActiveSkillEnum id)
         {
-            Assert.IsTrue(id == ActiveSkillEnum.保时捷的赞助);
-            EasyGameObjectPool pool = _specialCardPool;
+            var config = Global.Table.ActiveSkillTable.Get(id);
+            EasyGameObjectPool pool;
+            if (id == ActiveSkillEnum.保时捷的赞助)
+            {
+                pool = _specialCardPool;
+            }
+            else
+            {
+                pool = Id2Pool(config.Type);
+            }
+
             Assert.IsNotNull(pool);
             GameObject go = pool.Get();
             CardVisual visual = go.GetComponent<CardVisual>();
@@ -43,18 +53,18 @@ namespace Game
             return visual;
         }
 
-        public CardVisual Get(ActiveSkillTypeEnum id)
+        public void Release(ActiveSkillEnum id, CardVisual visual)
         {
-            EasyGameObjectPool pool = Id2Pool(id);
-            Assert.IsNotNull(pool);
-            GameObject go = pool.Get();
-            CardVisual visual = go.GetComponent<CardVisual>();
-            visual.transform.SetParent(transform);
-            return visual;
-        }
-        public void Release(CardVisual visual)
-        {
-            EasyGameObjectPool pool = Id2Pool(visual.id);
+            EasyGameObjectPool pool;
+            if (id == ActiveSkillEnum.保时捷的赞助)
+            {
+                pool = _specialCardPool;
+            }
+            else
+            {
+                pool = Id2Pool(visual.id);
+            }
+
             Assert.IsNotNull(pool);
             pool.Release(visual.gameObject);
         }

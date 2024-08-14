@@ -54,9 +54,8 @@ namespace Game
 
         public ActiveSkillData data;
 
-        public async void Init(CardVisualPool cardVisualPool, ActiveSkillData data,bool directSetPos = false)
+        public async void Init(CardVisualPool cardVisualPool, ActiveSkillData data, bool directSetPos = false)
         {
-            this.data = data;
             _cardVisualPool = cardVisualPool;
             this._cardVisualPool = cardVisualPool;
             // Debug.Log($"Init Card: HashCode: {this.data.GetHashCode()}, data: {data}");
@@ -64,18 +63,15 @@ namespace Game
             _canvas = GetComponentInParent<Canvas>();
             if (visual != null)
             {
-                cardVisualPool.Release(visual);
+                cardVisualPool.Release(this.data.id, visual);
                 visual = null;
             }
 
-            if (data.id == ActiveSkillEnum.保时捷的赞助)
-            {
-                visual = cardVisualPool.GetSpecial(data.id);
-            }
-            else
-            {
-                visual = cardVisualPool.Get(data.config.Type);
-            }
+            this.data = data;
+
+
+            visual = cardVisualPool.Get(data.id);
+
 
             visual.transform.localScale = Vector3.one;
             visual.transform.localPosition = Vector3.zero;
@@ -83,6 +79,7 @@ namespace Game
             {
                 visual.transform.position = transform.position;
             }
+
             visual.Initialize(this);
             img.sprite = await Global.Get<ResourceSystem>().LoadCardBg(data.id);
         }
@@ -111,7 +108,7 @@ namespace Game
 
             if (visual != null)
             {
-                _cardVisualPool.Release(visual);
+                _cardVisualPool.Release(data.id, visual);
             }
 
             visual = null;
