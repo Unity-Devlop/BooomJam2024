@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <objects serializationModel="Studio.02.02.00">
 	<object class="Event" id="{b4c1cf02-2afd-4fc2-9d38-fe77684482a2}">
+		<property name="note">
+			<value>当指针进入卡牌区域内时被触发</value>
+		</property>
 		<property name="name">
 			<value>SFX_UI_进入卡牌</value>
 		</property>

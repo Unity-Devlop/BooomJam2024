@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <objects serializationModel="Studio.02.02.00">
 	<object class="Event" id="{3c62cd2d-101f-4ad9-a227-3a154c1621f6}">
+		<property name="note">
+			<value>当精灵使用黑色决策类卡组时触发</value>
+		</property>
 		<property name="name">
 			<value>SFX_使用_黑卡</value>
 		</property>

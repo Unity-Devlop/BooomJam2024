@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <objects serializationModel="Studio.02.02.00">
 	<object class="Event" id="{d4d3194e-c1ff-4c65-bc56-2a7e4e1f6947}">
+		<property name="note">
+			<value>当指针确认选择卡牌时被触发</value>
+		</property>
 		<property name="name">
 			<value>SFX_UI_选择卡牌</value>
 		</property>

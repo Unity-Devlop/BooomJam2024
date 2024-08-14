@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <objects serializationModel="Studio.02.02.00">
 	<object class="Event" id="{ec6c9bf9-0399-483c-ae9c-221ebad34dbd}">
+		<property name="note">
+			<value>卡牌出牌时被触发</value>
+		</property>
 		<property name="name">
 			<value>SFX_UI_出牌</value>
 		</property>
@@ -9,6 +12,9 @@
 		</property>
 		<relationship name="folder">
 			<destination>{5a1cfc9b-d7d0-4a11-b002-77dfa3a843e5}</destination>
+		</relationship>
+		<relationship name="tags">
+			<destination>{be155b44-89fd-4ba7-b39a-dced9a2c144d}</destination>
 		</relationship>
 		<relationship name="mixer">
 			<destination>{a2d8d89c-a258-4472-ba4d-559322c17d9b}</destination>

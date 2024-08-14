@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <objects serializationModel="Studio.02.02.00">
 	<object class="Event" id="{768c98f7-b133-4995-a466-043f5a42d038}">
+		<property name="note">
+			<value>当精灵使用灰卡技能时触发（撞击，防御）</value>
+		</property>
 		<property name="name">
 			<value>SFX_使用_灰卡</value>
 		</property>
