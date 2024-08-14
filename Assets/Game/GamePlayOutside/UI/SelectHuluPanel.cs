@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,7 +14,7 @@ namespace Game
         public TextMeshProUGUI envName;
         public Image envImg;
         public List<Button> chooseBtns = new List<Button>();
-        public List<Image> playerHuluImages=new List<Image>();
+        public List<Image> playerHuluImages = new List<Image>();
         public List<Image> enemyHuluImages = new List<Image>();
         public List<TextMeshProUGUI> playerHuluTexts = new List<TextMeshProUGUI>();
         public List<TextMeshProUGUI> enemyHuluTexts = new List<TextMeshProUGUI>();
@@ -41,7 +42,8 @@ namespace Game
         public override void OnOpened()
         {
             base.OnOpened();
-            if (Global.Get<DataSystem>().Get<GameData>().ruleConfig.ruleList.Contains(GameRuleEnum.Ã¿¾ÖÓÎÏ·ÉÏ³¡µÄ½ÇÉ«ÊýÁ¿¸ÄÎª4)) limit = 4;
+            if (Global.Get<DataSystem>().Get<GameData>().ruleConfig.ruleList
+                .Contains(GameRuleEnum.æ¯å±€æ¸¸æˆä¸Šåœºçš„è§’è‰²æ•°é‡æ”¹ä¸º4)) limit = 4;
             m_time = M_Time;
             LoadEnv();
             LoadOpponent();
@@ -59,7 +61,7 @@ namespace Game
 
         private void Update()
         {
-            if(m_time>0)
+            if (m_time > 0)
             {
                 m_time -= Time.deltaTime;
                 countDown.text = $"{(int)Mathf.Ceil(m_time)}";
@@ -82,7 +84,7 @@ namespace Game
                 }
             }
 
-            for(int i=0;i<enemyHuluTexts.Count;++i)
+            for (int i = 0; i < enemyHuluTexts.Count; ++i)
             {
                 enemyHuluTexts[i].text = enemy.datas[i].id.ToString();
             }
@@ -90,30 +92,40 @@ namespace Game
 
         public void ChooseHulu(int index)
         {
-            if (playerChosenHulu.Count >= limit||playerChosenHulu.Contains(index)) return;
+            if (playerChosenHulu.Count >= limit || playerChosenHulu.Contains(index)) return;
             playerChosenHulu.Add(index);
             playerHuluOrder[index].text = $"{playerChosenHulu.Count}";
             playerHuluOrder[index].gameObject.SetActive(true);
             EnemyChoose();
-            if (playerChosenHulu.Count == limit && m_time > 10f) m_time = 10f; 
+            if (playerChosenHulu.Count == limit && m_time > 10f) m_time = 10f;
         }
 
         private void EnterGame()
         {
-            TrainerData temp_player = new();
-            TrainerData temp_enemy = new();
-            temp_player.trainerSkills = player.trainerData.trainerSkills;
-            for(int i=0;i< playerChosenHulu.Count;++i)
+            TrainerData tempPlayer = new TrainerData
             {
-                playerHulus[playerChosenHulu[i]].RecoverAllAbility();
-                temp_player.datas.Add(playerHulus[playerChosenHulu[i]]);
-            }
-            temp_enemy.trainerSkills = enemy.trainerSkills;
-            for (int i = 0; i < enemyChosenHulu.Count; ++i)
+                name = player.trainerData.name
+            };
+            TrainerData tempEnemy = new TrainerData
             {
-                temp_enemy.datas.Add(enemy.datas[enemyChosenHulu[i]]);
+                name = enemy.name
+            };
+
+            tempPlayer.trainerSkills = DeepCopyUtil.DeepCopyByJson(player.trainerData.trainerSkills);
+            foreach (var t in playerChosenHulu)
+            {
+                playerHulus[t].RecoverAllAbility();
+                tempPlayer.datas.Add(DeepCopyUtil.DeepCopyByJson(playerHulus[t]));
             }
-            Global.Get<GameFlow>().ToGameBattle(temp_player, temp_enemy, env);
+
+            tempEnemy.trainerSkills = DeepCopyUtil.DeepCopyByJson(enemy.trainerSkills);
+            foreach (var t in enemyChosenHulu)
+            {
+                enemy.datas[t].RecoverAllAbility();
+                tempEnemy.datas.Add(DeepCopyUtil.DeepCopyByJson(enemy.datas[t]));
+            }
+
+            Global.Get<GameFlow>().ToGameBattle(tempPlayer, tempEnemy, env).Forget();
             CloseSelf();
         }
 
@@ -136,10 +148,11 @@ namespace Game
         {
             if (enemyChosenHulu.Count >= limit) return;
             int r = UnityEngine.Random.Range(0, enemy.datas.Count);
-            while(enemyChosenHulu.Contains(r))
+            while (enemyChosenHulu.Contains(r))
             {
                 r = UnityEngine.Random.Range(0, enemy.datas.Count);
             }
+
             enemyChosenHulu.Add(r);
             enemyHuluOrder[r].text = $"{enemyChosenHulu.Count}";
             enemyHuluOrder[r].gameObject.SetActive(true);

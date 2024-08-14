@@ -578,6 +578,11 @@ namespace Game.GamePlay
             }
         }
 
+        public override string ToString()
+        {
+            return trainerData.name;
+        }
+
         public void OnBattleEnd()
         {
         }

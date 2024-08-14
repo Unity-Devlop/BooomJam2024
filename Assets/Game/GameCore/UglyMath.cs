@@ -27,20 +27,20 @@ namespace Game
 
             if (skill.IncreaseSelfSpeedPointAfterUse != 0)
             {
-                Global.Event.Send(new BattleInfoRecordEvent($"速度+{skill.IncreaseSelfSpeedPointAfterUse}"));
+                Global.Event.Send(new BattleInfoRecordEvent($"{atk}速度+{skill.IncreaseSelfSpeedPointAfterUse}"));
                 await atk.IncreaseCurrentSpeed(skill.IncreaseSelfSpeedPointAfterUse);
             }
 
             if (skill.IncreaseSelfDefPointAfterUse != 0)
             {
-                Global.Event.Send(new BattleInfoRecordEvent($"防御+{skill.IncreaseSelfDefPointAfterUse}"));
+                Global.Event.Send(new BattleInfoRecordEvent($"{atk}防御+{skill.IncreaseSelfDefPointAfterUse}"));
                 await atk.IncreaseDef(skill.IncreaseSelfDefPointAfterUse);
             }
 
             if (skill.PercentageDamageBySelf != 0)
             {
                 Global.Event.Send(
-                    new BattleInfoRecordEvent($"对自己反伤造成{damagePoint * skill.PercentageDamageBySelf}点伤害"));
+                    new BattleInfoRecordEvent($"{atk}对自己反伤造成{damagePoint * skill.PercentageDamageBySelf}点伤害"));
                 await atk.TakeDamageFromSelfSkillEffect((int)(damagePoint * skill.PercentageDamageBySelf));
             }
 
