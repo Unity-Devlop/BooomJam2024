@@ -649,6 +649,7 @@ MonoBehaviour:
   <cameraEffect>k__BackingField: {fileID: 951310249}
   playerBattleTrainer:
     <trainerData>k__BackingField:
+      name: 
       trainerSkills:
       - id: 40
       - id: 40
@@ -661,6 +662,7 @@ MonoBehaviour:
       - id: 40
       datas:
       - id: 1
+        cost: 0
         elementEnum: 2
         hp: 296
         currentHp: 296
@@ -683,6 +685,7 @@ MonoBehaviour:
         - id: 21
         - id: 9
       - id: 2
+        cost: 0
         elementEnum: 3
         hp: 356
         currentHp: 356
@@ -705,6 +708,7 @@ MonoBehaviour:
         - id: 16
         - id: 26
       - id: 0
+        cost: 0
         elementEnum: 1
         hp: 371
         currentHp: 371
@@ -730,6 +734,7 @@ MonoBehaviour:
     deck: 
   robotBattleTrainer:
     <trainerData>k__BackingField:
+      name: 
       trainerSkills:
       - id: 36
       - id: 57
@@ -742,6 +747,7 @@ MonoBehaviour:
       - id: 36
       datas:
       - id: 1
+        cost: 0
         elementEnum: 2
         hp: 294
         currentHp: 294
@@ -754,16 +760,19 @@ MonoBehaviour:
         adap: 9
         currentAdap: 9
         ownedSkills:
-        - id: 21
-        - id: 21
-        - id: 14
-        - id: 19
-        - id: 21
-        - id: 14
-        - id: 21
-        - id: 21
-        - id: 19
+        - id: 24
+        - id: 24
+        - id: 24
+        - id: 24
+        - id: 24
+        - id: 24
+        - id: 24
+        - id: 24
+        - id: 24
+        - id: 24
+        - id: 24
       - id: 2
+        cost: 0
         elementEnum: 3
         hp: 441
         currentHp: 441
@@ -786,6 +795,7 @@ MonoBehaviour:
         - id: 16
         - id: 26
       - id: 0
+        cost: 0
         elementEnum: 1
         hp: 385
         currentHp: 385

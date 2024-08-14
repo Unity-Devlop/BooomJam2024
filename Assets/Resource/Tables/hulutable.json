@@ -226,8 +226,8 @@
     "max_hp": 320,
     "base_atk": 55,
     "max_atk": 110,
-    "base_def": 30,
-    "max_def": 60,
+    "base_def": 40,
+    "max_def": 80,
     "base_speed": 60,
     "max_speed": 120,
     "base_adap": 15,
@@ -279,9 +279,12 @@
     "base_adap": 0,
     "max_adap": 35,
     "skill_pool": [
+      2,
+      6,
       13,
       15,
       18,
+      20,
       26,
       27
     ]

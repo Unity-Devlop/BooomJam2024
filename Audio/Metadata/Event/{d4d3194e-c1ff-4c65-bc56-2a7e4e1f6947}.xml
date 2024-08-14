@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.02.02.00">
 	<object class="Event" id="{d4d3194e-c1ff-4c65-bc56-2a7e4e1f6947}">
 		<property name="name">
-			<value>ui_选择牌</value>
+			<value>SFX_UI_选择卡牌</value>
 		</property>
 		<property name="outputFormat">
 			<value>1</value>
@@ -72,6 +72,9 @@
 		</relationship>
 	</object>
 	<object class="EventMixerMaster" id="{852bfff8-d637-491c-a205-cb018e1b8a31}">
+		<property name="volume">
+			<value>3.5</value>
+		</property>
 		<relationship name="effectChain">
 			<destination>{67ce21de-1fa5-4833-8d64-1647c647551c}</destination>
 		</relationship>
@@ -106,6 +109,9 @@
 		</relationship>
 	</object>
 	<object class="EventMixerGroup" id="{94ba41ca-f2dc-405d-b0b8-bf2e7a1e6698}">
+		<property name="volume">
+			<value>10</value>
+		</property>
 		<property name="name">
 			<value>Audio 1</value>
 		</property>

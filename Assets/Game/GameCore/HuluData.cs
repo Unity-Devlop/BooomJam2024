@@ -84,16 +84,16 @@ namespace Game
 
 
 
-        public event Func<UniTask> OnHealEvent = default;
-        public event Func<UniTask> OnDamageEvent = default;
+        public event Func<UniTask> OnHealEvent = delegate { return UniTask.CompletedTask; };
+        public event Func<UniTask> OnDamageEvent = delegate { return UniTask.CompletedTask; };
 
-        public event Func<BattleBuffEnum, UniTask> OnAttainBuffEvent = default;
-        public event Func<BattleBuffEnum, UniTask> OnLoseBuffEvent = default;
+        public event Func<BattleBuffEnum, UniTask> OnAttainBuffEvent = delegate { return UniTask.CompletedTask; };
+        public event Func<BattleBuffEnum, UniTask> OnLoseBuffEvent = delegate { return UniTask.CompletedTask; };
 
-        public event Func<int,UniTask> OnIncreaseAtkEvent = default;
-        public event Func<int,UniTask> OnIncreaseSpeedEvent = default; 
+        public event Func<int,UniTask> OnIncreaseAtkEvent = delegate { return UniTask.CompletedTask; };
+        public event Func<int,UniTask> OnIncreaseSpeedEvent = delegate { return UniTask.CompletedTask; };
         
-        public event Func<int,UniTask> OnIncreaseDefEvent = default; 
+        public event Func<int,UniTask> OnIncreaseDefEvent = delegate { return UniTask.CompletedTask; };
         
         
         public HuluData()

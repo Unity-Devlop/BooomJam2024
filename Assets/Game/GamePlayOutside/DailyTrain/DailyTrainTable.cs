@@ -29,7 +29,8 @@ namespace Game
         private ArrayPos[,] grids;
         private Dictionary<ArrayPos, PlasticGrid> posToGrid = new Dictionary<ArrayPos, PlasticGrid>();
 
-        private void Awake()
+
+        private void OnEnable()
         {
             tableHeight = Global.Get<DataSystem>().Get<GameData>().playerData.trainerData.datas.Count;
             InitGrids();

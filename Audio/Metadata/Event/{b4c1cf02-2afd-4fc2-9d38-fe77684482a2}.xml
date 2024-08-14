@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.02.02.00">
 	<object class="Event" id="{b4c1cf02-2afd-4fc2-9d38-fe77684482a2}">
 		<property name="name">
-			<value>ui_进入卡牌</value>
+			<value>SFX_UI_进入卡牌</value>
 		</property>
 		<property name="outputFormat">
 			<value>1</value>
@@ -72,6 +72,9 @@
 		</relationship>
 	</object>
 	<object class="EventMixerMaster" id="{dea5f542-c01d-46e5-b34c-4c599547c92a}">
+		<property name="volume">
+			<value>4</value>
+		</property>
 		<relationship name="effectChain">
 			<destination>{ea1b1d6f-a097-4336-8217-aef90616fcb0}</destination>
 		</relationship>
@@ -100,6 +103,9 @@
 		</relationship>
 	</object>
 	<object class="EventMixerGroup" id="{2f2e3f3e-b537-4356-9164-2d71ee147ce5}">
+		<property name="volume">
+			<value>10</value>
+		</property>
 		<property name="name">
 			<value>Audio 1</value>
 		</property>
