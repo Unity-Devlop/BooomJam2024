@@ -66,12 +66,16 @@ namespace Game
 
             _valueUIItems[0].valueNum.text = data.currentHp.ToString();
             _valueUIItems[0].slider.value = (float)data.currentHp / data.config.MaxHp;
+            
             _valueUIItems[1].valueNum.text = data.currentAtk.ToString();
             _valueUIItems[1].slider.value = (float)data.currentAtk / data.config.MaxAtk;
-            _valueUIItems[2].valueNum.text = data.currentAtk.ToString();
+            
+            _valueUIItems[2].valueNum.text = data.currentDef.ToString();
             _valueUIItems[2].slider.value = (float)data.currentDef / data.config.MaxDef;
+            
             _valueUIItems[3].valueNum.text = data.currentSpeed.ToString();
             _valueUIItems[3].slider.value = (float)data.currentSpeed / data.config.MaxSpeed;
+            
             _valueUIItems[4].valueNum.text = data.currentAdap.ToString();
             _valueUIItems[4].slider.value = (float)data.currentAdap / data.config.MaxAdap;
 

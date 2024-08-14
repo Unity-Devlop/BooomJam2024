@@ -246,13 +246,13 @@ namespace Game
             HashSetPool<BattleBuffEnum>.Release(contains);
         }
 
-        public static int CalAtkTimes(HuluData user, ActiveSkillConfig skillCfg)
+        public static async UniTask<int> CalAtkTimes(HuluData user, ActiveSkillConfig skillCfg)
         {
             int times = 0;
             if (user.ContainsBuff(BattleBuffEnum.连续技能必定打最多次))
             {
                 times = skillCfg.MulAttackTimes[1];
-                user.RemoveBuff(BattleBuffEnum.连续技能必定打最多次);
+                await user.RemoveBuff(BattleBuffEnum.连续技能必定打最多次);
             }
             else
             {
@@ -332,7 +332,7 @@ namespace Game
                     if (current >= cnt) break;
                     if (Random.value < rate)
                     {
-                        result.Add(RandomFirstPokemonData(config.Id));
+                        result.Add(RandomInitializePokemonData(config.Id));
                         current++;
                     }
                 }
@@ -341,7 +341,7 @@ namespace Game
             return result;
         }
 
-        private static HuluData RandomFirstPokemonData(HuluEnum id)
+        private static HuluData RandomInitializePokemonData(HuluEnum id)
         {
             // TODO 生成初始宝可梦
             HuluData data = new HuluData(id);

@@ -600,7 +600,7 @@ namespace Game.GamePlay
                 {
                     Assert.IsTrue(config.MulAttackTimes.Length == 2);
                     Assert.IsTrue(config.MulAttackTimes[0] <= config.MulAttackTimes[1]);
-                    times = GameMath.CalAtkTimes(userPosition.current, config);
+                    times = await GameMath.CalAtkTimes(userPosition.current, config);
                     Global.Event.Send<BattleInfoRecordEvent>(new BattleInfoRecordEvent($"{userPosition}攻击次数:{times}"));
                 }
 
