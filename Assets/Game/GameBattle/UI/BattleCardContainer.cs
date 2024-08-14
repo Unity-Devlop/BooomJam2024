@@ -325,6 +325,7 @@ namespace Game
 
         public UniTask StartCalOperation()
         {
+            useCardArea.GetComponent<Image>().enabled = false;
             Assert.IsNull(_calCts);
             _calCts = new CancellationTokenSource();
             return UniTask.CompletedTask;
@@ -332,6 +333,7 @@ namespace Game
 
         public UniTask EndCalOperation()
         {
+            useCardArea.GetComponent<Image>().enabled = false;
             Assert.IsNotNull(_calCts);
             _calCts.Cancel();
             _calCts = null;
