@@ -59,8 +59,8 @@ namespace Game
 
         public void GameSettle()
         {
-            settle = settlementData.LocalPlayerWin()?SettleEnum.Win:SettleEnum.Lose;
-            if(settle==SettleEnum.Win)
+            settle = settlementData.LocalPlayerWin() ? SettleEnum.Win : SettleEnum.Lose;
+            if (settle == SettleEnum.Win)
             {
                 m_rectWin.gameObject.SetActive(true);
                 uIShow.Bind(settlementData.MVP().Key);
@@ -71,10 +71,11 @@ namespace Game
                 uIShow.Bind(settlementData.SVP().Key);
                 Global.Get<DataSystem>().Get<GameData>().allowCompeting = false;
             }
+
             m_txtReward.text = $"+{settlementData.LocalAdmirePoint()}";
             Global.Get<DataSystem>().Get<GameData>().admireNum += settlementData.LocalAdmirePoint();
             GamePlayOutsideMgr.Singleton.dateSystem.MonthElapse(1);
-            if (++Global.Get<DataSystem>().Get<GameData>().date.count%3==0)
+            if (++Global.Get<DataSystem>().Get<GameData>().date.count % 3 == 0)
             {
                 GamePlayOutsideMgr.Singleton.dateSystem.SeasonElapse(1);
                 Global.Get<DataSystem>().Get<GameData>().allowCompeting = true;
@@ -82,56 +83,55 @@ namespace Game
             }
         }
 
-        private void Confirm()
+        private async void Confirm()
         {
             ManageCardsPanel mcp;
-            switch(count)
+            switch (count)
             {
                 case 0:
-                    mcp = UIRoot.Singleton.OpenPanel<ManageCardsPanel>();
+                    mcp = await UIRoot.Singleton.OpenPanelAsync<ManageCardsPanel>();
                     mcp.DeleteTrainerSkillCard();
                     ++count;
                     break;
                 case 1:
-                    mcp = UIRoot.Singleton.OpenPanel<ManageCardsPanel>();
+                    mcp = await UIRoot.Singleton.OpenPanelAsync<ManageCardsPanel>();
                     mcp.SelectTrainerSkillCard();
                     ++count;
                     break;
                 case 2:
-                    mcp = UIRoot.Singleton.OpenPanel<ManageCardsPanel>();
+                    mcp = await UIRoot.Singleton.OpenPanelAsync<ManageCardsPanel>();
                     mcp.SelectHuluSkillCard(settlementData.localPlayerTrainerData.datas[0]);
                     ++count;
                     break;
                 case 3:
-                    mcp = UIRoot.Singleton.OpenPanel<ManageCardsPanel>();
+                    mcp = await UIRoot.Singleton.OpenPanelAsync<ManageCardsPanel>();
                     mcp.SelectHuluSkillCard(settlementData.localPlayerTrainerData.datas[1]);
                     ++count;
                     break;
                 case 4:
-                    mcp = UIRoot.Singleton.OpenPanel<ManageCardsPanel>();
+                    mcp = await UIRoot.Singleton.OpenPanelAsync<ManageCardsPanel>();
                     mcp.SelectHuluSkillCard(settlementData.localPlayerTrainerData.datas[2]);
                     ++count;
                     break;
                 case 5:
-                    mcp = UIRoot.Singleton.OpenPanel<ManageCardsPanel>();
+                    mcp = await UIRoot.Singleton.OpenPanelAsync<ManageCardsPanel>();
                     mcp.DeleteHuluSkillCard(settlementData.localPlayerTrainerData.datas[0]);
                     ++count;
                     break;
                 case 6:
-                    mcp = UIRoot.Singleton.OpenPanel<ManageCardsPanel>();
+                    mcp = await UIRoot.Singleton.OpenPanelAsync<ManageCardsPanel>();
                     mcp.DeleteHuluSkillCard(settlementData.localPlayerTrainerData.datas[1]);
                     ++count;
                     break;
                 case 7:
-                    mcp = UIRoot.Singleton.OpenPanel<ManageCardsPanel>();
+                    mcp = await UIRoot.Singleton.OpenPanelAsync<ManageCardsPanel>();
                     mcp.DeleteHuluSkillCard(settlementData.localPlayerTrainerData.datas[2]);
                     ++count;
                     break;
                 default:
-                    if(isNextSeason) GamePlayOutsideMgr.Singleton.machine.Change<ChangeHuluState>();
+                    if (isNextSeason) GamePlayOutsideMgr.Singleton.machine.Change<ChangeHuluState>();
                     else GamePlayOutsideMgr.Singleton.machine.Change<DailyTrainState>();
                     break;
-
             }
         }
 
@@ -142,6 +142,5 @@ namespace Game
             count = 0;
             isNextSeason = false;
         }
-
     }
 }

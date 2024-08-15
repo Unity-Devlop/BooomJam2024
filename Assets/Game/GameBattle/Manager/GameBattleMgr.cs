@@ -58,7 +58,7 @@ namespace Game.GamePlay
 
         private bool _battling = false;
 
-        public void StartBattle(TrainerData self, TrainerData enemy, BattleEnvData battleEnvData)
+        public async void StartBattle(TrainerData self, TrainerData enemy, BattleEnvData battleEnvData)
         {
             TrainerData playerTrainerData = self;
             TrainerData aiTrainerData = enemy;
@@ -67,7 +67,7 @@ namespace Game.GamePlay
             battleFlow.Init(playerBattleTrainer, robotBattleTrainer, battleEnvData);
 
 
-            GameBattlePanel gameBattlePanel = UIRoot.Singleton.OpenPanel<GameBattlePanel>();
+            GameBattlePanel gameBattlePanel = await UIRoot.Singleton.OpenPanelAsync<GameBattlePanel>();
             gameBattlePanel.Bind(battleFlow.self);
             _battling = true;
             battleFlow.Enter().ContinueWith(OnBattleEnd).Forget();

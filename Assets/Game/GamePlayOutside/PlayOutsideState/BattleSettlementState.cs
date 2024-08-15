@@ -8,12 +8,11 @@ namespace Game
         {
         }
 
-        public void OnEnter(GamePlayOutsideMgr owner, IStateMachine<GamePlayOutsideMgr> stateMachine)
+        public async void OnEnter(GamePlayOutsideMgr owner, IStateMachine<GamePlayOutsideMgr> stateMachine)
         {
-
             BattleSettlementData data = Global.Get<DataSystem>().Get<GameData>().battleSettlementData;
             // TODO Do something with data
-            UIRoot.Singleton.OpenPanel<GameSettlePanel>();
+            await UIRoot.Singleton.OpenPanelAsync<GameSettlePanel>();
         }
 
         public void OnUpdate(GamePlayOutsideMgr owner, IStateMachine<GamePlayOutsideMgr> stateMachine)

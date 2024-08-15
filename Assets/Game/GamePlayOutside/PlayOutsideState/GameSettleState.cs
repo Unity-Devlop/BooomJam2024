@@ -7,9 +7,9 @@ namespace Game
 {
     public class GameSettleState : IState<GamePlayOutsideMgr>
     {
-        public void OnEnter(GamePlayOutsideMgr owner, IStateMachine<GamePlayOutsideMgr> stateMachine)
+        public async void OnEnter(GamePlayOutsideMgr owner, IStateMachine<GamePlayOutsideMgr> stateMachine)
         {
-            UIRoot.Singleton.OpenPanel<GameSettlePanel>();
+            await UIRoot.Singleton.OpenPanelAsync<GameSettlePanel>();
         }
 
         public void OnExit(GamePlayOutsideMgr owner, IStateMachine<GamePlayOutsideMgr> stateMachine)

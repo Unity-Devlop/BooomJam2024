@@ -12,10 +12,10 @@ namespace Game
             
         }
 
-        public void OnEnter(GamePlayOutsideMgr owner, IStateMachine<GamePlayOutsideMgr> stateMachine)
+        public async void OnEnter(GamePlayOutsideMgr owner, IStateMachine<GamePlayOutsideMgr> stateMachine)
         {
             Global.Get<DataSystem>().Get<GameData>().date = new(2024, 8, 1, 1, 0);
-            UIRoot.Singleton.OpenPanel<FirstSettingPanel>();
+            await UIRoot.Singleton.OpenPanelAsync<FirstSettingPanel>();
         }
 
         public void OnUpdate(GamePlayOutsideMgr owner, IStateMachine<GamePlayOutsideMgr> stateMachine)

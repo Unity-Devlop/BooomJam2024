@@ -9,11 +9,13 @@ namespace Game
 {
     internal struct AddressablesUILoader : IUILoader
     {
+#if !UNITY_WEBGL
         public GameObject Load<T>() where T : IUIPanel
         {
             string path = $"UI/{typeof(T).Name}/{typeof(T).Name}.prefab";
             return Addressables.LoadAssetAsync<GameObject>(path).WaitForCompletion();
-        }
+        }  
+#endif
 
         public void LoadAsync<T>(Action<GameObject> callback) where T : IUIPanel
         {

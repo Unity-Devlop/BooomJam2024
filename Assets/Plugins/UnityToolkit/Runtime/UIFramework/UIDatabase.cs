@@ -9,8 +9,9 @@ namespace UnityToolkit
 {
     public partial interface IUILoader
     {
+#if !UNITY_WEBGL
         public GameObject Load<T>() where T : IUIPanel;
-
+#endif
         public void LoadAsync<T>(Action<GameObject> callback) where T : IUIPanel;
 
         public Task<GameObject> LoadAsync<T>() where T : IUIPanel;
@@ -28,11 +29,12 @@ namespace UnityToolkit
     {
         private struct DefaultLoader : IUILoader
         {
+#if !UNITY_WEBGL
             public GameObject Load<T>() where T : IUIPanel
             {
                 return Resources.Load<GameObject>(typeof(T).Name);
             }
-
+#endif
             public void LoadAsync<T>(Action<GameObject> callback) where T : IUIPanel
             {
                 var handle = Resources.LoadAsync<GameObject>(typeof(T).Name);
@@ -55,8 +57,9 @@ namespace UnityToolkit
         }
 
         public IUILoader Loader = new DefaultLoader();
-        
 
+
+#if !UNITY_WEBGL
         /// <summary>
         /// 创建UI面板
         /// </summary>
@@ -69,6 +72,7 @@ namespace UnityToolkit
             GameObject prefab = Loader.Load<T>();
             return Modify<T>(prefab);
         }
+#endif
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void CreatePanelAsync<T>(Action<T> callback) where T : IUIPanel

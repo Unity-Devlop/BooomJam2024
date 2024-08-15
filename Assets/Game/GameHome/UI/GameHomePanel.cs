@@ -26,11 +26,11 @@ namespace Game.GameHome
 
         public bool debugOn = false;
 
-        private void DevButtonClick()
+        private async void DevButtonClick()
         {
             if (!debugOn)
             {
-                UIRoot.Singleton.OpenPanel<GameDebugPanel>();
+                await UIRoot.Singleton.OpenPanelAsync<GameDebugPanel>();
             }
             else
             {
@@ -45,9 +45,9 @@ namespace Game.GameHome
             Application.Quit();
         }
 
-        private void DeveloperButtonClick()
+        private async void DeveloperButtonClick()
         {
-            UIRoot.Singleton.OpenPanel<DeveloperPanel>();
+            await UIRoot.Singleton.OpenPanelAsync<DeveloperPanel>();
         }
 
         private async void ContinueGameClick()
@@ -63,11 +63,11 @@ namespace Game.GameHome
         private async void NewGameClick()
         {
             Global.Get<DataSystem>().ClearGameData();
-            
+
             // 构造一个新的GameData
             GameData gameData = GameData.CreateEmpty();
-            
-            
+
+
             Global.Get<DataSystem>().Add(gameData);
             await Global.Get<GameFlow>().ToGameOutside<FirstSettingState>();
         }

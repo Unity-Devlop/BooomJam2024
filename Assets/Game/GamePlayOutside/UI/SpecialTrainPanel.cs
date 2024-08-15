@@ -104,18 +104,18 @@ namespace Game
         }
 
 
-        private void SelectSkillCard()
+        private async void SelectSkillCard()
         {
-            var panel= UIRoot.Singleton.OpenPanel<ManageCardsPanel>();
+            var panel= await UIRoot.Singleton.OpenPanelAsync<ManageCardsPanel>();
             panel.SelectHuluSkillCard(playerData.trainerData.datas[curHulu],ShowUI);
             HideAddBtnAndTxt();
             SelectCard.gameObject.SetActive(false);
             DeleteCard.gameObject.SetActive(false);
         }
 
-        private void DeleteSkillCard()
+        private async void DeleteSkillCard()
         {
-            var panel = UIRoot.Singleton.OpenPanel<ManageCardsPanel>();
+            var panel = await UIRoot.Singleton.OpenPanelAsync<ManageCardsPanel>();
             panel.DeleteHuluSkillCard(playerData.trainerData.datas[curHulu],ShowUI);
             HideAddBtnAndTxt();
             SelectCard.gameObject.SetActive(false);

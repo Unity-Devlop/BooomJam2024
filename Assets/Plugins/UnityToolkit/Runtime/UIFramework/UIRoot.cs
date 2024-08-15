@@ -206,7 +206,7 @@ namespace UnityToolkit
             uiPanel.OnLoaded();
             Push(uiPanel);
         }
-
+#if !UNITY_WEBGL
         public T OpenPanel<T>() where T : IUIPanel
         {
             T cache = CheckPanelCache<T>();
@@ -222,7 +222,7 @@ namespace UnityToolkit
             _openedPanelDict.Add(type, uiPanel);
             return uiPanel;
         }
-
+#endif
         public void OpenPanelAsync<T>(Action<T> callback = null) where T : IUIPanel
         {
             Type type = typeof(T);

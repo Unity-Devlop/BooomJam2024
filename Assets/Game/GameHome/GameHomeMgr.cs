@@ -5,9 +5,9 @@ namespace Game.GameHome
 {
     public class GameHomeMgr : MonoSingleton<GameHomeMgr>
     {
-        protected override void OnInit()
+        protected override async void OnInit()
         {
-            UIRoot.Singleton.OpenPanel<GameHomePanel>();
+            await UIRoot.Singleton.OpenPanelAsync<GameHomePanel>();
             PlayBGM();
         }
 

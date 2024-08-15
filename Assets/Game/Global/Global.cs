@@ -21,7 +21,7 @@ namespace Game
             {
                 if (_table == null)
                 {
-                    _table = new Tables(Loader);
+                    _table = new Tables(Load);
                 }
 
                 return _table;
@@ -55,8 +55,13 @@ namespace Game
         protected override async void OnInit()
         {
             Application.runInBackground = true;
+#if UNITY_WEBGL
+            _table = new Tables();
+            await _table.InitAsync(AsyncLoad);
+#else 
             _table = new Tables(Loader);
-
+#endif
+            
             _event = new TypeEventSystem();
 
             _systemLocator = new SystemLocator();
@@ -93,12 +98,20 @@ namespace Game
             return Singleton._systemLocator.Get<TSystem>();
         }
 
-        private static JSONNode Loader(string name)
+        private static async UniTask<JSONNode> AsyncLoad(string name)
+        {
+            var path = $"{nameof(Tables)}/{name}.json";
+            TextAsset asset = await Addressables.LoadAssetAsync<TextAsset>(path);
+            return JSON.Parse(asset.text);
+        }
+
+        private static JSONNode Load(string name)
         {
             var path = $"{nameof(Tables)}/{name}.json";
             TextAsset asset = Addressables.LoadAssetAsync<TextAsset>(path).WaitForCompletion();
             return JSON.Parse(asset.text);
         }
+
 
         #region Logger
 

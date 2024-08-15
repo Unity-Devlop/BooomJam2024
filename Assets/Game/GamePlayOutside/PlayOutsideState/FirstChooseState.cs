@@ -11,9 +11,9 @@ namespace Game
         {
         }
 
-        public void OnEnter(GamePlayOutsideMgr owner, IStateMachine<GamePlayOutsideMgr> stateMachine)
+        public async void OnEnter(GamePlayOutsideMgr owner, IStateMachine<GamePlayOutsideMgr> stateMachine)
         {
-            UIRoot.Singleton.OpenPanel<FirstChoosePanel>();
+            await UIRoot.Singleton.OpenPanelAsync<FirstChoosePanel>();
         }
 
         public void OnUpdate(GamePlayOutsideMgr owner, IStateMachine<GamePlayOutsideMgr> stateMachine)

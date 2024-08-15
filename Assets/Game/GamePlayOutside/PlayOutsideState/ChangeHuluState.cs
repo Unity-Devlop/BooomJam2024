@@ -7,9 +7,9 @@ namespace Game
 {
     public class ChangeHuluState : IState<GamePlayOutsideMgr>
     {
-        public void OnEnter(GamePlayOutsideMgr owner, IStateMachine<GamePlayOutsideMgr> stateMachine)
+        public async void OnEnter(GamePlayOutsideMgr owner, IStateMachine<GamePlayOutsideMgr> stateMachine)
         {
-            UIRoot.Singleton.OpenPanel<ChangeHuluPanel>();
+            await UIRoot.Singleton.OpenPanelAsync<ChangeHuluPanel>();
         }
 
         public void OnExit(GamePlayOutsideMgr owner, IStateMachine<GamePlayOutsideMgr> stateMachine)
@@ -19,12 +19,10 @@ namespace Game
 
         public void OnInit(GamePlayOutsideMgr owner, IStateMachine<GamePlayOutsideMgr> stateMachine)
         {
-
         }
 
         public void OnUpdate(GamePlayOutsideMgr owner, IStateMachine<GamePlayOutsideMgr> stateMachine)
         {
-
         }
     }
 }

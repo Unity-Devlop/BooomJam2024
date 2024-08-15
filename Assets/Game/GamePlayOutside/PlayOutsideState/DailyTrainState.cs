@@ -8,9 +8,9 @@ namespace Game
         {
         }
 
-        public void OnEnter(GamePlayOutsideMgr owner, IStateMachine<GamePlayOutsideMgr> stateMachine)
+        public async void OnEnter(GamePlayOutsideMgr owner, IStateMachine<GamePlayOutsideMgr> stateMachine)
         {
-            DailyTrainPanel panel = UIRoot.Singleton.OpenPanel<DailyTrainPanel>();
+            DailyTrainPanel panel = await UIRoot.Singleton.OpenPanelAsync<DailyTrainPanel>();
             panel.Bind(Global.Get<DataSystem>().Get<GameData>().playerData);
         }
 
