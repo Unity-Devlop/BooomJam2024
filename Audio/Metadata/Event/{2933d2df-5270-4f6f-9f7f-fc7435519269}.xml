@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <objects serializationModel="Studio.02.02.00">
 	<object class="Event" id="{2933d2df-5270-4f6f-9f7f-fc7435519269}">
+		<property name="note">
+			<value>当精灵使用风系技能是触发</value>
+		</property>
 		<property name="name">
 			<value>SFX_使用_风</value>
 		</property>

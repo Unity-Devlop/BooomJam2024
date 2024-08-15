@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <objects serializationModel="Studio.02.02.00">
 	<object class="Event" id="{1494f2ab-a4d9-4d72-97f4-ae1874c0508c}">
+		<property name="note">
+			<value>选择精灵界面左边的UI （用来查看不同精灵属性的六个三角形书签UI)</value>
+		</property>
 		<property name="name">
 			<value>SFX_UI_切换精灵</value>
 		</property>

@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <objects serializationModel="Studio.02.02.00">
 	<object class="Event" id="{640674de-3b67-45fd-a3f3-07f0f5e93ca9}">
+		<property name="note">
+			<value>当精灵使用毒系技能是触发</value>
+		</property>
 		<property name="name">
 			<value>SFX_使用_毒</value>
 		</property>

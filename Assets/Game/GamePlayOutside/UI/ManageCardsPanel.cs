@@ -60,7 +60,7 @@ namespace Game
 
         public void SelectHuluSkillCard(HuluData hulu,Action callback=null)
         {
-            title.text = $"Ñ¡ÔñÒ»ÕÅ¿¨ÅÆ\n{hulu.id}";
+            title.text = $"é€‰æ‹©ä¸€å¼ å¡ç‰Œ\n{hulu.id}";
             curManageState = ManageState.Select;
             curHulu = hulu;
             var activeSkillEnums = GetRandomSkill(Global.Table.HuluTable.Get(hulu.id).SkillPool);
@@ -77,10 +77,10 @@ namespace Game
 
         public void SelectTrainerSkillCard()
         {
-            title.text = "Ñ¡ÔñÒ»ÕÅÖ¸»Ó¿¨ÅÆ";
+            title.text = "é€‰æ‹©ä¸€å¼ æŒ‡æŒ¥å¡ç‰Œ";
             curManageState = ManageState.Select;
             List<ActiveSkillData> list = new List<ActiveSkillData>();
-            var targets = Global.Table.ActiveSkillTable.DataList.FindAll((c) => c.Type == ActiveSkillTypeEnum.Ö¸»Ó);
+            var targets = Global.Table.ActiveSkillTable.DataList.FindAll((c) => c.Type == ActiveSkillTypeEnum.æŒ‡æŒ¥);
             targets.Shuffle();
             for (int i = 0; i < 3; ++i)
             {
@@ -93,7 +93,7 @@ namespace Game
 
         public void DeleteHuluSkillCard(HuluData hulu,Action callback=null)
         {
-            title.text = $"É¾³ıÒ»ÕÅ¿¨ÅÆ\n{hulu.id}";
+            title.text = $"åˆ é™¤ä¸€å¼ å¡ç‰Œ\n{hulu.id}";
             curManageState = ManageState.Delete;
             curHulu = hulu;
             container.DrawCardToHand(hulu.ownedSkills);
@@ -102,7 +102,7 @@ namespace Game
 
         public void DeleteTrainerSkillCard()
         {
-            title.text = "É¾³ıÒ»ÕÅÖ¸»Ó¿¨ÅÆ";
+            title.text = "åˆ é™¤ä¸€å¼ æŒ‡æŒ¥å¡ç‰Œ";
             curManageState = ManageState.Delete;
             container.DrawCardToHand(playerData.trainerData.trainerSkills);
         }
