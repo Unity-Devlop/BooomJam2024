@@ -33,7 +33,8 @@ namespace Game.GamePlay
             
             currentBackground = background;
             Global.LogInfo("BattleEnv", "Init", "LoadBattleBG", battleEnvData.id.ToString());
-            currentBackground.sprite = await Global.Get<ResourceSystem>().LoadBattleBG(battleEnvData.id);
+            currentBackground.sprite =
+                await Global.Get<ResourceSystem>().LoadImage(battleEnvData.config.BackgroundPath);
             currentBackground.color = Color.white;
         }
 
@@ -42,7 +43,7 @@ namespace Game.GamePlay
             var prev = currentBackground;
             var cur = currentBackground == background ? background2 : background;
 
-            cur.sprite = await Global.Get<ResourceSystem>().LoadBattleBG(obj.id);
+            cur.sprite = await Global.Get<ResourceSystem>().LoadImage(obj.config.BackgroundPath);
             prev.sprite = currentBackground.sprite;
 
             prev.DOAlpha(0, 0.5f);

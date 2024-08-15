@@ -19,7 +19,7 @@ public sealed partial class BattleEnvironmentConfig : Luban.BeanBase
     {
         { if(!_buf["id"].IsNumber) { throw new SerializationException(); }  Id = (BattleEnvironmentEnum)_buf["id"].AsInt; }
         { if(!_buf["desc"].IsString) { throw new SerializationException(); }  Desc = _buf["desc"]; }
-        { if(!_buf["prefab_path"].IsString) { throw new SerializationException(); }  PrefabPath = _buf["prefab_path"]; }
+        { if(!_buf["background_path"].IsString) { throw new SerializationException(); }  BackgroundPath = _buf["background_path"]; }
     }
 
     public static BattleEnvironmentConfig DeserializeBattleEnvironmentConfig(JSONNode _buf)
@@ -32,7 +32,7 @@ public sealed partial class BattleEnvironmentConfig : Luban.BeanBase
     /// </summary>
     public readonly BattleEnvironmentEnum Id;
     public readonly string Desc;
-    public readonly string PrefabPath;
+    public readonly string BackgroundPath;
    
     public const int __ID__ = -340011715;
     public override int GetTypeId() => __ID__;
@@ -49,7 +49,7 @@ public sealed partial class BattleEnvironmentConfig : Luban.BeanBase
         return "{ "
         + "id:" + Id + ","
         + "desc:" + Desc + ","
-        + "prefabPath:" + PrefabPath + ","
+        + "backgroundPath:" + BackgroundPath + ","
         + "}";
     }
 }

@@ -353,9 +353,12 @@ namespace Game
 
         public static BattleEnvData RandomBattleEnvData()
         {
-            var list = Global.Table.BattleEnvironmentTable.DataList;
+            List<BattleEnvironmentConfig> targets = Global.Table.BattleEnvironmentTable.DataList.FindAll(c =>
+            {
+                return !string.IsNullOrEmpty(c.BackgroundPath) && !string.IsNullOrWhiteSpace(c.BackgroundPath);
+            });
 
-            var id = list[Random.Range(0, list.Count)].Id;
+            var id = targets[Random.Range(0, targets.Count)].Id;
 
             return new BattleEnvData() { id = id };
         }

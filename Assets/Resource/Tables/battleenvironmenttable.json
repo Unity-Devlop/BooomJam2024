@@ -2,26 +2,26 @@
   {
     "id": 1,
     "desc": "",
-    "prefab_path": ""
+    "background_path": "Graphics/Battle/草地.png"
   },
   {
     "id": 2,
     "desc": "",
-    "prefab_path": ""
+    "background_path": "Graphics/Battle/沙漠.png"
   },
   {
     "id": 3,
     "desc": "",
-    "prefab_path": ""
+    "background_path": "Graphics/Battle/海洋.png"
   },
   {
     "id": 4,
     "desc": "",
-    "prefab_path": ""
+    "background_path": ""
   },
   {
     "id": 5,
     "desc": "",
-    "prefab_path": ""
+    "background_path": ""
   }
 ]

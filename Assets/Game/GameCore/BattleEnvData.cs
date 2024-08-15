@@ -43,9 +43,9 @@ namespace Game
         {
         }
 
-        public async UniTask Change(BattleEnvironmentEnum configChangeBattleEnvAfterUse)
+        public async UniTask Change(BattleEnvironmentEnum id)
         {
-            id = configChangeBattleEnvAfterUse;
+            this.id = id;
             await bind.Invoke();
         }
     }

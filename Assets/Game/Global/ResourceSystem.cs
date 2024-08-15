@@ -288,38 +288,6 @@ namespace Game
             return null;
         }
 
-        private Dictionary<BattleEnvironmentEnum, Sprite> battleBgCache =
-            new Dictionary<BattleEnvironmentEnum, Sprite>();
-
-        public async UniTask<Sprite> LoadBattleBG(BattleEnvironmentEnum id)
-        {
-            if (battleBgCache.TryGetValue(id, out var sprite))
-            {
-                return sprite;
-            }
-
-            string address = $"Graphics/Battle/{id.ToString()}.png";
-            try
-            {
-                sprite = await Addressables.LoadAssetAsync<Sprite>(address);
-            }
-            catch (InvalidKeyException e)
-            {
-                Global.LogWarning($"找不到{id}的BattleBG资源:{address}");
-            }
-            catch (Exception e)
-            {
-                Global.LogError($"加载{id}的BattleBG资源失败:{address}");
-            }
-
-            if (sprite != null)
-            {
-                battleBgCache.TryAdd(id, sprite);
-            }
-
-            return sprite;
-        }
-
         private Dictionary<string, Sprite> imageCache = new Dictionary<string, Sprite>();
 
         public async UniTask<Sprite> LoadImage(string address)
