@@ -568,7 +568,6 @@ MonoBehaviour:
   icon: {fileID: 6384462202605611443}
   attachIcon: {fileID: 2035307875459545590}
   damagePointText: {fileID: 8361598343804180122}
-  image: {fileID: 4095731599334254236}
   descBg: {fileID: 1997608742063624616}
   typeContainer: {fileID: 1258818646048302711}
 --- !u!1 &2891574717286003007

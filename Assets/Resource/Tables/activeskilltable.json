@@ -2215,7 +2215,7 @@
     "element": 0,
     "desc": "己方选手下一次被技能攻击时有60%的几率不会受到伤害。",
     "special_icon_path": "",
-    "card_image_path": "",
+    "card_image_path": "Graphics/card/ComSkill002_kdk.png",
     "type": 2,
     "damage_point": 0,
     "priority": 0,
