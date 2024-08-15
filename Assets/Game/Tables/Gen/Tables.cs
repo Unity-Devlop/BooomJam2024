@@ -14,12 +14,12 @@ namespace cfg
 {
 public partial class Tables
 {
-    public HuluTable HuluTable {get; }
-    public ElementTable ElementTable {get; }
-    public ActiveSkillTable ActiveSkillTable {get; }
-    public PassiveSkillTable PassiveSkillTable {get; }
-    public BattleEnvironmentTable BattleEnvironmentTable {get; }
-    public BattleBuffTable BattleBuffTable {get; }
+    public HuluTable HuluTable { get; private set;}
+    public ElementTable ElementTable {get; private set;}
+    public ActiveSkillTable ActiveSkillTable {get; private set;}
+    public PassiveSkillTable PassiveSkillTable {get; private set;}
+    public BattleEnvironmentTable BattleEnvironmentTable {get; private set;}
+    public BattleBuffTable BattleBuffTable {get; private set;}
 
     public Tables(System.Func<string, JSONNode> loader)
     {

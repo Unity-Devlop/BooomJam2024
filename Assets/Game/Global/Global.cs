@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using cfg;
 using Cysharp.Threading.Tasks;
@@ -7,6 +8,7 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Pool;
 using UnityToolkit;
+using Object = UnityEngine.Object;
 
 namespace Game
 {

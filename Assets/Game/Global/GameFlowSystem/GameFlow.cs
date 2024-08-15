@@ -42,6 +42,7 @@ namespace Game
             _stateMachine.Add<GameBattleState>(new GameBattleState());
             _stateMachine.Add<GameHomeState>(new GameHomeState());
             _stateMachine.Add<GameOutsideState>(new GameOutsideState());
+            enabled = true;
         }
 
         public void Run<T>() where T : IState<GameFlow>
@@ -56,6 +57,7 @@ namespace Game
 
         public void Dispose()
         {
+            enabled = false;
         }
 
         public async UniTask ToGameHome()
