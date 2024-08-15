@@ -1,6 +1,7 @@
 ﻿using System;
 using Cysharp.Threading.Tasks;
 using IngameDebugConsole;
+using TMPro;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityToolkit;
@@ -11,12 +12,33 @@ namespace Game.GameEntry
     {
         [SerializeField] private DebugLogManager manager;
 
+        public TextMeshProUGUI text;
         private async void Start()
         {
             Application.runInBackground = true;
             Application.targetFrameRate = 144;
-            await UniTask.WaitUntil(() => Global.Singleton.initialized);
-
+            UniTask task = UniTask.WaitUntil(() => Global.Singleton.initialized);
+            
+            // 任务没有完成时，显示加载界面
+            while (!task.Status.IsCompleted())
+            {
+                await UniTask.Delay(500);
+                text.text = $"Loading";
+                await UniTask.Delay(500);
+                text.text = $"Loading.";
+                await UniTask.Delay(500);
+                text.text = $"Loading..";
+                await UniTask.Delay(500);
+                text.text = $"Loading...";
+                await UniTask.Delay(500);
+                text.text = $"Loading..";
+                await UniTask.Delay(500);
+                text.text = $"Loading.";
+                await UniTask.Delay(500);
+                text.text = $"Loading";
+            }
+            
+            await task;
 #if UNITY_EDITOR
             manager.Awake();
             manager.gameObject.SetActive(true);
