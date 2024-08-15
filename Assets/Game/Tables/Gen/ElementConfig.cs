@@ -21,7 +21,7 @@ public sealed partial class ElementConfig : Luban.BeanBase
         { var __json0 = _buf["fit"]; if(!__json0.IsArray) { throw new SerializationException(); } Fit = new System.Collections.Generic.Dictionary<ElementEnum, float>(__json0.Count); foreach(JSONNode __e0 in __json0.Children) { ElementEnum _k0;  { if(!__e0[0].IsNumber) { throw new SerializationException(); }  _k0 = (ElementEnum)__e0[0].AsInt; } float _v0;  { if(!__e0[1].IsNumber) { throw new SerializationException(); }  _v0 = __e0[1]; }  Fit.Add(_k0, _v0); }   }
         { if(!_buf["text"].IsString) { throw new SerializationException(); }  Text = _buf["text"]; }
         { if(!_buf["ui_path_translate"].IsString) { throw new SerializationException(); }  UiPathTranslate = _buf["ui_path_translate"]; }
-        { if(!_buf["ui_icon_path"].IsString) { throw new SerializationException(); }  UiIconPath = _buf["ui_icon_path"]; }
+        { if(!_buf["ui_image_path"].IsString) { throw new SerializationException(); }  UiImagePath = _buf["ui_image_path"]; }
     }
 
     public static ElementConfig DeserializeElementConfig(JSONNode _buf)
@@ -40,9 +40,9 @@ public sealed partial class ElementConfig : Luban.BeanBase
     public readonly string Text;
     public readonly string UiPathTranslate;
     /// <summary>
-    /// 属性的UI图标路径
+    /// 卡牌的图片路径，没有就会代码自动拼一个
     /// </summary>
-    public readonly string UiIconPath;
+    public readonly string UiImagePath;
    
     public const int __ID__ = -595947202;
     public override int GetTypeId() => __ID__;
@@ -63,7 +63,7 @@ public sealed partial class ElementConfig : Luban.BeanBase
         + "fit:" + Luban.StringUtil.CollectionToString(Fit) + ","
         + "text:" + Text + ","
         + "uiPathTranslate:" + UiPathTranslate + ","
-        + "uiIconPath:" + UiIconPath + ","
+        + "uiImagePath:" + UiImagePath + ","
         + "}";
     }
 }
