@@ -70,6 +70,7 @@ namespace Game
         {
             var playerData = Global.Get<DataSystem>().Get<GameData>().playerData;
             playerData.name = inputField.text;
+            playerData.trainerData.name = inputField.text;
             for (int i = 0; i < config.dataList[curStyle].skills.Count; ++i)
             {
                 var temp = new ActiveSkillData();
