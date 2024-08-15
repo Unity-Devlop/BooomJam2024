@@ -139,7 +139,7 @@ namespace Game
                 return sprite;
             }
 
-            var config = Global.Table.ElementFitTable.Get(configElement);
+            var config = Global.Table.ElementTable.Get(configElement);
             string address = $"UI/CardAtlas/skill/skillcard_{config.UiPathTranslate}_wordbox.png";
             try
             {
@@ -173,7 +173,7 @@ namespace Game
                 return sprite;
             }
 
-            var config = Global.Table.ElementFitTable.Get(configElement);
+            var config = Global.Table.ElementTable.Get(configElement);
             string address = $"UI/CardAtlas/skill/skillcard_{config.UiPathTranslate}_value.png";
 
             try
@@ -207,7 +207,7 @@ namespace Game
                 return sprite;
             }
 
-            var config = Global.Table.ElementFitTable.Get(elementEnum);
+            var config = Global.Table.ElementTable.Get(elementEnum);
             string address = $"UI/CardAtlas/skill/skillcard_{config.UiPathTranslate}_background.png";
 
             try
@@ -322,7 +322,7 @@ namespace Game
 
         public async UniTask<Sprite> LoadPortraitBox(HuluEnum id)
         {
-            string key = Global.Table.ElementFitTable.Get(Global.Table.HuluTable.Get(id).Elements).UiPathTranslate;
+            string key = Global.Table.ElementTable.Get(Global.Table.HuluTable.Get(id).Elements).UiPathTranslate;
             string address = $"UI/Atlas/ui_{key}_portraitbox.png";
 
             if (_uiGrassPortraitboxCache.TryGetValue(id, out var sprite))

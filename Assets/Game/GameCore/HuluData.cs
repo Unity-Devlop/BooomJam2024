@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -83,7 +84,6 @@ namespace Game
         public List<ActiveSkillData> ownedSkills;
 
 
-
         public event Func<UniTask> OnHealEvent = delegate { return UniTask.CompletedTask; };
         public event Func<UniTask> OnDamageEvent = delegate { return UniTask.CompletedTask; };
 
@@ -138,6 +138,7 @@ namespace Game
             ActiveSkillData data = new ActiveSkillData();
             data.id = id;
             ownedSkills.Add(data);
+            ownedSkills.Sort((a, b) => a.id.CompareTo(b.id));
         }
 
         public void ReplaceOwnedSkill(ActiveSkillEnum ori, ActiveSkillEnum target)
@@ -153,6 +154,7 @@ namespace Game
                     break;
                 }
             }
+            ownedSkills.Sort((a, b) => a.id.CompareTo(b.id));
         }
         
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -393,6 +395,7 @@ namespace Game
                     id = config.SkillPool[UnityEngine.Random.Range(0, config.SkillPool.Length)]
                 });
             }
+            ownedSkills.Sort((a, b) => a.id.CompareTo(b.id));
         }
 
         [HorizontalGroup("1"), Button]
