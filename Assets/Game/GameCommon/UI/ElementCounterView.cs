@@ -28,16 +28,16 @@ namespace Game
             showButton.onClick.AddListener(ShowButtonClick);
             _counterIconList = counterContainer.GetComponentsInChildren<Image>(true).ToList();
             _counterIconList.RemoveAt(0);
-            int elementCount = Global.Table.ElementFitTable.DataList.Count;
-            Assert.IsTrue(_counterIconList.Count == Global.Table.ElementFitTable.DataList.Count *
-                Global.Table.ElementFitTable.DataList.Count);
+            int elementCount = Global.Table.ElementTable.DataList.Count;
+            Assert.IsTrue(_counterIconList.Count == Global.Table.ElementTable.DataList.Count *
+                Global.Table.ElementTable.DataList.Count);
 
             for (int atk = 0; atk < elementCount; atk++)
             {
-                ElementEnum atkElement = Global.Table.ElementFitTable.DataList[atk].Id;
+                ElementEnum atkElement = Global.Table.ElementTable.DataList[atk].Id;
                 for (int def = 0; def < elementCount; def++)
                 {
-                    ElementEnum defElement = Global.Table.ElementFitTable.DataList[def].Id;
+                    ElementEnum defElement = Global.Table.ElementTable.DataList[def].Id;
                     float value = GameMath.CalElementFit(atkElement, defElement);
                     Image targetIcon = _counterIconList[atk * elementCount + def];
                     if (value == 0)

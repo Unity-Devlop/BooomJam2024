@@ -24,7 +24,7 @@ namespace Game
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static async UniTask<float> CalDamageElementFit(HuluData user, ElementEnum atk, ElementEnum def)
         {
-            var fit = Global.Table.ElementFitTable.Get(atk).Fit;
+            var fit = Global.Table.ElementTable.Get(atk).Fit;
             float value = fit.GetValueOrDefault(def, 1);
             if (user.ContainsBuff(BattleBuffEnum.技能效果不好时变成一点五倍) && Mathf.Approximately(value, 0.5f))
             {
@@ -37,7 +37,7 @@ namespace Game
         
         public static float CalElementFit(ElementEnum atk, ElementEnum def)
         {
-            var fit = Global.Table.ElementFitTable.Get(atk).Fit;
+            var fit = Global.Table.ElementTable.Get(atk).Fit;
             float value = fit.GetValueOrDefault(def, 1);
             return value;
         }

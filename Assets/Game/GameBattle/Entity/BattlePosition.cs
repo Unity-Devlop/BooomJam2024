@@ -24,6 +24,7 @@ namespace Game.GamePlay
         private void Awake()
         {
             _originAbilityChangeTextPos = abilityChangeText.transform.position;
+            visual.gameObject.SetActive(false);
         }
 
         public async UniTask ExecuteEnter()
@@ -69,6 +70,7 @@ namespace Game.GamePlay
 
 
             visual.UnBind();
+            visual.gameObject.SetActive(true);
             visual.Bind(current, direction);
 
 

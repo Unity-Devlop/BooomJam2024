@@ -13,19 +13,20 @@ using SimpleJSON;
 
 namespace cfg
 {
-public sealed partial class ElementFitConfig : Luban.BeanBase
+public sealed partial class ElementConfig : Luban.BeanBase
 {
-    public ElementFitConfig(JSONNode _buf) 
+    public ElementConfig(JSONNode _buf) 
     {
         { if(!_buf["id"].IsNumber) { throw new SerializationException(); }  Id = (ElementEnum)_buf["id"].AsInt; }
         { var __json0 = _buf["fit"]; if(!__json0.IsArray) { throw new SerializationException(); } Fit = new System.Collections.Generic.Dictionary<ElementEnum, float>(__json0.Count); foreach(JSONNode __e0 in __json0.Children) { ElementEnum _k0;  { if(!__e0[0].IsNumber) { throw new SerializationException(); }  _k0 = (ElementEnum)__e0[0].AsInt; } float _v0;  { if(!__e0[1].IsNumber) { throw new SerializationException(); }  _v0 = __e0[1]; }  Fit.Add(_k0, _v0); }   }
         { if(!_buf["text"].IsString) { throw new SerializationException(); }  Text = _buf["text"]; }
         { if(!_buf["ui_path_translate"].IsString) { throw new SerializationException(); }  UiPathTranslate = _buf["ui_path_translate"]; }
+        { if(!_buf["ui_icon_path"].IsString) { throw new SerializationException(); }  UiIconPath = _buf["ui_icon_path"]; }
     }
 
-    public static ElementFitConfig DeserializeElementFitConfig(JSONNode _buf)
+    public static ElementConfig DeserializeElementConfig(JSONNode _buf)
     {
-        return new ElementFitConfig(_buf);
+        return new ElementConfig(_buf);
     }
 
     /// <summary>
@@ -38,12 +39,17 @@ public sealed partial class ElementFitConfig : Luban.BeanBase
     public readonly System.Collections.Generic.Dictionary<ElementEnum, float> Fit;
     public readonly string Text;
     public readonly string UiPathTranslate;
+    /// <summary>
+    /// 属性的UI图标路径
+    /// </summary>
+    public readonly string UiIconPath;
    
-    public const int __ID__ = -1428731081;
+    public const int __ID__ = -595947202;
     public override int GetTypeId() => __ID__;
 
     public  void ResolveRef(Tables tables)
     {
+        
         
         
         
@@ -57,6 +63,7 @@ public sealed partial class ElementFitConfig : Luban.BeanBase
         + "fit:" + Luban.StringUtil.CollectionToString(Fit) + ","
         + "text:" + Text + ","
         + "uiPathTranslate:" + UiPathTranslate + ","
+        + "uiIconPath:" + UiIconPath + ","
         + "}";
     }
 }

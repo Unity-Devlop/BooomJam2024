@@ -23,7 +23,7 @@ namespace Game
             base.Initialize(card);
             descText.text = card.data.config.Desc;
             damagePointText.text = card.data.config.DamagePoint.ToString();
-            elementText.text = Global.Table.ElementFitTable.Get(card.data.config.Element).Text;
+            elementText.text = Global.Table.ElementTable.Get(card.data.config.Element).Text;
 
             if (!string.IsNullOrEmpty(
                     card.data.config.CardImagePath) && !string.IsNullOrWhiteSpace(card.data.config.CardImagePath))

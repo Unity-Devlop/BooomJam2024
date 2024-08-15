@@ -15,7 +15,7 @@ namespace cfg
 public partial class Tables
 {
     public HuluTable HuluTable {get; }
-    public ElementFitTable ElementFitTable {get; }
+    public ElementTable ElementTable {get; }
     public ActiveSkillTable ActiveSkillTable {get; }
     public PassiveSkillTable PassiveSkillTable {get; }
     public BattleEnvironmentTable BattleEnvironmentTable {get; }
@@ -24,7 +24,7 @@ public partial class Tables
     public Tables(System.Func<string, JSONNode> loader)
     {
         HuluTable = new HuluTable(loader("hulutable"));
-        ElementFitTable = new ElementFitTable(loader("elementfittable"));
+        ElementTable = new ElementTable(loader("elementtable"));
         ActiveSkillTable = new ActiveSkillTable(loader("activeskilltable"));
         PassiveSkillTable = new PassiveSkillTable(loader("passiveskilltable"));
         BattleEnvironmentTable = new BattleEnvironmentTable(loader("battleenvironmenttable"));
@@ -35,7 +35,7 @@ public partial class Tables
     private void ResolveRef()
     {
         HuluTable.ResolveRef(this);
-        ElementFitTable.ResolveRef(this);
+        ElementTable.ResolveRef(this);
         ActiveSkillTable.ResolveRef(this);
         PassiveSkillTable.ResolveRef(this);
         BattleEnvironmentTable.ResolveRef(this);
