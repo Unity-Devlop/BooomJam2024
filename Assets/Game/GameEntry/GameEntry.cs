@@ -31,11 +31,6 @@ namespace Game.GameEntry
                 await UniTask.Delay(500);
                 text.text = $"Loading...";
                 await UniTask.Delay(500);
-                text.text = $"Loading..";
-                await UniTask.Delay(500);
-                text.text = $"Loading.";
-                await UniTask.Delay(500);
-                text.text = $"Loading";
             }
             
             await task;

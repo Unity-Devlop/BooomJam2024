@@ -61,7 +61,7 @@ namespace Game
             _table = new Tables();
             await _table.InitAsync(AsyncLoad);
 #else 
-            _table = new Tables(Loader);
+            _table = new Tables(Load);
 #endif
             
             _event = new TypeEventSystem();
