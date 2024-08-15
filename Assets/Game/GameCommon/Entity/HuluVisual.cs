@@ -16,7 +16,7 @@ namespace Game.GamePlay
         [SerializeField] private SkeletonAnimation skeletonAnimation;
         [SerializeField] private ProgressBar hpBar;
         [SerializeField] private TMP_Text nameText;
-        [SerializeField] private TMP_Text elementText;
+        // [SerializeField] private TMP_Text elementText;
         // [SerializeField] private TextMeshPro statusText;
 
         private ICommand _unbindCmd;
@@ -95,7 +95,7 @@ namespace Game.GamePlay
             nameText.text = obj.name;
             hpBar.SetWithoutNotify(obj.currentHp, 0, obj.hp);
             showCurrentHp = obj.currentHp;
-            elementText.text = obj.elementEnum.ToString();
+            // elementText.text = obj.elementEnum.ToString();
             // statusText.text = $"Atk:{obj.currentAtk}\nDef:{obj.currentDef}\nSpeed:{obj.currentSpeed}\nAdap:{obj.currentAdap}";
         }
 
@@ -103,7 +103,7 @@ namespace Game.GamePlay
         {
             nameText.text = obj.name;
 
-            elementText.text = obj.elementEnum.ToString();
+            // elementText.text = obj.elementEnum.ToString();
 
             // statusText.text = $"Atk:{obj.currentAtk}\nDef:{obj.currentDef}\nSpeed:{obj.currentSpeed}\nAdap:{obj.currentAdap}";
 

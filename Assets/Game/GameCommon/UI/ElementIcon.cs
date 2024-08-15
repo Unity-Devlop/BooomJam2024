@@ -9,6 +9,7 @@ namespace Game
         {
             var config = Global.Table.ElementTable.Get(id);
             sprite = await Global.Get<ResourceSystem>().LoadImage(config.UiIconPath);
+            SetNativeSize();
         }
     }
 }
