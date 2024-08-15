@@ -3,7 +3,8 @@
     "id": 7,
     "fit": [],
     "text": "Normal",
-    "ui_path_translate": "normal"
+    "ui_path_translate": "normal",
+    "ui_image_path": ""
   },
   {
     "id": 1,
@@ -22,7 +23,8 @@
       ]
     ],
     "text": "Ocean",
-    "ui_path_translate": "water"
+    "ui_path_translate": "water",
+    "ui_image_path": "UI/Atlas/ui_water_icon.png"
   },
   {
     "id": 2,
@@ -41,7 +43,8 @@
       ]
     ],
     "text": "Flame",
-    "ui_path_translate": "fire"
+    "ui_path_translate": "fire",
+    "ui_image_path": "UI/Atlas/ui_fire_icon.png"
   },
   {
     "id": 3,
@@ -68,7 +71,8 @@
       ]
     ],
     "text": "Natural",
-    "ui_path_translate": "grass"
+    "ui_path_translate": "grass",
+    "ui_image_path": "UI/Atlas/ui_grass_icon.png"
   },
   {
     "id": 4,
@@ -87,7 +91,8 @@
       ]
     ],
     "text": "Lighting",
-    "ui_path_translate": "electric"
+    "ui_path_translate": "electric",
+    "ui_image_path": "UI/Atlas/ui_electric_icon.png"
   },
   {
     "id": 5,
@@ -102,7 +107,8 @@
       ]
     ],
     "text": "Storm",
-    "ui_path_translate": "wind"
+    "ui_path_translate": "wind",
+    "ui_image_path": "UI/Atlas/ui_wind_icon.png"
   },
   {
     "id": 6,
@@ -117,6 +123,7 @@
       ]
     ],
     "text": "Toxic",
-    "ui_path_translate": "poison"
+    "ui_path_translate": "poison",
+    "ui_image_path": "UI/Atlas/ui_poison_icon.png"
   }
 ]
