@@ -2443,7 +2443,7 @@
     "element": 0,
     "desc": "己方选手下一次使用技能必定优先攻击。",
     "special_icon_path": "",
-    "card_image_path": "Graphics/card/ComSkill005_lhjq.png",
+    "card_image_path": "Graphics/card/ComSkill005_hljq.png",
     "type": 2,
     "damage_point": 0,
     "priority": 0,
