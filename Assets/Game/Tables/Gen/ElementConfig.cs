@@ -39,9 +39,6 @@ public sealed partial class ElementConfig : Luban.BeanBase
     public readonly System.Collections.Generic.Dictionary<ElementEnum, float> Fit;
     public readonly string Text;
     public readonly string UiPathTranslate;
-    /// <summary>
-    /// 卡牌的图片路径，没有就会代码自动拼一个
-    /// </summary>
     public readonly string UiIconPath;
    
     public const int __ID__ = -595947202;
