@@ -54,6 +54,7 @@ namespace Game
 
         protected override async void OnInit()
         {
+            Application.runInBackground = true;
             _table = new Tables(Loader);
 
             _event = new TypeEventSystem();

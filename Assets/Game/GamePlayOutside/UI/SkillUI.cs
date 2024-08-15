@@ -55,6 +55,7 @@ namespace Game
             {
                 hulu.RemoveOwnedSkill(skillId);
             }
+            hulu.ownedSkills.Sort((a, b) => a.id.CompareTo(b.id));
             Global.Event.Send<OperateSkillEvent>();
         }
 
