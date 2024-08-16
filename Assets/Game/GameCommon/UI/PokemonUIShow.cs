@@ -39,7 +39,7 @@ namespace Game
             {
                 skeletonGraphic.skeletonDataAsset = await Global.Get<ResourceSystem>().LoadPokemonSpine(data.id);
             }
-            catch (InvalidKeyException e)
+            catch (InvalidKeyException)
             {
                 Global.LogWarning($"没有找到精灵{data.id}的Spine资源");
             }

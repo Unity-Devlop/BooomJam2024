@@ -28,7 +28,7 @@ namespace Game.GamePlay
         private CancellationTokenSource _cts;
         [ReadOnly, ShowInInspector] public BattleEnvData envEnvData { get; private set; }
 
-        [field: SerializeField] public BattleSettlementData settlementData { get; private set; }
+        public BattleSettlementData settlementData { get; private set; }
 
         public void Init(IBattleTrainer self, IBattleTrainer enemy, BattleEnvData envData)
         {
@@ -198,7 +198,6 @@ namespace Game.GamePlay
                 {
                     Global.Event.Send<BattleStateTipEvent>(new BattleStateTipEvent("等待对方结束回合"));
                 }
-                
 
 
                 Debug.Log($"Self Oper: {_selfOper},Enemy Oper: {_enemyOper}");
@@ -439,7 +438,7 @@ namespace Game.GamePlay
 
         private async UniTask BothPokemonSkill(ActiveSkillBattleOperation selfAtk, ActiveSkillBattleOperation enemyAtk)
         {
-            var (faster, slower) = GameMath.WhoFirst(self, enemy, selfPos.current, enemyPos.current,
+            var (faster, slower) = await GameMath.WhoFirst(self, enemy, selfPos.current, enemyPos.current,
                 selfAtk.data,
                 enemyAtk.data, envEnvData);
 
@@ -645,7 +644,7 @@ namespace Game.GamePlay
                                 damage));
 
                         await defPosition.OnTakeSkillFrom(operation.data, userTrainer, userPosition, damage);
-                        await defPosition.current.DecreaseHealth(damage);
+                        await defPosition.current.DecreaseHealth(damage, userPosition.current);
 
                         if (!defPosition.current.CanFight())
                         {
@@ -712,14 +711,14 @@ namespace Game.GamePlay
                     $"{userPosition}使用{operation.data.id}回血,百分比:{config.IncreaseHealthPercentAfterUse}");
                 await userPosition.current.DecreaseHealth(
                     -(int)(config.IncreaseHealthPercentAfterUse *
-                           userPosition.current.hp));
+                           userPosition.current.hp), null);
             }
 
             if (config.IncreaseHealthPointAfterUse != 0)
             {
                 Debug.Log(
                     $"{userPosition}使用{operation.data.id}回血,固定值:{config.IncreaseHealthPointAfterUse}");
-                await userPosition.current.DecreaseHealth(-config.IncreaseHealthPointAfterUse);
+                await userPosition.current.DecreaseHealth(-config.IncreaseHealthPointAfterUse, null);
             }
 
             if (config.DarwCardCountAfterUse > 0)
@@ -806,11 +805,14 @@ namespace Game.GamePlay
             var drawTargetCardConfigAfterUse = config.DarwTargetCardConfigAfterUse;
             if (drawTargetCardConfigAfterUse != null && drawTargetCardConfigAfterUse.Target != ActiveSkillEnum.None)
             {
+                Global.Event.Send(new BattleInfoRecordEvent(
+                    $"{userTrainer}使用{operation.data.id}抽{drawTargetCardConfigAfterUse.Target} x{drawTargetCardConfigAfterUse.Cnt}"));
                 int drawed = await userTrainer.DrawTarget(drawTargetCardConfigAfterUse.Target,
                     drawTargetCardConfigAfterUse.Cnt);
                 if (drawTargetCardConfigAfterUse.DrawAnyIfCanNotDrawTarget && drawed < drawTargetCardConfigAfterUse.Cnt)
                 {
-                    Debug.Log($"抽指定牌失败，抽了{drawed}张，继续抽{drawTargetCardConfigAfterUse.Cnt - drawed}张任意牌");
+                    Global.Event.Send(new BattleInfoRecordEvent(
+                        $"{userTrainer}使用{operation.data.id}抽{drawTargetCardConfigAfterUse.Target}失败，抽了{drawed}张，继续抽{drawTargetCardConfigAfterUse.Cnt - drawed}张任意牌"));
                     await userTrainer.DrawSkills(drawTargetCardConfigAfterUse.Cnt - drawed);
                 }
 
@@ -888,7 +890,7 @@ namespace Game.GamePlay
                 }
                 else
                 {
-                    await userTrainer.currentBattleData.DecreaseHealth(-(int)heal);
+                    await userTrainer.currentBattleData.DecreaseHealth(-(int)heal, null);
                 }
             }
 

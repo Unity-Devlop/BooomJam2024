@@ -34,7 +34,7 @@ namespace Game
 
             return value;
         }
-        
+
         public static float CalElementFit(ElementEnum atk, ElementEnum def)
         {
             var fit = Global.Table.ElementTable.Get(atk).Fit;
@@ -80,7 +80,8 @@ namespace Game
             return (r, l);
         }
 
-        public static (HuluData, HuluData) WhoFirst(IBattleTrainer rT, IBattleTrainer lt, HuluData r, HuluData l,
+        public static async UniTask<(HuluData, HuluData)> WhoFirst(IBattleTrainer rT, IBattleTrainer lt, HuluData r,
+            HuluData l,
             ActiveSkillData rs, ActiveSkillData ls,
             BattleEnvData envData)
         {
@@ -89,9 +90,10 @@ namespace Game
 
             if (r.ContainsBuff(BattleBuffEnum.轮滑技巧) && l.ContainsBuff(BattleBuffEnum.轮滑技巧))
             {
-                Debug.Log($"{r} {l} 都有滑轮技巧");
-                r.RemoveBuff(BattleBuffEnum.轮滑技巧);
-                l.RemoveBuff(BattleBuffEnum.轮滑技巧);
+                Global.Event.Send(new BattleInfoRecordEvent($"{r} 轮滑技巧"));
+                await r.RemoveBuff(BattleBuffEnum.轮滑技巧);
+                Global.Event.Send(new BattleInfoRecordEvent($"{l} 轮滑技巧"));
+                await l.RemoveBuff(BattleBuffEnum.轮滑技巧);
 
                 if (UnityEngine.Random.value > 0.5f)
                 {
@@ -103,15 +105,15 @@ namespace Game
 
             if (r.ContainsBuff(BattleBuffEnum.轮滑技巧))
             {
-                r.RemoveBuff(BattleBuffEnum.轮滑技巧);
-                Debug.Log($"{r} 有滑轮技巧");
+                Global.Event.Send(new BattleInfoRecordEvent($"{r} 轮滑技巧"));
+                await r.RemoveBuff(BattleBuffEnum.轮滑技巧);
                 return (r, l);
             }
 
             if (l.ContainsBuff(BattleBuffEnum.轮滑技巧))
             {
-                l.RemoveBuff(BattleBuffEnum.轮滑技巧);
-                Debug.Log($"{l} 有滑轮技巧");
+                Global.Event.Send(new BattleInfoRecordEvent($"{l} 轮滑技巧"));
+                await l.RemoveBuff(BattleBuffEnum.轮滑技巧);
                 return (l, r);
             }
 
@@ -167,7 +169,7 @@ namespace Game
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static async UniTask<int> CalDamage(HuluData atk, HuluData def, ActiveSkillEnum skill,
-            BattleEnvData envData,GameData gameData)
+            BattleEnvData envData, GameData gameData)
         {
             ActiveSkillConfig config = Global.Table.ActiveSkillTable.Get(skill);
             Assert.IsTrue(config.DamagePoint != 0);
@@ -263,14 +265,14 @@ namespace Game
             return times;
         }
 
-        public static float CalDefDiscardCardRateWhenHitted(IBattleTrainer atkTrainer, IBattleTrainer defTrainer,
+        public static async UniTask<float> CalDefDiscardCardRateWhenHitted(IBattleTrainer atkTrainer, IBattleTrainer defTrainer,
             ActiveSkillConfig skill)
         {
             float discardRate = skill.DefDiscardCardRateWhenHitted;
             if (atkTrainer.currentBattleData.ContainsBuff(BattleBuffEnum.下一次技能让对方受伤时弃牌概率变成1))
             {
                 discardRate = 1;
-                atkTrainer.currentBattleData.RemoveBuff(BattleBuffEnum.下一次技能让对方受伤时弃牌概率变成1);
+                await atkTrainer.currentBattleData.RemoveBuff(BattleBuffEnum.下一次技能让对方受伤时弃牌概率变成1);
             }
 
             return discardRate;
@@ -304,7 +306,7 @@ namespace Game
                 var buffConfig = Global.Table.BattleBuffTable.Get(BattleBuffEnum.出牌时有40概率受到50点伤害);
                 if (Random.value < buffConfig.TriggerRate)
                 {
-                    await userTrainer.currentBattleData.DecreaseHealth(buffConfig.DamageForCurrentPokemon);
+                    await userTrainer.currentBattleData.DecreaseHealth(buffConfig.DamageForCurrentPokemon, null);
                 }
             }
         }
@@ -314,7 +316,7 @@ namespace Game
             if (trainer.ContainsBuff(BattleBuffEnum.没有手牌时当前宝可梦生命值归0) && trainer.handZone.Count <= 0)
             {
                 Global.Event.Send(new BattleInfoRecordEvent($"{trainer}没有手牌!当前宝可梦生命值归0"));
-                await trainer.currentBattleData.DecreaseHealth(trainer.currentBattleData.currentHp);
+                await trainer.currentBattleData.DecreaseHealth(trainer.currentBattleData.currentHp, null);
             }
         }
 
