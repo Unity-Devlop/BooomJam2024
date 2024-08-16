@@ -35,6 +35,7 @@ namespace Game
             descText.text = data.config.Desc;
             BG.sprite = await Global.Get<ResourceSystem>().LoadElementIdelBox(data.elementEnum);
             element.sprite = await Global.Get<ResourceSystem>().LoadElementIcon(data.elementEnum);
+            element.SetNativeSize();
             try
             {
                 skeletonGraphic.skeletonDataAsset = await Global.Get<ResourceSystem>().LoadPokemonSpine(data.id);

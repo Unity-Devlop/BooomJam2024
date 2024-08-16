@@ -15,7 +15,7 @@ namespace Game
         {
             // throw new System.NotImplementedException();
             // BattleData battleData = stateMachine.GetParam<BattleData>(nameof(BattleData));
-            UIRoot.Singleton.OpenPanel<LoadingPanel>();
+            await UIRoot.Singleton.OpenPanelAsync<LoadingPanel>();
             owner.ToGameBattleScene();
 
             BattleEnvData battleEnvData = stateMachine.GetParam<BattleEnvData>(Consts.GameBattleData);

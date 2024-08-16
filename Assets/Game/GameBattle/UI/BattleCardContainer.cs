@@ -24,7 +24,7 @@ namespace Game
         // private List<ActiveSkillData> _drawZoneCardList; // 抽牌区域
 
         //把卡牌拖到这个区域内 -> 出牌
-        [SerializeField] private RectTransform useCardArea;
+        [SerializeField] private CanvasGroup useCardArea;
         [SerializeField] private bool tweenCardReturn = true;
         public RectTransform rectTransform { get; private set; }
 
@@ -237,7 +237,7 @@ namespace Game
 
         private void BeginDrag(Card card)
         {
-            useCardArea.GetComponent<Image>().enabled = true;
+            useCardArea.alpha = 1;
             BeginDragEvent?.Invoke();
             selectedCard = card;
         }
@@ -245,7 +245,7 @@ namespace Game
 
         void EndDrag(Card card)
         {
-            useCardArea.GetComponent<Image>().enabled = false;
+            useCardArea.alpha = 0;
             EndDragEvent?.Invoke();
             if (selectedCard == null)
                 return;
@@ -258,7 +258,7 @@ namespace Game
 
             // 判断结束拖拽的位置是不是出牌区
             Vector3 screenPoint = UIRoot.Singleton.UICamera.WorldToScreenPoint(selectedCard.transform.position);
-            if (RectTransformUtility.RectangleContainsScreenPoint(useCardArea,
+            if (RectTransformUtility.RectangleContainsScreenPoint((RectTransform)useCardArea.transform, 
                     new Vector2(screenPoint.x, screenPoint.y), UIRoot.Singleton.UICamera)
                 && _calCts is { IsCancellationRequested: false })
             {

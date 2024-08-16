@@ -223,7 +223,7 @@ namespace UnityToolkit
             return uiPanel;
         }
 #endif
-        public void OpenPanelAsync<T>(Action<T> callback = null) where T : IUIPanel
+        public void OpenPanelAsync<T>(Action<T> callback) where T : IUIPanel
         {
             Type type = typeof(T);
             T cache = CheckPanelCache<T>();
