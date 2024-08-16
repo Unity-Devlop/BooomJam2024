@@ -4,6 +4,7 @@ using IngameDebugConsole;
 using TMPro;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.UI;
 using UnityToolkit;
 
 namespace Game.GameEntry
@@ -12,7 +13,16 @@ namespace Game.GameEntry
     {
         [SerializeField] private DebugLogManager manager;
 
+        public Image background;
         public TextMeshProUGUI text;
+
+        private void Awake()
+        {
+#if UNITY_WEBGL
+            background.material = null;
+#endif
+        }
+
         private async void Start()
         {
             Application.runInBackground = true;

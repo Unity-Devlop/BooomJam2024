@@ -274,21 +274,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1562766532014545910, guid: a6128334ecd2c064783315dfc7a14d30, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2933750779971022593, guid: a6128334ecd2c064783315dfc7a14d30, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3520603750414525640, guid: a6128334ecd2c064783315dfc7a14d30, type: 3}
       propertyPath: m_Name
       value: Global
-      objectReference: {fileID: 0}
-    - target: {fileID: 5183735276312725344, guid: a6128334ecd2c064783315dfc7a14d30, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -853,6 +841,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   manager: {fileID: 1569040776}
+  background: {fileID: 0}
   text: {fileID: 1081134830}
 --- !u!114 &1569040776 stripped
 MonoBehaviour:
@@ -956,7 +945,7 @@ PrefabInstance:
     - target: {fileID: 3919875406152935404, guid: 3cb26d5140e17d0499b50bba045b3aff, type: 3}
       propertyPath: m_Material
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: -876546973899608171, guid: 24e482b56772cd64f847dac42ccd3675, type: 3}
     - target: {fileID: 7395316275856742971, guid: 3cb26d5140e17d0499b50bba045b3aff, type: 3}
       propertyPath: m_Name
       value: OutsidePanelAutoMoveBG
