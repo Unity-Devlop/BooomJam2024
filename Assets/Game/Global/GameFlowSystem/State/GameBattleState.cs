@@ -15,6 +15,7 @@ namespace Game
         {
             // throw new System.NotImplementedException();
             // BattleData battleData = stateMachine.GetParam<BattleData>(nameof(BattleData));
+            UIRoot.Singleton.OpenPanel<LoadingPanel>();
             owner.ToGameBattleScene();
 
             BattleEnvData battleEnvData = stateMachine.GetParam<BattleEnvData>(Consts.GameBattleData);
@@ -25,6 +26,7 @@ namespace Game
             stateMachine.RemoveParam(Consts.EnemyTrainerData);
 
             await UniTask.WaitUntil(() => GameBattleMgr.SingletonNullable != null);
+            UIRoot.Singleton.ClosePanel<LoadingPanel>();
             GameBattleMgr.Singleton.StartBattle(trainerData, robotData, battleEnvData);
         }
 
