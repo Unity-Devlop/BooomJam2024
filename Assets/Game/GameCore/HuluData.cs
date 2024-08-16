@@ -159,7 +159,7 @@ namespace Game
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public async UniTask DecreaseHealth(int delta, HuluData attacker = null)
+        public async UniTask DecreaseHealth(int delta, HuluData attacker)
         {
             if (buffList.Contains(BattleBuffEnum.规避弱点) && delta > 0)
             {
@@ -197,7 +197,7 @@ namespace Game
             {
                 Global.Event.Send(new BattleInfoRecordEvent($"{this}狂风不灭"));
                 await RemoveBuff(BattleBuffEnum.狂风不灭);
-                await DecreaseHealth(-hp / 2);
+                await DecreaseHealth(-hp / 2,null);
             }
 
             if (id == HuluEnum.枯木妖 && passiveSkillConfig.Id == PassiveSkillEnum.枯木逢春)
@@ -219,7 +219,7 @@ namespace Game
         {
             if (buffList.Contains(BattleBuffEnum.阻止自身技能伤害))
                 return;
-            await DecreaseHealth(point);
+            await DecreaseHealth(point,null);
             await bind.Invoke();
         }
 
@@ -288,7 +288,7 @@ namespace Game
             if (healP0intBy回满血然后回合结束受到等量伤害 > 0)
             {
                 Global.LogInfo($"{this}回合结束受到等量伤害:{healP0intBy回满血然后回合结束受到等量伤害}");
-                await DecreaseHealth(healP0intBy回满血然后回合结束受到等量伤害);
+                await DecreaseHealth(healP0intBy回满血然后回合结束受到等量伤害,null);
             }
 
             healP0intBy回满血然后回合结束受到等量伤害 = 0;
@@ -305,7 +305,7 @@ namespace Game
             if (buff == BattleBuffEnum.回满血然后回合结束受到等量伤害)
             {
                 healP0intBy回满血然后回合结束受到等量伤害 += hp - currentHp;
-                await DecreaseHealth(-healP0intBy回满血然后回合结束受到等量伤害);
+                await DecreaseHealth(-healP0intBy回满血然后回合结束受到等量伤害,null);
             }
 
 

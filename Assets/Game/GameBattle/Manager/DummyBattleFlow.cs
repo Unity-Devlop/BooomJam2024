@@ -645,7 +645,7 @@ namespace Game.GamePlay
                                 damage));
 
                         await defPosition.OnTakeSkillFrom(operation.data, userTrainer, userPosition, damage);
-                        await defPosition.current.DecreaseHealth(damage);
+                        await defPosition.current.DecreaseHealth(damage, userPosition.current);
 
                         if (!defPosition.current.CanFight())
                         {
@@ -712,14 +712,14 @@ namespace Game.GamePlay
                     $"{userPosition}使用{operation.data.id}回血,百分比:{config.IncreaseHealthPercentAfterUse}");
                 await userPosition.current.DecreaseHealth(
                     -(int)(config.IncreaseHealthPercentAfterUse *
-                           userPosition.current.hp));
+                           userPosition.current.hp),null);
             }
 
             if (config.IncreaseHealthPointAfterUse != 0)
             {
                 Debug.Log(
                     $"{userPosition}使用{operation.data.id}回血,固定值:{config.IncreaseHealthPointAfterUse}");
-                await userPosition.current.DecreaseHealth(-config.IncreaseHealthPointAfterUse);
+                await userPosition.current.DecreaseHealth(-config.IncreaseHealthPointAfterUse,null);
             }
 
             if (config.DarwCardCountAfterUse > 0)
@@ -888,7 +888,7 @@ namespace Game.GamePlay
                 }
                 else
                 {
-                    await userTrainer.currentBattleData.DecreaseHealth(-(int)heal);
+                    await userTrainer.currentBattleData.DecreaseHealth(-(int)heal,null);
                 }
             }
 

@@ -304,7 +304,7 @@ namespace Game
                 var buffConfig = Global.Table.BattleBuffTable.Get(BattleBuffEnum.出牌时有40概率受到50点伤害);
                 if (Random.value < buffConfig.TriggerRate)
                 {
-                    await userTrainer.currentBattleData.DecreaseHealth(buffConfig.DamageForCurrentPokemon);
+                    await userTrainer.currentBattleData.DecreaseHealth(buffConfig.DamageForCurrentPokemon,null);
                 }
             }
         }
@@ -314,7 +314,7 @@ namespace Game
             if (trainer.ContainsBuff(BattleBuffEnum.没有手牌时当前宝可梦生命值归0) && trainer.handZone.Count <= 0)
             {
                 Global.Event.Send(new BattleInfoRecordEvent($"{trainer}没有手牌!当前宝可梦生命值归0"));
-                await trainer.currentBattleData.DecreaseHealth(trainer.currentBattleData.currentHp);
+                await trainer.currentBattleData.DecreaseHealth(trainer.currentBattleData.currentHp,null);
             }
         }
 
