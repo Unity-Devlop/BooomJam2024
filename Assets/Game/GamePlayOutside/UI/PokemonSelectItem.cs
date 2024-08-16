@@ -29,7 +29,7 @@ namespace Game
         private UniTask OnData(HuluData data)
         {
             nameText.text = data.name;
-            LoadSprite(data);
+            //LoadSprite(data);
             // icon.sprite = arg.icon;
             return UniTask.CompletedTask;
         }

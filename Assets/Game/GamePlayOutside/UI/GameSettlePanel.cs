@@ -25,6 +25,7 @@ namespace Game
 
         private SettleEnum settle;
         private BattleSettlementData settlementData;
+        private List<HuluData> hulus = new List<HuluData>();
         private int count = 0;
         private bool isNextSeason = false;
 
@@ -61,6 +62,8 @@ namespace Game
         public void GameSettle()
         {
             settle = settlementData.LocalPlayerWin() ? SettleEnum.Win : SettleEnum.Lose;
+            for (int i = 0; i < settlementData.localPlayerTrainerData.datas.Count; ++i) hulus.Add(Global.Get<DataSystem>().Get<GameData>().playerData.trainerData.datas
+                    .Find(x => x.guid == settlementData.localPlayerTrainerData.datas[i].guid)) ;
             if (settle == SettleEnum.Win)
             {
                 m_rectWin.gameObject.SetActive(true);
@@ -107,32 +110,32 @@ namespace Game
                     break;
                 case 2:
                     mcp = await UIRoot.Singleton.OpenPanelAsync<ManageCardsPanel>();
-                    mcp.SelectHuluSkillCard(settlementData.localPlayerTrainerData.datas[0]);
+                    mcp.SelectHuluSkillCard(hulus[0]);
                     ++count;
                     break;
                 case 3:
                     mcp = await UIRoot.Singleton.OpenPanelAsync<ManageCardsPanel>();
-                    mcp.SelectHuluSkillCard(settlementData.localPlayerTrainerData.datas[1]);
+                    mcp.SelectHuluSkillCard(hulus[1]);
                     ++count;
                     break;
                 case 4:
                     mcp = await UIRoot.Singleton.OpenPanelAsync<ManageCardsPanel>();
-                    mcp.SelectHuluSkillCard(settlementData.localPlayerTrainerData.datas[2]);
+                    mcp.SelectHuluSkillCard(hulus[2]);
                     ++count;
                     break;
                 case 5:
                     mcp = await UIRoot.Singleton.OpenPanelAsync<ManageCardsPanel>();
-                    mcp.DeleteHuluSkillCard(settlementData.localPlayerTrainerData.datas[0]);
+                    mcp.DeleteHuluSkillCard(hulus[0]);
                     ++count;
                     break;
                 case 6:
                     mcp = await UIRoot.Singleton.OpenPanelAsync<ManageCardsPanel>();
-                    mcp.DeleteHuluSkillCard(settlementData.localPlayerTrainerData.datas[1]);
+                    mcp.DeleteHuluSkillCard(hulus[1]);
                     ++count;
                     break;
                 case 7:
                     mcp = await UIRoot.Singleton.OpenPanelAsync<ManageCardsPanel>();
-                    mcp.DeleteHuluSkillCard(settlementData.localPlayerTrainerData.datas[2]);
+                    mcp.DeleteHuluSkillCard(hulus[2]);
                     ++count;
                     break;
                 default:
@@ -144,6 +147,7 @@ namespace Game
 
         private void Refresh()
         {
+            hulus.Clear();
             m_rectWin.gameObject.SetActive(false);
             m_rectLose.gameObject.SetActive(false);
             count = 0;
