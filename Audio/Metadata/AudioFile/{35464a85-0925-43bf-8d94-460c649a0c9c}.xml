@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{35464a85-0925-43bf-8d94-460c649a0c9c}">
+		<property name="assetPath">
+			<value>CR_Menu_BGM_Looped.wav</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>48</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>41.513520833333331</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{fe42aa34-f306-441f-9693-d431c3dfcac3}</destination>
+		</relationship>
+	</object>
+</objects>

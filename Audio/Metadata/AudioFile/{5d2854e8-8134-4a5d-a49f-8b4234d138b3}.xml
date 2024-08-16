@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{5d2854e8-8134-4a5d-a49f-8b4234d138b3}">
+		<property name="assetPath">
+			<value>BossRoom_BGM_Looped.wav</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>48</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>35.555562500000001</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{fe42aa34-f306-441f-9693-d431c3dfcac3}</destination>
+		</relationship>
+	</object>
+</objects>
