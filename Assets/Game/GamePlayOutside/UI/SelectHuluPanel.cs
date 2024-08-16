@@ -116,6 +116,7 @@ namespace Game
             {
                 playerHulus[t].RecoverAllAbility();
                 var copy = DeepCopyUtil.DeepCopyByJson(playerHulus[t]);
+                copy.guid =playerHulus[t].guid;
                 tempPlayer.datas.Add(copy);
             }
 
@@ -124,6 +125,7 @@ namespace Game
             {
                 enemy.datas[t].RecoverAllAbility();
                 HuluData copy = DeepCopyUtil.DeepCopyByJson(enemy.datas[t]);
+                copy.guid = enemy.datas[t].guid;
                 tempEnemy.datas.Add(copy);
             }
 

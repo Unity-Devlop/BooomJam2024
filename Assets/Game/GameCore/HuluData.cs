@@ -22,7 +22,7 @@ namespace Game
         [HorizontalGroup("1")] public HuluEnum id;
         public int cost = 0;
 
-        public Guid guid { get;private set;}
+        public Guid guid;
 
 
         [JsonIgnore] public BindData<HuluData, UniTask> bind { get; private set; }
@@ -40,8 +40,6 @@ namespace Game
         [NonSerialized] public int enterTimes = 0; // 第几次进入战场
         [ShowInInspector] private List<BattleBuffEnum> buffList; // 守护
         private int healP0intBy回满血然后回合结束受到等量伤害 = 0;
-
-
 
 
         public ElementEnum elementEnum;
@@ -91,12 +89,12 @@ namespace Game
         public event Func<BattleBuffEnum, UniTask> OnAttainBuffEvent = delegate { return UniTask.CompletedTask; };
         public event Func<BattleBuffEnum, UniTask> OnLoseBuffEvent = delegate { return UniTask.CompletedTask; };
 
-        public event Func<int,UniTask> OnIncreaseAtkEvent = delegate { return UniTask.CompletedTask; };
-        public event Func<int,UniTask> OnIncreaseSpeedEvent = delegate { return UniTask.CompletedTask; };
-        
-        public event Func<int,UniTask> OnIncreaseDefEvent = delegate { return UniTask.CompletedTask; };
-        
-        
+        public event Func<int, UniTask> OnIncreaseAtkEvent = delegate { return UniTask.CompletedTask; };
+        public event Func<int, UniTask> OnIncreaseSpeedEvent = delegate { return UniTask.CompletedTask; };
+
+        public event Func<int, UniTask> OnIncreaseDefEvent = delegate { return UniTask.CompletedTask; };
+
+
         public HuluData()
         {
             guid = Guid.NewGuid();
@@ -156,9 +154,10 @@ namespace Game
                     break;
                 }
             }
+
             ownedSkills.Sort((a, b) => a.id.CompareTo(b.id));
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public async UniTask DecreaseHealth(int delta, HuluData attacker = null)
         {
@@ -223,7 +222,7 @@ namespace Game
             await DecreaseHealth(point);
             await bind.Invoke();
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public async UniTask IncreaseCurrentSpeed(int delta)
         {
@@ -234,15 +233,16 @@ namespace Game
             await bind.Invoke();
         }
 
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public async UniTask IncreaseAtk(int delta,bool ignoreMax = false)
+        public async UniTask IncreaseAtk(int delta, bool ignoreMax = false)
         {
             int max = int.MaxValue;
             if (!ignoreMax)
             {
                 max = atk;
             }
+
             int nextAtk = Mathf.Clamp(currentAtk + delta, 0, max);
             currentAtk = nextAtk;
             await OnIncreaseAtkEvent(delta);
@@ -272,7 +272,6 @@ namespace Game
         }
 
 
-
         public override string ToString()
         {
             if (string.IsNullOrWhiteSpace(config.Name))
@@ -296,7 +295,6 @@ namespace Game
             GameMath.ProcessBuffWhenRoundEnd(this.buffList);
             await bind.Invoke();
         }
-
 
 
         public async UniTask AddBuff(BattleBuffEnum buff)
@@ -372,6 +370,7 @@ namespace Game
         {
             return currentHp > 0;
         }
+
         internal void ClearBattleDirtyData()
         {
             skillTimes = 0;
@@ -379,7 +378,7 @@ namespace Game
             buffList.Clear();
             healP0intBy回满血然后回合结束受到等量伤害 = 0;
         }
-        
+
         [HorizontalGroup("1"), Button]
         public void Roll9Skills()
         {
@@ -397,6 +396,7 @@ namespace Game
                     id = config.SkillPool[UnityEngine.Random.Range(0, config.SkillPool.Length)]
                 });
             }
+
             ownedSkills.Sort((a, b) => a.id.CompareTo(b.id));
         }
 
