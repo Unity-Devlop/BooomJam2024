@@ -195,6 +195,14 @@ PrefabInstance:
       propertyPath: skeletonDataAsset
       value: 
       objectReference: {fileID: 11400000, guid: 3c546ec980482324881721ea7da8bf17, type: 2}
+    - target: {fileID: 7901926924735588703, guid: 2bef472760ac4ea4381e70c622ce028b, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7901926924735588703, guid: 2bef472760ac4ea4381e70c622ce028b, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -410,6 +418,14 @@ PrefabInstance:
     - target: {fileID: 3709667436990923525, guid: 2bef472760ac4ea4381e70c622ce028b, type: 3}
       propertyPath: m_Mesh
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7901926924735588703, guid: 2bef472760ac4ea4381e70c622ce028b, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7901926924735588703, guid: 2bef472760ac4ea4381e70c622ce028b, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -651,15 +667,15 @@ MonoBehaviour:
     <trainerData>k__BackingField:
       name: 
       trainerSkills:
-      - id: 49
-      - id: 49
-      - id: 49
-      - id: 49
-      - id: 49
-      - id: 49
-      - id: 49
-      - id: 49
-      - id: 49
+      - id: 45
+      - id: 45
+      - id: 45
+      - id: 45
+      - id: 45
+      - id: 45
+      - id: 45
+      - id: 45
+      - id: 45
       datas:
       - id: 1
         cost: 0
@@ -675,15 +691,15 @@ MonoBehaviour:
         adap: 0
         currentAdap: 0
         ownedSkills:
-        - id: 8
-        - id: 8
-        - id: 8
-        - id: 8
-        - id: 8
-        - id: 8
-        - id: 8
-        - id: 8
-        - id: 8
+        - id: 16
+        - id: 16
+        - id: 16
+        - id: 16
+        - id: 16
+        - id: 16
+        - id: 16
+        - id: 16
+        - id: 16
       - id: 2
         cost: 0
         elementEnum: 3
@@ -698,15 +714,15 @@ MonoBehaviour:
         adap: 9
         currentAdap: 9
         ownedSkills:
-        - id: 12
-        - id: 22
         - id: 16
-        - id: 22
-        - id: 12
         - id: 16
-        - id: 22
         - id: 16
-        - id: 26
+        - id: 16
+        - id: 16
+        - id: 16
+        - id: 16
+        - id: 16
+        - id: 16
       - id: 0
         cost: 0
         elementEnum: 1
@@ -721,15 +737,38 @@ MonoBehaviour:
         adap: 24
         currentAdap: 24
         ownedSkills:
-        - id: 1
-        - id: 20
-        - id: 26
-        - id: 26
-        - id: 2
-        - id: 26
-        - id: 26
-        - id: 26
-        - id: 3
+        - id: 16
+        - id: 16
+        - id: 16
+        - id: 16
+        - id: 16
+        - id: 16
+        - id: 16
+        - id: 16
+        - id: 16
+      - id: 0
+        cost: 0
+        elementEnum: 1
+        hp: 371
+        currentHp: 371
+        atk: 70
+        currentAtk: 70
+        def: 72
+        currentDef: 72
+        speed: 155
+        currentSpeed: 155
+        adap: 24
+        currentAdap: 24
+        ownedSkills:
+        - id: 16
+        - id: 16
+        - id: 16
+        - id: 16
+        - id: 16
+        - id: 16
+        - id: 16
+        - id: 16
+        - id: 16
     buffList: 
     deck: 
   robotBattleTrainer:
