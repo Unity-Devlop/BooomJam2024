@@ -11,8 +11,9 @@ namespace Game
     public class PokemonUIShow : MonoBehaviour
     {
         public Image BG;
-
+        public Image element;
         public TextMeshProUGUI nameText;
+        public TextMeshProUGUI descText;
 
         // public TextMeshProUGUI descriptionText;
         public TextMeshProUGUI passiveSkillDescriptionText;
@@ -31,7 +32,9 @@ namespace Game
             nameText.text = data.name;
             // descriptionText.text = data.config.Desc;
             passiveSkillDescriptionText.text = data.passiveSkillConfig.Desc;
-
+            descText.text = data.config.Desc;
+            BG.sprite = await Global.Get<ResourceSystem>().LoadElementIdelBox(data.elementEnum);
+            element.sprite = await Global.Get<ResourceSystem>().LoadElementIcon(data.elementEnum);
             try
             {
                 skeletonGraphic.skeletonDataAsset = await Global.Get<ResourceSystem>().LoadPokemonSpine(data.id);

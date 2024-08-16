@@ -105,6 +105,7 @@ namespace Game
 
         public HuluData(HuluEnum id)
         {
+            guid = Guid.NewGuid();
             bind = new BindData<HuluData, UniTask>(this);
             ownedSkills = new List<ActiveSkillData>();
             buffList = new List<BattleBuffEnum>();
