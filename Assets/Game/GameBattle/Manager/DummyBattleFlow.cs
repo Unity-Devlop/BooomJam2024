@@ -28,7 +28,7 @@ namespace Game.GamePlay
         private CancellationTokenSource _cts;
         [ReadOnly, ShowInInspector] public BattleEnvData envEnvData { get; private set; }
 
-        [field: SerializeField] public BattleSettlementData settlementData { get; private set; }
+        public BattleSettlementData settlementData { get; private set; }
 
         public void Init(IBattleTrainer self, IBattleTrainer enemy, BattleEnvData envData)
         {
@@ -438,7 +438,7 @@ namespace Game.GamePlay
 
         private async UniTask BothPokemonSkill(ActiveSkillBattleOperation selfAtk, ActiveSkillBattleOperation enemyAtk)
         {
-            var (faster, slower) = GameMath.WhoFirst(self, enemy, selfPos.current, enemyPos.current,
+            var (faster, slower) = await GameMath.WhoFirst(self, enemy, selfPos.current, enemyPos.current,
                 selfAtk.data,
                 enemyAtk.data, envEnvData);
 

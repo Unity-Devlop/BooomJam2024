@@ -18,7 +18,7 @@ namespace Game
             var atk = atkTrainer.currentBattleData;
 
             float defDiscardCardRateWhenHitted =
-                GameMath.CalDefDiscardCardRateWhenHitted(atkTrainer, defTrainer, skill);
+                await GameMath.CalDefDiscardCardRateWhenHitted(atkTrainer, defTrainer, skill);
             if (Random.value < defDiscardCardRateWhenHitted)
             {
                 Global.Event.Send(new BattleInfoRecordEvent($"弃牌生效 {defTrainer}弃{skill.DefDiscardCountWhenHitted} 张"));
