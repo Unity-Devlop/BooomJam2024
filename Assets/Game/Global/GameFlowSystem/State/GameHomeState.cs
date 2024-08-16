@@ -1,4 +1,5 @@
-﻿using UnityToolkit;
+﻿using Cysharp.Threading.Tasks;
+using UnityToolkit;
 
 namespace Game
 {
@@ -10,10 +11,12 @@ namespace Game
             // throw new System.NotImplementedException();
         }
 
-        public void OnEnter(GameFlow owner, IStateMachine<GameFlow> stateMachine)
+        public async void OnEnter(GameFlow owner, IStateMachine<GameFlow> stateMachine)
         {
             // throw new System.NotImplementedException();
-            owner.ToGameHomeScene();
+            await UIRoot.Singleton.OpenPanelAsync<LoadingPanel>();
+            await owner.ToGameHomeScene();
+            UIRoot.Singleton.ClosePanel<LoadingPanel>();
         }
 
         public void OnUpdate(GameFlow owner, IStateMachine<GameFlow> stateMachine)
