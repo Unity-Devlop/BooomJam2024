@@ -106,7 +106,7 @@ namespace Game
             {
                 _selectItems[i].UnBind();
                 _selectItems[i].Bind(_generatedPokemons[i], i);
-                LoadElementSprite(_selectOwnedItems[i].bg, _generatedPokemons[i], 1);
+                LoadElementSprite(_selectItems[i].bg, _generatedPokemons[i], 1);
             }
             var owendHulus = Global.Get<DataSystem>().Get<GameData>().playerData.trainerData.datas;
             for (int i = 0; i < _selectOwnedItems.Length; i++)
