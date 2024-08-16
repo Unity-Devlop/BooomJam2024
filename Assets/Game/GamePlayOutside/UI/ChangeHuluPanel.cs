@@ -14,6 +14,7 @@ namespace Game
         public TextMeshProUGUI fireBtnText;
         public Button nextBtn;
         public Sprite _lock;
+        public Sprite _default;
         public RectTransform m_rectOwnedShow;
         public RectTransform m_rectOwnedHud;
         public RectTransform m_rectRule;
@@ -105,6 +106,7 @@ namespace Game
             {
                 _selectItems[i].UnBind();
                 _selectItems[i].Bind(_generatedPokemons[i], i);
+                LoadElementSprite(_selectOwnedItems[i].bg, _generatedPokemons[i], 1);
             }
             var owendHulus = Global.Get<DataSystem>().Get<GameData>().playerData.trainerData.datas;
             for (int i = 0; i < _selectOwnedItems.Length; i++)
@@ -114,6 +116,7 @@ namespace Game
                     _selectOwnedItems[i].OnClickEvent += OnSelectOwnedItemClick;
                     _selectOwnedItems[i].UnBind();
                     _selectOwnedItems[i].Bind(owendHulus[i], i);
+                    LoadElementSprite(_selectOwnedItems[i].bg, owendHulus[i],0);
                 }
                 else
                 {
@@ -124,12 +127,18 @@ namespace Game
                     }
                     else
                     {
-                        _selectOwnedItems[i].bg.sprite = default(Sprite);
+                        _selectOwnedItems[i].bg.sprite = _default;
                     }
                 }
             }
             //charmNum.text = Global.Get<DataSystem>().Get<GameData>().admireNum.ToString();
             ShowUI(0);
+        }
+
+        private async void LoadElementSprite(Image image,HuluData data,int kind)
+        {
+            if(kind==0) image.sprite = await Global.Get<ResourceSystem>().LoadElementPortraitBox(data.elementEnum);
+            else image.sprite = await Global.Get<ResourceSystem>().LoadElementTag(data.elementEnum);
         }
 
         private void Register()
