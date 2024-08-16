@@ -20,6 +20,10 @@ namespace Game
         public const int BattleLoserBaseAdmirePoint = 100;
         public const int DefaultDrawCardCnt = 4;
         public const int EvertRoundDrawCardCnt = 1;
+        
+        
+        // 战斗前选人阶段倒计时
+        public const float BattleChooseCountDown = 10f;
 
 
         public static class Animation
@@ -27,5 +31,7 @@ namespace Game
             public const string BattlePokemonAttackAnim = "Attack";
             public const string BattlePokemonIdleAnim = "Idle";
         }
+
+        
     }
 }

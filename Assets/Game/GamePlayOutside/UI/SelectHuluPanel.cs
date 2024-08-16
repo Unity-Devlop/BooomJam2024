@@ -97,7 +97,7 @@ namespace Game
             playerHuluOrder[index].text = $"{playerChosenHulu.Count}";
             playerHuluOrder[index].gameObject.SetActive(true);
             EnemyChoose();
-            if (playerChosenHulu.Count == limit && m_time > 10f) m_time = 10f;
+            if (playerChosenHulu.Count == limit && m_time > Consts.BattleChooseCountDown) m_time = Consts.BattleChooseCountDown;
         }
 
         private void EnterGame()
