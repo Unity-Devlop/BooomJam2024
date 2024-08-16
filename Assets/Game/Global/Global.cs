@@ -7,6 +7,7 @@ using SimpleJSON;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Pool;
+using UnityEngine.Profiling;
 using UnityToolkit;
 using Object = UnityEngine.Object;
 
@@ -100,6 +101,7 @@ namespace Game
             _systemLocator.Register<AudioSystem>(GetComponent<AudioSystem>());
             _systemLocator.Register<DataSystem>(GetComponent<DataSystem>());
             _systemLocator.Register<ResourceSystem>(GetComponent<ResourceSystem>());
+            _systemLocator.Register<DebugSystem>(new DebugSystem());
             // 初始化UI资源加载器
             UIRoot.Singleton.UIDatabase.Loader = new AddressablesUILoader();
 
@@ -116,6 +118,19 @@ namespace Game
             // 质量变成Ultra
             QualitySettings.SetQualityLevel(5);
             initialized = true;
+        }
+
+        private void Update()
+        {
+            Profiler.BeginSample("Global.Update");
+            foreach (var system in _systemLocator.systems)
+            {
+                if (system is IOnUpdate update)
+                {
+                    update.OnUpdate();
+                }
+            }
+            Profiler.EndSample();
         }
 
         protected override void OnDispose()

@@ -64,9 +64,15 @@ namespace Game
             {
                 _selectItems[i].UnBind();
                 _selectItems[i].Bind(_firstGeneratedPokemons[i], i);
+                LoadElementSprite(_selectItems[i].bg, _firstGeneratedPokemons[i]);
             }
             //charmNum.text = Global.Get<DataSystem>().Get<GameData>().admireNum.ToString();
             ShowUI(0);
+        }
+
+        private async void LoadElementSprite(Image image, HuluData data)
+        {
+            image.sprite = await Global.Get<ResourceSystem>().LoadElementTag(data.elementEnum);
         }
 
         private void Register()

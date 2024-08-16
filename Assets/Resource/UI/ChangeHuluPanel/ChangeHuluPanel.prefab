@@ -989,7 +989,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BG: {fileID: 2005548611055201070}
+  element: {fileID: 0}
   nameText: {fileID: 6272215688553933235}
+  descText: {fileID: 0}
   passiveSkillDescriptionText: {fileID: 6300642410490894416}
   skeletonGraphic: {fileID: 7510471328268443446}
 --- !u!1 &1622985263510448141

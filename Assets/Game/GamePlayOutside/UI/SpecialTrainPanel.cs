@@ -287,6 +287,7 @@ namespace Game
                 rolePortraitUIItems[i] = go.GetComponent<RolePortraitUIItem>();
                 rolePortraitUIItems[i].roleName.text = list[i].id.ToString();
                 rolePortraitUIItems[i].index = i;
+                LoadElementSprite(rolePortraitUIItems[i].roleImage, list[i]);
             }
             for (int i = 0; i < valueUIItems.Length; ++i)
             {
@@ -294,6 +295,11 @@ namespace Game
             }
             haveTrained = false;
             curHulu = 0;
+        }
+
+        private async void LoadElementSprite(Image image, HuluData data)
+        {
+            image.sprite = await Global.Get<ResourceSystem>().LoadElementTag(data.elementEnum);
         }
 
         IEnumerator ValueUp(ValueUp v)
