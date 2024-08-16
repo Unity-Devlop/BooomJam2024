@@ -20,6 +20,7 @@ public sealed partial class ActiveSkillConfig : Luban.BeanBase
         { if(!_buf["id"].IsNumber) { throw new SerializationException(); }  Id = (ActiveSkillEnum)_buf["id"].AsInt; }
         { if(!_buf["eng_name"].IsString) { throw new SerializationException(); }  EngName = _buf["eng_name"]; }
         { if(!_buf["element"].IsNumber) { throw new SerializationException(); }  Element = (ElementEnum)_buf["element"].AsInt; }
+        { if(!_buf["sfx_event_name"].IsString) { throw new SerializationException(); }  SfxEventName = _buf["sfx_event_name"]; }
         { if(!_buf["desc"].IsString) { throw new SerializationException(); }  Desc = _buf["desc"]; }
         { if(!_buf["special_icon_path"].IsString) { throw new SerializationException(); }  SpecialIconPath = _buf["special_icon_path"]; }
         { if(!_buf["card_image_path"].IsString) { throw new SerializationException(); }  CardImagePath = _buf["card_image_path"]; }
@@ -76,6 +77,10 @@ public sealed partial class ActiveSkillConfig : Luban.BeanBase
     /// 属性
     /// </summary>
     public readonly ElementEnum Element;
+    /// <summary>
+    /// FMOD音效事件名称
+    /// </summary>
+    public readonly string SfxEventName;
     /// <summary>
     /// 描述
     /// </summary>
@@ -265,6 +270,7 @@ public sealed partial class ActiveSkillConfig : Luban.BeanBase
         
         
         
+        
         DarwTargetCardConfigAfterUse?.ResolveRef(tables);
         
         
@@ -293,6 +299,7 @@ public sealed partial class ActiveSkillConfig : Luban.BeanBase
         + "id:" + Id + ","
         + "engName:" + EngName + ","
         + "element:" + Element + ","
+        + "sfxEventName:" + SfxEventName + ","
         + "desc:" + Desc + ","
         + "specialIconPath:" + SpecialIconPath + ","
         + "cardImagePath:" + CardImagePath + ","

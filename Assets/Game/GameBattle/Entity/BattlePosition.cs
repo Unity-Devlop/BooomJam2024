@@ -141,31 +141,37 @@ namespace Game.GamePlay
 
         public async UniTask ExecuteSkill(ActiveSkillBattleOperation operation)
         {
-            if (operation.data.config.Type == ActiveSkillTypeEnum.指挥)
+            var config = operation.data.config;
+            if (config.Type == ActiveSkillTypeEnum.指挥)
             {
                 Debug.LogWarning($"{this}-{current}使用指挥技能:{operation.data} 未实现动画");
                 await Global.Event.SendWithResult<OnExecuteSkill, UniTask>(
                     new OnExecuteSkill(battleTrainer, operation.data));
-                return;
             }
 
-            if ((operation.data.config.Type & ActiveSkillTypeEnum.变化技能) != 0)
+            if ((config.Type & ActiveSkillTypeEnum.变化技能) != 0)
             {
                 Debug.LogWarning($"{this}-{current}使用变化技能:{operation.data} 未实现动画");
                 await UniTask.WhenAll(
                     Global.Event.SendWithResult<OnExecuteSkill, UniTask>(
                         new OnExecuteSkill(battleTrainer, operation.data)),
                     visual.ExecuteSkill(operation.data));
-                return;
             }
 
-            // 播放Audio
-            
-            Global.LogInfo($"{this}-{current}使用主动技能:{operation.data}");
-            await UniTask.WhenAll(
-                Global.Event.SendWithResult<OnExecuteSkill, UniTask>(
-                    new OnExecuteSkill(battleTrainer, operation.data)),
-                visual.ExecuteSkill(operation.data));
+            if ((config.Type & ActiveSkillTypeEnum.伤害技能) != 0)
+            {
+                Global.LogInfo($"{this}-{current}使用伤害技能:{operation.data}");
+                await UniTask.WhenAll(
+                    Global.Event.SendWithResult<OnExecuteSkill, UniTask>(
+                        new OnExecuteSkill(battleTrainer, operation.data)),
+                    visual.ExecuteSkill(operation.data));
+            }
+
+            // SFX
+            if (!string.IsNullOrEmpty(config.SfxEventName) && !string.IsNullOrWhiteSpace(config.SfxEventName))
+            {
+                Global.Get<AudioSystem>().PlayOneShot(config.SfxEventName, visual.transform.position);
+            }
         }
 
         public async UniTask RoundEnd()
