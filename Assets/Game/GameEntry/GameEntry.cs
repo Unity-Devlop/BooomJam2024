@@ -22,8 +22,6 @@ namespace Game.GameEntry
             // 任务没有完成时，显示加载界面
             while (!task.Status.IsCompleted())
             {
-                await UniTask.Delay(500);
-                if(task.Status.IsCompleted()) break;
                 text.text = $"Loading";
                 await UniTask.Delay(500);
                 if(task.Status.IsCompleted()) break;
@@ -34,6 +32,9 @@ namespace Game.GameEntry
                 await UniTask.Delay(500);
                 if(task.Status.IsCompleted()) break;
                 text.text = $"Loading...";
+                await UniTask.Delay(500);
+                if(task.Status.IsCompleted()) break;
+                text.text = $"Loading";
                 await UniTask.Delay(500);
                 if(task.Status.IsCompleted()) break;
             }
