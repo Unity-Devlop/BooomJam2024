@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using cfg;
 using Cysharp.Threading.Tasks;
 using Spine.Unity;
@@ -12,8 +11,8 @@ namespace Game
 {
     public class ResourceSystem : MonoBehaviour, ISystem, IOnInit
     {
-        private Dictionary<HuluEnum, SkeletonDataAsset>
-            pokemonSpineCache = new Dictionary<HuluEnum, SkeletonDataAsset>();
+        private readonly Dictionary<HuluEnum, SkeletonDataAsset>
+            _pokemonSpineCache = new Dictionary<HuluEnum, SkeletonDataAsset>();
 
 
         public void OnInit()
@@ -27,7 +26,7 @@ namespace Game
 
         public async UniTask<SkeletonDataAsset> LoadPokemonSpine(HuluEnum @enum)
         {
-            if (pokemonSpineCache.TryGetValue(@enum, out var spine))
+            if (_pokemonSpineCache.TryGetValue(@enum, out var spine))
             {
                 return spine;
             }
@@ -37,18 +36,18 @@ namespace Game
             {
                 spine = await Addressables.LoadAssetAsync<SkeletonDataAsset>(address);
             }
-            catch (InvalidKeyException e)
+            catch (InvalidKeyException)
             {
                 Global.LogWarning($"找不到{@enum}的Spine资源:{address}");
             }
             catch (Exception e)
             {
-                Global.LogError($"加载{@enum}的Spine资源失败:{address}");
+                Global.LogError($"加载{@enum}的Spine资源失败:{address},error:{e}");
             }
 
             if (spine != null)
             {
-                pokemonSpineCache.TryAdd(@enum, spine);
+                _pokemonSpineCache.TryAdd(@enum, spine);
             }
 
             return spine;
@@ -56,11 +55,11 @@ namespace Game
 
 
         // 特殊技能的图标
-        private Dictionary<ActiveSkillEnum, Sprite> specialSkillIconCache = new Dictionary<ActiveSkillEnum, Sprite>();
+        private readonly Dictionary<ActiveSkillEnum, Sprite> _specialSkillIconCache = new Dictionary<ActiveSkillEnum, Sprite>();
 
         public async UniTask<Sprite> LoadSpecialSkillIcon(ActiveSkillEnum id)
         {
-            if (specialSkillIconCache.TryGetValue(id, out var sprite))
+            if (_specialSkillIconCache.TryGetValue(id, out var sprite))
             {
                 return sprite;
             }
@@ -77,29 +76,29 @@ namespace Game
             {
                 sprite = await Addressables.LoadAssetAsync<Sprite>(address);
             }
-            catch (InvalidKeyException e)
+            catch (InvalidKeyException)
             {
                 Global.LogWarning($"找不到{id}的SpecialSkillIcon资源:{address}");
             }
             catch (Exception e)
             {
-                Global.LogError($"加载{id}的SpecialSkillIcon资源失败:{address}");
+                Global.LogError($"加载{id}的SpecialSkillIcon资源失败:{address},error:{e}");
             }
 
             if (sprite != null)
             {
-                specialSkillIconCache.TryAdd(id, sprite);
+                _specialSkillIconCache.TryAdd(id, sprite);
             }
 
             return sprite;
         }
 
         // 描述文本背景
-        private Dictionary<ElementEnum, Sprite> skillCardDescBgCache = new Dictionary<ElementEnum, Sprite>();
+        private readonly Dictionary<ElementEnum, Sprite> _skillCardDescBgCache = new Dictionary<ElementEnum, Sprite>();
 
         public async UniTask<Sprite> LoadSkillCardDescBg(ElementEnum configElement)
         {
-            if (skillCardDescBgCache.TryGetValue(configElement, out var sprite))
+            if (_skillCardDescBgCache.TryGetValue(configElement, out var sprite))
             {
                 return sprite;
             }
@@ -110,30 +109,30 @@ namespace Game
             {
                 sprite = await Addressables.LoadAssetAsync<Sprite>(address);
             }
-            catch (InvalidKeyException e)
+            catch (InvalidKeyException)
             {
                 Global.LogWarning($"找不到{configElement}的SkillCardDescBg资源:{address}");
             }
             catch (Exception e)
             {
-                Global.LogError($"加载{configElement}的SkillCardDescBg资源失败:{address}");
+                Global.LogError($"加载{configElement}的SkillCardDescBg资源失败:{address},error:{e}");
             }
 
             if (sprite != null)
             {
-                skillCardDescBgCache.TryAdd(configElement, sprite);
+                _skillCardDescBgCache.TryAdd(configElement, sprite);
             }
 
             return sprite;
         }
 
         // 小属性背景
-        private readonly Dictionary<ElementEnum, Sprite> skillElementBgCache = new Dictionary<ElementEnum, Sprite>();
+        private readonly Dictionary<ElementEnum, Sprite> _skillElementBgCache = new Dictionary<ElementEnum, Sprite>();
 
         public async UniTask<Sprite> LoadSkillCardElementBg(ElementEnum configElement)
         {
             // UI/Atlas/SkillCard/skillcard_electric_background.png,
-            if (skillElementBgCache.TryGetValue(configElement, out var sprite))
+            if (_skillElementBgCache.TryGetValue(configElement, out var sprite))
             {
                 return sprite;
             }
@@ -145,29 +144,29 @@ namespace Game
             {
                 sprite = await Addressables.LoadAssetAsync<Sprite>(address);
             }
-            catch (InvalidKeyException e)
+            catch (InvalidKeyException)
             {
                 Global.LogWarning($"找不到{configElement}的ElementBg资源:{address}");
             }
             catch (Exception e)
             {
-                Global.LogError($"加载{configElement}的ElementBg资源失败:{address}");
+                Global.LogError($"加载{configElement}的ElementBg资源失败:{address},error:{e}");
             }
 
             if (sprite != null)
             {
-                skillElementBgCache.TryAdd(configElement, sprite);
+                _skillElementBgCache.TryAdd(configElement, sprite);
             }
 
             return sprite;
         }
 
 
-        private readonly Dictionary<ElementEnum, Sprite> skillBgCache = new Dictionary<ElementEnum, Sprite>();
+        private readonly Dictionary<ElementEnum, Sprite> _skillBgCache = new Dictionary<ElementEnum, Sprite>();
 
         public async UniTask<Sprite> LoadCardElementBg(ElementEnum elementEnum)
         {
-            if (skillBgCache.TryGetValue(elementEnum, out var sprite))
+            if (_skillBgCache.TryGetValue(elementEnum, out var sprite))
             {
                 return sprite;
             }
@@ -179,24 +178,24 @@ namespace Game
             {
                 sprite = await Addressables.LoadAssetAsync<Sprite>(address);
             }
-            catch (InvalidKeyException e)
+            catch (InvalidKeyException)
             {
                 Global.LogWarning($"找不到{elementEnum}的SkillBg资源:{address}");
             }
             catch (Exception e)
             {
-                Global.LogError($"加载{elementEnum}的SkillBg资源失败:{address}");
+                Global.LogError($"加载{elementEnum}的SkillBg资源失败:{address},error:{e}");
             }
 
             if (sprite != null)
             {
-                skillBgCache.TryAdd(elementEnum, sprite);
+                _skillBgCache.TryAdd(elementEnum, sprite);
             }
 
             return sprite;
         }
 
-        private Dictionary<ActiveSkillEnum, Sprite> cardBgCache = new Dictionary<ActiveSkillEnum, Sprite>();
+        private readonly Dictionary<ActiveSkillEnum, Sprite> _cardBgCache = new Dictionary<ActiveSkillEnum, Sprite>();
 
         public async UniTask<Sprite> LoadCardBg(ActiveSkillEnum activeSkillEnum)
         {
@@ -221,7 +220,7 @@ namespace Game
                 }
             }
 
-            if (cardBgCache.TryGetValue(activeSkillEnum, out var sprite))
+            if (_cardBgCache.TryGetValue(activeSkillEnum, out var sprite))
             {
                 return sprite;
             }
@@ -236,28 +235,28 @@ namespace Game
             {
                 sprite = await Addressables.LoadAssetAsync<Sprite>(address);
             }
-            catch (InvalidKeyException e)
+            catch (InvalidKeyException)
             {
                 Global.LogWarning($"找不到{activeSkillEnum}的CardBg资源:{address}");
             }
             catch (Exception e)
             {
-                Global.LogError($"加载{activeSkillEnum}的CardBg资源失败:{address}");
+                Global.LogError($"加载{activeSkillEnum}的CardBg资源失败:{address},error:{e}");
             }
 
             if (sprite != null)
             {
-                cardBgCache.TryAdd(activeSkillEnum, sprite);
+                _cardBgCache.TryAdd(activeSkillEnum, sprite);
             }
 
             return null;
         }
 
-        private Dictionary<string, Sprite> imageCache = new Dictionary<string, Sprite>();
+        private readonly Dictionary<string, Sprite> _imageCache = new Dictionary<string, Sprite>();
 
         public async UniTask<Sprite> LoadImage(string address)
         {
-            if (imageCache.TryGetValue(address, out var sprite))
+            if (_imageCache.TryGetValue(address, out var sprite))
             {
                 return sprite;
             }
@@ -266,18 +265,18 @@ namespace Game
             {
                 sprite = await Addressables.LoadAssetAsync<Sprite>(address);
             }
-            catch (InvalidKeyException e)
+            catch (InvalidKeyException)
             {
                 Global.LogWarning($"找不到{address}的资源:{address}");
             }
             catch (Exception e)
             {
-                Global.LogError($"加载{address}的资源失败:{address}");
+                Global.LogError($"加载{address}的资源失败:{address},error:{e}");
             }
 
             if (sprite != null)
             {
-                imageCache.TryAdd(address, sprite);
+                _imageCache.TryAdd(address, sprite);
             }
 
             return sprite;
@@ -310,13 +309,13 @@ namespace Game
             {
                 sprite = await Addressables.LoadAssetAsync<Sprite>(address);
             }
-            catch (InvalidKeyException e)
+            catch (InvalidKeyException)
             {
                 Global.LogWarning($"找不到{id}的PortraitBox资源:{address}");
             }
             catch (Exception e)
             {
-                Global.LogError($"加载{id}的PortraitBox资源失败:{address}");
+                Global.LogError($"加载{id}的PortraitBox资源失败:{address},error:{e}");
             }
 
             if (sprite != null)
@@ -344,13 +343,13 @@ namespace Game
             {
                 sprite = await Addressables.LoadAssetAsync<Sprite>(address);
             }
-            catch (InvalidKeyException e)
+            catch (InvalidKeyException)
             {
                 Global.LogWarning($"找不到{id}的Comparison资源:{address}");
             }
             catch (Exception e)
             {
-                Global.LogError($"加载{id}的Comparison资源失败:{address}");
+                Global.LogError($"加载{id}的Comparison资源失败:{address},error:{e}");
             }
 
             if (sprite != null)
@@ -377,13 +376,13 @@ namespace Game
             {
                 sprite = await Addressables.LoadAssetAsync<Sprite>(address);
             }
-            catch (InvalidKeyException e)
+            catch (InvalidKeyException)
             {
                 Global.LogWarning($"找不到{id}的IdleBox资源:{address}");
             }
             catch (Exception e)
             {
-                Global.LogError($"加载{id}的IdleBox资源失败:{address}");
+                Global.LogError($"加载{id}的IdleBox资源失败:{address},error:{e}");
             }
 
             if (sprite != null)
@@ -410,13 +409,13 @@ namespace Game
             {
                 sprite = await Addressables.LoadAssetAsync<Sprite>(address);
             }
-            catch (InvalidKeyException e)
+            catch (InvalidKeyException)
             {
                 Global.LogWarning($"找不到{id}的Tag资源:{address}");
             }
             catch (Exception e)
             {
-                Global.LogError($"加载{id}的Tag资源失败:{address}");
+                Global.LogError($"加载{id}的Tag资源失败:{address},error:{e}");
             }
 
             if (sprite != null)
@@ -443,13 +442,13 @@ namespace Game
             {
                 sprite = await Addressables.LoadAssetAsync<Sprite>(address);
             }
-            catch (InvalidKeyException e)
+            catch (InvalidKeyException)
             {
                 Global.LogWarning($"找不到{id}的Title资源:{address}");
             }
             catch (Exception e)
             {
-                Global.LogError($"加载{id}的Title资源失败:{address}");
+                Global.LogError($"加载{id}的Title资源失败:{address},error:{e}");
             }
 
             if (sprite != null)
