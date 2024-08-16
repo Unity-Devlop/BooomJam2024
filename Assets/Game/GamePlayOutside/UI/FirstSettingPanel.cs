@@ -15,6 +15,7 @@ namespace Game
         public Button leftBtn;
         public Button rightBtn;
         public Button confirmBtn;
+        public Button goBtn;
         [SerializeField] private StyleToSkillConfig config;
 
         private int curStyle = 0;
@@ -42,6 +43,7 @@ namespace Game
             leftBtn.onClick.AddListener(LastStyle);
             rightBtn.onClick.AddListener(NextStyle);
             confirmBtn.onClick.AddListener(Confirm);
+            goBtn.onClick.AddListener(Go);
         }
 
         private void UnRegister()
@@ -49,6 +51,7 @@ namespace Game
             leftBtn.onClick.RemoveListener(LastStyle);
             rightBtn.onClick.RemoveListener(NextStyle);
             confirmBtn.onClick.RemoveListener(Confirm);
+            goBtn.onClick.RemoveListener(Go);
         }
 
         public void NextStyle()
@@ -77,7 +80,17 @@ namespace Game
                 temp.id = config.dataList[curStyle].skills[i];
                 playerData.trainerData.trainerSkills.Add(temp);
             }
+            goBtn.gameObject.SetActive(true);
+            confirmBtn.gameObject.SetActive(false);
+            leftBtn.gameObject.SetActive(false);
+            rightBtn.gameObject.SetActive(false);
+            var p = UIRoot.Singleton.OpenPanel<ManageCardsPanel>();
+            p.GetPorsche();
+            //GamePlayOutsideMgr.Singleton.machine.Change<FirstChooseState>();
+        }
 
+        public void Go()
+        {
             GamePlayOutsideMgr.Singleton.machine.Change<FirstChooseState>();
         }
     }

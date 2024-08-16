@@ -24,6 +24,7 @@ namespace Game
         public ManageCardContainer container;
         public TextMeshProUGUI title;
         public Button cancelBtn;
+        public Button haoyeBtn;
         private PlayerData playerData;
         private Action<bool, HuluEnum, ActiveSkillEnum, ActiveSkillEnum> action;
         private ActiveSkillEnum curSelectCardId;
@@ -41,6 +42,7 @@ namespace Game
         {
             base.OnOpened();
             confirmBtn.gameObject.SetActive(false);
+            cancelBtn.gameObject.SetActive(true);
             callBack = null;
         }
 
@@ -50,12 +52,25 @@ namespace Game
             base.OnClosed();
             curHulu = null;
             curManageState = ManageState.None;
+            haoyeBtn.gameObject.SetActive(false);
         }
 
         public override void OnDispose()
         {
             base.OnDispose();
             UnRegister();
+        }
+
+        public void GetPorsche()
+        {
+            cancelBtn.gameObject.SetActive(false);
+            title.text = $"恭喜获得特供卡牌——【保时捷的赞助】";
+            curManageState = ManageState.Select;
+            List<ActiveSkillData> list = new List<ActiveSkillData>();
+            var data = new ActiveSkillData();
+            data.id = ActiveSkillEnum.保时捷的赞助;
+            list.Add(data);
+            container.DrawCardToHand(list);
         }
 
         public void SelectHuluSkillCard(HuluData hulu,Action callback=null)
@@ -144,6 +159,12 @@ namespace Game
             CloseSelf();
         }
 
+        private void OnHaoYe()
+        {
+            haoyeBtn.gameObject.SetActive(false);
+            CloseSelf();
+        }
+
         private List<ActiveSkillEnum> GetRandomSkill(ActiveSkillEnum[] array)
         {
             System.Random _random = new System.Random();
@@ -167,6 +188,7 @@ namespace Game
         {
             confirmBtn.onClick.AddListener(ConfirmSkillCard);
             cancelBtn.onClick.AddListener(Cancel);
+            haoyeBtn.onClick.AddListener(OnHaoYe);
             Global.Event.Listen<ClickCardEvent>(ClickSelectSkillCard);
         }
 
@@ -174,6 +196,7 @@ namespace Game
         {
             confirmBtn.onClick.RemoveListener(ConfirmSkillCard);
             cancelBtn.onClick.RemoveListener(Cancel);
+            haoyeBtn.onClick.RemoveListener(OnHaoYe);
             Global.Event.UnListen<ClickCardEvent>(ClickSelectSkillCard);
         }
     }
