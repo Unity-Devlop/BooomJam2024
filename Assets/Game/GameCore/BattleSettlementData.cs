@@ -117,9 +117,28 @@ namespace Game
                 }
             }
         }
+        public struct BattleStatistics
+        {
+            public Guid guid;
+            public int damage;
+            
+            public static implicit operator BattleStatistics((Guid, int) tuple)
+            {
+                return new BattleStatistics
+                {
+                    guid = tuple.Item1,
+                    damage = tuple.Item2
+                };
+            }
+        }
 
+        /// <summary>
+        /// 获取MVP
+        /// </summary>
+        /// <returns>原先宝可梦的Guid,伤害值</returns>
+        /// <exception cref="NotImplementedException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public KeyValuePair<HuluData, int> MVP()
+        public BattleStatistics MVP()
         {
             if (winner == localPlayerTrainerData)
             {
@@ -127,12 +146,12 @@ namespace Game
                 {
                     Global.LogWarning($"我一点伤害没打,就赢了?");
                     int idx = UnityEngine.Random.Range(0, localPlayerTrainerData.datas.Count);
-                    return new KeyValuePair<HuluData, int>(localPlayerTrainerData.datas[idx], 0);
+                    return (localPlayerTrainerData.datas[idx].guid, 0);
                 }
 
                 int maxValue = localPlayerPokemonDamageCount.Max(x => x.Value);
                 var kv = localPlayerPokemonDamageCount.FirstOrDefault(x => x.Value == maxValue);
-                return new KeyValuePair<HuluData, int>(localPlayerTrainerData.datas[kv.Key], kv.Value);
+                return (localPlayerTrainerData.datas[kv.Key].guid, kv.Value);
             }
 
             if (winner == remotePlayerTrainerData)
@@ -141,19 +160,24 @@ namespace Game
                 {
                     Global.LogWarning($"对面一点伤害没打,就赢了?");
                     int idx = UnityEngine.Random.Range(0, remotePlayerTrainerData.datas.Count);
-                    return new KeyValuePair<HuluData, int>(remotePlayerTrainerData.datas[idx], 0);
+                    return (remotePlayerTrainerData.datas[idx].guid, 0);
                 }
 
                 var max = remotePlayerPokemonDamageCount.Max(x => x.Value);
                 var kv = remotePlayerPokemonDamageCount.FirstOrDefault(x => x.Value == max);
-                return new KeyValuePair<HuluData, int>(remotePlayerTrainerData.datas[kv.Key], kv.Value);
+                return (remotePlayerTrainerData.datas[kv.Key].guid, kv.Value);
             }
 
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// 获取SVP
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public KeyValuePair<HuluData, int> SVP()
+        public BattleStatistics SVP()
         {
             if (winner == localPlayerTrainerData) // 我赢了,对面是SVP
             {
@@ -161,12 +185,12 @@ namespace Game
                 {
                     Global.LogWarning($"对面一点伤害没打,就输了?");
                     int idx = UnityEngine.Random.Range(0, remotePlayerTrainerData.datas.Count);
-                    return new KeyValuePair<HuluData, int>(remotePlayerTrainerData.datas[idx], 0);
+                    return (remotePlayerTrainerData.datas[idx].guid, 0);
                 }
 
                 int maxValue = remotePlayerPokemonDamageCount.Max(x => x.Value);
                 var kv = remotePlayerPokemonDamageCount.FirstOrDefault(x => x.Value == maxValue);
-                return new KeyValuePair<HuluData, int>(remotePlayerTrainerData.datas[kv.Key], kv.Value);
+                return (remotePlayerTrainerData.datas[kv.Key].guid, kv.Value);
             }
 
             if (winner == remotePlayerTrainerData) // 对面赢了 我是SVP
@@ -175,12 +199,12 @@ namespace Game
                 {
                     Global.LogWarning($"我一点伤害没打,就输了?");
                     int idx = UnityEngine.Random.Range(0, localPlayerTrainerData.datas.Count);
-                    return new KeyValuePair<HuluData, int>(localPlayerTrainerData.datas[idx], 0);
+                    return (localPlayerTrainerData.datas[idx].guid, 0);
                 }
 
                 int maxValue = localPlayerPokemonDamageCount.Max(x => x.Value);
                 var kv = localPlayerPokemonDamageCount.FirstOrDefault(x => x.Value == maxValue);
-                return new KeyValuePair<HuluData, int>(localPlayerTrainerData.datas[kv.Key], kv.Value);
+                return (localPlayerTrainerData.datas[kv.Key].guid, kv.Value);
             }
 
             throw new NotImplementedException();

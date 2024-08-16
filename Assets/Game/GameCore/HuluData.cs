@@ -22,6 +22,7 @@ namespace Game
         [HorizontalGroup("1")] public HuluEnum id;
         public int cost = 0;
 
+        public Guid guid { get;private set;}
 
 
         [JsonIgnore] public BindData<HuluData, UniTask> bind { get; private set; }
@@ -98,6 +99,7 @@ namespace Game
         
         public HuluData()
         {
+            guid = Guid.NewGuid();
             bind = new BindData<HuluData, UniTask>(this);
             ownedSkills = new List<ActiveSkillData>();
             buffList = new List<BattleBuffEnum>();

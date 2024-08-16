@@ -115,14 +115,16 @@ namespace Game
             foreach (var t in playerChosenHulu)
             {
                 playerHulus[t].RecoverAllAbility();
-                tempPlayer.datas.Add(DeepCopyUtil.DeepCopyByJson(playerHulus[t]));
+                var copy = DeepCopyUtil.DeepCopyByJson(playerHulus[t]);
+                tempPlayer.datas.Add(copy);
             }
 
             tempEnemy.trainerSkills = DeepCopyUtil.DeepCopyByJson(enemy.trainerSkills);
             foreach (var t in enemyChosenHulu)
             {
                 enemy.datas[t].RecoverAllAbility();
-                tempEnemy.datas.Add(DeepCopyUtil.DeepCopyByJson(enemy.datas[t]));
+                HuluData copy = DeepCopyUtil.DeepCopyByJson(enemy.datas[t]);
+                tempEnemy.datas.Add(copy);
             }
 
             Global.Get<GameFlow>().ToGameBattle(tempPlayer, tempEnemy, env).Forget();

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.UI;
 using UnityToolkit;
 
@@ -63,12 +64,17 @@ namespace Game
             if (settle == SettleEnum.Win)
             {
                 m_rectWin.gameObject.SetActive(true);
-                uIShow.Bind(settlementData.MVP().Key);
+                HuluData data = Global.Get<DataSystem>().Get<GameData>().playerData.trainerData.datas
+                    .Find(x => x.guid == settlementData.MVP().guid);
+                Assert.IsNotNull(data);
+                uIShow.Bind(data);
             }
             else
             {
                 m_rectLose.gameObject.SetActive(true);
-                uIShow.Bind(settlementData.SVP().Key);
+                HuluData data = Global.Get<DataSystem>().Get<GameData>().playerData.trainerData.datas
+                    .Find(x => x.guid == settlementData.SVP().guid);
+                uIShow.Bind(data);
                 Global.Get<DataSystem>().Get<GameData>().allowCompeting = false;
             }
 
