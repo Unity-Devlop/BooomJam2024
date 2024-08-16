@@ -29,6 +29,7 @@ namespace Game
         private UniTask OnData(HuluData data)
         {
             nameText.text = data.name;
+            LoadSprite(data);
             // icon.sprite = arg.icon;
             return UniTask.CompletedTask;
         }
@@ -37,6 +38,11 @@ namespace Game
         {
             _unbind?.Execute();
             _unbind = null;
+        }
+
+        private async void LoadSprite(HuluData data)
+        {
+            bg.sprite = await Global.Get<ResourceSystem>().LoadElementTag(data.elementEnum);
         }
 
         public void SetState(Color color)

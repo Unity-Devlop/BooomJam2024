@@ -23,14 +23,19 @@ namespace Game.GameEntry
             while (!task.Status.IsCompleted())
             {
                 await UniTask.Delay(500);
+                if(task.Status.IsCompleted()) break;
                 text.text = $"Loading";
                 await UniTask.Delay(500);
+                if(task.Status.IsCompleted()) break;
                 text.text = $"Loading.";
                 await UniTask.Delay(500);
+                if(task.Status.IsCompleted()) break;
                 text.text = $"Loading..";
                 await UniTask.Delay(500);
+                if(task.Status.IsCompleted()) break;
                 text.text = $"Loading...";
                 await UniTask.Delay(500);
+                if(task.Status.IsCompleted()) break;
             }
             
             await task;

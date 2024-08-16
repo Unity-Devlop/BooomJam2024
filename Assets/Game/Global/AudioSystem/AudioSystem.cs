@@ -108,5 +108,11 @@ namespace Game
         {
             RuntimeManager.PlayOneShot(path);
         }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void PlayOneShot(string path, Vector3 position)
+        {
+            RuntimeManager.PlayOneShot(path, position);
+        }
     }
 }

@@ -97,7 +97,7 @@ namespace Game
             playerHuluOrder[index].text = $"{playerChosenHulu.Count}";
             playerHuluOrder[index].gameObject.SetActive(true);
             EnemyChoose();
-            if (playerChosenHulu.Count == limit && m_time > 10f) m_time = 10f;
+            if (playerChosenHulu.Count == limit && m_time > Consts.BattleChooseCountDown) m_time = Consts.BattleChooseCountDown;
         }
 
         private void EnterGame()
@@ -116,6 +116,7 @@ namespace Game
             {
                 playerHulus[t].RecoverAllAbility();
                 var copy = DeepCopyUtil.DeepCopyByJson(playerHulus[t]);
+                copy.guid =playerHulus[t].guid;
                 tempPlayer.datas.Add(copy);
             }
 
@@ -124,6 +125,7 @@ namespace Game
             {
                 enemy.datas[t].RecoverAllAbility();
                 HuluData copy = DeepCopyUtil.DeepCopyByJson(enemy.datas[t]);
+                copy.guid = enemy.datas[t].guid;
                 tempEnemy.datas.Add(copy);
             }
 

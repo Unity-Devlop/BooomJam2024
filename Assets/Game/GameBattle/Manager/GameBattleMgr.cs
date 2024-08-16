@@ -56,8 +56,7 @@ namespace Game.GamePlay
             }
         }
 
-        private bool _battling = false;
-
+        public bool battling { get; private set; }
         public async void StartBattle(TrainerData self, TrainerData enemy, BattleEnvData battleEnvData)
         {
             TrainerData playerTrainerData = self;
@@ -69,7 +68,7 @@ namespace Game.GamePlay
 
             GameBattlePanel gameBattlePanel = await UIRoot.Singleton.OpenPanelAsync<GameBattlePanel>();
             gameBattlePanel.Bind(battleFlow.self);
-            _battling = true;
+            battling = true;
             battleFlow.Enter().ContinueWith(OnBattleEnd).Forget();
         }
 
@@ -78,7 +77,7 @@ namespace Game.GamePlay
         {
             playerBattleTrainer.OnBattleEnd();
             robotBattleTrainer.OnBattleEnd();
-            _battling = false;
+            battling = false;
             if (UIRoot.Singleton.GetOpenedPanel(out GameBattlePanel battlePanel))
             {
                 battlePanel.UnBind();

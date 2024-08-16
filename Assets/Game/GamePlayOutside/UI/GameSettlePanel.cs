@@ -74,6 +74,7 @@ namespace Game
                 m_rectLose.gameObject.SetActive(true);
                 HuluData data = Global.Get<DataSystem>().Get<GameData>().playerData.trainerData.datas
                     .Find(x => x.guid == settlementData.SVP().guid);
+                Assert.IsNotNull(data);
                 uIShow.Bind(data);
                 Global.Get<DataSystem>().Get<GameData>().allowCompeting = false;
             }

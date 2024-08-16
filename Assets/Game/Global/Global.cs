@@ -54,16 +54,45 @@ namespace Game
 
         public bool initialized { get; private set; }
 
+#if UNITY_WEBGL
+        private static readonly Dictionary<string, JSONNode> _jsonCache = new Dictionary<string, JSONNode>();
+
+        private static JSONNode Load2(string name)
+        {
+            var path = $"{nameof(Tables)}/{name}.json";
+            return _jsonCache[path];
+        }
+
+        private static async UniTask InitLoad2()
+        {
+            var path1 = $"{nameof(Tables)}/hulutable.json";
+            var path2 = $"{nameof(Tables)}/elementtable.json";
+            var path3 = $"{nameof(Tables)}/activeskilltable.json";
+            var path4 = $"{nameof(Tables)}/passiveskilltable.json";
+            var path5 = $"{nameof(Tables)}/battleenvironmenttable.json";
+            var path6 = $"{nameof(Tables)}/battlebufftable.json";
+            
+            _jsonCache[path1] = JSON.Parse((await Addressables.LoadAssetAsync<TextAsset>(path1)).text);
+            _jsonCache[path2] = JSON.Parse((await Addressables.LoadAssetAsync<TextAsset>(path2)).text);
+            _jsonCache[path3] = JSON.Parse((await Addressables.LoadAssetAsync<TextAsset>(path3)).text);
+            _jsonCache[path4] = JSON.Parse((await Addressables.LoadAssetAsync<TextAsset>(path4)).text);
+            _jsonCache[path5] = JSON.Parse((await Addressables.LoadAssetAsync<TextAsset>(path5)).text);
+            _jsonCache[path6] = JSON.Parse((await Addressables.LoadAssetAsync<TextAsset>(path6)).text);
+            
+        }
+#endif
+
         protected override async void OnInit()
         {
             Application.runInBackground = true;
 #if UNITY_WEBGL
-            _table = new Tables();
-            await _table.InitAsync(AsyncLoad);
-#else 
+            await InitLoad2();
+            _table = new Tables(Load2);
+
+#else
             _table = new Tables(Load);
 #endif
-            
+
             _event = new TypeEventSystem();
 
             _systemLocator = new SystemLocator();
@@ -98,13 +127,6 @@ namespace Game
         public static TSystem Get<TSystem>() where TSystem : ISystem
         {
             return Singleton._systemLocator.Get<TSystem>();
-        }
-
-        private static async UniTask<JSONNode> AsyncLoad(string name)
-        {
-            var path = $"{nameof(Tables)}/{name}.json";
-            TextAsset asset = await Addressables.LoadAssetAsync<TextAsset>(path);
-            return JSON.Parse(asset.text);
         }
 
         private static JSONNode Load(string name)

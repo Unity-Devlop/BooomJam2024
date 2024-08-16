@@ -12,6 +12,6 @@ namespace Game
         public Slider slider;
         public TextMeshProUGUI valueNum;
         public Button addBtn;
-        public Text addText;
+        public TextMeshProUGUI addText;
     }
 }
