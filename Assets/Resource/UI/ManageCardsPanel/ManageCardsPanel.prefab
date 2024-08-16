@@ -704,7 +704,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   handZoneCardList: []
-  outsideArea: {fileID: 6202452832118864171}
+  useCardArea: {fileID: 0}
   tweenCardReturn: 1
   <cardSlotPool>k__BackingField: {fileID: 5444991415312397328}
   <cardVisualPool>k__BackingField: {fileID: 2466308841900910476}

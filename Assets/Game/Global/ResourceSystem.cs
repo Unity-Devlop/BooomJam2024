@@ -55,41 +55,6 @@ namespace Game
         }
 
 
-        // 中间的插画
-        private Dictionary<ActiveSkillEnum, Sprite> skillCardImageCache =
-            new Dictionary<ActiveSkillEnum, Sprite>();
-
-        public async UniTask<Sprite> LoadSkillCardImage(ActiveSkillEnum id)
-        {
-            if (skillCardImageCache.TryGetValue(id, out var sprite))
-            {
-                return sprite;
-            }
-
-            string address = $"UI/CardAtlas/Image/card_{id}_icon.png";
-
-            try
-            {
-                sprite = await Addressables.LoadAssetAsync<Sprite>(address);
-            }
-            catch (InvalidKeyException e)
-            {
-                Global.LogWarning($"找不到{id}的SkillCardIcon资源:{address}");
-            }
-            catch (Exception e)
-            {
-                Global.LogError($"加载{id}的SkillCardIcon资源失败:{address}");
-            }
-
-            if (sprite != null)
-            {
-                skillCardImageCache.TryAdd(id, sprite);
-            }
-
-            return sprite;
-        }
-
-
         // 特殊技能的图标
         private Dictionary<ActiveSkillEnum, Sprite> specialSkillIconCache = new Dictionary<ActiveSkillEnum, Sprite>();
 
@@ -200,7 +165,7 @@ namespace Game
 
         private readonly Dictionary<ElementEnum, Sprite> skillBgCache = new Dictionary<ElementEnum, Sprite>();
 
-        public async UniTask<Sprite> LoadSkillCardBg(ElementEnum elementEnum)
+        public async UniTask<Sprite> LoadCardElementBg(ElementEnum elementEnum)
         {
             if (skillBgCache.TryGetValue(elementEnum, out var sprite))
             {
@@ -318,14 +283,25 @@ namespace Game
             return sprite;
         }
 
-        private Dictionary<HuluEnum, Sprite> _uiGrassPortraitboxCache = new Dictionary<HuluEnum, Sprite>();
 
-        public async UniTask<Sprite> LoadPortraitBox(HuluEnum id)
+        #region 一些属性的图
+
+        private readonly Dictionary<ElementEnum, Sprite> _uiElementPortraitboxCache =
+            new Dictionary<ElementEnum, Sprite>();
+
+        public async UniTask<Sprite> LoadElementIcon(ElementEnum id)
         {
-            string key = Global.Table.ElementTable.Get(Global.Table.HuluTable.Get(id).Elements).UiPathTranslate;
-            string address = $"UI/Atlas/ui_{key}_portraitbox.png";
+            var cof = Global.Table.ElementTable.Get(id);
+            string address = $"UI/Atlas/Element/ui_{cof.UiPathTranslate}_icon.png";
+            return await LoadImage(address);
+        }
 
-            if (_uiGrassPortraitboxCache.TryGetValue(id, out var sprite))
+        public async UniTask<Sprite> LoadElementPortraitBox(ElementEnum id)
+        {
+            string key = Global.Table.ElementTable.Get(id).UiPathTranslate;
+            string address = $"UI/Atlas/Element/ui_{key}_portraitbox.png";
+
+            if (_uiElementPortraitboxCache.TryGetValue(id, out var sprite))
             {
                 return sprite;
             }
@@ -345,10 +321,145 @@ namespace Game
 
             if (sprite != null)
             {
-                _uiGrassPortraitboxCache.TryAdd(id, sprite);
+                _uiElementPortraitboxCache.TryAdd(id, sprite);
             }
 
             return sprite;
         }
+
+        private readonly Dictionary<ElementEnum, Sprite> _uiElementComparisonCache =
+            new Dictionary<ElementEnum, Sprite>();
+
+        public async UniTask<Sprite> LoadElementComparison(ElementEnum id)
+        {
+            string key = Global.Table.ElementTable.Get(id).UiPathTranslate;
+            string address = $"UI/Atlas/Element/ui_{key}_comparison.png";
+
+            if (_uiElementComparisonCache.TryGetValue(id, out var sprite))
+            {
+                return sprite;
+            }
+
+            try
+            {
+                sprite = await Addressables.LoadAssetAsync<Sprite>(address);
+            }
+            catch (InvalidKeyException e)
+            {
+                Global.LogWarning($"找不到{id}的Comparison资源:{address}");
+            }
+            catch (Exception e)
+            {
+                Global.LogError($"加载{id}的Comparison资源失败:{address}");
+            }
+
+            if (sprite != null)
+            {
+                _uiElementComparisonCache.TryAdd(id, sprite);
+            }
+
+            return sprite;
+        }
+
+        private readonly Dictionary<ElementEnum, Sprite> _uiElementIdelBoxCache = new Dictionary<ElementEnum, Sprite>();
+
+        public async UniTask<Sprite> LoadElementIdelBox(ElementEnum id)
+        {
+            string key = Global.Table.ElementTable.Get(id).UiPathTranslate;
+            string address = $"UI/Atlas/Element/ui_{key}_idelbox.png";
+
+            if (_uiElementIdelBoxCache.TryGetValue(id, out var sprite))
+            {
+                return sprite;
+            }
+
+            try
+            {
+                sprite = await Addressables.LoadAssetAsync<Sprite>(address);
+            }
+            catch (InvalidKeyException e)
+            {
+                Global.LogWarning($"找不到{id}的IdleBox资源:{address}");
+            }
+            catch (Exception e)
+            {
+                Global.LogError($"加载{id}的IdleBox资源失败:{address}");
+            }
+
+            if (sprite != null)
+            {
+                _uiElementIdelBoxCache.TryAdd(id, sprite);
+            }
+
+            return sprite;
+        }
+
+        private readonly Dictionary<ElementEnum, Sprite> _uiElementTagCache = new Dictionary<ElementEnum, Sprite>();
+
+        public async UniTask<Sprite> LoadElementTag(ElementEnum id)
+        {
+            string key = Global.Table.ElementTable.Get(id).UiPathTranslate;
+            string address = $"UI/Atlas/Element/ui_{key}_tag.png";
+
+            if (_uiElementTagCache.TryGetValue(id, out var sprite))
+            {
+                return sprite;
+            }
+
+            try
+            {
+                sprite = await Addressables.LoadAssetAsync<Sprite>(address);
+            }
+            catch (InvalidKeyException e)
+            {
+                Global.LogWarning($"找不到{id}的Tag资源:{address}");
+            }
+            catch (Exception e)
+            {
+                Global.LogError($"加载{id}的Tag资源失败:{address}");
+            }
+
+            if (sprite != null)
+            {
+                _uiElementTagCache.TryAdd(id, sprite);
+            }
+
+            return sprite;
+        }
+
+        private readonly Dictionary<ElementEnum, Sprite> _uiElementTirleCache = new Dictionary<ElementEnum, Sprite>();
+
+        public async UniTask<Sprite> LoadElementTitle(ElementEnum id)
+        {
+            string key = Global.Table.ElementTable.Get(id).UiPathTranslate;
+            string address = $"UI/Atlas/Element/ui_{key}_title.png";
+
+            if (_uiElementTirleCache.TryGetValue(id, out var sprite))
+            {
+                return sprite;
+            }
+
+            try
+            {
+                sprite = await Addressables.LoadAssetAsync<Sprite>(address);
+            }
+            catch (InvalidKeyException e)
+            {
+                Global.LogWarning($"找不到{id}的Title资源:{address}");
+            }
+            catch (Exception e)
+            {
+                Global.LogError($"加载{id}的Title资源失败:{address}");
+            }
+
+            if (sprite != null)
+            {
+                _uiElementTirleCache.TryAdd(id, sprite);
+            }
+
+            return sprite;
+        }
+
+        #endregion
     }
 }
