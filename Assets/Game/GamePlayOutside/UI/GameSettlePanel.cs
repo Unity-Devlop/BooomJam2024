@@ -96,7 +96,36 @@ namespace Game
         private async void Confirm()
         {
             ManageCardsPanel mcp;
-            switch (count)
+            if(count==0)
+            {
+                mcp = await UIRoot.Singleton.OpenPanelAsync<ManageCardsPanel>();
+                mcp.DeleteTrainerSkillCard();
+                ++count;
+            }
+            else if(count==1)
+            {
+                mcp = await UIRoot.Singleton.OpenPanelAsync<ManageCardsPanel>();
+                mcp.SelectTrainerSkillCard();
+                ++count;
+            }
+            else if(count<=1+hulus.Count)
+            {
+                mcp = await UIRoot.Singleton.OpenPanelAsync<ManageCardsPanel>();
+                mcp.DeleteHuluSkillCard(hulus[count-2]);
+                ++count;
+            }
+            else if(count<=1+hulus.Count*2)
+            {
+                mcp = await UIRoot.Singleton.OpenPanelAsync<ManageCardsPanel>();
+                mcp.SelectHuluSkillCard(hulus[count - hulus.Count-2]);
+                ++count;
+            }
+            else
+            {
+                if (isNextSeason) GamePlayOutsideMgr.Singleton.machine.Change<ChangeHuluState>();
+                else GamePlayOutsideMgr.Singleton.machine.Change<DailyTrainState>();
+            }
+            /*switch (count)
             {
                 case 0:
                     mcp = await UIRoot.Singleton.OpenPanelAsync<ManageCardsPanel>();
@@ -142,7 +171,7 @@ namespace Game
                     if (isNextSeason) GamePlayOutsideMgr.Singleton.machine.Change<ChangeHuluState>();
                     else GamePlayOutsideMgr.Singleton.machine.Change<DailyTrainState>();
                     break;
-            }
+            }*/
         }
 
         private void Refresh()
