@@ -3200,8 +3200,8 @@
     "change_battle_env_after_use": 0,
     "using_def_to_cal_damage": false,
     "darw_target_card_config_after_use": {
-      "target": 0,
-      "cnt": 0,
+      "target": 7,
+      "cnt": 1,
       "draw_any_if_can_not_draw_target": false,
       "add_when_skill_card_less_than_cnt": 5,
       "add_target": 7,
@@ -3893,8 +3893,8 @@
     "change_battle_env_after_use": 0,
     "using_def_to_cal_damage": false,
     "darw_target_card_config_after_use": {
-      "target": 0,
-      "cnt": 0,
+      "target": 4,
+      "cnt": 1,
       "draw_any_if_can_not_draw_target": false,
       "add_when_skill_card_less_than_cnt": -1,
       "add_target": 0,
@@ -4201,8 +4201,8 @@
     "change_battle_env_after_use": 0,
     "using_def_to_cal_damage": false,
     "darw_target_card_config_after_use": {
-      "target": 0,
-      "cnt": 0,
+      "target": 17,
+      "cnt": 1,
       "draw_any_if_can_not_draw_target": false,
       "add_when_skill_card_less_than_cnt": -1,
       "add_target": 0,
@@ -4355,8 +4355,8 @@
     "change_battle_env_after_use": 0,
     "using_def_to_cal_damage": false,
     "darw_target_card_config_after_use": {
-      "target": 17,
-      "cnt": 1,
+      "target": 0,
+      "cnt": 0,
       "draw_any_if_can_not_draw_target": false,
       "add_when_skill_card_less_than_cnt": -1,
       "add_target": 0,
