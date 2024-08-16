@@ -90,8 +90,9 @@ namespace Game
 
             if (r.ContainsBuff(BattleBuffEnum.轮滑技巧) && l.ContainsBuff(BattleBuffEnum.轮滑技巧))
             {
-                Debug.Log($"{r} {l} 都有滑轮技巧");
+                Global.Event.Send(new BattleInfoRecordEvent($"{r} 轮滑技巧"));
                 await r.RemoveBuff(BattleBuffEnum.轮滑技巧);
+                Global.Event.Send(new BattleInfoRecordEvent($"{l} 轮滑技巧"));
                 await l.RemoveBuff(BattleBuffEnum.轮滑技巧);
 
                 if (UnityEngine.Random.value > 0.5f)
@@ -104,15 +105,15 @@ namespace Game
 
             if (r.ContainsBuff(BattleBuffEnum.轮滑技巧))
             {
+                Global.Event.Send(new BattleInfoRecordEvent($"{r} 轮滑技巧"));
                 await r.RemoveBuff(BattleBuffEnum.轮滑技巧);
-                Debug.Log($"{r} 有滑轮技巧");
                 return (r, l);
             }
 
             if (l.ContainsBuff(BattleBuffEnum.轮滑技巧))
             {
+                Global.Event.Send(new BattleInfoRecordEvent($"{l} 轮滑技巧"));
                 await l.RemoveBuff(BattleBuffEnum.轮滑技巧);
-                Debug.Log($"{l} 有滑轮技巧");
                 return (l, r);
             }
 
