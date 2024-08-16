@@ -33,7 +33,7 @@ namespace Game
             }
             else
             {
-                background.sprite = await Global.Get<ResourceSystem>().LoadSkillCardBg(card.data.config.Element);
+                background.sprite = await Global.Get<ResourceSystem>().LoadCardElementBg(card.data.config.Element);
                 icon.sprite = await Global.Get<ResourceSystem>().LoadSkillCardElementBg(card.data.config.Element);
                 // if (!string.IsNullOrEmpty(
                 //         card.data.config.SpecialIconPath) &&

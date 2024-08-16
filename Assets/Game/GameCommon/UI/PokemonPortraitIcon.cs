@@ -32,7 +32,7 @@ namespace Game
         {
             if (_nameText == null) _nameText = transform.Find("NameText").GetComponent<TextMeshProUGUI>();
             _nameText.text = obj.name;
-            sprite = await Global.Get<ResourceSystem>().LoadPortraitBox(obj.id);
+            sprite = await Global.Get<ResourceSystem>().LoadElementPortraitBox(obj.elementEnum);
         }
 
 
