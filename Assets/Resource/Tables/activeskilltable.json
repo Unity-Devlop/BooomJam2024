@@ -1862,7 +1862,7 @@
     "special_icon_path": "",
     "card_image_path": "Graphics/card/ActiveSkill025_Normal_cj.png",
     "type": 4,
-    "damage_point": 60,
+    "damage_point": 70,
     "priority": 0,
     "not_full_hp_buff_for_user": {
       "cnt": 0,
@@ -2016,7 +2016,7 @@
     "special_icon_path": "",
     "card_image_path": "Graphics/card/ActiveSkill027_Normal_ksgj.png",
     "type": 4,
-    "damage_point": 50,
+    "damage_point": 65,
     "priority": 1,
     "not_full_hp_buff_for_user": {
       "cnt": 0,
@@ -2093,7 +2093,7 @@
     "special_icon_path": "",
     "card_image_path": "Graphics/card/ActiveSkill028_Normal_hz.png",
     "type": 4,
-    "damage_point": 20,
+    "damage_point": 25,
     "priority": 0,
     "not_full_hp_buff_for_user": {
       "cnt": 0,
@@ -5065,6 +5065,160 @@
     "type2": 1,
     "increase_health_point_after_use": 0,
     "increase_health_percent_after_use": 0.1,
+    "increase_self_speed_point_after_use": 0,
+    "def_discard_card_rate_when_hitted": 0,
+    "def_discard_count_when_hitted": 0,
+    "def_discard_count_anyway": 0,
+    "user_discard_count_anyway": 0,
+    "consume_self_card_buff_config": {
+      "cnt": 0,
+      "target_type": 1,
+      "buff": 0
+    },
+    "when_adap_geater_than_buff": {
+      "compare": -1,
+      "point": 0,
+      "buff": 0
+    },
+    "when_spped_less_than_buff": {
+      "compare": -1,
+      "point": 0,
+      "buff": 0
+    },
+    "full_hp_increase_base_value_rate": 0,
+    "percentage_damage_by_self": 0,
+    "change_element_after_use": 0,
+    "increase_damage_point_when_grass_env": 0
+  },
+  {
+    "id": 67,
+    "eng_name": "",
+    "element": 0,
+    "sfx_event_name": "event:/SFX/SFX_使用_黑卡",
+    "desc": "消耗。\n美术清澈的眼睛注视对手，手却快速地偷偷摸牌。\n己方选手防御力减少20点，然后抽四张牌。",
+    "special_icon_path": "",
+    "card_image_path": "",
+    "type": 2,
+    "damage_point": 0,
+    "priority": 0,
+    "not_full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "not_full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "def_trainer_buff_after_use_count": 0,
+    "def_trainer_buff_after_use": 0,
+    "self_trainer_buff_after_use_count": 0,
+    "self_trainer_buff_after_use": 0,
+    "self_battle_buff_count_after_use": 0,
+    "self_battle_buff_after_use": 0,
+    "hit_rate": 1,
+    "mul_attack_times": [],
+    "change_battle_env_after_use": 0,
+    "using_def_to_cal_damage": false,
+    "darw_target_card_config_after_use": {
+      "target": 0,
+      "cnt": 0,
+      "draw_any_if_can_not_draw_target": false,
+      "add_when_skill_card_less_than_cnt": -1,
+      "add_target": 0,
+      "add_cnt": 0
+    },
+    "darw_leader_card_count_after_use": 0,
+    "darw_card_count_after_use": 4,
+    "effect_hit_rate": 0,
+    "increase_self_def_point_after_use": -20,
+    "type2": 1,
+    "increase_health_point_after_use": 0,
+    "increase_health_percent_after_use": 0,
+    "increase_self_speed_point_after_use": 0,
+    "def_discard_card_rate_when_hitted": 0,
+    "def_discard_count_when_hitted": 0,
+    "def_discard_count_anyway": 0,
+    "user_discard_count_anyway": 0,
+    "consume_self_card_buff_config": {
+      "cnt": 0,
+      "target_type": 1,
+      "buff": 0
+    },
+    "when_adap_geater_than_buff": {
+      "compare": -1,
+      "point": 0,
+      "buff": 0
+    },
+    "when_spped_less_than_buff": {
+      "compare": -1,
+      "point": 0,
+      "buff": 0
+    },
+    "full_hp_increase_base_value_rate": 0,
+    "percentage_damage_by_self": 0,
+    "change_element_after_use": 0,
+    "increase_damage_point_when_grass_env": 0
+  },
+  {
+    "id": 68,
+    "eng_name": "",
+    "element": 7,
+    "sfx_event_name": "event:/SFX/SFX_使用_灰卡",
+    "desc": "技能优先级：6。\n趁对手没准备好的时候快速发动攻击。",
+    "special_icon_path": "",
+    "card_image_path": "",
+    "type": 4,
+    "damage_point": 50,
+    "priority": 6,
+    "not_full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "not_full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "def_trainer_buff_after_use_count": 0,
+    "def_trainer_buff_after_use": 0,
+    "self_trainer_buff_after_use_count": 0,
+    "self_trainer_buff_after_use": 0,
+    "self_battle_buff_count_after_use": 0,
+    "self_battle_buff_after_use": 0,
+    "hit_rate": 1,
+    "mul_attack_times": [],
+    "change_battle_env_after_use": 0,
+    "using_def_to_cal_damage": false,
+    "darw_target_card_config_after_use": {
+      "target": 0,
+      "cnt": 0,
+      "draw_any_if_can_not_draw_target": false,
+      "add_when_skill_card_less_than_cnt": -1,
+      "add_target": 0,
+      "add_cnt": 0
+    },
+    "darw_leader_card_count_after_use": 0,
+    "darw_card_count_after_use": 0,
+    "effect_hit_rate": 0,
+    "increase_self_def_point_after_use": 0,
+    "type2": 1,
+    "increase_health_point_after_use": 0,
+    "increase_health_percent_after_use": 0,
     "increase_self_speed_point_after_use": 0,
     "def_discard_card_rate_when_hitted": 0,
     "def_discard_count_when_hitted": 0,
