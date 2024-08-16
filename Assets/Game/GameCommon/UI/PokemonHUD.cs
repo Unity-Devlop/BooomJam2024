@@ -12,6 +12,7 @@ namespace Game
     public class PokemonHUD : MonoBehaviour
     {
         [SerializeField] private Image BG;
+        [SerializeField] private Image titleBG;
         [SerializeField] private LoopHorizontalScrollRect ownedCardList;
         [SerializeField] private EasyGameObjectPool fixedCardAndSlotPool;
         [SerializeField] private RectTransform valueUIRoot;
@@ -60,7 +61,7 @@ namespace Game
         }
 
 
-        public void Bind(HuluData data)
+        public async void Bind(HuluData data)
         {
             _data = data;
 
@@ -79,6 +80,7 @@ namespace Game
             _valueUIItems[4].valueNum.text = data.currentAdap.ToString();
             _valueUIItems[4].slider.value = (float)data.currentAdap / data.config.MaxAdap;
 
+            titleBG.sprite =await Global.Get<ResourceSystem>().LoadElementTitle(data.elementEnum);
             ownedCardList.totalCount = data.ownedSkills.Count;
             ownedCardList.RefillCells();
             ownedCardList.RefreshCells();
