@@ -45,6 +45,8 @@ namespace Game
         public float selectionOffset = 50;
         public float biggerScale = 2f;
 
+        public Vector3 originScale = Vector3.one;
+
         // components
         public CardVisual visual { get; private set; }
         private CardVisualPool _cardVisualPool;
@@ -72,8 +74,17 @@ namespace Game
 
             visual = cardVisualPool.Get(data.id);
 
+            if (data.id == ActiveSkillEnum.保时捷的赞助)
+            {
+                visual.shaderType = CardVisual.ShaderType.Polychrome;
+            }
+            else
+            {
+                visual.shaderType = CardVisual.ShaderType.None;
+            }
 
-            visual.transform.localScale = Vector3.one;
+
+            visual.transform.localScale = originScale;
             visual.transform.localPosition = Vector3.zero;
             if (directSetPos)
             {
@@ -91,7 +102,8 @@ namespace Game
 
         public void OnRelease()
         {
-            transform.localScale = Vector3.one;
+            originScale = Vector3.one;
+            transform.localScale = originScale;
             gameObject.SetActive(false);
             // Reste Events
             PointerEnterEvent = delegate { };
@@ -137,13 +149,14 @@ namespace Game
 
             if (isDragging || isHovering)
             {
-                transform.localScale = Vector3.one * biggerScale;
+                transform.localScale = originScale * biggerScale;
             }
             else if (canReset)
             {
-                transform.localScale = Vector3.one;
+                transform.localScale = originScale;
             }
         }
+
 
         private void ClampPosition()
         {
@@ -226,7 +239,8 @@ namespace Game
         public override void OnSelect(BaseEventData eventData)
         {
             base.OnSelect(eventData);
-            Global.Get<AudioSystem>().PlayOneShot(FMODName.Event.SFX_SFX_UI_选择卡牌);
+            // TODO 感觉不好听 不如不要
+            // Global.Get<AudioSystem>().PlayOneShot(FMODName.Event.SFX_SFX_UI_选择卡牌);
             selected = true;
             SelectEvent.Invoke(this, selected);
         }

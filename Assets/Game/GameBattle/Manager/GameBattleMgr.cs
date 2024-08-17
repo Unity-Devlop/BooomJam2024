@@ -91,13 +91,13 @@ namespace Game.GamePlay
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void PlayBGM()
         {
-            Global.Get<AudioSystem>().PlaySingleton(FMODName.Event.MX_COMBAT_DEMO1);
+            Global.Get<AudioSystem>().PlaySingleton(FMODName.Event.MX_MX_COMBAT_LOOP);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void StopBGM()
         {
-            Global.Get<AudioSystem>().StopSingleton(FMODName.Event.MX_COMBAT_DEMO1, STOP_MODE.ALLOWFADEOUT);
+            Global.Get<AudioSystem>().StopSingleton(FMODName.Event.MX_MX_COMBAT_LOOP, STOP_MODE.ALLOWFADEOUT);
         }
 
         public void DebugStartBattle()

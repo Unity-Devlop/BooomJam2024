@@ -63,12 +63,12 @@ namespace Game
 
         public void PlayBGM()
         {
-            Global.Get<AudioSystem>().PlaySingleton(FMODName.Event.MX_NORMAL_DEMO1);
+            Global.Get<AudioSystem>().PlaySingleton(FMODName.Event.MX_MX_NORMAL_LOOP);
         }
 
         public void StopBGM()
         {
-            Global.Get<AudioSystem>().StopSingleton(FMODName.Event.MX_NORMAL_DEMO1, STOP_MODE.ALLOWFADEOUT);
+            Global.Get<AudioSystem>().StopSingleton(FMODName.Event.MX_MX_NORMAL_LOOP, STOP_MODE.ALLOWFADEOUT);
         }
     }
 }

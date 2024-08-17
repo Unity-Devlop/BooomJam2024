@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using cfg;
 using Cysharp.Threading.Tasks;
 using Spine.Unity;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityToolkit;
 
 namespace Game
@@ -55,7 +57,8 @@ namespace Game
 
 
         // 特殊技能的图标
-        private readonly Dictionary<ActiveSkillEnum, Sprite> _specialSkillIconCache = new Dictionary<ActiveSkillEnum, Sprite>();
+        private readonly Dictionary<ActiveSkillEnum, Sprite> _specialSkillIconCache =
+            new Dictionary<ActiveSkillEnum, Sprite>();
 
         public async UniTask<Sprite> LoadSpecialSkillIcon(ActiveSkillEnum id)
         {
@@ -460,5 +463,16 @@ namespace Game
         }
 
         #endregion
+        
+        /// <summary>
+        /// 临时的方法 没有做缓存 所以没办法调用释放接口
+        /// </summary>
+        /// <param name="address"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public AsyncOperationHandle<T> LoadAsync<T>(string address)
+        {
+            return Addressables.LoadAssetAsync<T>(address);
+        }
     }
 }
