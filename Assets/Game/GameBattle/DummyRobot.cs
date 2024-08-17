@@ -12,7 +12,8 @@ namespace Game.GamePlay
     [Serializable]
     public class DummyRobot : PlayerBattleTrainer
     {
-        [SerializeField] private float smartRate = 0.5f;
+        // [SerializeField] 
+        private float smartRate = 0.8f;
         [SerializeField] private float switchRate = 0.7f;
 
         public override async UniTask<IBattleOperation> CalOperation()
@@ -20,8 +21,8 @@ namespace Game.GamePlay
             Global.LogInfo($"{this} 开始思考操作");
             float thinkingTime = UnityEngine.Random.Range(0.01f, 3f);
             await UniTask.Delay(TimeSpan.FromSeconds(thinkingTime - 0.01f));
-            
-            
+
+
             if (handZone.Count == 0)
             {
                 if (UnityEngine.Random.value < switchRate)
@@ -57,13 +58,26 @@ namespace Game.GamePlay
                 // 不一定要结束回合 可以切换队友
                 return new EndRoundOperation();
             }
-            
+
 
             PlayerBattleTrainer playerBattleTrainer = GameBattleMgr.Singleton.playerBattleTrainer;
             HuluData enemyData = playerBattleTrainer.currentBattleData;
 
             if (UnityEngine.Random.value < smartRate)
             {
+                // 如果对面没血了
+                if (enemyData.currentHp / (float)enemyData.hp < 0.3f)
+                {
+                    // 放优先级高的技能打死
+                    if (TryGetAnyPrioritySkill(enemyData, out ActiveSkillData prioritySkill))
+                    {
+                        return new ActiveSkillBattleOperation()
+                        {
+                            data = prioritySkill
+                        };
+                    }
+                }
+
                 // 如果自己没血了 尽可能找治疗技能 放 或者 放守护技能
                 if (currentBattleData.currentHp / (float)currentBattleData.hp < 0.5f)
                 {
@@ -94,6 +108,32 @@ namespace Game.GamePlay
                 data = target
             };
             return operation;
+        }
+
+        private bool CanKill(HuluData enemy, ActiveSkillData skill)
+        {
+            throw new NotImplementedException();
+        }
+
+        private bool TryGetAnyPrioritySkill(HuluData enemyData, out ActiveSkillData prioritySkill)
+        {
+            prioritySkill = null;
+            foreach (var skill in handZone)
+            {
+                var config = skill.config;
+                if ((config.Type & ActiveSkillTypeEnum.伤害技能) == 0)
+                {
+                    continue;
+                }
+
+                if (config.Priority > 0)
+                {
+                    prioritySkill = skill;
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         private bool TryGetAnyHealCommand(out ActiveSkillData heal)
