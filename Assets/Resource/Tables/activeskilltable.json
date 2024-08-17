@@ -2165,7 +2165,7 @@
     "increase_damage_point_when_grass_env": 0
   },
   {
-    "id": 29,
+    "id": 30,
     "eng_name": "",
     "element": 0,
     "sfx_event_name": "event:/SFX/SFX_使用_黑卡",
@@ -2242,7 +2242,7 @@
     "increase_damage_point_when_grass_env": 0
   },
   {
-    "id": 30,
+    "id": 31,
     "eng_name": "",
     "element": 0,
     "sfx_event_name": "event:/SFX/SFX_使用_黑卡",
@@ -2319,7 +2319,7 @@
     "increase_damage_point_when_grass_env": 0
   },
   {
-    "id": 31,
+    "id": 32,
     "eng_name": "",
     "element": 0,
     "sfx_event_name": "event:/SFX/SFX_使用_黑卡",
@@ -2396,7 +2396,7 @@
     "increase_damage_point_when_grass_env": 0
   },
   {
-    "id": 32,
+    "id": 33,
     "eng_name": "",
     "element": 0,
     "sfx_event_name": "event:/SFX/SFX_使用_黑卡",
@@ -2473,7 +2473,7 @@
     "increase_damage_point_when_grass_env": 0
   },
   {
-    "id": 33,
+    "id": 34,
     "eng_name": "",
     "element": 0,
     "sfx_event_name": "event:/SFX/SFX_使用_黑卡",
@@ -2550,7 +2550,7 @@
     "increase_damage_point_when_grass_env": 0
   },
   {
-    "id": 34,
+    "id": 35,
     "eng_name": "",
     "element": 0,
     "sfx_event_name": "event:/SFX/SFX_使用_黑卡",
@@ -2627,7 +2627,7 @@
     "increase_damage_point_when_grass_env": 0
   },
   {
-    "id": 35,
+    "id": 36,
     "eng_name": "",
     "element": 0,
     "sfx_event_name": "event:/SFX/SFX_使用_黑卡",
@@ -2704,7 +2704,7 @@
     "increase_damage_point_when_grass_env": 0
   },
   {
-    "id": 36,
+    "id": 37,
     "eng_name": "",
     "element": 0,
     "sfx_event_name": "event:/SFX/SFX_使用_黑卡",
@@ -2781,7 +2781,7 @@
     "increase_damage_point_when_grass_env": 0
   },
   {
-    "id": 37,
+    "id": 38,
     "eng_name": "",
     "element": 0,
     "sfx_event_name": "event:/SFX/SFX_使用_黑卡",
@@ -2858,7 +2858,7 @@
     "increase_damage_point_when_grass_env": 0
   },
   {
-    "id": 38,
+    "id": 39,
     "eng_name": "",
     "element": 0,
     "sfx_event_name": "event:/SFX/SFX_使用_黑卡",
@@ -2935,7 +2935,7 @@
     "increase_damage_point_when_grass_env": 0
   },
   {
-    "id": 39,
+    "id": 40,
     "eng_name": "",
     "element": 0,
     "sfx_event_name": "event:/SFX/SFX_使用_黑卡",
@@ -3012,7 +3012,7 @@
     "increase_damage_point_when_grass_env": 0
   },
   {
-    "id": 40,
+    "id": 41,
     "eng_name": "",
     "element": 0,
     "sfx_event_name": "event:/SFX/SFX_使用_黑卡",
@@ -3089,7 +3089,7 @@
     "increase_damage_point_when_grass_env": 0
   },
   {
-    "id": 41,
+    "id": 42,
     "eng_name": "",
     "element": 0,
     "sfx_event_name": "event:/SFX/SFX_使用_黑卡",
@@ -3166,7 +3166,7 @@
     "increase_damage_point_when_grass_env": 0
   },
   {
-    "id": 42,
+    "id": 43,
     "eng_name": "",
     "element": 0,
     "sfx_event_name": "event:/SFX/SFX_使用_黑卡",
@@ -3243,7 +3243,7 @@
     "increase_damage_point_when_grass_env": 0
   },
   {
-    "id": 43,
+    "id": 44,
     "eng_name": "",
     "element": 0,
     "sfx_event_name": "event:/SFX/SFX_使用_黑卡",
@@ -3320,7 +3320,7 @@
     "increase_damage_point_when_grass_env": 0
   },
   {
-    "id": 44,
+    "id": 45,
     "eng_name": "",
     "element": 0,
     "sfx_event_name": "event:/SFX/SFX_使用_黑卡",
@@ -3397,7 +3397,7 @@
     "increase_damage_point_when_grass_env": 0
   },
   {
-    "id": 45,
+    "id": 46,
     "eng_name": "",
     "element": 0,
     "sfx_event_name": "event:/SFX/SFX_使用_黑卡",
@@ -3474,7 +3474,7 @@
     "increase_damage_point_when_grass_env": 0
   },
   {
-    "id": 46,
+    "id": 47,
     "eng_name": "",
     "element": 0,
     "sfx_event_name": "event:/SFX/SFX_使用_黑卡",
@@ -3551,7 +3551,7 @@
     "increase_damage_point_when_grass_env": 0
   },
   {
-    "id": 47,
+    "id": 48,
     "eng_name": "",
     "element": 0,
     "sfx_event_name": "event:/SFX/SFX_使用_黑卡",
@@ -3628,7 +3628,7 @@
     "increase_damage_point_when_grass_env": 0
   },
   {
-    "id": 48,
+    "id": 49,
     "eng_name": "",
     "element": 0,
     "sfx_event_name": "event:/SFX/SFX_使用_黑卡",
@@ -3705,7 +3705,7 @@
     "increase_damage_point_when_grass_env": 0
   },
   {
-    "id": 49,
+    "id": 50,
     "eng_name": "",
     "element": 0,
     "sfx_event_name": "event:/SFX/SFX_使用_黑卡",
@@ -3782,7 +3782,7 @@
     "increase_damage_point_when_grass_env": 0
   },
   {
-    "id": 50,
+    "id": 51,
     "eng_name": "",
     "element": 0,
     "sfx_event_name": "event:/SFX/SFX_使用_黑卡",
@@ -3859,7 +3859,7 @@
     "increase_damage_point_when_grass_env": 0
   },
   {
-    "id": 51,
+    "id": 52,
     "eng_name": "",
     "element": 0,
     "sfx_event_name": "event:/SFX/SFX_使用_黑卡",
@@ -3936,7 +3936,7 @@
     "increase_damage_point_when_grass_env": 0
   },
   {
-    "id": 52,
+    "id": 53,
     "eng_name": "",
     "element": 0,
     "sfx_event_name": "event:/SFX/SFX_使用_黑卡",
@@ -4013,7 +4013,7 @@
     "increase_damage_point_when_grass_env": 0
   },
   {
-    "id": 53,
+    "id": 54,
     "eng_name": "",
     "element": 0,
     "sfx_event_name": "event:/SFX/SFX_使用_黑卡",
@@ -4090,7 +4090,7 @@
     "increase_damage_point_when_grass_env": 0
   },
   {
-    "id": 54,
+    "id": 55,
     "eng_name": "",
     "element": 0,
     "sfx_event_name": "event:/SFX/SFX_使用_黑卡",
@@ -4167,7 +4167,7 @@
     "increase_damage_point_when_grass_env": 0
   },
   {
-    "id": 55,
+    "id": 56,
     "eng_name": "",
     "element": 0,
     "sfx_event_name": "event:/SFX/SFX_使用_黑卡",
@@ -4244,7 +4244,7 @@
     "increase_damage_point_when_grass_env": 0
   },
   {
-    "id": 56,
+    "id": 57,
     "eng_name": "",
     "element": 0,
     "sfx_event_name": "event:/SFX/SFX_使用_黑卡",
@@ -4321,7 +4321,7 @@
     "increase_damage_point_when_grass_env": 0
   },
   {
-    "id": 57,
+    "id": 58,
     "eng_name": "",
     "element": 0,
     "sfx_event_name": "event:/SFX/SFX_使用_黑卡",
@@ -4398,7 +4398,7 @@
     "increase_damage_point_when_grass_env": 0
   },
   {
-    "id": 58,
+    "id": 59,
     "eng_name": "",
     "element": 0,
     "sfx_event_name": "event:/SFX/SFX_使用_黑卡",
@@ -4475,7 +4475,7 @@
     "increase_damage_point_when_grass_env": 0
   },
   {
-    "id": 59,
+    "id": 60,
     "eng_name": "",
     "element": 0,
     "sfx_event_name": "event:/SFX/SFX_使用_黑卡",
@@ -4552,7 +4552,7 @@
     "increase_damage_point_when_grass_env": 0
   },
   {
-    "id": 60,
+    "id": 61,
     "eng_name": "",
     "element": 0,
     "sfx_event_name": "event:/SFX/SFX_使用_黑卡",
@@ -4629,7 +4629,7 @@
     "increase_damage_point_when_grass_env": 0
   },
   {
-    "id": 61,
+    "id": 62,
     "eng_name": "",
     "element": 0,
     "sfx_event_name": "event:/SFX/SFX_使用_黑卡",
@@ -4706,7 +4706,7 @@
     "increase_damage_point_when_grass_env": 0
   },
   {
-    "id": 62,
+    "id": 63,
     "eng_name": "",
     "element": 0,
     "sfx_event_name": "event:/SFX/SFX_使用_黑卡",
@@ -4783,7 +4783,7 @@
     "increase_damage_point_when_grass_env": 0
   },
   {
-    "id": 63,
+    "id": 64,
     "eng_name": "",
     "element": 0,
     "sfx_event_name": "event:/SFX/SFX_使用_黑卡",
@@ -4860,7 +4860,7 @@
     "increase_damage_point_when_grass_env": 0
   },
   {
-    "id": 64,
+    "id": 65,
     "eng_name": "",
     "element": 0,
     "sfx_event_name": "event:/SFX/SFX_使用_黑卡",
@@ -4937,7 +4937,7 @@
     "increase_damage_point_when_grass_env": 0
   },
   {
-    "id": 65,
+    "id": 66,
     "eng_name": "",
     "element": 7,
     "sfx_event_name": "event:/SFX/SFX_使用_灰卡",
@@ -5014,7 +5014,7 @@
     "increase_damage_point_when_grass_env": 0
   },
   {
-    "id": 66,
+    "id": 67,
     "eng_name": "",
     "element": 0,
     "sfx_event_name": "event:/SFX/SFX_使用_黑卡",
@@ -5091,7 +5091,7 @@
     "increase_damage_point_when_grass_env": 0
   },
   {
-    "id": 67,
+    "id": 68,
     "eng_name": "",
     "element": 0,
     "sfx_event_name": "event:/SFX/SFX_使用_黑卡",
@@ -5168,7 +5168,7 @@
     "increase_damage_point_when_grass_env": 0
   },
   {
-    "id": 68,
+    "id": 29,
     "eng_name": "",
     "element": 7,
     "sfx_event_name": "event:/SFX/SFX_使用_灰卡",
