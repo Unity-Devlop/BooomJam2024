@@ -34,15 +34,8 @@ namespace Game
             PlayBGM();
         }
 
-        private async void OnOutsideStateChange(Type from, Type to)
+        private void OnOutsideStateChange(Type from, Type to)
         {
-            if (!Global.Get<DataSystem>().Get<GlobalData>().newbieGuideSet.Contains(to))
-            {
-                NewbieGuidePanel guidePanel = await UIRoot.Singleton.OpenPanelAsync<NewbieGuidePanel>();
-                guidePanel.DirectTo(to);
-                Global.Get<DataSystem>().Get<GlobalData>().newbieGuideSet.Add(to);
-            }
-
             Global.Get<DataSystem>().Get<GameData>().gameOutsideStateType = to;
             Global.LogInfo($"GameOutsideState Switch {from}:{to}");
         }

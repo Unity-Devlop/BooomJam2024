@@ -8,6 +8,5 @@ namespace Game
     public class GlobalData : IModel
     {
         public bool newbieGuide = true;
-        public HashSet<Type> newbieGuideSet = new HashSet<Type>();
     }
 }
