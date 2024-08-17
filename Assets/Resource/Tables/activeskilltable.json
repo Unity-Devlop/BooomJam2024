@@ -4939,14 +4939,245 @@
   {
     "id": 66,
     "eng_name": "",
-    "element": 7,
-    "sfx_event_name": "event:/SFX/SFX_使用_灰卡",
-    "desc": "送给对手一朵珍藏的花，对手会因此得到心灵上的治愈。",
+    "element": 0,
+    "sfx_event_name": "event:/SFX/SFX_使用_黑卡",
+    "desc": "消耗。\n送给自己一朵珍藏的花，你们会因此得到心灵上的治愈。",
     "special_icon_path": "",
     "card_image_path": "Graphics/card/ActiveSkill030_Normal_cxsnh.png",
-    "type": 4,
-    "damage_point": -40,
+    "type": 2,
+    "damage_point": 0,
     "priority": 0,
+    "not_full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "not_full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "def_trainer_buff_after_use_count": 0,
+    "def_trainer_buff_after_use": 0,
+    "self_trainer_buff_after_use_count": 0,
+    "self_trainer_buff_after_use": 0,
+    "self_battle_buff_count_after_use": 0,
+    "self_battle_buff_after_use": 0,
+    "hit_rate": 0,
+    "mul_attack_times": [],
+    "change_battle_env_after_use": 0,
+    "using_def_to_cal_damage": false,
+    "darw_target_card_config_after_use": {
+      "target": 0,
+      "cnt": 0,
+      "draw_any_if_can_not_draw_target": false,
+      "add_when_skill_card_less_than_cnt": -1,
+      "add_target": 0,
+      "add_cnt": 0
+    },
+    "darw_leader_card_count_after_use": 0,
+    "darw_card_count_after_use": 0,
+    "effect_hit_rate": 0,
+    "increase_self_def_point_after_use": 0,
+    "type2": 2,
+    "increase_health_point_after_use": 0,
+    "increase_health_percent_after_use": 0,
+    "increase_self_speed_point_after_use": 0,
+    "def_discard_card_rate_when_hitted": 0,
+    "def_discard_count_when_hitted": 0,
+    "def_discard_count_anyway": 0,
+    "user_discard_count_anyway": 0,
+    "consume_self_card_buff_config": {
+      "cnt": 0,
+      "target_type": 1,
+      "buff": 0
+    },
+    "when_adap_geater_than_buff": {
+      "compare": -1,
+      "point": 0,
+      "buff": 0
+    },
+    "when_spped_less_than_buff": {
+      "compare": -1,
+      "point": 0,
+      "buff": 0
+    },
+    "full_hp_increase_base_value_rate": 0,
+    "percentage_damage_by_self": 0,
+    "change_element_after_use": 0,
+    "increase_damage_point_when_grass_env": 0
+  },
+  {
+    "id": 67,
+    "eng_name": "",
+    "element": 0,
+    "sfx_event_name": "event:/SFX/SFX_使用_黑卡",
+    "desc": "消耗。\n策划选择来帮你一下。\n然而策划地位太低这牌并没有什么卵用。",
+    "special_icon_path": "",
+    "card_image_path": "Graphics/card/ComSkill037_chdbz.png",
+    "type": 2,
+    "damage_point": 0,
+    "priority": 0,
+    "not_full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "not_full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "def_trainer_buff_after_use_count": 0,
+    "def_trainer_buff_after_use": 0,
+    "self_trainer_buff_after_use_count": 0,
+    "self_trainer_buff_after_use": 0,
+    "self_battle_buff_count_after_use": 0,
+    "self_battle_buff_after_use": 0,
+    "hit_rate": 0,
+    "mul_attack_times": [],
+    "change_battle_env_after_use": 0,
+    "using_def_to_cal_damage": false,
+    "darw_target_card_config_after_use": {
+      "target": 0,
+      "cnt": 0,
+      "draw_any_if_can_not_draw_target": false,
+      "add_when_skill_card_less_than_cnt": -1,
+      "add_target": 0,
+      "add_cnt": 0
+    },
+    "darw_leader_card_count_after_use": 0,
+    "darw_card_count_after_use": 0,
+    "effect_hit_rate": 0,
+    "increase_self_def_point_after_use": 0,
+    "type2": 2,
+    "increase_health_point_after_use": 0,
+    "increase_health_percent_after_use": 0,
+    "increase_self_speed_point_after_use": 0,
+    "def_discard_card_rate_when_hitted": 0,
+    "def_discard_count_when_hitted": 0,
+    "def_discard_count_anyway": 0,
+    "user_discard_count_anyway": 0,
+    "consume_self_card_buff_config": {
+      "cnt": 0,
+      "target_type": 1,
+      "buff": 0
+    },
+    "when_adap_geater_than_buff": {
+      "compare": -1,
+      "point": 0,
+      "buff": 0
+    },
+    "when_spped_less_than_buff": {
+      "compare": -1,
+      "point": 0,
+      "buff": 0
+    },
+    "full_hp_increase_base_value_rate": 0,
+    "percentage_damage_by_self": 0,
+    "change_element_after_use": 0,
+    "increase_damage_point_when_grass_env": 0
+  },
+  {
+    "id": 68,
+    "eng_name": "",
+    "element": 0,
+    "sfx_event_name": "event:/SFX/SFX_使用_黑卡",
+    "desc": "消耗。\n美术清澈的眼睛注视对手，手却快速地偷偷摸牌。\n摸一张牌。",
+    "special_icon_path": "",
+    "card_image_path": "Graphics/card/ComSkill038_msdsy.png",
+    "type": 2,
+    "damage_point": 0,
+    "priority": 0,
+    "not_full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "not_full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "def_trainer_buff_after_use_count": 0,
+    "def_trainer_buff_after_use": 0,
+    "self_trainer_buff_after_use_count": 0,
+    "self_trainer_buff_after_use": 0,
+    "self_battle_buff_count_after_use": 0,
+    "self_battle_buff_after_use": 0,
+    "hit_rate": 0,
+    "mul_attack_times": [],
+    "change_battle_env_after_use": 0,
+    "using_def_to_cal_damage": false,
+    "darw_target_card_config_after_use": {
+      "target": 0,
+      "cnt": 0,
+      "draw_any_if_can_not_draw_target": false,
+      "add_when_skill_card_less_than_cnt": -1,
+      "add_target": 0,
+      "add_cnt": 0
+    },
+    "darw_leader_card_count_after_use": 0,
+    "darw_card_count_after_use": 1,
+    "effect_hit_rate": 0,
+    "increase_self_def_point_after_use": 0,
+    "type2": 2,
+    "increase_health_point_after_use": 0,
+    "increase_health_percent_after_use": 0,
+    "increase_self_speed_point_after_use": 0,
+    "def_discard_card_rate_when_hitted": 0,
+    "def_discard_count_when_hitted": 0,
+    "def_discard_count_anyway": 0,
+    "user_discard_count_anyway": 0,
+    "consume_self_card_buff_config": {
+      "cnt": 0,
+      "target_type": 1,
+      "buff": 0
+    },
+    "when_adap_geater_than_buff": {
+      "compare": -1,
+      "point": 0,
+      "buff": 0
+    },
+    "when_spped_less_than_buff": {
+      "compare": -1,
+      "point": 0,
+      "buff": 0
+    },
+    "full_hp_increase_base_value_rate": 0,
+    "percentage_damage_by_self": 0,
+    "change_element_after_use": 0,
+    "increase_damage_point_when_grass_env": 0
+  },
+  {
+    "id": 29,
+    "eng_name": "",
+    "element": 7,
+    "sfx_event_name": "event:/SFX/SFX_使用_灰卡",
+    "desc": "技能优先级：6。\n趁对手没准备好的时候快速发动攻击。",
+    "special_icon_path": "",
+    "card_image_path": "Graphics/card/ActiveSkill029_Normal_tx.png",
+    "type": 4,
+    "damage_point": 50,
+    "priority": 6,
     "not_full_hp_buff_for_user": {
       "cnt": 0,
       "buff": 0
@@ -5014,13 +5245,13 @@
     "increase_damage_point_when_grass_env": 0
   },
   {
-    "id": 67,
+    "id": 69,
     "eng_name": "",
     "element": 0,
     "sfx_event_name": "event:/SFX/SFX_使用_黑卡",
-    "desc": "消耗。\n策划选择来帮你一下。\n己方选手恢复10%的最大生命。",
+    "desc": "消耗。\n角色稿子打回去重画吧......\n弃置一张牌，然后摸一张牌。",
     "special_icon_path": "",
-    "card_image_path": "Graphics/card/ComSkill037_chdbz.png",
+    "card_image_path": "",
     "type": 2,
     "damage_point": 0,
     "priority": 0,
@@ -5046,7 +5277,7 @@
     "self_trainer_buff_after_use": 0,
     "self_battle_buff_count_after_use": 0,
     "self_battle_buff_after_use": 0,
-    "hit_rate": 1,
+    "hit_rate": 0,
     "mul_attack_times": [],
     "change_battle_env_after_use": 0,
     "using_def_to_cal_damage": false,
@@ -5059,17 +5290,17 @@
       "add_cnt": 0
     },
     "darw_leader_card_count_after_use": 0,
-    "darw_card_count_after_use": 0,
+    "darw_card_count_after_use": 1,
     "effect_hit_rate": 0,
     "increase_self_def_point_after_use": 0,
-    "type2": 1,
+    "type2": 2,
     "increase_health_point_after_use": 0,
-    "increase_health_percent_after_use": 0.1,
+    "increase_health_percent_after_use": 0,
     "increase_self_speed_point_after_use": 0,
     "def_discard_card_rate_when_hitted": 0,
     "def_discard_count_when_hitted": 0,
     "def_discard_count_anyway": 0,
-    "user_discard_count_anyway": 0,
+    "user_discard_count_anyway": 1,
     "consume_self_card_buff_config": {
       "cnt": 0,
       "target_type": 1,
@@ -5091,13 +5322,13 @@
     "increase_damage_point_when_grass_env": 0
   },
   {
-    "id": 68,
+    "id": 70,
     "eng_name": "",
     "element": 0,
     "sfx_event_name": "event:/SFX/SFX_使用_黑卡",
-    "desc": "消耗。\n美术清澈的眼睛注视对手，手却快速地偷偷摸牌。\n己方选手防御力减少20点，然后抽四张牌。",
+    "desc": "消耗。\nUI老师的愤怒值达到了最高！\n开着保时捷Macan创向对方选手，随机弃置己方和对手各一张牌。",
     "special_icon_path": "",
-    "card_image_path": "Graphics/card/ComSkill038_msdsy.png",
+    "card_image_path": "",
     "type": 2,
     "damage_point": 0,
     "priority": 0,
@@ -5123,7 +5354,7 @@
     "self_trainer_buff_after_use": 0,
     "self_battle_buff_count_after_use": 0,
     "self_battle_buff_after_use": 0,
-    "hit_rate": 1,
+    "hit_rate": 0,
     "mul_attack_times": [],
     "change_battle_env_after_use": 0,
     "using_def_to_cal_damage": false,
@@ -5136,10 +5367,87 @@
       "add_cnt": 0
     },
     "darw_leader_card_count_after_use": 0,
-    "darw_card_count_after_use": 4,
+    "darw_card_count_after_use": 0,
     "effect_hit_rate": 0,
-    "increase_self_def_point_after_use": -20,
-    "type2": 1,
+    "increase_self_def_point_after_use": 0,
+    "type2": 2,
+    "increase_health_point_after_use": 0,
+    "increase_health_percent_after_use": 0,
+    "increase_self_speed_point_after_use": 0,
+    "def_discard_card_rate_when_hitted": 0,
+    "def_discard_count_when_hitted": 0,
+    "def_discard_count_anyway": 1,
+    "user_discard_count_anyway": 1,
+    "consume_self_card_buff_config": {
+      "cnt": 0,
+      "target_type": 1,
+      "buff": 0
+    },
+    "when_adap_geater_than_buff": {
+      "compare": -1,
+      "point": 0,
+      "buff": 0
+    },
+    "when_spped_less_than_buff": {
+      "compare": -1,
+      "point": 0,
+      "buff": 0
+    },
+    "full_hp_increase_base_value_rate": 0,
+    "percentage_damage_by_self": 0,
+    "change_element_after_use": 0,
+    "increase_damage_point_when_grass_env": 0
+  },
+  {
+    "id": 71,
+    "eng_name": "",
+    "element": 0,
+    "sfx_event_name": "event:/SFX/SFX_使用_黑卡",
+    "desc": "消耗。\n@*****!%#.....\n???@!)(&&##",
+    "special_icon_path": "",
+    "card_image_path": "",
+    "type": 2,
+    "damage_point": 0,
+    "priority": 0,
+    "not_full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "not_full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "full_hp_buff_for_user_pokemon": {
+      "cnt": 0,
+      "buff": 0
+    },
+    "def_trainer_buff_after_use_count": 0,
+    "def_trainer_buff_after_use": 0,
+    "self_trainer_buff_after_use_count": 0,
+    "self_trainer_buff_after_use": 0,
+    "self_battle_buff_count_after_use": 0,
+    "self_battle_buff_after_use": 0,
+    "hit_rate": 0,
+    "mul_attack_times": [],
+    "change_battle_env_after_use": 0,
+    "using_def_to_cal_damage": false,
+    "darw_target_card_config_after_use": {
+      "target": 0,
+      "cnt": 0,
+      "draw_any_if_can_not_draw_target": false,
+      "add_when_skill_card_less_than_cnt": -1,
+      "add_target": 0,
+      "add_cnt": 0
+    },
+    "darw_leader_card_count_after_use": 0,
+    "darw_card_count_after_use": 0,
+    "effect_hit_rate": 0,
+    "increase_self_def_point_after_use": 0,
+    "type2": 2,
     "increase_health_point_after_use": 0,
     "increase_health_percent_after_use": 0,
     "increase_self_speed_point_after_use": 0,
@@ -5168,16 +5476,16 @@
     "increase_damage_point_when_grass_env": 0
   },
   {
-    "id": 29,
+    "id": 72,
     "eng_name": "",
-    "element": 7,
-    "sfx_event_name": "event:/SFX/SFX_使用_灰卡",
-    "desc": "技能优先级：6。\n趁对手没准备好的时候快速发动攻击。",
+    "element": 0,
+    "sfx_event_name": "event:/SFX/SFX_使用_黑卡",
+    "desc": "消耗。\n向敌人发起3D环绕的音波攻击。\n然而距离太远听不到......",
     "special_icon_path": "",
-    "card_image_path": "Graphics/card/ActiveSkill029_Normal_tx.png",
-    "type": 4,
-    "damage_point": 50,
-    "priority": 6,
+    "card_image_path": "",
+    "type": 2,
+    "damage_point": 0,
+    "priority": 0,
     "not_full_hp_buff_for_user": {
       "cnt": 0,
       "buff": 0
@@ -5200,7 +5508,7 @@
     "self_trainer_buff_after_use": 0,
     "self_battle_buff_count_after_use": 0,
     "self_battle_buff_after_use": 0,
-    "hit_rate": 1,
+    "hit_rate": 0,
     "mul_attack_times": [],
     "change_battle_env_after_use": 0,
     "using_def_to_cal_damage": false,
@@ -5216,7 +5524,7 @@
     "darw_card_count_after_use": 0,
     "effect_hit_rate": 0,
     "increase_self_def_point_after_use": 0,
-    "type2": 1,
+    "type2": 2,
     "increase_health_point_after_use": 0,
     "increase_health_percent_after_use": 0,
     "increase_self_speed_point_after_use": 0,
