@@ -1,3 +1,4 @@
+using Game.GamePlay;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -11,6 +12,7 @@ namespace Game
         public Button chooseBtn;
         public TextMeshProUGUI chooseBtnText;
         public Button nextBtn;
+        public PresetHuluConfig config;
 
         [SerializeField] private RectTransform selectContainer;
         private PokemonSelectItem[] _selectItems;
@@ -58,7 +60,7 @@ namespace Game
         {
             base.OnOpened();
             _chooseHulus.Clear();
-            _firstGeneratedPokemons = GameMath.RandomGeneratedFirstPokemon(_selectItems.Length);
+            _firstGeneratedPokemons = RollHulus();
             _curSelectedHulu = 0;
             for (int i = 0; i < _selectItems.Length; i++)
             {
@@ -137,6 +139,27 @@ namespace Game
             {
                 nextBtn.gameObject.SetActive(false);
             }
+        }
+
+        private List<HuluData> RollHulus()
+        {
+            List<HuluData> result = new List<HuluData>();
+            List<int> indexs = new List<int>();
+            for(int i=0;i<6;++i)
+            {
+                int r = Random.Range(0, config.hulus.Count);
+                if(!indexs.Contains(r))
+                {
+                    indexs.Add(r);
+                    HuluData hulu = new HuluData(config.hulus[r].id);
+                    hulu.RollAbility();
+                    for (int j = 0; j < config.hulus[r].ownedSkills.Count; ++j) hulu.ownedSkills.Add(config.hulus[r].ownedSkills[j]);
+                    int t = Random.Range(6, 10)- config.hulus[r].ownedSkills.Count;
+                    if (t > 0) hulu.RollTargetSkills(t);
+                    result.Add(hulu);
+                }
+            }
+            return result;
         }
 
         public void OnContinueBtnClick()
