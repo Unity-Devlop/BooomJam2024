@@ -226,7 +226,8 @@ namespace Game
         public override void OnSelect(BaseEventData eventData)
         {
             base.OnSelect(eventData);
-            Global.Get<AudioSystem>().PlayOneShot(FMODName.Event.SFX_SFX_UI_选择卡牌);
+            // TODO 感觉不好听 不如不要
+            // Global.Get<AudioSystem>().PlayOneShot(FMODName.Event.SFX_SFX_UI_选择卡牌);
             selected = true;
             SelectEvent.Invoke(this, selected);
         }

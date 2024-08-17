@@ -5,8 +5,6 @@ namespace Game
     {
         public static class Event
         {
-        	public const string MX_NORMAL_DEMO1 = "event:/MX_NORMAL_DEMO1";
-        	public const string MX_COMBAT_DEMO1 = "event:/MX_COMBAT_DEMO1";
         	public const string SFX_SFX_UI_进入卡牌 = "event:/SFX/SFX_UI_进入卡牌";
         	public const string SFX_SFX_使用_黑卡 = "event:/SFX/SFX_使用_黑卡";
         	public const string SFX_SFX_使用_水 = "event:/SFX/SFX_使用_水";
@@ -19,6 +17,9 @@ namespace Game
         	public const string SFX_SFX_使用_风 = "event:/SFX/SFX_使用_风";
         	public const string SFX_SFX_使用_灰卡 = "event:/SFX/SFX_使用_灰卡";
         	public const string SFX_SFX_UI_出牌 = "event:/SFX/SFX_UI_出牌";
+        	public const string MX_MX_NORMAL_LOOP = "event:/MX/MX_NORMAL_LOOP";
+        	public const string MX_MX_MAINSCREEN_LOOP = "event:/MX/MX_MAINSCREEN_LOOP";
+        	public const string MX_MX_COMBAT_LOOP = "event:/MX/MX_COMBAT_LOOP";
         }
         public static class Snapshot
         {

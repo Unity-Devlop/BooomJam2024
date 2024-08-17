@@ -493,6 +493,7 @@ namespace Game.GamePlay
             Assert.IsNotNull(next);
             Global.Event.Send(new BattleInfoRecordEvent($"{position}切换到{next}"));
             await position.NextReplaceCurrent();
+            Global.Get<AudioSystem>().PlayOneShot(FMODName.Event.SFX_SFX_UI_切换精灵);
             await position.ExecuteEnter();
             await trainer.SwitchPokemon(next);
             next.enterTimes += 1;
