@@ -1,6 +1,6 @@
 {
 "skeleton": {
-	"hash": "uSCivrVwJ2kb2YyZ/TKLiyhBINg",
+	"hash": "cBEZwUcGDTYoJlJ0V4q7LVDrebM",
 	"spine": "3.8.75",
 	"x": -960,
 	"y": -540,
@@ -47,7 +47,7 @@
 			"Trophy": {
 				"translate": [
 					{},
-					{ "time": 1, "y": -10.33 },
+					{ "time": 1, "y": 23.15 },
 					{ "time": 2 }
 				]
 			},
