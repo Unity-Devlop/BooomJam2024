@@ -80,7 +80,11 @@ namespace Game
             {
                 m_time -= Time.deltaTime;
                 countDown.text = $"{(int)Mathf.Ceil(m_time)}";
-                if (m_time <= 0) EnterGame();
+                if (m_time <= 0)
+                {
+                    if (playerChosenHulu.Count < limit) AutoChoose();
+                    EnterGame();
+                }
             }
         }
 
@@ -172,6 +176,19 @@ namespace Game
 
             Global.Get<GameFlow>().ToGameBattle(tempPlayer, tempEnemy, env).Forget();
             CloseSelf();
+        }
+
+        private void AutoChoose()
+        {
+            for(int i=0;i<player.trainerData.datas.Count;++i)
+            {
+                if (playerChosenHulu.Count >= limit) break;
+                if (!playerChosenHulu.Contains(i))
+                {
+                    playerChosenHulu.Add(i);
+                    EnemyChoose();
+                }
+            }
         }
 
         private void LoadEnv()
