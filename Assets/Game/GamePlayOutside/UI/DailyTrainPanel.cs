@@ -40,6 +40,7 @@ namespace Game
         public override void OnOpened()
         {
             base.OnOpened();
+            confirmBtn.gameObject.SetActive(true);
         }
 
         private void Register()
@@ -86,8 +87,8 @@ namespace Game
 
         private void Confirm()
         {
+            confirmBtn.gameObject.SetActive(false);
             table.Train(_playerData.trainerData.datas);
-            GamePlayOutsideMgr.Singleton.machine.Change<SpecialTrainState>();
         }
     }
 }

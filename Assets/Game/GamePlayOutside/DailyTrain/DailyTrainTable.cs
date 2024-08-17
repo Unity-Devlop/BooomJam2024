@@ -2,6 +2,7 @@ using cfg;
 using System.Buffers;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityToolkit;
 
@@ -58,11 +59,14 @@ namespace Game
             int l1 = arrayPos.y + posToGrid[arrayPos].heigth;
             for (int i = arrayPos.y, k = 0; i < l1; ++i, ++k)
             {
-                int l2 = arrayPos.x + posToGrid[arrayPos].realSize[k];
+                int l2 = arrayPos.x + posToGrid[arrayPos].realSize[k].list.Count;
                 for (int j = arrayPos.x; j < l2; ++j)
                 {
-                    grids[i, j].x = -1;
-                    grids[i, j].y = -1;
+                    if (posToGrid[arrayPos].realSize[k].list[j - arrayPos.x] == 1)
+                    {
+                        grids[i, j].x = -1;
+                        grids[i, j].y = -1;
+                    }
                 }
             }
 
@@ -83,11 +87,14 @@ namespace Game
                 int l1 = arrayPos.y + posToGrid[arrayPos].heigth;
                 for (int i = arrayPos.y, k = 0; i < l1; ++i, ++k)
                 {
-                    int l2 = arrayPos.x + posToGrid[arrayPos].realSize[k];
+                    int l2 = arrayPos.x + posToGrid[arrayPos].realSize[k].list.Count;
                     for (int j = arrayPos.x; j < l2; ++j)
                     {
-                        grids[i, j].x = -1;
-                        grids[i, j].y = -1;
+                        if (posToGrid[arrayPos].realSize[k].list[j - arrayPos.x] == 1)
+                        {
+                            grids[i, j].x = -1;
+                            grids[i, j].y = -1;
+                        }
                     }
                 }
 
@@ -110,16 +117,19 @@ namespace Game
             {
                 for (int i = posY, k = 0; i < Y; ++i, ++k)
                 {
-                    X = posX + plasticGrid.realSize[k];
+                    X = posX + plasticGrid.realSize[k].list.Count;
                     for (int j = posX; j < X; ++j)
                     {
-                        if (grids[i, j].x != -1 && grids[i, j].y != -1 && posToGrid.ContainsKey(grids[i, j]))
+                        if (plasticGrid.realSize[k].list[j - posX] == 1)
                         {
-                            RemoveGrid(grids[i, j], true);
-                        }
+                            if (grids[i, j].x != -1 && grids[i, j].y != -1 && posToGrid.ContainsKey(grids[i, j]))
+                            {
+                                RemoveGrid(grids[i, j], true);
+                            }
 
-                        grids[i, j].x = posX;
-                        grids[i, j].y = posY;
+                            grids[i, j].x = posX;
+                            grids[i, j].y = posY;
+                        }
                     }
                 }
 
@@ -134,14 +144,32 @@ namespace Game
 
         public void Train(List<HuluData> datas)
         {
-            foreach (var item in posToGrid)
+            StartCoroutine("Training", datas);
+/*            foreach (var item in posToGrid)
             {
-                int h = item.Key.y + item.Value.heigth;
-                for (int i = item.Key.y; i < h; ++i)
+                item.Value.finish.gameObject.SetActive(true);
+                int w = item.Key.x + item.Value.width;
+                for (int i = item.Key.x; i < w; ++i)
                 {
                     item.Value.trainContent.Train(datas[i]);
                 }
             }
+            GamePlayOutsideMgr.Singleton.machine.Change<SpecialTrainState>();*/
+        }
+
+        IEnumerator Training(List<HuluData> datas)
+        {
+            foreach (var item in posToGrid)
+            {
+                item.Value.finish.gameObject.SetActive(true);
+                int w = item.Key.x + item.Value.width;
+                for (int i = item.Key.x; i < w; ++i)
+                {
+                    item.Value.trainContent.Train(datas[i]);
+                }
+                yield return new WaitForSeconds(1.5f);
+            }
+            GamePlayOutsideMgr.Singleton.machine.Change<SpecialTrainState>();
         }
     }
 }

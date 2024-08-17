@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +8,13 @@ using UnityEngine.UI;
 
 namespace Game
 {
+    [Serializable]
+    public struct PGrid
+    {
+        [SerializeField]
+        public List<int> list;
+    }
+
     public class PlasticGrid : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
     {
         private RectTransform rectTransform;
@@ -18,10 +26,12 @@ namespace Game
         public RectTransform _RectTransform => rectTransform;
         [HideInInspector] public int width;
         [HideInInspector] public int heigth;
-        public List<int> realSize = new List<int>();
+        public List<PGrid> realSize = new List<PGrid>();
+        //public List<List<int>> realSize = new List<List<int>>();
         public TrainContent trainContent;
         public GameObject courseTable;
         public DailyTrainTable trainTable;
+        public GameObject finish;
 
         private void Awake()
         {
@@ -29,7 +39,7 @@ namespace Game
             image = GetComponent<Image>();
             image.alphaHitTestMinimumThreshold = 0.5f;
             heigth = realSize.Count;
-            width = realSize.Max();
+            width = realSize[0].list.Count;
             originPos = rectTransform.anchoredPosition;
             canvas = GetComponentInParent<Canvas>();
         }
@@ -39,6 +49,7 @@ namespace Game
             if (width < 1) width = 1;
             if (heigth < 1) heigth = 1;
             rectTransform.sizeDelta = new Vector2(width * 100, heigth * 100);
+            finish.gameObject.SetActive(false);
         }
 
         public void OnBeginDrag(PointerEventData eventData)
