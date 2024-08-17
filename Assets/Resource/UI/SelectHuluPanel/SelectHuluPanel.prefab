@@ -8442,6 +8442,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3201556488652261403, guid: 08c7bb235a585a94f895222056858970, type: 3}
+      propertyPath: initialFlipX
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3280495600745625743, guid: 08c7bb235a585a94f895222056858970, type: 3}
       propertyPath: m_Name
       value: EnemyPokemonOwnedUIShow
