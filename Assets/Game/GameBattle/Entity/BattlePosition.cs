@@ -203,9 +203,14 @@ namespace Game.GamePlay
             if ((skill.config.Type & ActiveSkillTypeEnum.伤害技能) != 0)
             {
                 Global.LogInfo($"{this}-{current}受到主动技能:{skill}");
-                await visual.PlayTakeDamageAnimation();
+                await visual.PlayTakeDamageAnimation((damage / (float)current.hp > 0.5f));
                 return;
             }
+        }
+
+        public async UniTask OnMissSkillFrom(IBattleTrainer userTrainer, ActiveSkillData skill)
+        {
+            await visual.PlayMissAnimation();
         }
     }
 }

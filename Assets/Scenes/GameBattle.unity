@@ -507,6 +507,7 @@ MonoBehaviour:
         - id: 2
     buffList: 
     deck: 
+    switchRate: 0.4
 --- !u!4 &517525039
 Transform:
   m_ObjectHideFlags: 0
