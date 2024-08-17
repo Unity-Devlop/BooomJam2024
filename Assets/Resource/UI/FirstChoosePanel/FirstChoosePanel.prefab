@@ -529,6 +529,7 @@ MonoBehaviour:
   chooseBtn: {fileID: 192386148826364365}
   chooseBtnText: {fileID: 8416606935472602928}
   nextBtn: {fileID: 1751657932905921232}
+  config: {fileID: 11400000, guid: 0bdbee3ed37f52b4c95b07e6feda0051, type: 2}
   selectContainer: {fileID: 716181025385294244}
   show: {fileID: 5229562980791872933}
   hud: {fileID: 1916723282069662515}
