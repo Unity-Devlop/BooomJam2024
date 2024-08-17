@@ -66,11 +66,12 @@ namespace Game
             cancelBtn.gameObject.SetActive(false);
             title.text = $"恭喜获得特供卡牌——【保时捷的赞助】";
             curManageState = ManageState.Select;
-            List<ActiveSkillData> list = new List<ActiveSkillData>();
-            var data = new ActiveSkillData();
-            data.id = ActiveSkillEnum.保时捷的赞助;
-            list.Add(data);
-            container.DrawCardToHand(list);
+            var data = new ActiveSkillData
+            {
+                id = ActiveSkillEnum.保时捷的赞助
+            };
+            CardItem cardItem = container.DrawOneCardToHand(data, nameof(ActiveSkillEnum.保时捷的赞助));
+            cardItem.transform.localScale = Vector3.one * 3f;
         }
 
         public void SelectHuluSkillCard(HuluData hulu,Action callback=null)

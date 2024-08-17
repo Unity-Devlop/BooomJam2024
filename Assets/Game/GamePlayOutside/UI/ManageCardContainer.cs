@@ -65,11 +65,14 @@ namespace Game
             }
         }
 
-        private void DrawOneCardToHand(ActiveSkillData data, string name = "")
+        public CardItem DrawOneCardToHand(ActiveSkillData data, string name = "")
         {
             CardItem card = SpawnOneCardObj(name);
             CardList.Add(card);
             card.Init(cardVisualPool, data);
+            card.originScale = Vector3.one * 2;
+            card.transform.localScale = card.originScale;
+            return card;
         }
 
         private CardItem SpawnOneCardObj(string objName = "")

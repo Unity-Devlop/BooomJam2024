@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.UI;
 
 namespace Game
@@ -23,17 +25,28 @@ namespace Game
             UpdateCardMaterial();
         }
 
-        private void UpdateCardMaterial()
+        private async UniTask<Material> CreateCardMaterial()
         {
+            Material template =
+                await Global.Get<ResourceSystem>().LoadAsync<Material>("Resource/Shaders/ShinyCard.mat");
+            return new Material(template);
+        }
+
+        private bool _updating = false;
+
+        private async void UpdateCardMaterial()
+        {
+            
             if (_visual.shaderType == CardVisual.ShaderType.None)
             {
                 material = null;
                 return;
             }
-
+            if (_updating) return;
+            _updating = true;
             if (!_materials.ContainsKey(_visual.shaderType))
             {
-                Material newMaterial = new Material(material);
+                Material newMaterial = await CreateCardMaterial();
                 _materials.Add(_visual.shaderType, newMaterial);
             }
 
@@ -59,8 +72,8 @@ namespace Game
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-
             currentShaderType = _visual.shaderType;
+            _updating = false;
         }
 
         private void Update()
