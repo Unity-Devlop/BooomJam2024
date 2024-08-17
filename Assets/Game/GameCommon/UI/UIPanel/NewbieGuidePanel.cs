@@ -12,9 +12,12 @@ namespace Game
     {
         [SerializeField] private Button left;
         [SerializeField] private Button right;
+        [SerializeField] private Button close;
         [SerializeField] private ScrollRect scrollRect;
         private List<RectTransform> _contents;
         private int _current = 0;
+
+        private bool _dotweening = false;
 
         private void Awake()
         {
@@ -26,7 +29,13 @@ namespace Game
 
             left.onClick.AddListener(OnLeftClick);
             right.onClick.AddListener(OnRightClick);
+            close.onClick.AddListener(OnCloseClick);
             // scrollRect.onValueChanged.AddListener(OnScrollValueChanged);
+        }
+
+        private void OnCloseClick()
+        {
+            CloseSelf();
         }
 
         // private void OnScrollValueChanged(Vector2 arg0)
@@ -46,13 +55,13 @@ namespace Game
             ReDirect(0);
         }
 
-        private bool _dotweening = false;
 
         private void ReDirect(int idx)
         {
             if (_dotweening) return;
             int next = Mathf.Clamp(idx, 0, _contents.Count - 1);
             if (_current == next) return;
+            _current = next;
             _dotweening = true;
             scrollRect.GetComponent<CanvasGroup>().interactable = false;
             DOTween.To(() => scrollRect.horizontalNormalizedPosition, x => scrollRect.horizontalNormalizedPosition = x,
