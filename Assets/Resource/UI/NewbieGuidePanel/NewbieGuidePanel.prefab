@@ -530,6 +530,7 @@ MonoBehaviour:
   sortingOrder: 200
   left: {fileID: 839952315543555515}
   right: {fileID: 9163325355896739853}
+  close: {fileID: 2783048957832300313}
   scrollRect: {fileID: 2875800155498667723}
 --- !u!1 &4699856893397883924
 GameObject:
