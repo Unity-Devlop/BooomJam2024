@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityToolkit;
@@ -9,6 +10,8 @@ namespace Game
     {
         [SerializeField] private Button left;
         [SerializeField] private Button right;
+        
+        [SerializeField] private List<RectTransform> contents;
 
         private void Awake()
         {
@@ -16,24 +19,21 @@ namespace Game
             right.onClick.AddListener(OnRightClick);
         }
 
-        private void Next()
+        public void DirectTo(Type to)
         {
-            
-        }
-
-        private void Prev()
-        {
-            
+            // if (to == typeof(FirstSettingState))
         }
         
         private void OnRightClick()
         {
             
         }
-
+        
         private void OnLeftClick()
         {
             
         }
+
+
     }
 }

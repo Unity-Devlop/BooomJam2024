@@ -15,6 +15,12 @@ namespace Game
             _modelCenter = new ModelCenter();
 
             // 全局数据
+#if UNITY_EDITOR
+            Add(new GlobalData
+            {
+                newbieGuide = true
+            });
+#else
             if (File.Exists(Consts.LocalGlobalDataPath))
             {
                 Add(JsonConvert.DeserializeObject<GlobalData>(File.ReadAllText(Consts.LocalGlobalDataPath)));
@@ -26,6 +32,7 @@ namespace Game
                     newbieGuide = true
                 });
             }
+#endif
         }
 
         public void Add<T>(T data) where T : IModel
