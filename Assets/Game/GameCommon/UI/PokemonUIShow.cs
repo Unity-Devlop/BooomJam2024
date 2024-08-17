@@ -29,6 +29,15 @@ namespace Game
 
         public async void Bind(HuluData data)
         {
+            if (data.id == HuluEnum.怒潮龙)
+            {
+                skeletonGraphic.transform.localScale = new Vector3(-1, 1, 1);
+            }
+            else
+            {
+                skeletonGraphic.transform.localScale = new Vector3(1, 1, 1);
+            }
+            
             nameText.text = data.name;
             // descriptionText.text = data.config.Desc;
             passiveSkillDescriptionText.text = data.passiveSkillConfig.Desc;

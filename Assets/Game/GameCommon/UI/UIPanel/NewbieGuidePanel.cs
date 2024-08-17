@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using DG.Tweening;
+using Spine.Unity;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityToolkit;
@@ -14,6 +15,7 @@ namespace Game
         [SerializeField] private Button right;
         [SerializeField] private Button close;
         [SerializeField] private ScrollRect scrollRect;
+        [SerializeField] private SkeletonGraphic catSpine;
         private List<RectTransform> _contents;
         private int _current = 0;
 
