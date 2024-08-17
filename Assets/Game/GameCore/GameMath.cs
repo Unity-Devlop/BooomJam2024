@@ -350,6 +350,12 @@ namespace Game
             data.RollAbility();
             int skillCnt = Random.Range(6, 9);
             data.RollTargetSkills(skillCnt);
+            int sum = data.hp + data.atk + data.def + data.speed + data.adap;
+            if (sum <= 500) data.cost = Random.Range(120, 151);
+            else if (sum > 500 && sum <= 600) data.cost = Random.Range(260, 301);
+            else if (sum > 600 && sum <= 700) data.cost = Random.Range(380, 441);
+            else if (sum > 700 && sum <= 800) data.cost = Random.Range(510, 571);
+            else data.cost = Random.Range(650, 721);
             return data;
         }
 

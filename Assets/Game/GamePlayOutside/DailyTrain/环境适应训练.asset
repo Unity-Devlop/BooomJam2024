@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: "\u73AF\u5883\u9002\u5E94\u8BAD\u7EC3"
   m_EditorClassIdentifier: 
   id: 
-  title: 
-  description: 
+  title: "\u73AF\u5883\u9002\u5E94\u8BAD\u7EC3"
+  description: "\u9002\u5E94\u529B+2~5"
   minHealth: 0
   maxHealth: 0
   minAttack: 0
@@ -23,8 +23,8 @@ MonoBehaviour:
   maxDefence: 0
   minSpeed: 0
   maxSpeed: 0
-  minAdaptability: 0
-  maxAdaptability: 0
+  minAdaptability: 2
+  maxAdaptability: 5
   minRandom: 0
   maxRandom: 0
-  abilities: 
+  abilities: 04000000

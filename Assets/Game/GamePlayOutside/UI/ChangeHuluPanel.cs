@@ -20,6 +20,7 @@ namespace Game
         public RectTransform m_rectRule;
         public TextMeshProUGUI m_txtRule;
         public Button m_btnRule;
+        public TextMeshProUGUI m_txtHire;
 
         [SerializeField] private RectTransform selectContainer;
         private PokemonSelectItem[] _selectItems;
@@ -161,8 +162,15 @@ namespace Game
         private void ShowUI(int target)
         {
             HuluData data = _generatedPokemons[target];
-            if (_chooseHulus.Count+ Global.Get<DataSystem>().Get<GameData>().playerData.trainerData.datas.Count-_chooseOwnedHulus.Count >= Global.Get<DataSystem>().Get<GameData>().huluCapacity && Global.Get<DataSystem>().Get<GameData>().admireNum >= data.cost)
+            if (_chooseHulus.Count+ Global.Get<DataSystem>().Get<GameData>().playerData.trainerData.datas.Count-_chooseOwnedHulus.Count >= Global.Get<DataSystem>().Get<GameData>().huluCapacity)
             {
+                m_txtHire.text = "队伍已满";
+                chooseBtn.GetComponent<Image>().color = Color.gray;
+                chooseBtn.enabled = false;
+            }
+            else if(Global.Get<DataSystem>().Get<GameData>().admireNum >= data.cost)
+            {
+                m_txtHire.text = $"需要{data.cost}魅力点";
                 chooseBtn.GetComponent<Image>().color = Color.gray;
                 chooseBtn.enabled = false;
             }
@@ -310,6 +318,7 @@ namespace Game
             {
                 playerData.trainerData.datas.Add(chooseHulu);
             }
+            Global.Get<DataSystem>().Get<GameData>().admireNum = 0;
             GamePlayOutsideMgr.Singleton.machine.Change<DailyTrainState>();
         }
     }
