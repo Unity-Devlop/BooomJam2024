@@ -4,7 +4,7 @@ using UnityToolkit;
 
 namespace Game
 {
-    [Serializable]
+    // [Serializable]
     public class GlobalData : IModel
     {
         public bool newbieGuide = true;

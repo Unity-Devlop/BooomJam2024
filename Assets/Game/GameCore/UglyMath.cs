@@ -55,7 +55,7 @@ namespace Game
             {
                 int heal = (int)(damagePoint * 0.3f);
                 Global.Event.Send(new BattleInfoRecordEvent($"{atk}毒素治疗 治疗{heal}"));
-                await atk.DecreaseHealth(-heal,null);
+                await atk.DecreaseHealth(-heal, null);
             }
         }
 
@@ -338,6 +338,7 @@ namespace Game
 
             return config.DamagePoint + basePoint;
         }
+
 
         public static async UniTask<int> PostprocessAtkPoint(HuluData atk, ActiveSkillConfig config,
             BattleEnvData envData)

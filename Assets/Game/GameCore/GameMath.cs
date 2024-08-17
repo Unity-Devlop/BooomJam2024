@@ -35,6 +35,80 @@ namespace Game
             return value;
         }
 
+        private static float CalDamageElementFitDirect(HuluData user, ElementEnum atk, ElementEnum def)
+        {
+            var fit = Global.Table.ElementTable.Get(atk).Fit;
+            float value = fit.GetValueOrDefault(def, 1);
+            if (user.ContainsBuff(BattleBuffEnum.技能效果不好时变成一点五倍) && Mathf.Approximately(value, 0.5f))
+            {
+                value = 1.5f;
+            }
+
+            return value;
+        }
+
+        private static float PostprocessBattleBaseValueDirect(float baseValue, HuluData atk, HuluData def,
+            ActiveSkillConfig atkSkill)
+        {
+            while (atk.ContainsBuff(BattleBuffEnum.下一次伤害加80))
+            {
+                baseValue += 80;
+            }
+
+            // Buff
+            if (atk.ContainsBuff(BattleBuffEnum.寻找弱点))
+            {
+                Global.Event.Send(new BattleInfoRecordEvent($"{atk}寻找弱点"));
+                baseValue *= 1.5f;
+            }
+
+            if (atk.ContainsBuff(BattleBuffEnum.下一次技能伤害两倍))
+            {
+                Global.Event.Send(new BattleInfoRecordEvent($"{atk}下一次技能伤害两倍"));
+                baseValue *= 2;
+            }
+
+
+            if (atk.ContainsBuff(BattleBuffEnum.技能造成的伤害变成优先级倍))
+            {
+                Global.Event.Send(new BattleInfoRecordEvent($"{atk}技能造成的伤害变成优先级倍"));
+                // TODO 狗策划
+                int priority = Mathf.Clamp(atkSkill.Priority, 1, int.MaxValue);
+                baseValue *= priority;
+            }
+
+            if (atkSkill.FullHpIncreaseBaseValueRate != 0 && atk.currentHp >= atk.hp)
+            {
+                Global.Event.Send(new BattleInfoRecordEvent($"{atk}满血加成{atkSkill.FullHpIncreaseBaseValueRate}"));
+                baseValue *= (1 + atkSkill.FullHpIncreaseBaseValueRate);
+            }
+
+            if (Random.value < atkSkill.EffectHitRate)
+            {
+                Global.Event.Send(new BattleInfoRecordEvent($"{atk}技能{atkSkill}命中要害"));
+                baseValue *= 1.5f;
+            }
+
+            if (atk.id == HuluEnum.怒潮龙 && atk.passiveSkillConfig.Id == PassiveSkillEnum.怒火喷发 && atk.currentHp == atk.hp)
+            {
+                Global.Event.Send(new BattleInfoRecordEvent($"{atk}怒火喷发"));
+                baseValue *= 1.5f;
+            }
+            else if (atk.id == HuluEnum.烈火领主 && atk.passiveSkillConfig.Id == PassiveSkillEnum.火焰共鸣)
+            {
+                Global.Event.Send(new BattleInfoRecordEvent($"{atk}火焰共鸣"));
+                baseValue = baseValue / GameMath.CalSelfElementFit(atk.config, atkSkill) * 1.5f;
+            }
+            else if (def.id == HuluEnum.吞火熊 && def.passiveSkillConfig.Id == PassiveSkillEnum.内敛 &&
+                     atkSkill.Element == ElementEnum.水)
+            {
+                Global.Event.Send(new BattleInfoRecordEvent($"{atk}内敛"));
+                baseValue /= GameMath.CalDamageElementFitDirect(atk, atkSkill.Element, def.elementEnum);
+            }
+
+            return baseValue;
+        }
+
         public static float CalElementFit(ElementEnum atk, ElementEnum def)
         {
             var fit = Global.Table.ElementTable.Get(atk).Fit;
@@ -162,6 +236,42 @@ namespace Game
         }
 
 
+        private static int PostprocessAtkPointDirect(HuluData atk, ActiveSkillConfig config,
+            BattleEnvData envData)
+        {
+            //TODO 狗策划 边际情况 
+            if (atk.ContainsBuff(BattleBuffEnum.用速度代替攻击力进行伤害计算))
+            {
+                return atk.currentSpeed;
+            }
+
+            if (config.UsingDefToCalDamage)
+            {
+                return atk.currentDef;
+            }
+
+
+            return atk.currentAtk;
+        }
+
+        public static int CalDamageDirect(HuluData atk, HuluData def, ActiveSkillEnum skillId, BattleEnvData envData,
+            GameData data)
+        {
+            var config = Global.Table.ActiveSkillTable.Get(skillId);
+
+            int damagePoint = UglyMath.PostprocessDamagePoint(config, envData, data);
+            int atkPoint = GameMath.PostprocessAtkPointDirect(atk, config, envData);
+            float baseValue = damagePoint * atkPoint / (float)def.currentDef
+                              *
+                              CalSelfElementFit(atk.config, config) // 本系威力加成
+                              *
+                              CalDamageElementFitDirect(atk, config.Element, def.config.Elements // 属性克制
+                              );
+            baseValue = GameMath.PostprocessBattleBaseValueDirect(baseValue, atk, def, config);
+            float finalValue = baseValue * (1 - Mathf.Clamp(GameMath.CalRunTimeAdap(def, envData), 0, 100) / 100f);
+            return (int)finalValue;
+        }
+
         // https://y0akss0ko93.feishu.cn/wiki/NHMiwoQNPiaRmJkfba5c0celncn?from=from_copylink
         // 选手最终生命值HpF = 选手的生命值Hp；
         // 选手每次技能能造成的伤害Dmg = （己方选手的攻击力Att + 此次使用的技能威力SkDmg - 被攻击的敌方选手的防御力Def） * 本系威力加成1.2【使用的技能属性与己方选手的属性一致】 * 属性克制0.5/2【效果不好为0.5/十分有效为2】；
@@ -265,7 +375,8 @@ namespace Game
             return times;
         }
 
-        public static async UniTask<float> CalDefDiscardCardRateWhenHitted(IBattleTrainer atkTrainer, IBattleTrainer defTrainer,
+        public static async UniTask<float> CalDefDiscardCardRateWhenHitted(IBattleTrainer atkTrainer,
+            IBattleTrainer defTrainer,
             ActiveSkillConfig skill)
         {
             float discardRate = skill.DefDiscardCardRateWhenHitted;
