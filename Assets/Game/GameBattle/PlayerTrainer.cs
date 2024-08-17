@@ -186,8 +186,14 @@ namespace Game.GamePlay
 
         public async UniTask RandomDiscardCardFromHand(int i)
         {
+            if (i < 0)
+            {
+                await DrawSkills(-i);
+                return;
+            }
+
             Debug.Log($"随机弃牌{i}张");
-            int cnt = Mathf.Clamp(handZone.Count, 0, i);
+            int cnt = Mathf.Clamp(i, 0, handZone.Count);
             for (int j = 0; j < cnt; j++)
             {
                 var discard = handZone.RandomTakeWithoutRemove();
