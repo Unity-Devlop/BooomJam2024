@@ -57,6 +57,11 @@ namespace Game
             ReDirect(0);
         }
 
+        public override void OnClosed()
+        {
+            base.OnClosed();
+            Global.Get<DataSystem>().Get<GlobalData>().newbieGuide = false;
+        }
 
         private void ReDirect(int idx)
         {
