@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Default Local Group2
+  m_EditorClassIdentifier: 
+  m_GroupName: Default Local Group2
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 43883653fade21e46b76d0b9d9c4a6ac
+  m_SerializeEntries:
+  - m_GUID: cc0467c81096e2543a939bf4e6d60247
+    m_Address: Graphics/card
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1b134adce5c29c04a90a454c9adba63d
+    m_Address: UI/CardAtlas/icon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 61add8e71c2d81e4c8857fb28b6ef291, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 91b69101658174b4c9045572f3395c93, type: 2}
+    - {fileID: 11400000, guid: 6e013d0067bcf134c8a9047627e1d35f, type: 2}
