@@ -148,16 +148,17 @@ namespace Game
             for(int i=0;i<6;++i)
             {
                 int r = Random.Range(0, config.hulus.Count);
-                if(!indexs.Contains(r))
+                if (!indexs.Contains(r))
                 {
                     indexs.Add(r);
                     HuluData hulu = new HuluData(config.hulus[r].id);
                     hulu.RollAbility();
                     for (int j = 0; j < config.hulus[r].ownedSkills.Count; ++j) hulu.ownedSkills.Add(config.hulus[r].ownedSkills[j]);
-                    int t = Random.Range(6, 10)- config.hulus[r].ownedSkills.Count;
+                    int t = Random.Range(6, 10) - config.hulus[r].ownedSkills.Count;
                     if (t > 0) hulu.RollTargetSkills(t);
                     result.Add(hulu);
                 }
+                else --i;
             }
             return result;
         }
