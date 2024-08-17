@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityToolkit;
 
@@ -15,6 +16,14 @@ namespace Game
         public async void OnEnter(GamePlayOutsideMgr owner, IStateMachine<GamePlayOutsideMgr> stateMachine)
         {
             Global.Get<DataSystem>().Get<GameData>().date = new(2024, 8, 1, 1, 0);
+            
+            // 新手教程
+            if (Global.Get<DataSystem>().Get<GlobalData>().newbieGuide)
+            {
+                await UIRoot.Singleton.OpenPanelAsync<NewbieGuidePanel>();
+            }
+
+            await UniTask.DelayFrame(1);
             await UIRoot.Singleton.OpenPanelAsync<FirstSettingPanel>();
         }
 

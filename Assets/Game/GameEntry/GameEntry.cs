@@ -50,14 +50,8 @@ namespace Game.GameEntry
             }
             
             await task;
-#if UNITY_EDITOR
-            manager.Awake();
-            manager.gameObject.SetActive(true);
-            await UIRoot.Singleton.OpenPanelAsync<GameDebugPanel>();
-#else
             manager.Awake();
             manager.gameObject.SetActive(false);
-#endif
             Global.Get<GameFlow>().Run<GameHomeState>();
         }
     }

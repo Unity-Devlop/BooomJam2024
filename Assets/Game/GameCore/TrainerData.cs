@@ -47,14 +47,15 @@ namespace Game
         public void RemoveTrainerSkill(ActiveSkillEnum id)
         {
             int index = -1;
-            for(int i=0;i<trainerSkills.Count;++i)
+            for (int i = 0; i < trainerSkills.Count; ++i)
             {
-                if (trainerSkills[i].id==id)
+                if (trainerSkills[i].id == id)
                 {
                     index = i;
                     break;
                 }
             }
+
             if (index >= 0) trainerSkills.RemoveAt(index);
         }
 
@@ -70,7 +71,8 @@ namespace Game
             if (trainerSkills == null)
                 trainerSkills = new List<ActiveSkillData>(9);
             trainerSkills.Clear();
-            var targets = Global.Table.ActiveSkillTable.DataList.FindAll((c) => (c.Type & ActiveSkillTypeEnum.指挥) != 0);
+            var targets = Global.Table.ActiveSkillTable.DataList.FindAll((c) =>
+                (c.Type & ActiveSkillTypeEnum.指挥) != 0 && c.Id != ActiveSkillEnum.保时捷的赞助);
 
             targets.Shuffle();
 
