@@ -21,6 +21,13 @@ namespace Game
         public List<TextMeshProUGUI> playerHuluOrder = new List<TextMeshProUGUI>();
         public List<TextMeshProUGUI> enemyHuluOrder = new List<TextMeshProUGUI>();
         public TextMeshProUGUI countDown;
+        public PokemonHUD playerHud;
+        public PokemonUIShow playerShow;
+        public PokemonHUD enemyHud;
+        public PokemonUIShow enemyShow;
+        public TextMeshProUGUI playerName;
+        public TextMeshProUGUI enemyName;
+        public TextMeshProUGUI raceName;
 
         private List<HuluData> playerHulus;
         private List<int> playerChosenHulu = new List<int>();
@@ -53,6 +60,14 @@ namespace Game
         public override void OnClosed()
         {
             base.OnClosed();
+            /*playerHud.UnBind();
+              playerShow.UnBind();
+              enemyHud.UnBind();
+              enemyShow.UnBind();*/
+            playerHud.gameObject.SetActive(false);
+            playerShow.gameObject.SetActive(false);
+            enemyHud.gameObject.SetActive(false);
+            enemyShow.gameObject.SetActive(false);
             playerChosenHulu.Clear();
             enemyChosenHulu.Clear();
             for (int i = 0; i < playerHuluOrder.Count; ++i) playerHuluOrder[i].gameObject.SetActive(false);
@@ -71,12 +86,19 @@ namespace Game
 
         private void ShowUI()
         {
+            var c = Global.Get<DataSystem>().Get<GameData>().date.count;
+            if (c == 0) raceName.text = "8强争夺赛";
+            else if (c == 1) raceName.text = "4强争夺赛";
+            else if (c == 2) raceName.text = "决赛";
+            playerName.text = player.trainerData.name;
+            enemyName.text = enemy.name;
             for (int i = 0; i < chooseBtns.Count; ++i)
             {
                 if (i < player.trainerData.datas.Count)
                 {
                     chooseBtns[i].gameObject.SetActive(true);
                     playerHuluTexts[i].text = player.trainerData.datas[i].id.ToString();
+                    LoadElementSprite(playerHuluImages[i], player.trainerData.datas[i]);
                 }
                 else
                 {
@@ -87,15 +109,34 @@ namespace Game
             for (int i = 0; i < enemyHuluTexts.Count; ++i)
             {
                 enemyHuluTexts[i].text = enemy.datas[i].id.ToString();
+                LoadElementSprite(enemyHuluImages[i], enemy.datas[i]);
             }
+        }
+
+        private async void LoadElementSprite(Image image, HuluData data)
+        {
+            image.sprite = await Global.Get<ResourceSystem>().LoadElementPortraitBox(data.elementEnum);
+        }
+
+        private async void LoadEnvSprite(BattleEnvData battleEnvData)
+        {
+            envImg.sprite = await Global.Get<ResourceSystem>().LoadImage(battleEnvData.config.BackgroundPath);
         }
 
         public void ChooseHulu(int index)
         {
+            playerHud.gameObject.SetActive(true);
+            playerShow.gameObject.SetActive(true);
+            enemyHud.gameObject.SetActive(true);
+            enemyShow.gameObject.SetActive(true);
             if (playerChosenHulu.Count >= limit || playerChosenHulu.Contains(index)) return;
             playerChosenHulu.Add(index);
             playerHuluOrder[index].text = $"{playerChosenHulu.Count}";
             playerHuluOrder[index].gameObject.SetActive(true);
+            playerHud.UnBind();
+            playerHud.Bind(player.trainerData.datas[index]);
+            playerShow.UnBind();
+            playerShow.Bind(player.trainerData.datas[index]);
             EnemyChoose();
             if (playerChosenHulu.Count == limit && m_time > Consts.BattleChooseCountDown) m_time = Consts.BattleChooseCountDown;
         }
@@ -137,6 +178,7 @@ namespace Game
         {
             env = GameMath.RandomBattleEnvData();
             envName.text = env.id.ToString();
+            LoadEnvSprite(env);
         }
 
         private void LoadOpponent()
@@ -160,6 +202,10 @@ namespace Game
             enemyChosenHulu.Add(r);
             enemyHuluOrder[r].text = $"{enemyChosenHulu.Count}";
             enemyHuluOrder[r].gameObject.SetActive(true);
+            enemyHud.UnBind();
+            enemyHud.Bind(enemy.datas[r]);
+            enemyShow.UnBind();
+            enemyShow.Bind(enemy.datas[r]);
         }
     }
 }
