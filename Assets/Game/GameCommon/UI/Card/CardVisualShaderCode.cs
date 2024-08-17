@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.Assertions;
 using UnityEngine.UI;
 
 namespace Game
@@ -15,7 +16,7 @@ namespace Game
         private Dictionary<CardVisual.ShaderType, Material> _materials =
             new Dictionary<CardVisual.ShaderType, Material>();
 
-        private CardVisual.ShaderType currentShaderType;
+        private CardVisual.ShaderType _currentShaderType;
         private CardVisual _visual;
 
         protected override void Awake()
@@ -25,10 +26,23 @@ namespace Game
             UpdateCardMaterial();
         }
 
-        private async UniTask<Material> CreateCardMaterial()
+        private async UniTask<Material> CreateCardMaterial(CardVisual.ShaderType shaderType)
         {
-            Material template =
-                await Global.Get<ResourceSystem>().LoadAsync<Material>("Resource/Shaders/ShinyCard.mat");
+            Material template = null;
+            if (shaderType == CardVisual.ShaderType.Polychrome)
+            {
+                template = await Global.Get<ResourceSystem>().LoadAsync<Material>("Resource/Shaders/ShinyCard.mat");
+            }
+            else if (shaderType == CardVisual.ShaderType.Regular)
+            {
+                template = await Global.Get<ResourceSystem>().LoadAsync<Material>("Resource/Shaders/RegularCard.mat");
+            }
+            else
+            {
+                template = new Material(Shader.Find("UI/Default"));
+            }
+
+            Assert.IsNotNull(template);
             return new Material(template);
         }
 
@@ -36,17 +50,17 @@ namespace Game
 
         private async void UpdateCardMaterial()
         {
-            
             if (_visual.shaderType == CardVisual.ShaderType.None)
             {
                 material = null;
                 return;
             }
+
             if (_updating) return;
             _updating = true;
             if (!_materials.ContainsKey(_visual.shaderType))
             {
-                Material newMaterial = await CreateCardMaterial();
+                Material newMaterial = await CreateCardMaterial(_visual.shaderType);
                 _materials.Add(_visual.shaderType, newMaterial);
             }
 
@@ -64,6 +78,7 @@ namespace Game
                     material.EnableKeyword("_EDITION_" + editions[0]);
                     break;
                 case CardVisual.ShaderType.Polychrome:
+                    Global.LogInfo("Enable Polychrome");
                     material.EnableKeyword("_EDITION_" + editions[1]);
                     break;
                 case CardVisual.ShaderType.Negative:
@@ -72,13 +87,14 @@ namespace Game
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-            currentShaderType = _visual.shaderType;
+
+            _currentShaderType = _visual.shaderType;
             _updating = false;
         }
 
         private void Update()
         {
-            if (currentShaderType != _visual.shaderType)
+            if (_currentShaderType != _visual.shaderType)
             {
                 UpdateCardMaterial();
             }
