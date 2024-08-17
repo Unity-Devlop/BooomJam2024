@@ -21,17 +21,20 @@ namespace Game
         public GameObject m_rectLose;
         public TextMeshProUGUI m_txtReward;
         public PokemonUIShow uIShow;
+        public GameObject valueList;
         public Button confirmBtn;
 
         private SettleEnum settle;
         private BattleSettlementData settlementData;
         private List<HuluData> hulus = new List<HuluData>();
+        private ValueUIItem[] valueUIItems;
         private int count = 0;
         private bool isNextSeason = false;
 
         public override void OnLoaded()
         {
             base.OnLoaded();
+            valueUIItems = valueList.GetComponentsInChildren<ValueUIItem>();
             Register();
         }
 
@@ -71,6 +74,7 @@ namespace Game
                     .Find(x => x.guid == settlementData.MVP().guid);
                 Assert.IsNotNull(data);
                 uIShow.Bind(data);
+                AbilitiesUp(Random.Range(0,5),Random.Range(3, 6),data);
             }
             else
             {
@@ -80,6 +84,7 @@ namespace Game
                 Assert.IsNotNull(data);
                 uIShow.Bind(data);
                 Global.Get<DataSystem>().Get<GameData>().allowCompeting = false;
+                AbilitiesUp(Random.Range(0, 5), Random.Range(2, 5), data);
             }
 
             m_txtReward.text = $"+{settlementData.LocalAdmirePoint()}";
@@ -90,6 +95,51 @@ namespace Game
                 GamePlayOutsideMgr.Singleton.dateSystem.SeasonElapse(1);
                 Global.Get<DataSystem>().Get<GameData>().allowCompeting = true;
                 isNextSeason = true;
+            }
+        }
+
+        private void AbilitiesUp(int index,int num,HuluData data)
+        {
+            valueUIItems[0].slider.value = data.hp/(float)data.config.MaxHp;
+            valueUIItems[1].slider.value = data.atk/(float)data.config.MaxAtk;
+            valueUIItems[2].slider.value = data.def/(float)data.config.MaxDef;
+            valueUIItems[3].slider.value = data.speed/(float)data.config.MaxSpeed;
+            valueUIItems[4].slider.value = data.adap/(float)data.config.MaxAdap;
+            valueUIItems[0].valueNum.text = data.hp.ToString();
+            valueUIItems[1].valueNum.text = data.atk.ToString();
+            valueUIItems[2].valueNum.text = data.def.ToString();
+            valueUIItems[3].valueNum.text = data.speed.ToString();
+            valueUIItems[4].valueNum.text = data.adap.ToString();
+            if (index > 4) return;
+            if (index == 0)
+            {
+                valueUIItems[0].valueNum.text = $"{data.hp}+{num}";
+                data.hp = Mathf.Min(data.hp + num, data.config.MaxHp);
+                valueUIItems[0].slider.value = data.hp / (float)data.config.MaxHp;
+            }
+            else if (index == 1)
+            {
+                valueUIItems[1].valueNum.text = $"{data.atk}+{num}";
+                data.atk = Mathf.Min(data.atk + num, data.config.MaxAtk);
+                valueUIItems[1].slider.value = data.atk / (float)data.config.MaxAtk;
+            }
+            else if (index == 2)
+            {
+                valueUIItems[2].valueNum.text = $"{data.def}+{num}";
+                data.def = Mathf.Min(data.def + num, data.config.MaxDef);
+                valueUIItems[2].slider.value = data.def / (float)data.config.MaxDef;
+            }
+            else if (index == 3)
+            {
+                valueUIItems[3].valueNum.text = $"{data.speed}+{num}";
+                data.speed = Mathf.Min(data.speed + num, data.config.MaxSpeed);
+                valueUIItems[3].slider.value = data.speed / (float)data.config.MaxSpeed;
+            }
+            else if (index == 4)
+            {
+                valueUIItems[4].valueNum.text = $"{data.adap}+{num}";
+                data.adap = Mathf.Min(data.adap + num, data.config.MaxAdap);
+                valueUIItems[4].slider.value = data.adap / (float)data.config.MaxAdap;
             }
         }
 
