@@ -5174,7 +5174,7 @@
     "sfx_event_name": "event:/SFX/SFX_使用_灰卡",
     "desc": "技能优先级：6。\n趁对手没准备好的时候快速发动攻击。",
     "special_icon_path": "",
-    "card_image_path": "",
+    "card_image_path": "Graphics/card/ActiveSkill029_Normal_tx.png",
     "type": 4,
     "damage_point": 50,
     "priority": 6,
