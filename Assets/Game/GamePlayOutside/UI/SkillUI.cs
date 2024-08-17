@@ -2,6 +2,7 @@ using cfg;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -18,9 +19,9 @@ namespace Game
     public class SkillUIItem : Selectable
     {
         public Image skillImg;
-        public Text skillName;
+        public TextMeshProUGUI skillName;
         public Button confirmBtn;
-        public Text btnText;
+        public TextMeshProUGUI btnText;
         private ActiveSkillEnum skillId;
         private HuluData hulu;
         private SkillOperation operation;
