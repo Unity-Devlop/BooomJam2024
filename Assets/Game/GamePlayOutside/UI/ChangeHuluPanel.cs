@@ -97,6 +97,7 @@ namespace Game
         public override void OnOpened()
         {
             base.OnOpened();
+            ShowNewRule();
             if (Global.Get<DataSystem>().Get<GameData>().ruleConfig.ruleList.Contains(GameRuleEnum.每局游戏上场的角色数量改为4)) limit = 4;
             _chooseHulus.Clear();
             _generatedPokemons = GameMath.RandomGeneratedFirstPokemon(_selectItems.Length);
@@ -296,7 +297,6 @@ namespace Game
         public void OnUnderstandNewRule()
         {
             m_rectRule.gameObject.SetActive(false);
-            GamePlayOutsideMgr.Singleton.machine.Change<DailyTrainState>();
         }
 
         public void OnContinueBtnClick()
@@ -310,7 +310,7 @@ namespace Game
             {
                 playerData.trainerData.datas.Add(chooseHulu);
             }
-            ShowNewRule();
+            GamePlayOutsideMgr.Singleton.machine.Change<DailyTrainState>();
         }
     }
 }
