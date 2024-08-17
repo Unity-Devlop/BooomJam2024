@@ -14,6 +14,7 @@ namespace Game
     public class DailyTrainPanel : UIPanel
     {
         public Button confirmBtn;
+        public GameObject mask;
         [SerializeField] private RectTransform huluNameRoot;
         private TextMeshProUGUI[] _nameTextList;
 
@@ -41,6 +42,7 @@ namespace Game
         {
             base.OnOpened();
             confirmBtn.gameObject.SetActive(true);
+            mask.gameObject.SetActive(false);
         }
 
         private void Register()
@@ -89,6 +91,7 @@ namespace Game
         {
             confirmBtn.gameObject.SetActive(false);
             table.Train(_playerData.trainerData.datas);
+            mask.gameObject.SetActive(true);
         }
     }
 }

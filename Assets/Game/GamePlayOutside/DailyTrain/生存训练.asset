@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: "\u751F\u5B58\u8BAD\u7EC3"
   m_EditorClassIdentifier: 
   id: 
-  title: 
-  description: 
+  title: "\u751F\u5B58\u8BAD\u7EC3"
+  description: "\u751F\u547D\u503C+5~8\uFF0C\u9632\u5FA1\u529B+1~2"
   minHealth: 5
   maxHealth: 8
   minAttack: 0

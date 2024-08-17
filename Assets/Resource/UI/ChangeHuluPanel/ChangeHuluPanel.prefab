@@ -3097,6 +3097,7 @@ MonoBehaviour:
   m_rectRule: {fileID: 2175045250818017616}
   m_txtRule: {fileID: 3273559999376943757}
   m_btnRule: {fileID: 5170624034483667224}
+  m_txtHire: {fileID: 3310738234640651373}
   selectContainer: {fileID: 3410450234502484320}
   selectOwnedContainer: {fileID: 214227497125837436}
   show: {fileID: 4507642930702879787}
