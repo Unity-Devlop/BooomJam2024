@@ -63,12 +63,12 @@ namespace Game
             if (_current == next) return;
             _current = next;
             _dotweening = true;
-            scrollRect.GetComponent<CanvasGroup>().interactable = false;
+            // scrollRect.GetComponent<CanvasGroup>().interactable = false;
             DOTween.To(() => scrollRect.horizontalNormalizedPosition, x => scrollRect.horizontalNormalizedPosition = x,
                 Index2NormalizedPosition(_current), 0.5f).OnComplete(() =>
             {
                 _dotweening = false;
-                scrollRect.GetComponent<CanvasGroup>().interactable = true;
+                // scrollRect.GetComponent<CanvasGroup>().interactable = true;
             });
         }
 
