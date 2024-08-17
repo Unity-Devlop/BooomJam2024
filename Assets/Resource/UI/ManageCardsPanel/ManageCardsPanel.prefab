@@ -523,6 +523,7 @@ MonoBehaviour:
   moveSpeedLimit: 20
   selectionOffset: 50
   biggerScale: 2
+  originScale: {x: 1, y: 1, z: 1}
   data:
     id: 0
 --- !u!1 &2806340519959662476
@@ -1597,6 +1598,7 @@ MonoBehaviour:
   moveSpeedLimit: 20
   selectionOffset: 50
   biggerScale: 2
+  originScale: {x: 1, y: 1, z: 1}
   data:
     id: 0
 --- !u!1 &7271539748035022160
@@ -2286,6 +2288,7 @@ MonoBehaviour:
   moveSpeedLimit: 20
   selectionOffset: 50
   biggerScale: 2
+  originScale: {x: 1, y: 1, z: 1}
   data:
     id: 0
 --- !u!1 &8728441030708489748

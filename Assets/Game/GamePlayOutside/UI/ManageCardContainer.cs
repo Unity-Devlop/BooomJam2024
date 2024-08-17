@@ -70,8 +70,6 @@ namespace Game
             CardItem card = SpawnOneCardObj(name);
             CardList.Add(card);
             card.Init(cardVisualPool, data);
-            card.originScale = Vector3.one * 2;
-            card.transform.localScale = card.originScale;
             return card;
         }
 

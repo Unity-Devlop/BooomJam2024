@@ -71,7 +71,8 @@ namespace Game
                 id = ActiveSkillEnum.保时捷的赞助
             };
             CardItem cardItem = container.DrawOneCardToHand(data, nameof(ActiveSkillEnum.保时捷的赞助));
-            cardItem.transform.localScale = Vector3.one * 3f;
+            cardItem.originScale = Vector3.one * 2;
+            cardItem.transform.localScale = cardItem.originScale;
         }
 
         public void SelectHuluSkillCard(HuluData hulu,Action callback=null)

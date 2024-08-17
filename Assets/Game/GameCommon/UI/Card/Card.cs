@@ -44,7 +44,7 @@ namespace Game
 
         public float selectionOffset = 50;
         public float biggerScale = 2f;
-        
+
         public Vector3 originScale = Vector3.one;
 
         // components
@@ -54,7 +54,6 @@ namespace Game
         private Canvas _canvas;
 
 
-        
         public ActiveSkillData data;
 
         public async void Init(CardVisualPool cardVisualPool, ActiveSkillData data, bool directSetPos = false)
@@ -85,7 +84,7 @@ namespace Game
             }
 
 
-            visual.transform.localScale =originScale;
+            visual.transform.localScale = originScale;
             visual.transform.localPosition = Vector3.zero;
             if (directSetPos)
             {
@@ -103,7 +102,8 @@ namespace Game
 
         public void OnRelease()
         {
-            transform.localScale =originScale;
+            originScale = Vector3.one;
+            transform.localScale = originScale;
             gameObject.SetActive(false);
             // Reste Events
             PointerEnterEvent = delegate { };
@@ -149,15 +149,15 @@ namespace Game
 
             if (isDragging || isHovering)
             {
-                transform.localScale =originScale * biggerScale;
+                transform.localScale = originScale * biggerScale;
             }
             else if (canReset)
             {
-                transform.localScale =originScale;
+                transform.localScale = originScale;
             }
         }
 
-        
+
         private void ClampPosition()
         {
             Vector2 screenBounds =
