@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,7 +9,7 @@ namespace Game
     public class RolePortraitUIItem : MonoBehaviour
     {
         public Image roleImage;
-        public Text roleName;
+        public TextMeshProUGUI roleName;
         public Button btn;
         public int index;
 

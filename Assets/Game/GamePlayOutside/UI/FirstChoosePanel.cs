@@ -151,8 +151,5 @@ namespace Game
         }
     }
 
-    public class ClickHuluEvent
-    {
-        public int index;
-    }
+
 }
