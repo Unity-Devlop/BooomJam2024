@@ -14,8 +14,10 @@ namespace Game.GamePlay
     public class DummyRobot : PlayerBattleTrainer
     {
         // [SerializeField] 
-        private float smartRate = 0.6f;
-        [SerializeField] private float switchRate = 0.4f;
+        private const float SmartRate = 0.3f;
+
+        // [SerializeField]
+        private const float SwitchRate = 0.95f;
 
         private bool TryGetChangeTarget(out int index)
         {
@@ -87,7 +89,7 @@ namespace Game.GamePlay
 
             if (handZone.Count == 0)
             {
-                if (UnityEngine.Random.value < switchRate)
+                if (UnityEngine.Random.value < SwitchRate)
                 {
                     // 找一个不是自己的宝可梦 的 可以战斗的宝可梦 进行切
                     int next = BestSwitch(enemyData);
@@ -105,7 +107,7 @@ namespace Game.GamePlay
             }
 
 
-            if (UnityEngine.Random.value < smartRate)
+            if (UnityEngine.Random.value < SmartRate)
             {
                 // 有站起来就不需要考虑回血
                 if (!ContainsBuff(BattleBuffEnum.站起来))
