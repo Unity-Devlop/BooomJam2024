@@ -675,6 +675,7 @@ namespace Game.GamePlay
                     }
                     else
                     {
+                        await defPosition.OnMissSkillFrom(userTrainer, operation.data);
                         Global.Event.Send<BattleInfoRecordEvent>(new BattleInfoRecordEvent(
                             $"计算技能伤害,pos:{userPosition},{userPosition.current}对{defPosition.current}使用{operation.data.id} 未命中"));
                         // break;
@@ -701,7 +702,7 @@ namespace Game.GamePlay
             if (config.DefDiscardCountAnyway != 0)
             {
                 Global.Event.Send(
-                    new BattleInfoRecordEvent($"{config} 弃牌生效 {defTrainer}弃{config.DefDiscardCountAnyway} 张"));
+                    new BattleInfoRecordEvent($"{config.Id} 弃牌生效 {defTrainer}弃{config.DefDiscardCountAnyway} 张"));
                 await defTrainer.RandomDiscardCardFromHand(config.DefDiscardCountAnyway);
             }
 

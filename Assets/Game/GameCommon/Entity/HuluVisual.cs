@@ -15,6 +15,7 @@ namespace Game.GamePlay
         private HuluData _data;
         [SerializeField] private SkeletonAnimation skeletonAnimation;
         [SerializeField] private ProgressBar hpBar;
+
         [SerializeField] private TMP_Text nameText;
         // [SerializeField] private TMP_Text elementText;
         // [SerializeField] private TextMeshPro statusText;
@@ -151,7 +152,7 @@ namespace Game.GamePlay
             skeletonAnimation.AnimationState.SetAnimation(0, Consts.Animation.BattlePokemonIdleAnim, true);
         }
 
-        public async UniTask PlayTakeDamageAnimation()
+        public async UniTask PlayTakeDamageAnimation(bool shake)
         {
             Vector3 moveDir;
             switch (dir)
@@ -166,7 +167,33 @@ namespace Game.GamePlay
                     throw new ArgumentOutOfRangeException();
             }
 
-            GameBattleMgr.Singleton.cameraEffect.Shake(0.2f, 0.05f, 1); // 震屏
+            if (shake)
+            {
+                GameBattleMgr.Singleton.cameraEffect.Shake(); // 震屏
+            }
+
+            // 顿帧
+            Time.timeScale = 0.7f;
+            transform.DOMove(transform.position + moveDir, 0.1f).SetLoops(2, LoopType.Yoyo);
+            await UniTask.Delay(TimeSpan.FromSeconds(0.2f));
+            Time.timeScale = 1;
+        }
+
+        public async Task PlayMissAnimation()
+        {
+            Vector3 moveDir;
+            switch (dir)
+            {
+                case Direction.Left:
+                    moveDir = new Vector3(-0.5f, 0, 0);
+                    break;
+                case Direction.Right:
+                    moveDir = new Vector3(0.5f, 0, 0);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
             // 顿帧
             Time.timeScale = 0.7f;
             transform.DOMove(transform.position + moveDir, 0.1f).SetLoops(2, LoopType.Yoyo);

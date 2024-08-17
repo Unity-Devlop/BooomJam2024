@@ -17,41 +17,85 @@ namespace Game.GamePlay
         private float smartRate = 0.6f;
         [SerializeField] private float switchRate = 0.4f;
 
+        private bool TryGetChangeTarget(out int index)
+        {
+            index = -1;
+            for (int i = 0; i < trainerData.datas.Count; i++)
+            {
+                var c = trainerData.datas[i];
+                if (c == currentBattleData)
+                {
+                    continue;
+                }
+
+                if (c.CanFight())
+                {
+                    index = i;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private int BestSwitch(HuluData enemyData)
+        {
+            List<int> targets = new List<int>();
+            for (int i = 0; i < trainerData.datas.Count; i++)
+            {
+                var c = trainerData.datas[i];
+                if (c == currentBattleData)
+                {
+                    continue;
+                }
+
+                if (!c.CanFight())
+                {
+                    continue;
+                }
+
+                targets.Add(i);
+            }
+
+            if (targets.Count > 0)
+            {
+                // 看看有没有Counter的精灵
+                foreach (var i in targets)
+                {
+                    var c = trainerData.datas[i];
+                    if (GameMath.CalElementFit(c.elementEnum, enemyData.elementEnum) > 1)
+                    {
+                        return i;
+                    }
+                }
+
+                int nextIdx = targets.Shuffle()[0];
+                return nextIdx;
+            }
+
+            return -1;
+        }
+
         public override async UniTask<IBattleOperation> CalOperation()
         {
             Global.LogInfo($"{this} 开始思考操作");
-            float thinkingTime = UnityEngine.Random.Range(0.01f, 3f);
+            float thinkingTime = UnityEngine.Random.Range(0.01f, 0.6f);
             await UniTask.Delay(TimeSpan.FromSeconds(thinkingTime - 0.01f));
 
+            IBattleTrainer playerBattleTrainer = GameBattleMgr.Singleton.playerBattleTrainer;
+            HuluData enemyData = playerBattleTrainer.currentBattleData;
 
             if (handZone.Count == 0)
             {
                 if (UnityEngine.Random.value < switchRate)
                 {
-                    // 找一个不是自己的宝可梦 的 可以战斗的宝可梦 进行切换
-                    List<int> targets = ListPool<int>.Get();
-                    for (int i = 0; i < trainerData.datas.Count; i++)
+                    // 找一个不是自己的宝可梦 的 可以战斗的宝可梦 进行切
+                    int next = BestSwitch(enemyData);
+                    if (next != -1)
                     {
-                        var c = trainerData.datas[i];
-                        if (c == currentBattleData)
-                        {
-                            continue;
-                        }
-
-                        if (!c.CanFight())
-                        {
-                            continue;
-                        }
-
-                        targets.Add(i);
-                    }
-
-                    if (targets.Count > 0)
-                    {
-                        int nextIdx = targets.Shuffle()[0];
                         return new ChangeHuluOperation()
                         {
-                            next = nextIdx
+                            next = next
                         };
                     }
                 }
@@ -61,23 +105,51 @@ namespace Game.GamePlay
             }
 
 
-            PlayerBattleTrainer playerBattleTrainer = GameBattleMgr.Singleton.playerBattleTrainer;
-            HuluData enemyData = playerBattleTrainer.currentBattleData;
-
             if (UnityEngine.Random.value < smartRate)
             {
-                //对面手里有技能能打死我
-                if (EnemyHasAnySkillCanDefeatMe(playerBattleTrainer))
+                // 有站起来就不需要考虑回血
+                if (!ContainsBuff(BattleBuffEnum.站起来))
                 {
-                    // 我手里有守护技能 放守护技能
-                    var guard = handZone.FirstOrDefault(s => s.id == ActiveSkillEnum.守护);
-                    if (guard != null)
+                    //对面手里有技能能打死我
+                    if (EnemyHasAnySkillCanDefeatMe(playerBattleTrainer))
                     {
-                        return new ActiveSkillBattleOperation()
+                        // 我手里有守护技能 放守护技能
+                        var guard = handZone.FirstOrDefault(s => s.id == ActiveSkillEnum.守护);
+                        if (guard != null)
                         {
-                            data = guard
+                            return new ActiveSkillBattleOperation()
+                            {
+                                data = guard
+                            };
+                        }
+                    }
+
+
+                    // 如果自己没血了 尽可能找治疗技能
+                    if (currentBattleData.currentHp / (float)currentBattleData.hp < 0.5f)
+                    {
+                        if (TryGetAnyHeal(out ActiveSkillData heal))
+                        {
+                            return new ActiveSkillBattleOperation()
+                            {
+                                data = heal
+                            };
+                        }
+                    }
+                }
+
+                if (playerBattleTrainer.ContainsBuff(BattleBuffEnum.回合内消耗对手弃置的牌))
+                {
+                    int next = BestSwitch(enemyData);
+                    if (next != -1)
+                    {
+                        return new ChangeHuluOperation()
+                        {
+                            next = next
                         };
                     }
+
+                    return new EndRoundOperation();
                 }
 
                 // 能打死就打死
@@ -87,19 +159,6 @@ namespace Game.GamePlay
                     {
                         data = skill
                     };
-                }
-
-                // 如果自己没血了 尽可能找治疗技能 放 或者 放守护技能
-                if (currentBattleData.currentHp / (float)currentBattleData.hp < 0.5f)
-                {
-                    // 看看有没有治疗的指挥牌
-                    if (TryGetAnyHealCommand(out ActiveSkillData heal))
-                    {
-                        return new ActiveSkillBattleOperation()
-                        {
-                            data = heal
-                        };
-                    }
                 }
 
                 // 有counter技能就用counter技能
@@ -197,17 +256,12 @@ namespace Game.GamePlay
             return false;
         }
 
-        private bool TryGetAnyHealCommand(out ActiveSkillData heal)
+        private bool TryGetAnyHeal(out ActiveSkillData heal)
         {
             heal = null;
             foreach (var skill in handZone)
             {
                 var config = skill.config;
-                if ((config.Type & ActiveSkillTypeEnum.指挥) == 0)
-                {
-                    continue;
-                }
-
                 if (config.IncreaseHealthPercentAfterUse > 0 || config.IncreaseHealthPointAfterUse > 0)
                 {
                     heal = skill;
