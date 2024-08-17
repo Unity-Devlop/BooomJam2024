@@ -77,8 +77,8 @@ namespace Game
 
         public void RemoveGrid(Vector2 pos, bool isHiden)
         {
-            int posY = (int)Mathf.Ceil(pos.y / gridHeight);
-            int posX = (int)Mathf.Floor(pos.x / gridWidth);
+            int posY = Mathf.RoundToInt(pos.y / gridHeight);
+            int posX = Mathf.RoundToInt(pos.x / gridWidth);
             posY = -Mathf.Min(posY, 0);
             posX = Mathf.Max(posX, 0);
             ArrayPos arrayPos = new ArrayPos(posX, posY);
@@ -107,8 +107,8 @@ namespace Game
         public bool AddTrainGrid(PlasticGrid plasticGrid)
         {
             Vector2 pos = plasticGrid._RectTransform.anchoredPosition;
-            int posY = (int)Mathf.Ceil(pos.y / gridHeight);
-            int posX = (int)Mathf.Floor(pos.x / gridWidth);
+            int posY = Mathf.RoundToInt(pos.y / gridHeight);
+            int posX = Mathf.RoundToInt(pos.x / gridWidth);
             posY = -Mathf.Min(posY, 0);
             posX = Mathf.Max(posX, 0);
             int X = posX + plasticGrid.width;
