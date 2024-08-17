@@ -59,11 +59,11 @@ namespace Game
             if (index >= 0) trainerSkills.RemoveAt(index);
         }
 
-        [Button, HorizontalGroup("TrainerDebug")]
-        private void AddToPreset()
-        {
-            TrainerPresetTable.Instance.Add(this);
-        }
+        // [Button, HorizontalGroup("TrainerDebug")]
+        // private void AddToPreset()
+        // {
+        //     TrainerPresetTable.Instance.Add(this);
+        // }
 
         [Button, HorizontalGroup("TrainerDebug")]
         public void RollTrainerSkill9()

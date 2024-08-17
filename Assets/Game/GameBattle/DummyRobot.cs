@@ -4,6 +4,7 @@ using System.Linq;
 using cfg;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.Pool;
 using UnityToolkit;
 
@@ -13,8 +14,8 @@ namespace Game.GamePlay
     public class DummyRobot : PlayerBattleTrainer
     {
         // [SerializeField] 
-        private float smartRate = 0.8f;
-        [SerializeField] private float switchRate = 0.7f;
+        private float smartRate = 0.6f;
+        [SerializeField] private float switchRate = 0.4f;
 
         public override async UniTask<IBattleOperation> CalOperation()
         {
@@ -65,17 +66,27 @@ namespace Game.GamePlay
 
             if (UnityEngine.Random.value < smartRate)
             {
-                // 如果对面没血了
-                if (enemyData.currentHp / (float)enemyData.hp < 0.3f)
+                //对面手里有技能能打死我
+                if (EnemyHasAnySkillCanDefeatMe(playerBattleTrainer))
                 {
-                    // 放优先级高的技能打死
-                    if (TryGetAnyPrioritySkill(enemyData, out ActiveSkillData prioritySkill))
+                    // 我手里有守护技能 放守护技能
+                    var guard = handZone.FirstOrDefault(s => s.id == ActiveSkillEnum.守护);
+                    if (guard != null)
                     {
                         return new ActiveSkillBattleOperation()
                         {
-                            data = prioritySkill
+                            data = guard
                         };
                     }
+                }
+
+                // 能打死就打死
+                if (TryGetSkillCanSkill(enemyData, out ActiveSkillData skill))
+                {
+                    return new ActiveSkillBattleOperation()
+                    {
+                        data = skill
+                    };
                 }
 
                 // 如果自己没血了 尽可能找治疗技能 放 或者 放守护技能
@@ -110,9 +121,59 @@ namespace Game.GamePlay
             return operation;
         }
 
-        private bool CanKill(HuluData enemy, ActiveSkillData skill)
+        private bool EnemyHasAnySkillCanDefeatMe(IBattleTrainer enemy)
         {
-            throw new NotImplementedException();
+            foreach (var skill in enemy.handZone)
+            {
+                if ((skill.config.Type & ActiveSkillTypeEnum.伤害技能) == 0)
+                {
+                    continue;
+                }
+
+                if (CanSkill(enemy.currentBattleData, currentBattleData, skill))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public static bool CanSkill(HuluData atk, HuluData def, ActiveSkillData skill)
+        {
+            Assert.IsNotNull(skill);
+            Assert.IsNotNull(atk);
+            Assert.IsNotNull(def);
+            Assert.IsTrue(skill.config.Type == ActiveSkillTypeEnum.伤害技能);
+            if (skill.config.Type == ActiveSkillTypeEnum.伤害技能)
+            {
+                return GameMath.CalDamageDirect(atk, def, skill.id,
+                           GameBattleMgr.Singleton.battleFlow.battleEnv.data,
+                           Global.Get<DataSystem>().Get<GameData>()) >=
+                       def.currentHp;
+            }
+
+            return false;
+        }
+
+        private bool TryGetSkillCanSkill(HuluData enemyData, out ActiveSkillData skill)
+        {
+            skill = null;
+            foreach (var s in handZone)
+            {
+                if ((s.config.Type & ActiveSkillTypeEnum.伤害技能) == 0)
+                {
+                    continue;
+                }
+
+                if (CanSkill(currentBattleData, enemyData, s))
+                {
+                    skill = s;
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         private bool TryGetAnyPrioritySkill(HuluData enemyData, out ActiveSkillData prioritySkill)
