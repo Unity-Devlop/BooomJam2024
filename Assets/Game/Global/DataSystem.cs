@@ -13,6 +13,19 @@ namespace Game
         public void OnInit()
         {
             _modelCenter = new ModelCenter();
+
+            // 全局数据
+            if (File.Exists(Consts.LocalGlobalDataPath))
+            {
+                Add(JsonConvert.DeserializeObject<GlobalData>(File.ReadAllText(Consts.LocalGlobalDataPath)));
+            }
+            else
+            {
+                Add(new GlobalData
+                {
+                    newbieGuide = true
+                });
+            }
         }
 
         public void Add<T>(T data) where T : IModel
@@ -34,7 +47,9 @@ namespace Game
 
             Global.LogInfo($"Save Game Data");
             WriteGameData(Get<GameData>());
+            WriteGlobalData();
         }
+
 
         public bool LoadPrevGameData(out GameData data)
         {
@@ -64,6 +79,12 @@ namespace Game
             {
                 File.Delete(Consts.LocalGameDataPath);
             }
+        }
+
+        private void WriteGlobalData()
+        {
+            Global.LogInfo($"Save Global Data:{Get<GlobalData>()},path:{Consts.LocalGlobalDataPath}");
+            File.WriteAllText(Consts.LocalGlobalDataPath, JsonConvert.SerializeObject(Get<GlobalData>()));
         }
 
         private void WriteGameData(GameData data)
