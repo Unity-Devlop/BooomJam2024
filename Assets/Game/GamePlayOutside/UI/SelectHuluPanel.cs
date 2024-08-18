@@ -90,9 +90,13 @@ namespace Game
         private void ShowUI()
         {
             var c = Global.Get<DataSystem>().Get<GameData>().date.count;
-            if (c == 0) raceName.text = "8强争夺赛";
-            else if (c == 1) raceName.text = "4强争夺赛";
-            else if (c == 2) raceName.text = "决赛";
+            if (c == 0) raceName.text = "64强争夺赛";
+            else if (c == 1) raceName.text = "32强争夺赛";
+            else if (c == 2) raceName.text = "16强争夺赛";
+            else if(c==3) raceName.text = "8强争夺赛";
+            else if(c==4) raceName.text = "4强争夺赛";
+            else raceName.text = "决赛";
+
             playerName.text = player.trainerData.name;
             enemyName.text = enemy.name;
             LoadTeamIcon();

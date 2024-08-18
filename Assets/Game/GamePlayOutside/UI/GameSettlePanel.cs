@@ -90,7 +90,7 @@ namespace Game
             m_txtReward.text = $"+{settlementData.LocalAdmirePoint()}";
             Global.Get<DataSystem>().Get<GameData>().admireNum += settlementData.LocalAdmirePoint();
             GamePlayOutsideMgr.Singleton.dateSystem.MonthElapse(1);
-            if (++Global.Get<DataSystem>().Get<GameData>().date.count % 3 == 0)
+            if (++Global.Get<DataSystem>().Get<GameData>().date.count % 6 == 0)
             {
                 GamePlayOutsideMgr.Singleton.dateSystem.SeasonElapse(1);
                 Global.Get<DataSystem>().Get<GameData>().allowCompeting = true;
