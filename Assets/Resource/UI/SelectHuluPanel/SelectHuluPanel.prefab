@@ -6437,6 +6437,7 @@ MonoBehaviour:
   playerName: {fileID: 723258749207368083}
   enemyName: {fileID: 7821976587617348819}
   raceName: {fileID: 7167860686893875238}
+  enemyTeamIcon: {fileID: 3005776782617587280}
 --- !u!114 &7895127029132820922
 MonoBehaviour:
   m_ObjectHideFlags: 0

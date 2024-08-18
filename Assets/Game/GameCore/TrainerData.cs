@@ -14,6 +14,7 @@ namespace Game
         public string name;
         public List<ActiveSkillData> trainerSkills;
         public List<HuluData> datas;
+        public string path;
 
         public bool canFight
         {
