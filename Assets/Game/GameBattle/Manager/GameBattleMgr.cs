@@ -67,7 +67,7 @@ namespace Game.GamePlay
 
 
             GameBattlePanel gameBattlePanel = await UIRoot.Singleton.OpenPanelAsync<GameBattlePanel>();
-            gameBattlePanel.Bind(battleFlow.self);
+            gameBattlePanel.Bind(battleFlow.self, battleFlow.enemy);
             battling = true;
             battleFlow.Enter().ContinueWith(OnBattleEnd).Forget();
         }

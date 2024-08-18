@@ -16,7 +16,8 @@ namespace Game
         [SerializeField] private BattleCardContainer selfBattleCardContainer;
         [SerializeField] private Button endRoundButton;
         [SerializeField] private LeftTeamHuluView leftTeamHuluView;
-        private IBattleTrainer _trainer;
+        [SerializeField] private LeftTeamHuluView rightTeamHuluView;
+        private IBattleTrainer _trainer; 
 
         private void Awake()
         {
@@ -39,9 +40,9 @@ namespace Game
             _trainer.PushOperation(new EndRoundOperation());
         }
 
-        public void Bind(IBattleTrainer battleTrainer)
+        public void Bind(IBattleTrainer local,IBattleTrainer remote)
         {
-            _trainer = battleTrainer;
+            _trainer = local;
             _trainer.OnDrawCard += DrawCardToHand;
             _trainer.OnDiscardCardFromHand += DiscardCard;
             _trainer.OnConsumedCard += OnConsumedCard;
@@ -51,8 +52,9 @@ namespace Game
             _trainer.OnUseCardFromHand += UseHandHandCard;
             _trainer.OnDiscardToDraw += DiscardToDraw;
 
-            selfBattleCardContainer.Bind(battleTrainer);
-            leftTeamHuluView.Bind(battleTrainer);
+            selfBattleCardContainer.Bind(local);
+            leftTeamHuluView.Bind(local);
+            rightTeamHuluView.Bind(remote);
         }
 
 
@@ -72,6 +74,7 @@ namespace Game
 
             selfBattleCardContainer.UnBind();
             leftTeamHuluView.UnBind();
+            rightTeamHuluView.UnBind();
         }
 
 
