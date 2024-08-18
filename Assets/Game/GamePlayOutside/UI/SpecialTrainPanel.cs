@@ -36,7 +36,7 @@ namespace Game
         public Button DeleteCard;
        // public Text roleShowName;
         //public Text roleShowPassiveSkill;
-        private PlayerData playerData;
+        private PlayerData playerData => Global.Get<DataSystem>().Get<GameData>().playerData;
 
         private RolePortraitUIItem[] rolePortraitUIItems;
         private ValueUIItem[] valueUIItems;
@@ -49,7 +49,6 @@ namespace Game
         {
             base.OnLoaded();
             valueUIItems = ValueList.GetComponentsInChildren<ValueUIItem>();
-            playerData = Global.Get<DataSystem>().Get<GameData>().playerData;
             Register();
         }
 
@@ -121,31 +120,31 @@ namespace Game
             SelectCard.gameObject.SetActive(false);
             DeleteCard.gameObject.SetActive(false);
         }
-
-        private void ItemRenderer(Transform transform1, int idx)
-        {
-            var huluData = playerData.trainerData.datas[curHulu];
-            SkillUIItem item = transform1.GetComponentInChildren<SkillUIItem>();
-            var index=transform1.GetSiblingIndex();
-            if (haveTrained)
-            {
-                ActiveSkillData skillData = huluData.ownedSkills[index];
-                item.Init(huluData, skillData.id, SkillOperation.Delete);
-            }
-            else
-            {
-                if (index >= 3)
-                {
-                    ActiveSkillData skillData = huluData.ownedSkills[index - 3];
-                    item.Init(huluData, skillData.id, SkillOperation.Delete);
-                }
-                else
-                {
-                    var list = huluData.config.SkillPool.Shuffle();
-                    item.Init(huluData, list[0], SkillOperation.Select);
-                }
-            }
-        }
+        //
+        // private void ItemRenderer(Transform transform1, int idx)
+        // {
+        //     var huluData = playerData.trainerData.datas[curHulu];
+        //     SkillUIItem item = transform1.GetComponentInChildren<SkillUIItem>();
+        //     var index=transform1.GetSiblingIndex();
+        //     if (haveTrained)
+        //     {
+        //         ActiveSkillData skillData = huluData.ownedSkills[index];
+        //         item.Init(huluData, skillData.id, SkillOperation.Delete);
+        //     }
+        //     else
+        //     {
+        //         if (index >= 3)
+        //         {
+        //             ActiveSkillData skillData = huluData.ownedSkills[index - 3];
+        //             item.Init(huluData, skillData.id, SkillOperation.Delete);
+        //         }
+        //         else
+        //         {
+        //             var list = huluData.config.SkillPool.Shuffle();
+        //             item.Init(huluData, list[0], SkillOperation.Select);
+        //         }
+        //     }
+        // }
 
         private void ShowUI()
         {
@@ -179,10 +178,10 @@ namespace Game
             ShowUI();
         }
 
-        public void Choose()
-        {
-
-        }
+        // public void Choose()
+        // {
+        //
+        // }
 
         private void AddHealth()
         {

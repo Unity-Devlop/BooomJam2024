@@ -75,19 +75,20 @@ namespace Game
             cardItem.transform.localScale = cardItem.originScale;
         }
 
-        public void SelectHuluSkillCard(HuluData hulu,Action callback=null)
+        public void SelectHuluSkillCard(HuluData hulu, Action callback = null)
         {
             title.text = $"选择一张卡牌\n{hulu.id}";
             curManageState = ManageState.Select;
             curHulu = hulu;
             var activeSkillEnums = GetRandomSkill(Global.Table.HuluTable.Get(hulu.id).SkillPool);
             List<ActiveSkillData> list = new List<ActiveSkillData>();
-            for(int i=0;i< activeSkillEnums.Count; ++i)
+            for (int i = 0; i < activeSkillEnums.Count; ++i)
             {
                 var data = new ActiveSkillData();
                 data.id = activeSkillEnums[i];
                 list.Add(data);
             }
+
             container.DrawCardToHand(list);
             this.callBack = callback;
         }
@@ -97,18 +98,18 @@ namespace Game
             title.text = "选择一张指挥卡牌";
             curManageState = ManageState.Select;
             List<ActiveSkillData> list = new List<ActiveSkillData>();
-            var targets = Global.Table.ActiveSkillTable.DataList.FindAll((c) => c.Type == ActiveSkillTypeEnum.指挥);
-            targets.Shuffle();
+
             for (int i = 0; i < 3; ++i)
             {
                 var data = new ActiveSkillData();
-                data.id = targets[i].Id;
+                data.id = GameMath.RandomTrainerSkill();
                 list.Add(data);
             }
+
             container.DrawCardToHand(list);
         }
 
-        public void DeleteHuluSkillCard(HuluData hulu,Action callback=null)
+        public void DeleteHuluSkillCard(HuluData hulu, Action callback = null)
         {
             title.text = $"删除一张卡牌\n{hulu.id}";
             curManageState = ManageState.Delete;
@@ -158,6 +159,7 @@ namespace Game
                     playerData.trainerData.RemoveTrainerSkill(curSelectCardId);
                 }
             }
+
             CloseSelf();
         }
 
@@ -178,6 +180,7 @@ namespace Game
                 array[r] = array[i];
                 array[i] = temp;
             }
+
             return new List<ActiveSkillEnum>() { array[0], array[1], array[2] };
         }
 

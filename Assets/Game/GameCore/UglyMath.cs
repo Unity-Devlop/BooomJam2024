@@ -113,7 +113,7 @@ namespace Game
 
             if (Random.value < atkSkill.EffectHitRate)
             {
-                Global.Event.Send(new BattleInfoRecordEvent($"{atk}技能{atkSkill}命中要害"));
+                Global.Event.Send(new BattleInfoRecordEvent($"{atk}技能{atkSkill.Id}命中要害"));
                 baseValue *= 1.5f;
             }
 

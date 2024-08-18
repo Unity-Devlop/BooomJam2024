@@ -29,10 +29,10 @@ namespace Game
         public TextMeshProUGUI enemyName;
         public TextMeshProUGUI raceName;
 
-        private List<HuluData> playerHulus;
+        private List<HuluData> playerHulus => Global.Get<DataSystem>().Get<GameData>().playerData.trainerData.datas;
         private List<int> playerChosenHulu = new List<int>();
         private List<int> enemyChosenHulu = new List<int>();
-        private PlayerData player;
+        private PlayerData player => Global.Get<DataSystem>().Get<GameData>().playerData;
         private TrainerData enemy;
         private BattleEnvData env;
         private float M_Time = 90f;
@@ -42,8 +42,6 @@ namespace Game
         public override void OnLoaded()
         {
             base.OnLoaded();
-            playerHulus = Global.Get<DataSystem>().Get<GameData>().playerData.trainerData.datas;
-            player = Global.Get<DataSystem>().Get<GameData>().playerData;
         }
 
         public override void OnOpened()
@@ -142,7 +140,8 @@ namespace Game
             playerShow.UnBind();
             playerShow.Bind(player.trainerData.datas[index]);
             EnemyChoose();
-            if (playerChosenHulu.Count == limit && m_time > Consts.BattleChooseCountDown) m_time = Consts.BattleChooseCountDown;
+            if (playerChosenHulu.Count == limit && m_time > Consts.BattleChooseCountDown)
+                m_time = Consts.BattleChooseCountDown;
         }
 
         private void EnterGame()
@@ -161,7 +160,7 @@ namespace Game
             {
                 playerHulus[t].RecoverAllAbility();
                 var copy = DeepCopyUtil.DeepCopyByJson(playerHulus[t]);
-                copy.guid =playerHulus[t].guid;
+                copy.guid = playerHulus[t].guid;
                 tempPlayer.datas.Add(copy);
             }
 
@@ -180,7 +179,7 @@ namespace Game
 
         private void AutoChoose()
         {
-            for(int i=0;i<player.trainerData.datas.Count;++i)
+            for (int i = 0; i < player.trainerData.datas.Count; ++i)
             {
                 if (playerChosenHulu.Count >= limit) break;
                 if (!playerChosenHulu.Contains(i))
