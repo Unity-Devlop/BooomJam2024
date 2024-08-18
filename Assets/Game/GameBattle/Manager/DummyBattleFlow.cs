@@ -559,6 +559,7 @@ namespace Game.GamePlay
                 if (operation.data.id == ActiveSkillEnum.重整思路)
                 {
                     Global.Event.Send(new BattleInfoRecordEvent($"重整思路 弃所有手牌 抽等量牌"));
+                    await Global.Event.SendWithResult<OnExecuteSkill, UniTask>(new OnExecuteSkill(userTrainer, operation.data));
                     int currentCount = userTrainer.handZone.Count;
                     await userTrainer.DiscardAllHandCards();
                     await userTrainer.DrawSkills(currentCount);
@@ -567,6 +568,7 @@ namespace Game.GamePlay
                 if (operation.data.id == ActiveSkillEnum.喝茶)
                 {
                     Global.Event.Send(new BattleInfoRecordEvent($"喝茶 双方结束回合 自己回50血"));
+                    await Global.Event.SendWithResult<OnExecuteSkill, UniTask>(new OnExecuteSkill(userTrainer, operation.data));
                     _selfOper = new EndRoundOperation();
                     _enemyOper = new EndRoundOperation();
                 }
@@ -581,6 +583,7 @@ namespace Game.GamePlay
                     else
                     {
                         int idx = userTrainer.trainerData.datas.IndexOf(next);
+                        await Global.Event.SendWithResult<OnExecuteSkill, UniTask>(new OnExecuteSkill(userTrainer, operation.data));
                         await ExecuteSwitch(userTrainer, userPosition, idx);
                     }
                 }

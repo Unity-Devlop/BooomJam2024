@@ -40,7 +40,8 @@ namespace Game.GamePlay
         [SerializeField] private List<BattleBuffEnum> buffList = new List<BattleBuffEnum>();
 
 
-        public List<ActiveSkillEnum> deck = new();
+        // [HideInInspector]
+        private List<ActiveSkillEnum> _deck = new();
 
         // Draw zone, hand zone, discard zone
         [ShowInInspector, ReadOnly] public HashSet<ActiveSkillData> drawZone = new();
@@ -184,13 +185,16 @@ namespace Game.GamePlay
             await UniTask.CompletedTask;
         }
 
+#if UNITY_EDITOR
+        [Button]
+#endif
         public async UniTask RandomDiscardCardFromHand(int i)
         {
-            if (i < 0)
-            {
-                await DrawSkills(-i);
-                return;
-            }
+            // if (i < 0)
+            // {
+            //     await DrawSkills(-i);
+            //     return;
+            // }
 
             Debug.Log($"随机弃牌{i}张");
             int cnt = Mathf.Clamp(i, 0, handZone.Count);
@@ -319,7 +323,7 @@ namespace Game.GamePlay
                 Global.LogWarning($"{this}移除了{noneC}个None技能");
             }
 
-            deck.Clear();
+            _deck.Clear();
             foreach (var ownedSkill in currentBattleData.ownedSkills)
             {
                 if (consumedZone.Contains(ownedSkill))
@@ -329,7 +333,7 @@ namespace Game.GamePlay
                 }
 
                 Assert.IsFalse(ownedSkill.id == ActiveSkillEnum.None);
-                deck.Add(ownedSkill.id);
+                _deck.Add(ownedSkill.id);
             }
 
             int noneT = trainerData.trainerSkills.RemoveAll(x => x.id == ActiveSkillEnum.None);
@@ -347,7 +351,7 @@ namespace Game.GamePlay
                 }
 
                 Assert.IsFalse(skill.id == ActiveSkillEnum.None);
-                deck.Add(skill.id);
+                _deck.Add(skill.id);
             }
 
             // 
@@ -361,7 +365,7 @@ namespace Game.GamePlay
             // Debug.Log($"当前手牌数量:{cur}");
             int need = CalHandMax() - cur; // 还可以抽的数量
             need = Mathf.Clamp(need, 0, cnt); // 限制抽牌数量
-            need = Mathf.Clamp(need, 0, deck.Count);
+            need = Mathf.Clamp(need, 0, _deck.Count);
             if (need == 0)
             {
                 // Debug.Log("手牌已满");
@@ -474,7 +478,7 @@ namespace Game.GamePlay
         public int GetTargetCntInDeck(ActiveSkillTypeEnum targetType)
         {
             int cnt = 0;
-            foreach (var skillEnum in deck)
+            foreach (var skillEnum in _deck)
             {
                 var config = Global.Table.ActiveSkillTable.Get(skillEnum);
                 if ((targetType & config.Type) != 0)
@@ -489,12 +493,12 @@ namespace Game.GamePlay
         public UniTask AddCardToDeck(ActiveSkillData added)
         {
             Assert.IsNotNull(added);
-            Assert.IsFalse(deck.Contains(added.id));
+            Assert.IsFalse(_deck.Contains(added.id));
             Assert.IsFalse(drawZone.Contains(added));
             Assert.IsFalse(handZone.Contains(added));
             Assert.IsFalse(discardZone.Contains(added));
 
-            deck.Add(added.id);
+            _deck.Add(added.id);
             drawZone.Add(added);
             // TODO 通知UI
             return UniTask.CompletedTask;
@@ -588,7 +592,7 @@ namespace Game.GamePlay
 
         public void ExitBattle()
         {
-            deck.Clear();
+            _deck.Clear();
             drawZone.Clear();
             handZone.Clear();
             discardZone.Clear();

@@ -144,7 +144,7 @@ namespace Game
             if (def.ContainsBuff(BattleBuffEnum.守护))
             {
                 Global.Event.Send(new BattleInfoRecordEvent($"{def}守护中，无法被攻击"));
-                Global.Event.Send(new BattlePokemonBuffActionEvent(def, BattleBuffEnum.守护));
+                await Global.Event.SendWithResult<BattlePokemonBuffActionEvent, UniTask>(new BattlePokemonBuffActionEvent(def, BattleBuffEnum.守护));
                 return false;
             }
 
@@ -155,7 +155,8 @@ namespace Game
                 if (!res)
                 {
                     Global.Event.Send(new BattleInfoRecordEvent($"{def}快躲开生效"));
-                    Global.Event.Send(new BattlePokemonBuffActionEvent(def, BattleBuffEnum.快躲开));
+                    await Global.Event.SendWithResult<BattlePokemonBuffActionEvent, UniTask>(
+                        new BattlePokemonBuffActionEvent(def, BattleBuffEnum.快躲开));
                 }
             }
 
