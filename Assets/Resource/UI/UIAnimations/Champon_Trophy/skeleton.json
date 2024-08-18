@@ -1,0 +1,82 @@
+{
+"skeleton": {
+	"hash": "d8EnKZ9S+mngeZatMDYxClL9m2E",
+	"spine": "3.8.75",
+	"x": -960,
+	"y": -540,
+	"width": 1920,
+	"height": 1080,
+	"images": "F:/Spine图片文件夹/标题奖杯/",
+	"audio": ""
+},
+"bones": [
+	{ "name": "root" },
+	{ "name": "Main", "parent": "root", "length": 622, "rotation": -0.09, "x": -392, "y": 622 },
+	{ "name": "Trophy", "parent": "Main", "length": 196.09, "rotation": 111.95, "x": 306.53, "y": -332.51 },
+	{ "name": "Light", "parent": "Trophy", "length": 283.02, "rotation": -21.25, "x": -21.12, "y": 54.8 }
+],
+"slots": [
+	{ "name": "光效", "bone": "Light", "attachment": "光效" },
+	{ "name": "奖杯", "bone": "Trophy", "attachment": "奖杯" }
+],
+"skins": [
+	{
+		"name": "default",
+		"attachments": {
+			"奖杯": {
+				"奖杯": { "x": -300.24, "y": 27.77, "rotation": -111.86, "width": 1920, "height": 1080 }
+			},
+			"光效": {
+				"光效": { "x": -250.35, "y": -126.35, "rotation": -90.61, "width": 1920, "height": 1080 }
+			}
+		}
+	}
+],
+"animations": {
+	"End": {
+		"bones": {
+			"Trophy": {
+				"translate": [
+					{},
+					{ "time": 0.5, "y": -20.08 },
+					{ "time": 1 },
+					{ "time": 1.5, "y": 20.21 },
+					{ "time": 2 }
+				]
+			}
+		}
+	},
+	"Idle": {
+		"slots": {
+			"光效": {
+				"color": [
+					{ "color": "ffffffff" },
+					{ "time": 1, "color": "e6e6e6e7" },
+					{ "time": 2, "color": "ffffffff" }
+				]
+			}
+		},
+		"bones": {
+			"Trophy": {
+				"translate": [
+					{},
+					{ "time": 1, "y": 23.15 },
+					{ "time": 2 }
+				]
+			},
+			"Light": {
+				"translate": [
+					{},
+					{ "time": 1, "x": 9.32, "y": -7.87 },
+					{ "time": 2 }
+				],
+				"scale": [
+					{},
+					{ "time": 1, "x": 0.9, "y": 0.9 },
+					{ "time": 2 }
+				]
+			}
+		}
+	}
+}
+}
