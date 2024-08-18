@@ -313,6 +313,11 @@ namespace Game.GamePlay
         /// </summary>
         private void RecalculateDeck()
         {
+            int noneC = currentBattleData.ownedSkills.RemoveAll(x => x.id == ActiveSkillEnum.None);
+            if (noneC > 0)
+            {
+                Global.LogWarning($"{this}移除了{noneC}个None技能");
+            }
             deck.Clear();
             foreach (var ownedSkill in currentBattleData.ownedSkills)
             {
@@ -326,6 +331,11 @@ namespace Game.GamePlay
                 deck.Add(ownedSkill.id);
             }
 
+            int noneT = trainerData.trainerSkills.RemoveAll(x => x.id == ActiveSkillEnum.None);
+            if (noneT > 0)
+            {
+                Global.LogWarning($"{this}移除了{noneT}个None技能");
+            }
             foreach (var skill in trainerData.trainerSkills)
             {
                 if (consumedZone.Contains(skill))
