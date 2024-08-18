@@ -42,6 +42,13 @@ namespace Game
             return obj;
         }
 
+        private void OnDisable()
+        {
+            _dataSource.Clear();
+            list.totalCount = 0;
+            list.RefreshCells();
+        }
+
         private async void RenderItem(Transform transform1, int idx)
         {
             TextMeshProUGUI tip = transform1.GetComponentInChildren<TextMeshProUGUI>();
@@ -58,6 +65,7 @@ namespace Game
             list.RefreshCells();
             list.SrollToCellWithinTime(list.totalCount - 1, .2f);
         }
+
         private void OnBattlePokemonBuffActionEvent(BattlePokemonBuffActionEvent obj)
         {
             _dataSource.Add($"{obj.pokemon} {obj.buff} 生效");
