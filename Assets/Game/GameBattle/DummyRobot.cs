@@ -105,73 +105,73 @@ namespace Game.GamePlay
                 // 不一定要结束回合 可以切换队友
                 return new EndRoundOperation();
             }
-
-
-            if (UnityEngine.Random.value < SmartRate)
-            {
-                // 有站起来就不需要考虑回血
-                if (!ContainsBuff(BattleBuffEnum.站起来))
-                {
-                    //对面手里有技能能打死我
-                    if (EnemyHasAnySkillCanDefeatMe(playerBattleTrainer))
-                    {
-                        // 我手里有守护技能 放守护技能
-                        var guard = handZone.FirstOrDefault(s => s.id == ActiveSkillEnum.守护);
-                        if (guard != null)
-                        {
-                            return new ActiveSkillBattleOperation()
-                            {
-                                data = guard
-                            };
-                        }
-                    }
-
-
-                    // 如果自己没血了 尽可能找治疗技能
-                    if (currentBattleData.currentHp / (float)currentBattleData.hp < 0.5f)
-                    {
-                        if (TryGetAnyHeal(out ActiveSkillData heal))
-                        {
-                            return new ActiveSkillBattleOperation()
-                            {
-                                data = heal
-                            };
-                        }
-                    }
-                }
-
-                if (playerBattleTrainer.ContainsBuff(BattleBuffEnum.回合内消耗对手弃置的牌))
-                {
-                    int next = BestSwitch(enemyData);
-                    if (next != -1)
-                    {
-                        return new ChangeHuluOperation()
-                        {
-                            next = next
-                        };
-                    }
-
-                    return new EndRoundOperation();
-                }
-
-                // 能打死就打死
-                if (TryGetSkillCanSkill(enemyData, out ActiveSkillData skill))
-                {
-                    return new ActiveSkillBattleOperation()
-                    {
-                        data = skill
-                    };
-                }
-
-                // 有counter技能就用counter技能
-                if (TryGetAnyCounterSkill(enemyData, out ActiveSkillData data))
-                {
-                    return new ActiveSkillBattleOperation()
-                    {
-                        data = data
-                    };
-                }
-            }
+            //
+            //
+            // if (UnityEngine.Random.value < SmartRate)
+            // {
+            //     // 有站起来就不需要考虑回血
+            //     if (!ContainsBuff(BattleBuffEnum.站起来))
+            //     {
+            //         //对面手里有技能能打死我
+            //         if (EnemyHasAnySkillCanDefeatMe(playerBattleTrainer))
+            //         {
+            //             // 我手里有守护技能 放守护技能
+            //             var guard = handZone.FirstOrDefault(s => s.id == ActiveSkillEnum.守护);
+            //             if (guard != null)
+            //             {
+            //                 return new ActiveSkillBattleOperation()
+            //                 {
+            //                     data = guard
+            //                 };
+            //             }
+            //         }
+            //
+            //
+            //         // 如果自己没血了 尽可能找治疗技能
+            //         if (currentBattleData.currentHp / (float)currentBattleData.hp < 0.5f)
+            //         {
+            //             if (TryGetAnyHeal(out ActiveSkillData heal))
+            //             {
+            //                 return new ActiveSkillBattleOperation()
+            //                 {
+            //                     data = heal
+            //                 };
+            //             }
+            //         }
+            //     }
+            //
+            //     if (playerBattleTrainer.ContainsBuff(BattleBuffEnum.回合内消耗对手弃置的牌))
+            //     {
+            //         int next = BestSwitch(enemyData);
+            //         if (next != -1)
+            //         {
+            //             return new ChangeHuluOperation()
+            //             {
+            //                 next = next
+            //             };
+            //         }
+            //
+            //         return new EndRoundOperation();
+            //     }
+            //
+            //     // 能打死就打死
+            //     if (TryGetSkillCanSkill(enemyData, out ActiveSkillData skill))
+            //     {
+            //         return new ActiveSkillBattleOperation()
+            //         {
+            //             data = skill
+            //         };
+            //     }
+            //
+            //     // 有counter技能就用counter技能
+            //     if (TryGetAnyCounterSkill(enemyData, out ActiveSkillData data))
+            //     {
+            //         return new ActiveSkillBattleOperation()
+            //         {
+            //             data = data
+            //         };
+            //     }
+            // }
 
             // 没有counter技能就随机用一个
             var target = handZone.RandomTakeWithoutRemove();
