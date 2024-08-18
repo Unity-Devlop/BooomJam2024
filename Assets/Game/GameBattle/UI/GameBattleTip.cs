@@ -18,7 +18,7 @@ namespace Game
         private void Awake()
         {
             Global.Event.Listen<BattleInfoRecordEvent>(OnBattleTipEvent);
-            Global.Event.Listen<BattlePokemonBuffActionEvent>(OnBattlePokemonBuffActionEvent);
+            // Global.Event.Listen<BattlePokemonBuffActionEvent>(OnBattlePokemonBuffActionEvent);
             _dataSource = new List<string>();
             list.itemRenderer = RenderItem;
             list.ItemProvider = GetItem;
@@ -27,7 +27,7 @@ namespace Game
 
         private void OnDestroy()
         {
-            Global.Event.UnListen<BattlePokemonBuffActionEvent>(OnBattlePokemonBuffActionEvent);
+            // Global.Event.UnListen<BattlePokemonBuffActionEvent>(OnBattlePokemonBuffActionEvent);
             Global.Event.UnListen<BattleInfoRecordEvent>(OnBattleTipEvent);
         }
 
@@ -66,12 +66,12 @@ namespace Game
             list.SrollToCellWithinTime(list.totalCount - 1, .2f);
         }
 
-        private void OnBattlePokemonBuffActionEvent(BattlePokemonBuffActionEvent obj)
-        {
-            _dataSource.Add($"{obj.pokemon} {obj.buff} 生效");
-            list.totalCount = _dataSource.Count;
-            list.RefreshCells();
-            list.SrollToCellWithinTime(list.totalCount - 1, .2f);
-        }
+        // private void OnBattlePokemonBuffActionEvent(BattlePokemonBuffActionEvent obj)
+        // {
+        //     _dataSource.Add($"{obj.pokemon} {obj.buff} 生效");
+        //     list.totalCount = _dataSource.Count;
+        //     list.RefreshCells();
+        //     list.SrollToCellWithinTime(list.totalCount - 1, .2f);
+        // }
     }
 }
