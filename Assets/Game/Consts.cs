@@ -24,6 +24,8 @@ namespace Game
         
         // 战斗前选人阶段倒计时
         public const float BattleChooseCountDown = 10f;
+        // 几场战斗一个赛季
+        public const int SeasonCompleteCount = 6;
 
 
         public static class Animation
