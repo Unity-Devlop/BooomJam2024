@@ -1,3 +1,4 @@
+using Game.GameHome;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -20,6 +21,8 @@ namespace Game
         public RectTransform m_rectRule;
         public TextMeshProUGUI m_txtRule;
         public Button m_btnRule;
+        public GameObject m_rectChampion;
+        public Button m_btnChampion;
        
 
         [SerializeField] private RectTransform selectContainer;
@@ -135,6 +138,11 @@ namespace Game
             }
             //charmNum.text = Global.Get<DataSystem>().Get<GameData>().admireNum.ToString();
             ShowUI(0);
+            if(!Global.Get<DataSystem>().Get<GameData>().haveWatchedChampion&&Global.Get<DataSystem>().Get<GameData>().championCount==1)
+            {
+                m_rectChampion.gameObject.SetActive(true);
+                Global.Get<DataSystem>().Get<GameData>().haveWatchedChampion = true;
+            }
         }
 
         private async void LoadElementSprite(Image image,HuluData data,int kind)
@@ -149,6 +157,7 @@ namespace Game
             fireBtn.onClick.AddListener(OnFireBtnClick);
             nextBtn.onClick.AddListener(OnContinueBtnClick);
             m_btnRule.onClick.AddListener(OnUnderstandNewRule);
+            m_btnChampion.onClick.AddListener(OnChampionBtnClick);
         }
 
         private void UnRegister()
@@ -157,6 +166,7 @@ namespace Game
             fireBtn.onClick.RemoveListener(OnFireBtnClick);
             nextBtn.onClick.RemoveListener(OnContinueBtnClick);
             m_btnRule.onClick.RemoveListener(OnUnderstandNewRule);
+            m_btnChampion.onClick.RemoveListener(OnChampionBtnClick);
         }
 
         private void ShowUI(int target)
@@ -340,6 +350,12 @@ namespace Game
             }
             Global.Get<DataSystem>().Get<GameData>().admireNum = 0;
             GamePlayOutsideMgr.Singleton.machine.Change<DailyTrainState>();
+        }
+
+        public void OnChampionBtnClick()
+        {
+            UIRoot.Singleton.OpenPanel<DeveloperPanel>();
+            m_rectChampion.gameObject.SetActive(false);
         }
     }
 }

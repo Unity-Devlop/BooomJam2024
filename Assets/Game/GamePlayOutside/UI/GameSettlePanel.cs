@@ -93,6 +93,10 @@ namespace Game
             
             if (++Global.Get<DataSystem>().Get<GameData>().date.count % Consts.SeasonCompleteCount == 0)
             {
+                if(settle==SettleEnum.Win)
+                {
+                    ++Global.Get<DataSystem>().Get<GameData>().championCount;
+                }
                 GamePlayOutsideMgr.Singleton.dateSystem.SeasonElapse(1);
                 Global.Get<DataSystem>().Get<GameData>().allowCompeting = true;
                 isNextSeason = true;

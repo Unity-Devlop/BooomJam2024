@@ -257,7 +257,7 @@ namespace Game
             else
             {
                 GamePlayOutsideMgr.Singleton.dateSystem.MonthElapse(1);
-                if (++Global.Get<DataSystem>().Get<GameData>().date.count % 3 == 0)
+                if (++Global.Get<DataSystem>().Get<GameData>().date.count % Consts.SeasonCompleteCount == 0)
                 {
                     GamePlayOutsideMgr.Singleton.dateSystem.SeasonElapse(1);
                     Global.Get<DataSystem>().Get<GameData>().allowCompeting = true;

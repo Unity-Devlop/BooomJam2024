@@ -19,6 +19,8 @@ namespace Game
         //游戏当前规则配置信息
         public GameRuleConfig ruleConfig;
         public List<GameRuleEnum> rulePool;
+        public int championCount = 0;
+        public bool haveWatchedChampion = false;
         [JsonIgnore]
         public BindData<GameData> bind { get; private set; }
 
