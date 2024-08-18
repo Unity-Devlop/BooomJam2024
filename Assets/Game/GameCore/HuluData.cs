@@ -39,7 +39,7 @@ namespace Game
         [NonSerialized] public int skillTimes = 0; // Ugly 自由者
         [NonSerialized] public int enterTimes = 0; // 第几次进入战场
         [ShowInInspector] private List<BattleBuffEnum> buffList; // 守护
-        private int healP0intBy回满血然后回合结束受到等量伤害 = 0;
+        private int healPointBy回满血然后回合结束受到等量伤害 = 0;
 
 
         public ElementEnum elementEnum;
@@ -286,13 +286,13 @@ namespace Game
         public async UniTask RoundEnd()
         {
             // Global.LogInfo($"{this}回合结束");
-            if (healP0intBy回满血然后回合结束受到等量伤害 > 0)
+            if (healPointBy回满血然后回合结束受到等量伤害 > 0)
             {
-                Global.LogInfo($"{this}回合结束受到等量伤害:{healP0intBy回满血然后回合结束受到等量伤害}");
-                await DecreaseHealth(healP0intBy回满血然后回合结束受到等量伤害, null);
+                Global.LogInfo($"{this}回合结束受到等量伤害:{healPointBy回满血然后回合结束受到等量伤害}");
+                await DecreaseHealth(healPointBy回满血然后回合结束受到等量伤害, null);
             }
 
-            healP0intBy回满血然后回合结束受到等量伤害 = 0;
+            healPointBy回满血然后回合结束受到等量伤害 = 0;
             GameMath.ProcessBuffWhenRoundEnd(this.buffList);
             await bind.Invoke();
         }
@@ -305,8 +305,8 @@ namespace Game
             Assert.IsFalse(buffConfig.IsTrainerBuff);
             if (buff == BattleBuffEnum.回满血然后回合结束受到等量伤害)
             {
-                healP0intBy回满血然后回合结束受到等量伤害 += hp - currentHp;
-                await DecreaseHealth(-healP0intBy回满血然后回合结束受到等量伤害, null);
+                healPointBy回满血然后回合结束受到等量伤害 += (hp - currentHp);
+                await DecreaseHealth(-healPointBy回满血然后回合结束受到等量伤害, null);
             }
 
 
@@ -377,7 +377,7 @@ namespace Game
             skillTimes = 0;
             enterTimes = 0;
             buffList.Clear();
-            healP0intBy回满血然后回合结束受到等量伤害 = 0;
+            healPointBy回满血然后回合结束受到等量伤害 = 0;
         }
 
         [HorizontalGroup("1"), Button]
