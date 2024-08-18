@@ -318,6 +318,7 @@ namespace Game.GamePlay
             {
                 Global.LogWarning($"{this}移除了{noneC}个None技能");
             }
+
             deck.Clear();
             foreach (var ownedSkill in currentBattleData.ownedSkills)
             {
@@ -336,6 +337,7 @@ namespace Game.GamePlay
             {
                 Global.LogWarning($"{this}移除了{noneT}个None技能");
             }
+
             foreach (var skill in trainerData.trainerSkills)
             {
                 if (consumedZone.Contains(skill))
@@ -396,6 +398,13 @@ namespace Game.GamePlay
                 drawList.Add(drawCard);
                 // Debug.Log($"Draw Card HashCode: {drawCard.GetHashCode()}, data: {drawCard}");
             }
+
+            if (drawList.Count == 0)
+            {
+                Global.LogWarning($"{this}抽牌失败");
+                return;
+            }
+
 
             // Debug.Log($"抽到了{drawList.Count}张牌");
             handZone.AddRange(drawList);
