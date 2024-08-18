@@ -16,22 +16,22 @@ namespace Game
 
             // 全局数据
 // #if UNITY_EDITOR
-//             Add(new GlobalData
-//             {
-//                 newbieGuide = true
-//             });
+            Add(new GlobalData
+            {
+                newbieGuide = true
+            });
 // #else
-            if (File.Exists(Consts.LocalGlobalDataPath))
-            {
-                Add(JsonConvert.DeserializeObject<GlobalData>(File.ReadAllText(Consts.LocalGlobalDataPath)));
-            }
-            else
-            {
-                Add(new GlobalData
-                {
-                    newbieGuide = true
-                });
-            }
+// //             if (File.Exists(Consts.LocalGlobalDataPath))
+// //             {
+// //                 Add(JsonConvert.DeserializeObject<GlobalData>(File.ReadAllText(Consts.LocalGlobalDataPath)));
+// //             }
+// //             else
+// //             {
+// //                 Add(new GlobalData
+// //                 {
+// //                     newbieGuide = true
+// //                 });
+// //             }
 // #endif
         }
 
@@ -63,6 +63,7 @@ namespace Game
             // 本地玩家数据
             if (File.Exists(Consts.LocalGameDataPath))
             {
+                Get<GlobalData>().newbieGuide = false;
                 data = JsonConvert.DeserializeObject<GameData>(File.ReadAllText(Consts.LocalGameDataPath));
                 if (data != null)
                 {

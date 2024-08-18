@@ -28,6 +28,7 @@ namespace Game
         public TextMeshProUGUI playerName;
         public TextMeshProUGUI enemyName;
         public TextMeshProUGUI raceName;
+        public Image enemyTeamIcon;
 
         private List<HuluData> playerHulus => Global.Get<DataSystem>().Get<GameData>().playerData.trainerData.datas;
         private List<int> playerChosenHulu = new List<int>();
@@ -94,6 +95,7 @@ namespace Game
             else if (c == 2) raceName.text = "决赛";
             playerName.text = player.trainerData.name;
             enemyName.text = enemy.name;
+            LoadTeamIcon();
             for (int i = 0; i < chooseBtns.Count; ++i)
             {
                 if (i < player.trainerData.datas.Count)
@@ -125,6 +127,10 @@ namespace Game
             envImg.sprite = await Global.Get<ResourceSystem>().LoadImage(battleEnvData.config.BackgroundPath);
         }
 
+        private async void LoadTeamIcon()
+        {
+            enemyTeamIcon.sprite= await Global.Get<ResourceSystem>().LoadImage(enemy.path);
+        }
         public void ChooseHulu(int index)
         {
             playerHud.gameObject.SetActive(true);
