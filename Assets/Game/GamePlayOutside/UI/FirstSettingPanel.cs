@@ -69,7 +69,7 @@ namespace Game
             styleText.text = config.dataList[curStyle].styleName;
         }
 
-        public void Confirm()
+        public async void Confirm()
         {
             var playerData = Global.Get<DataSystem>().Get<GameData>().playerData;
             playerData.name = inputField.text;
@@ -84,7 +84,7 @@ namespace Game
             confirmBtn.gameObject.SetActive(false);
             leftBtn.gameObject.SetActive(false);
             rightBtn.gameObject.SetActive(false);
-            var p = UIRoot.Singleton.OpenPanel<ManageCardsPanel>();
+            var p = await UIRoot.Singleton.OpenPanelAsync<ManageCardsPanel>();
             p.GetPorsche();
             //GamePlayOutsideMgr.Singleton.machine.Change<FirstChooseState>();
         }
