@@ -95,6 +95,7 @@ namespace Game
                 GamePlayOutsideMgr.Singleton.dateSystem.SeasonElapse(1);
                 Global.Get<DataSystem>().Get<GameData>().allowCompeting = true;
                 isNextSeason = true;
+                Global.Get<DataSystem>().Get<GameData>().date.count = 0;
             }
         }
 

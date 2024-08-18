@@ -775,15 +775,15 @@ MonoBehaviour:
     <trainerData>k__BackingField:
       name: 
       trainerSkills:
-      - id: 36
-      - id: 57
-      - id: 36
-      - id: 36
-      - id: 36
-      - id: 36
-      - id: 36
-      - id: 36
-      - id: 36
+      - id: 48
+      - id: 48
+      - id: 48
+      - id: 48
+      - id: 48
+      - id: 48
+      - id: 48
+      - id: 48
+      - id: 48
       datas:
       - id: 1
         cost: 0
