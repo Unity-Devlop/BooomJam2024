@@ -2,6 +2,7 @@ using cfg;
 using System.Buffers;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityToolkit;
@@ -22,8 +23,8 @@ namespace Game
 
     public class DailyTrainTable : MonoBehaviour
     {
-        private int tableWidth = 4;
-        private int tableHeight;
+        private int tableWidth;
+        private int tableHeight=4;
         private RectTransform rectTransform;
         private float gridWidth = 100;
         private float gridHeight = 100;
@@ -33,7 +34,9 @@ namespace Game
 
         private void OnEnable()
         {
-            tableHeight = Global.Get<DataSystem>().Get<GameData>().playerData.trainerData.datas.Count;
+            tableWidth = Global.Get<DataSystem>().Get<GameData>().playerData.trainerData.datas.Count;
+            var list = posToGrid.Keys.ToList();
+            for (int i = 0; i < list.Count; ++i) RemoveGrid(list[i], true);
             InitGrids();
             rectTransform = GetComponent<RectTransform>();
             rectTransform.sizeDelta = new Vector2(tableWidth * gridWidth, tableHeight * gridHeight);

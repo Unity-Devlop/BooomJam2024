@@ -20,7 +20,7 @@ namespace Game
         public RectTransform m_rectRule;
         public TextMeshProUGUI m_txtRule;
         public Button m_btnRule;
-        public TextMeshProUGUI m_txtHire;
+       
 
         [SerializeField] private RectTransform selectContainer;
         private PokemonSelectItem[] _selectItems;
@@ -162,23 +162,6 @@ namespace Game
         private void ShowUI(int target)
         {
             HuluData data = _generatedPokemons[target];
-            if (_chooseHulus.Count+ Global.Get<DataSystem>().Get<GameData>().playerData.trainerData.datas.Count-_chooseOwnedHulus.Count >= Global.Get<DataSystem>().Get<GameData>().huluCapacity)
-            {
-                m_txtHire.text = "队伍已满";
-                chooseBtn.GetComponent<Image>().color = Color.gray;
-                chooseBtn.enabled = false;
-            }
-            else if(Global.Get<DataSystem>().Get<GameData>().admireNum >= data.cost)
-            {
-                m_txtHire.text = $"需要{data.cost}魅力点";
-                chooseBtn.GetComponent<Image>().color = Color.gray;
-                chooseBtn.enabled = false;
-            }
-            else
-            {
-                chooseBtn.GetComponent<Image>().color = Color.white;
-                chooseBtn.enabled = true;
-            }
             show.UnBind();
             show.Bind(data);
 
@@ -189,10 +172,37 @@ namespace Game
             if (_chooseHulus.Contains(data))
             {
                 chooseBtnText.text = "取消招募";
+                if (_chooseHulus.Count + Global.Get<DataSystem>().Get<GameData>().playerData.trainerData.datas.Count - _chooseOwnedHulus.Count <= limit)
+                {
+                    chooseBtn.GetComponent<Image>().color = Color.gray;
+                    chooseBtn.enabled = false;
+                }
+                else
+                {
+                    chooseBtn.GetComponent<Image>().color = Color.white;
+                    chooseBtn.enabled = true;
+                }
             }
             else
             {
                 chooseBtnText.text = "招募";
+                if (_chooseHulus.Count + Global.Get<DataSystem>().Get<GameData>().playerData.trainerData.datas.Count - _chooseOwnedHulus.Count >= Global.Get<DataSystem>().Get<GameData>().huluCapacity)
+                {
+                    chooseBtnText.text = "队伍已满";
+                    chooseBtn.GetComponent<Image>().color = Color.gray;
+                    chooseBtn.enabled = false;
+                }
+                else if (Global.Get<DataSystem>().Get<GameData>().admireNum < data.cost)
+                {
+                    chooseBtnText.text = $"需要{data.cost}魅力点";
+                    chooseBtn.GetComponent<Image>().color = Color.gray;
+                    chooseBtn.enabled = false;
+                }
+                else
+                {
+                    chooseBtn.GetComponent<Image>().color = Color.white;
+                    chooseBtn.enabled = true;
+                }
             }
         }
 
@@ -203,16 +213,6 @@ namespace Game
             m_rectOwnedShow.gameObject.SetActive(true);
             fireBtn.gameObject.SetActive(true);
             HuluData data = Global.Get<DataSystem>().Get<GameData>().playerData.trainerData.datas[target];
-            if (Global.Get<DataSystem>().Get<GameData>().playerData.trainerData.datas.Count-_chooseOwnedHulus.Count+_chooseHulus.Count<=limit)
-            {
-                fireBtn.GetComponent<Image>().color = Color.gray;
-                fireBtn.enabled = false;
-            }
-            else
-            {
-                fireBtn.GetComponent<Image>().color = Color.white;
-                fireBtn.enabled = true;
-            }
             ownedShow.UnBind();
             ownedShow.Bind(data);
 
@@ -222,10 +222,30 @@ namespace Game
             if (_chooseOwnedHulus.Contains(data))
             {
                 fireBtnText.text = "取消解雇";
+                if (Global.Get<DataSystem>().Get<GameData>().playerData.trainerData.datas.Count - _chooseOwnedHulus.Count + _chooseHulus.Count >= Global.Get<DataSystem>().Get<GameData>().huluCapacity)
+                {
+                    fireBtn.GetComponent<Image>().color = Color.gray;
+                    fireBtn.enabled = false;
+                }
+                else
+                {
+                    fireBtn.GetComponent<Image>().color = Color.white;
+                    fireBtn.enabled = true;
+                }
             }
             else
             {
                 fireBtnText.text = "解雇";
+                if (Global.Get<DataSystem>().Get<GameData>().playerData.trainerData.datas.Count - _chooseOwnedHulus.Count + _chooseHulus.Count <= limit)
+                {
+                    fireBtn.GetComponent<Image>().color = Color.gray;
+                    fireBtn.enabled = false;
+                }
+                else
+                {
+                    fireBtn.GetComponent<Image>().color = Color.white;
+                    fireBtn.enabled = true;
+                }
             }
         }
 
@@ -235,7 +255,7 @@ namespace Game
 
             PokemonSelectItem selectItem = _selectItems[_curSelectedHulu];
 
-            if (_chooseHulus.Contains(chooseTar))
+            if (_chooseHulus.Contains(chooseTar)&& _chooseHulus.Count + Global.Get<DataSystem>().Get<GameData>().playerData.trainerData.datas.Count - _chooseOwnedHulus.Count>limit)
             {
                 _chooseHulus.Remove(chooseTar);
                 chooseBtnText.text = "招募";
@@ -259,7 +279,7 @@ namespace Game
 
             PokemonSelectItem selectItem = _selectOwnedItems[_curSelectedOwnedHulu];
 
-            if (_chooseOwnedHulus.Contains(chooseTar))
+            if (_chooseOwnedHulus.Contains(chooseTar)&& Global.Get<DataSystem>().Get<GameData>().playerData.trainerData.datas.Count - _chooseOwnedHulus.Count + _chooseHulus.Count< Global.Get<DataSystem>().Get<GameData>().huluCapacity)
             {
                 _chooseOwnedHulus.Remove(chooseTar);
                 fireBtnText.text = "解雇";
