@@ -42,12 +42,12 @@ namespace Game
             return obj;
         }
 
-        private void OnDisable()
-        {
-            _dataSource.Clear();
-            list.totalCount = 0;
-            list.RefreshCells();
-        }
+        // private void OnDisable()
+        // {
+        //     _dataSource.Clear();
+        //     list.totalCount = 0;
+        //     list.RefreshCells();
+        // }
 
         private async void RenderItem(Transform transform1, int idx)
         {
