@@ -72,14 +72,13 @@ namespace Game
             var path4 = $"{nameof(Tables)}/passiveskilltable.json";
             var path5 = $"{nameof(Tables)}/battleenvironmenttable.json";
             var path6 = $"{nameof(Tables)}/battlebufftable.json";
-            
+
             _jsonCache[path1] = JSON.Parse((await Addressables.LoadAssetAsync<TextAsset>(path1)).text);
             _jsonCache[path2] = JSON.Parse((await Addressables.LoadAssetAsync<TextAsset>(path2)).text);
             _jsonCache[path3] = JSON.Parse((await Addressables.LoadAssetAsync<TextAsset>(path3)).text);
             _jsonCache[path4] = JSON.Parse((await Addressables.LoadAssetAsync<TextAsset>(path4)).text);
             _jsonCache[path5] = JSON.Parse((await Addressables.LoadAssetAsync<TextAsset>(path5)).text);
             _jsonCache[path6] = JSON.Parse((await Addressables.LoadAssetAsync<TextAsset>(path6)).text);
-            
         }
 #endif
 
@@ -122,6 +121,7 @@ namespace Game
 
         private void Update()
         {
+            if (!initialized) return;
             Profiler.BeginSample("Global.Update");
             foreach (var system in _systemLocator.systems)
             {
@@ -130,6 +130,7 @@ namespace Game
                     update.OnUpdate();
                 }
             }
+
             Profiler.EndSample();
         }
 

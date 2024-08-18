@@ -840,7 +840,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   manager: {fileID: 1569040776}
-  background: {fileID: 0}
   text: {fileID: 1081134830}
 --- !u!114 &1569040776 stripped
 MonoBehaviour:

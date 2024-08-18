@@ -13,15 +13,15 @@ namespace Game.GameEntry
     {
         [SerializeField] private DebugLogManager manager;
 
-        public Image background;
+        // public Image background;
         public TextMeshProUGUI text;
 
-        private void Awake()
-        {
-#if UNITY_WEBGL
-            background.material = null;
-#endif
-        }
+        // private void Awake()
+        // {
+// #if UNITY_WEBGL
+//             background.material = null;
+// #endif
+        // }
 
         private async void Start()
         {

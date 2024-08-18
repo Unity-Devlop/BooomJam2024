@@ -352,9 +352,9 @@ namespace Game
             GamePlayOutsideMgr.Singleton.machine.Change<DailyTrainState>();
         }
 
-        public void OnChampionBtnClick()
+        public async void OnChampionBtnClick()
         {
-            UIRoot.Singleton.OpenPanel<DeveloperPanel>();
+            await UIRoot.Singleton.OpenPanelAsync<DeveloperPanel>();
             m_rectChampion.gameObject.SetActive(false);
         }
     }
