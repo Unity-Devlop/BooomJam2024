@@ -29,6 +29,8 @@ namespace Game
         public TextMeshProUGUI enemyName;
         public TextMeshProUGUI raceName;
         public Image enemyTeamIcon;
+        public Button leftBtn;
+        public Button rightBtn;
 
         private List<HuluData> playerHulus => Global.Get<DataSystem>().Get<GameData>().playerData.trainerData.datas;
         private List<int> playerChosenHulu = new List<int>();
@@ -39,6 +41,7 @@ namespace Game
         private float M_Time = 90f;
         private float m_time = 0;
         private int limit = 3;
+        private int curIndex = 0;
 
         public override void OnLoaded()
         {
@@ -119,6 +122,19 @@ namespace Game
                 enemyHuluTexts[i].text = enemy.datas[i].id.ToString();
                 LoadElementSprite(enemyHuluImages[i], enemy.datas[i]);
             }
+
+            playerHud.gameObject.SetActive(true);
+            playerShow.gameObject.SetActive(true);
+            enemyHud.gameObject.SetActive(true);
+            enemyShow.gameObject.SetActive(true);
+            playerHud.UnBind();
+            playerHud.Bind(player.trainerData.datas[0]);
+            playerShow.UnBind();
+            playerShow.Bind(player.trainerData.datas[0]);
+            enemyHud.UnBind();
+            enemyHud.Bind(enemy.datas[0]);
+            enemyShow.UnBind();
+            enemyShow.Bind(enemy.datas[0]);
         }
 
         private async void LoadElementSprite(Image image, HuluData data)
@@ -142,6 +158,7 @@ namespace Game
             enemyHud.gameObject.SetActive(true);
             enemyShow.gameObject.SetActive(true);
             if (playerChosenHulu.Count >= limit || playerChosenHulu.Contains(index)) return;
+            curIndex = index;
             playerChosenHulu.Add(index);
             playerHuluOrder[index].text = $"{playerChosenHulu.Count}";
             playerHuluOrder[index].gameObject.SetActive(true);
@@ -214,6 +231,24 @@ namespace Game
             opponentList.Shuffle();
             var target = opponentList.Find(x => !metList.Contains(x.name));
             enemy = target;
+        }
+
+        public void OnLeftRightBtn(int direction)
+        {
+            if (direction == 1)
+            {
+                curIndex = (curIndex + 1) % player.trainerData.datas.Count;
+            }
+            else if (direction == -1)
+            {
+                curIndex--;
+                if (curIndex < 0) curIndex = player.trainerData.datas.Count - 1;
+            }
+            else curIndex = 0;
+            playerHud.UnBind();
+            playerHud.Bind(player.trainerData.datas[curIndex]);
+            playerShow.UnBind();
+            playerShow.Bind(player.trainerData.datas[curIndex]);
         }
 
         private void EnemyChoose()
