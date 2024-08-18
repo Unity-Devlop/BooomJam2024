@@ -1,0 +1,20 @@
+
+skeleton.png
+size: 625,361
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+光效
+  rotate: false
+  xy: 2, 2
+  size: 406, 357
+  orig: 1920, 1080
+  offset: 630, 723
+  index: -1
+奖杯
+  rotate: false
+  xy: 410, 143
+  size: 213, 216
+  orig: 1920, 1080
+  offset: 718, 816
+  index: -1
